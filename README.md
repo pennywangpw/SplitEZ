@@ -1,3 +1,17 @@
+# Introdution
+This website is a clone of Splitwise. We understand your pain point - no body wants to do the math when hangs out with your friends, it takes time to split the bill when live with roomates....
+With our application, you can view all expenses, all groups and shopping list belong to you after login. Clicking on each expense or group, you can view more details. You can also make comments on each of expense. In our shopping wish list you can add the item.
+You can create/rename/update/delete for expense, group, comment and shopping wish list.
+
+# Technology
+
+- React - An frontend library for building user interfaces.
+- Redux - A predictable, centralized state container for JavaScript apps.
+- Python - A programming language for building backend data manipulation.
+- SQLAlchemy - A library that facilitates the communication between Python programs and databases
+- Database: Development: SQLite3
+
+# Set up
 # Flask React Project
 
 This is the starter for the Flask React project.
