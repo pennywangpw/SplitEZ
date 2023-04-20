@@ -1,8 +1,8 @@
-"""test
+"""update seeds
 
-Revision ID: 60d33f40f7ec
+Revision ID: d27db911f603
 Revises:
-Create Date: 2023-04-19 20:12:50.269047
+Create Date: 2023-04-20 10:50:42.971236
 
 """
 from alembic import op
@@ -13,7 +13,7 @@ environment = os.getenv("FLASK_ENV")
 SCHEMA = os.environ.get("SCHEMA")
 
 # revision identifiers, used by Alembic.
-revision = '60d33f40f7ec'
+revision = 'd27db911f603'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -70,7 +70,6 @@ def upgrade():
     sa.ForeignKeyConstraint(['owe_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('owe_id', 'expense_id')
     )
-
     if environment == "production":
         op.execute(f"ALTER TABLE users SET SCHEMA {SCHEMA};")
     # ### end Alembic commands ###

@@ -20,31 +20,8 @@ def seed_tables():
 
 def undo_tables():
     if environment == "production":
-        db.session.execute(f"TRUNCATE table {SCHEMA}.tasks RESTART IDENTITY CASCADE;")
+        db.session.execute(f"TRUNCATE table {SCHEMA}.users_expenses RESTART IDENTITY CASCADE;")
     else:
         db.session.execute(text("DELETE FROM tables"))
 
     db.session.commit()
-
-
-
-
-# def seed_tables():
-#     owe_expense1 = users_expenses(owe_id='1', expense_id=1)
-#     owe_expense2 = users_expenses(owe_id='1', expense_id=2)
-#     owe_expense3 = users_expenses(owe_id='2', expense_id=3)
-
-
-#     db.session.add(owe_expense1)
-#     db.session.add(owe_expense2)
-#     db.session.add(owe_expense3)
-#     db.session.commit()
-
-
-# def undo_tables():
-#     if environment == "production":
-#         db.session.execute(f"TRUNCATE table {SCHEMA}.tasks RESTART IDENTITY CASCADE;")
-#     else:
-#         db.session.execute(text("DELETE FROM tables"))
-
-#     db.session.commit()

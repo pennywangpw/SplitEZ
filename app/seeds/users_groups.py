@@ -19,30 +19,8 @@ def seed_users_group_tables():
 
 def undo_users_group_tables():
     if environment == "production":
-        db.session.execute(f"TRUNCATE table {SCHEMA}.tasks RESTART IDENTITY CASCADE;")
+        db.session.execute(f"TRUNCATE table {SCHEMA}.users_groups RESTART IDENTITY CASCADE;")
     else:
         db.session.execute(text("DELETE FROM tables"))
 
     db.session.commit()
-
-
-
-# def seed_users_group_tables():
-#     user_group1 = users_groups(user_id='1', group_id=1)
-#     user_group2 = users_groups(user_id='1', group_id=2)
-#     user_group3 = users_groups(user_id='2', group_id=1)
-
-
-#     db.session.add(user_group1)
-#     db.session.add(user_group2)
-#     db.session.add(user_group3)
-#     db.session.commit()
-
-
-# def undo_users_group_tables():
-#     if environment == "production":
-#         db.session.execute(f"TRUNCATE table {SCHEMA}.tasks RESTART IDENTITY CASCADE;")
-#     else:
-#         db.session.execute(text("DELETE FROM tables"))
-
-#     db.session.commit()
