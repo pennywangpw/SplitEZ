@@ -17,9 +17,13 @@ def allExpenses():
     return expensesList
 
 #get a single expense
-@expenses.route('/<int:expenseid>')
+@expenses.route('/<int:id>')
 @login_required
-def singleExpense():
+def singleExpense(id):
+    expense = Expense.query.get(id)
+    print(f'single expnese {expense}')
+    expenseDict = expense.to_dict()
+    return expenseDict
 
 
 #create an expense
@@ -41,3 +45,36 @@ def crateExpense():
         print(f'this is create expenses new_expense {new_expense}')
         return new_expense.to_dict()
     return "Bad Data"
+
+#delete an expense
+@expenses.route('/all', methods=['DELETE'])
+@expenses.route('/<int:id>', methods=['DELETE'])
+@login_required
+def deleteExpense(id):
+    deletedexpense = Expense.query.get(id)
+    db.session.delete(deletedexpense)
+    db.session.commit()
+    deletedexpenseDict = deletedexpense.to_dict()
+    return deletedexpenseDict
+
+#update an expense
+@expenses.route('/<int:id>', methods=['PUT'])
+@login_required
+def updatedExpense(id):
+    form = ExpenseForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    updatedexpense = Expense.query.get(id)
+    print(f'update an expense see type {updatedexpense}')
+    # updatedexpenseDict = updatedexpense.to_dict()
+    # print(f'update an expense {updatedexpenseDict}')
+    print(f'this is form.data {form.data}')
+    if form.validate_on_submit():
+        updatedexpense.name = form.data['name']
+        updatedexpense.expense_date = form.data['expense_date']
+        updatedexpense.expense_total = form.data['expense_total']
+        updatedexpense.payer_user_id = current_user.id
+        updatedexpense.group_id = form.data['group_id']
+        db.session.commit()
+        updatedexpenseDict = updatedexpense.to_dict()
+        return updatedexpenseDict
+    return "Bad data-update an expense"

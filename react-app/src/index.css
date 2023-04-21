@@ -1,1 +1,35 @@
 /* TODO Add site wide styles */
+
+
+
+.flx {
+    display: flex;
+}
+
+.panelborder {
+    border: 2px solid blue;
+}
+
+
+.redwarning {
+    color: red
+}
+
+
+.bg-grey {
+    background-color: rgba(170, 165, 165, 0.982);
+}
+
+.grid-3fr {
+    display: grid;
+    grid-template-columns: 2fr 6fr 2fr;
+}
+
+
+.height-88vh {
+    height: 88vh;
+}
+
+.fontS-220rem {
+    font-size: 2.2rem;
+}
