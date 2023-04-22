@@ -34,10 +34,11 @@ def crateExpense():
     form['csrf_token'].data = request.cookies['csrf_token']
     print(f'BEFORE this is create expenses form {form}')
     if form.validate_on_submit():
+        print("AM I PASSING? with form.data:", form.data )
         new_expense = Expense(
             name= form.data['name'],
             expense_total = form.data['expense_total'],
-            payer_user_id = form.data['payer_user_id'],
+            payer_user_id = current_user.id,
             group_id = form.data['group_id']
         )
         db.session.add(new_expense)

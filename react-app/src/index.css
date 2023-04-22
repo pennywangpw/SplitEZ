@@ -6,6 +6,11 @@
     display: flex;
 }
 
+.flx-col {
+    display: flex;
+    flex-direction: column;
+}
+
 .panelborder {
     border: 2px solid blue;
 }
@@ -20,11 +25,32 @@
     background-color: rgba(170, 165, 165, 0.982);
 }
 
+.bg-5cc5a7 {
+    background-color: #5cc5a7;
+}
+
 .grid-3fr {
     display: grid;
     grid-template-columns: 2fr 6fr 2fr;
 }
 
+
+.line-h70 {
+    line-height: 70px;
+}
+
+.line-h50 {
+    line-height: 50px;
+}
+
+.height-3vh {
+    height: 3vh;
+}
+
+
+.height-5vh {
+    height: 5vh;
+}
 
 .height-88vh {
     height: 88vh;
@@ -32,4 +58,12 @@
 
 .fontS-220rem {
     font-size: 2.2rem;
+}
+
+.width-350px {
+    width: 350px
+}
+
+.height-350px {
+    height: 350px;
 }
