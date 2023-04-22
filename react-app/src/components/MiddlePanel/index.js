@@ -4,10 +4,12 @@ import OpenModalButton from "../OpenModalButton";
 import * as expensesthunk from "../../store/expense"
 import DeleteConfirmationModal from "../DeleteConfirmationModal"
 import ExpenseModal from "../ExpenseModal"
+import ExpenseDetail from "../ExpenseDetail"
 
 
 
 function ExpensesList() {
+    const [showDetail, setShowDetail] = useState(false)
     const dispatch = useDispatch();
     const allExpenses = useSelector((state) => state.expenses.allExpenses);
     let allExpensesArr = Object.values(allExpenses)
@@ -17,12 +19,6 @@ function ExpensesList() {
     useEffect(() => {
         dispatch(expensesthunk.allExpenses())
     }, [dispatch])
-
-    // const deletehandler = (expenseId) => {
-    //     console.log("trigger deletehandler: ", expenseId)
-    //     dispatch(expensesthunk.deleteExpense(expenseId))
-    //     // window.alert("Are you sure you want to delete this expense? This will completely remove this expense for ALL people involved, not just you.")
-    // }
 
 
     if (allExpensesArr.length === 0) return (
@@ -49,24 +45,23 @@ function ExpensesList() {
                 <div>
                     {allExpensesArr.map(exp =>
                         <>
-                            <li className="grid-3fr height-5vh ">
+                            <li className="grid-3fr height-5vh " onClick={() => dispatch(expensesthunk.singleExpense(exp.id)).then(setShowDetail(!showDetail))}>
                                 <div>{exp.expense_date}{exp.name} </div>
                                 <div>{exp.expense_total}</div>
                                 <div className="flx">
                                     <div>{exp.payer_user_id}</div>
-                                    {/* <OpenModalButton
-                                        buttonText="delete expense"
-                                        modalComponent={<DeleteConfirmationModal />}
-                                    onButtonClick={deletehandler(exp.id)}
-
-                                    /> */}
-                                    {/* <button onClick={deletehandler}>
-                                        {<i class="fas fa-trash-alt"></i>}
-                                    </button> */}
-
+                                    <OpenModalButton
+                                        buttonText={<i class="fas fa-trash-alt"></i>}
+                                        modalComponent={<DeleteConfirmationModal expenseId={exp.id} />}
+                                    />
 
                                 </div>
                             </li>
+                            {showDetail === true ?
+                                (<div className="detail" >
+                                    <ExpenseDetail exp={exp} />
+                                </div>) : <div></div>
+                            }
                         </>
                     )}
                 </div>

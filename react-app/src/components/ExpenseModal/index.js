@@ -55,8 +55,8 @@ function ExpenseModal() {
                         </div>
                     </div>
                     <div>
-                        <button onClick={closeModal}>{"cancel"}</button>
-                        <button type="submit">{"save"}</button>
+                        <button type="submit">save</button>
+                        <button onClick={closeModal}>cancel</button>
                     </div>
                 </div>
             </form>

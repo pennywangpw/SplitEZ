@@ -56,9 +56,9 @@ export const allExpenses = () => async (dispatch) => {
 };
 
 //singleExpense thunk
-export const singleExpense = (id) => async (dispatch) => {
+export const singleExpense = (expenseid) => async (dispatch) => {
     console.log("this is thunk-singleExpense")
-    const response = await fetch(`/api/expenses/:expenseid`)
+    const response = await fetch(`/api/expenses/${expenseid}`)
     if (response.ok) {
         const data = await response.json();
         dispatch(singleExpenseA(data));
@@ -90,9 +90,9 @@ export const createExpense = (payload) => async (dispatch) => {
 
 
 //deleteExpense thunk
-export const deleteExpense = (expenseid) => async (dispatch) => {
-    console.log("this is thunk-deleteAExpense")
-    const response = await fetch(`/api/expenses/${expenseid}`, {
+export const deleteExpense = (expenseId) => async (dispatch) => {
+    console.log("this is thunk-deleteAExpense", expenseId)
+    const response = await fetch(`/api/expenses/${expenseId}`, {
         method: 'DELETE'
     })
     if (response.ok) {

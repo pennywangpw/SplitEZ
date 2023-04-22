@@ -20,6 +20,7 @@
     color: red
 }
 
+/*============ className -color =============*/
 
 .bg-grey {
     background-color: rgba(170, 165, 165, 0.982);
@@ -34,6 +35,7 @@
     grid-template-columns: 2fr 6fr 2fr;
 }
 
+/*============ className -height =============*/
 
 .line-h70 {
     line-height: 70px;
@@ -60,10 +62,16 @@
     font-size: 2.2rem;
 }
 
-.width-350px {
-    width: 350px
-}
-
 .height-350px {
     height: 350px;
+}
+
+.height-100 {
+    height: 100%;
+}
+
+/*============ className -width =============*/
+
+.width-50 {
+    width: 50%
 }
