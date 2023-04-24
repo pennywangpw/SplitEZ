@@ -6,10 +6,9 @@ import ExpenseModal from "../ExpenseModal"
 import EditExpense from "../EditExpense"
 
 
-function ExpenseDetail({ currentId }) {
-    console.log("ExpenseDetail with passed currentid: ", currentId)
+function ExpenseDetail({ currentId, setShowDetail }) {
+    console.log("ExpenseDetail with passed currentid: ", currentId, setShowDetail)
     const aExpanse = useSelector((state) => state.expenses.singleExpense)
-    let aExpanseArr = Object.values(aExpanse)
     const dispatch = useDispatch()
 
     console.log("ExpenseDetail try to get a expense: ", aExpanse)
@@ -28,7 +27,7 @@ function ExpenseDetail({ currentId }) {
                     <div>
                         <OpenModalButton
                             buttonText="Edit expense"
-                            modalComponent={<EditExpense expenseinfo={aExpanse} />}
+                            modalComponent={<EditExpense expenseinfo={aExpanse} setShowDetail={setShowDetail} />}
                         />
                     </div>
                 </div>

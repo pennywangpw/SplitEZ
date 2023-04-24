@@ -74,7 +74,7 @@ function ExpensesList() {
                     )}
                     {showDetail === true ?
                         (<div className="detail" >
-                            <ExpenseDetail currentId={currentId} />
+                            <ExpenseDetail currentId={currentId} setShowDetail={setShowDetail} />
                         </div>) : <div></div>
                     }
                 </div>

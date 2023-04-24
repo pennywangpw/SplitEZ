@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom"
 import * as expensesthunk from "../../store/expense"
 
 
-function ExpenseModal({ type, expenseinfo }) {
+function ExpenseModal({ type, expenseinfo, setShowDetail }) {
     console.log("expense modal with expense info: ", type, expenseinfo)
     const dispatch = useDispatch();
     const history = useHistory()
@@ -31,6 +31,7 @@ function ExpenseModal({ type, expenseinfo }) {
             const payload = { name, expense_total }
             await dispatch(expensesthunk.updateExpense(expenseinfo.id, payload))
             await dispatch(expensesthunk.singleExpense(expenseinfo.id)).then(closeModal)
+            setShowDetail(false)
         }
 
     }
