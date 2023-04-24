@@ -11,19 +11,26 @@ expenses = Blueprint('expenses', __name__)
 @login_required
 def allExpenses():
     id = current_user.id
+    '''get all expenses belong to current user'''
     allexpenses = Expense.query.filter(Expense.payer_user_id == id).all()
-    billpayername = User.query.join(Expense).filter(
-        Expense.payer_user_id == id
-    ).all()
-    print("this is bill payer name: ", billpayername)
 
-    # expensesList={}
+    '''get each expense billpayer's username by matching payer_user_id equals to user.id'''
+    allusers=[]
+    for expense in allexpenses:
+        print("******each expense*: ", expense)
+        username = User.query.get(expense.payer_user_id)
+        usernameDict = username.to_dict()
+        allusers.append(usernameDict['username'])
+
+
     expensesList=[expense.to_dict() for expense in allexpenses]
-    print("testing-expensesList: ", expensesList)
 
-    # billpayernameList={}
-    # expensesList['billpayer']=[billpayer.to_dict() for billpayer in billpayername]
-    # print("all: ",expensesList)
+    '''add on username attribute in the promise'''
+    for expense in expensesList:
+        t = 0
+        expense['username'] = allusers[t]
+        t += 1
+
     return expensesList
 
 

@@ -22,11 +22,9 @@ function ExpensesList() {
 
 
 
-
-
-
     // convert expenses object into array in order to manipulate the data
     let allExpensesArr = Object.values(allExpenses)
+    console.log("frontend allexpenses arr: ", allExpensesArr)
 
 
     if (allExpensesArr.length === 0) return (
@@ -63,6 +61,8 @@ function ExpensesList() {
                                 <div className="flx">
 
                                     <div>{exp.payer_user_id}</div>
+                                    <div>{exp.username}</div>
+
                                     <OpenModalButton
                                         buttonText={<i class="fas fa-trash-alt"></i>}
                                         modalComponent={<DeleteConfirmationModal expenseId={exp.id} />}
