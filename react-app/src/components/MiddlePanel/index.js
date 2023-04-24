@@ -13,42 +13,31 @@ function ExpensesList() {
     const [currentId, setCurrentId] = useState(0)
     const dispatch = useDispatch();
     const allExpenses = useSelector((state) => state.expenses.allExpenses);
-    // let allExpensesArr = Object.values(allExpenses.expense)
-    // let allBillPayerArr = Object.values(allExpenses.billpayer)
-
-    //solution 1 good
-    // let expenses = allExpenses.expense
-    // let billpayers = allExpenses.billpayer
-
-    // let allExpensesArr = Object.values(allExpenses)
-    // console.log("this is expenses: ", allExpenses)
-    // console.log("this is expenses: ", allExpensesArr)
-
-    let expenses = allExpenses.expense
-    let billpayers = allExpenses.billpayer
-
-    console.log("************* ", expenses)
-    console.log("************* ", billpayers)
-
-
-    let allExpensesArr = Object.values(allExpenses)
-    console.log("this is expenses: ", allExpenses)
-    console.log("this is expenses: ", allExpensesArr)
 
 
     useEffect(() => {
         dispatch(expensesthunk.allExpenses())
     }, [dispatch])
 
-    // const billPayerHandler = () => {
-    //     dispatch(expensesthunk.getABillPayer(exp.payer_user_id))
-    // }
+    // get expense and billpayer object
+    let expenses = allExpenses.expense
+    let billpayers = allExpenses.billpayer
+
+
+    if (!expenses) return (
+        <div>Not ready</div>
+    )
+
+    // convert expenses object into array in order to manipulate the data
+    let allExpensesArr = Object.values(expenses)
+
 
     if (allExpensesArr.length === 0) return (
         <div className="redwarning">
             "Loading...."
         </div>
     )
+
 
     return (
         <>
@@ -75,7 +64,7 @@ function ExpensesList() {
                                 <div>{exp.expense_date}{exp.name} </div>
                                 <div>{exp.expense_total}</div>
                                 <div className="flx">
-                                    {/* <div>{dispatch(expensesthunk.getABillPayer(exp.payer_user_id))}</div> */}
+                                    <div>{billpayers.username}</div>
                                     <div>{exp.payer_user_id}</div>
                                     <OpenModalButton
                                         buttonText={<i class="fas fa-trash-alt"></i>}
