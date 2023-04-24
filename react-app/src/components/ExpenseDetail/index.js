@@ -1,6 +1,9 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as expensesthunk from "../../store/expense"
+import OpenModalButton from "../OpenModalButton";
+import ExpenseModal from "../ExpenseModal"
+import EditExpense from "../EditExpense"
 
 
 function ExpenseDetail({ currentId }) {
@@ -22,6 +25,12 @@ function ExpenseDetail({ currentId }) {
                 <div>
                     <div id="description">{aExpanse.name}</div>
                     <div id="description">{aExpanse.expense_total}</div>
+                    <div>
+                        <OpenModalButton
+                            buttonText="Edit expense"
+                            modalComponent={<EditExpense expenseinfo={aExpanse} />}
+                        />
+                    </div>
                 </div>
 
                 <div className="flx">

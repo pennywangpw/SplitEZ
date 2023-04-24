@@ -5,13 +5,12 @@ import { useHistory } from "react-router-dom"
 import * as expensesthunk from "../../store/expense"
 
 
-function ExpenseModal() {
+function ExpenseModal({ type, expenseinfo }) {
+    console.log("expense modal with expense info: ", type, expenseinfo)
     const dispatch = useDispatch();
     const history = useHistory()
-    const [name, setName] = useState("")
-    const [expense_total, setExpenseTotal] = useState("")
-
-
+    const [name, setName] = useState(expenseinfo.name)
+    const [expense_total, setExpenseTotal] = useState(expenseinfo.expense_total)
     const { closeModal } = useModal();
 
 
@@ -20,12 +19,19 @@ function ExpenseModal() {
 
     console.log("expense modal: ", allExpensesArr)
 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const payload = { name, expense_total }
-        console.log("this is payload: ", payload)
-        await dispatch(expensesthunk.createExpense(payload)).then(closeModal)
+        if (type === "create") {
+            const payload = { name, expense_total }
+            console.log("this is payload: ", payload)
+            await dispatch(expensesthunk.createExpense(payload)).then(closeModal)
+        } else if (type === "edit") {
+            const payload = { name, expense_total }
+            await dispatch(expensesthunk.updateExpense(expenseinfo.id, payload)).then(closeModal)
+
+        }
 
     }
 
@@ -34,23 +40,25 @@ function ExpenseModal() {
         <>
             <form onSubmit={handleSubmit}>
                 <div className="flx-col width-350px height-350px line-h70">
-                    <header className=" bg-5cc5a7 line-h50">{"create an expense"}</header>
+                    <header className=" bg-5cc5a7 line-h50">{type === "create" ? "Create an expense" : "Edit expense"}</header>
                     <div>{`with you and: ${"1231"}`}</div>
                     <div>
                         <div>
-                            {"Description"}
+                            Description
                             <input
                                 type="text"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
+                                required
                             />
                         </div>
                         <div>
-                            {"Amout"}
+                            Amout
                             <input
                                 type="text"
                                 value={expense_total}
                                 onChange={(e) => setExpenseTotal(e.target.value)}
+                                required
                             />
                         </div>
                     </div>

@@ -4,6 +4,7 @@ import OpenModalButton from "../OpenModalButton";
 import * as expensesthunk from "../../store/expense"
 import DeleteConfirmationModal from "../DeleteConfirmationModal"
 import ExpenseModal from "../ExpenseModal"
+import CreateExpense from "../CreateExpense"
 import ExpenseDetail from "../ExpenseDetail"
 
 
@@ -47,7 +48,7 @@ function ExpensesList() {
                     <div>
                         <OpenModalButton
                             buttonText="Add an expense"
-                            modalComponent={<ExpenseModal />}
+                            modalComponent={<CreateExpense />}
                         />
                     </div>
                 </div>

@@ -2,6 +2,7 @@ const GETALLEXPENSES = 'expenses/ALL';
 const GETAEXPENSE = 'expenses/SINGLE';
 const POSTAEXPENSE = 'expenses/CREATEEXPENSE';
 const DELETETAEXPENSE = 'expenses/DELETEEXPENSE';
+const UPDATEAEXPENSE = 'expenses/UPDATEEXPENSE';
 // const GETBILLPAYER = 'expenses/GETBILLPAYER';
 
 
@@ -45,6 +46,15 @@ const deleteAExpenseA = (obj) => {
     };
 };
 
+const updateExpenseA = (obj) => {
+    console.log("this is action creator-delete a expense")
+
+    return {
+        type: UPDATEAEXPENSE,
+        obj
+    };
+}
+
 // const getBillPayerA = (obj) => {
 //     console.log("this is action creator-getBillPayerA")
 
@@ -79,7 +89,6 @@ export const singleExpense = (expenseid) => async (dispatch) => {
 };
 
 //createExpense thunk
-
 export const createExpense = (payload) => async (dispatch) => {
     console.log("this is thunk-createExpense")
     const response = await fetch(`/api/expenses/all`, {
@@ -114,6 +123,21 @@ export const deleteExpense = (expenseId) => async (dispatch) => {
     return response
 };
 
+//updateExpense thunk
+export const updateExpense = (expenseid, payload) => async (dispatch) => {
+    const response = await fetch(`/api/expenses/${expenseid}`, {
+        method: 'PUT',
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload)
+    })
+    if (response.ok) {
+        const data = await response.json();
+        dispatch(updateExpenseA(data));
+    };
+    return response
+};
 
 // //get bill payer thunk
 // export const getABillPayer = (payerId) => async (dispatch) => {
@@ -171,6 +195,11 @@ const expensesReducer = (state = initialState, action) => {
             delete newState4.allExpenses[deletedExpense]
             return newState4
 
+        case UPDATEAEXPENSE:
+            let newState5 = { ...state, allExpenses: { ...state.allExpenses }, singleExpense: { ...state.singleExpense } };
+            let updateExpense = action.obj
+            newState5.allExpenses[updateExpense.id] = updateExpense
+            return newState5
         // case GETBILLPAYER:
         //     let newState5 = { ...state, allExpenses: { ...state.allExpenses }, singleExpense: { ...state.singleExpense } };
         //     action.obj.expenses.forEach(expense => newState5.allExpenses[expense.id] = expense)
