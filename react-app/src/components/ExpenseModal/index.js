@@ -29,8 +29,8 @@ function ExpenseModal({ type, expenseinfo }) {
             await dispatch(expensesthunk.createExpense(payload)).then(closeModal)
         } else if (type === "edit") {
             const payload = { name, expense_total }
-            await dispatch(expensesthunk.updateExpense(expenseinfo.id, payload)).then(closeModal)
-
+            await dispatch(expensesthunk.updateExpense(expenseinfo.id, payload))
+            await dispatch(expensesthunk.singleExpense(expenseinfo.id)).then(closeModal)
         }
 
     }

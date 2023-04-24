@@ -17,13 +17,13 @@ def allExpenses():
     ).all()
     print("this is bill payer name: ", billpayername)
 
-    expensesList={}
-    expensesList['expenses']=[expense.to_dict() for expense in allexpenses]
+    # expensesList={}
+    expensesList=[expense.to_dict() for expense in allexpenses]
     print("testing-expensesList: ", expensesList)
 
     # billpayernameList={}
-    expensesList['billpayer']=[billpayer.to_dict() for billpayer in billpayername]
-    print("all: ",expensesList)
+    # expensesList['billpayer']=[billpayer.to_dict() for billpayer in billpayername]
+    # print("all: ",expensesList)
     return expensesList
 
 

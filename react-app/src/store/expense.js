@@ -8,12 +8,12 @@ const UPDATEAEXPENSE = 'expenses/UPDATEEXPENSE';
 
 
 //action creator
-const allExpensesA = (obj) => {
+const allExpensesA = (arr) => {
     console.log("this is action creator")
 
     return {
         type: GETALLEXPENSES,
-        obj
+        arr
     };
 };
 
@@ -160,19 +160,14 @@ const initialState = {
 const expensesReducer = (state = initialState, action) => {
     console.log("expenseReducer with action: ", action)
     console.log("expenseReducer with action obj: ", action.obj)
+    console.log("expenseReducer with action arr: ", action.arr)
+
     console.log("initial : ", state)
 
     switch (action.type) {
         case GETALLEXPENSES:
             let newState1 = { allExpenses: { ...state.allExpenses }, singleExpense: {} };
-            // let newState1 = { ...state };
-            // console.log("before adding : ", newState1)
-            console.log("before adding 1: ", action.obj.expenses)
-
-            action.obj.billpayer.forEach(billpayer => newState1.allExpenses['billpayer'] = billpayer)
-            console.log("after adding 2: ", newState1)
-
-            action.obj.expenses.forEach(expense => newState1.allExpenses['expense'] = action.obj.expenses)
+            action.arr.forEach(expense => newState1.allExpenses[expense.id] = expense)
             console.log("after adding 1: ", newState1)
             return newState1;
 

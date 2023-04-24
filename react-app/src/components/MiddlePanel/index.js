@@ -20,17 +20,13 @@ function ExpensesList() {
         dispatch(expensesthunk.allExpenses())
     }, [dispatch])
 
-    // get expense and billpayer object
-    let expenses = allExpenses.expense
-    let billpayers = allExpenses.billpayer
 
 
-    if (!expenses) return (
-        <div>Not ready</div>
-    )
+
+
 
     // convert expenses object into array in order to manipulate the data
-    let allExpensesArr = Object.values(expenses)
+    let allExpensesArr = Object.values(allExpenses)
 
 
     if (allExpensesArr.length === 0) return (
@@ -65,7 +61,7 @@ function ExpensesList() {
                                 <div>{exp.expense_date}{exp.name} </div>
                                 <div>{exp.expense_total}</div>
                                 <div className="flx">
-                                    <div>{billpayers.username}</div>
+
                                     <div>{exp.payer_user_id}</div>
                                     <OpenModalButton
                                         buttonText={<i class="fas fa-trash-alt"></i>}
