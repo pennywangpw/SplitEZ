@@ -26,15 +26,6 @@ def allExpenses():
     print("all: ",expensesList)
     return expensesList
 
-# #get billpayer name
-# @expenses.route('/all')
-# @login_required
-# def getBillPayer(payerId):
-#     billpayername = User.query.join(Expense).filter(
-#         Expense.payer_user_id == User.id
-#     ).all()
-#     print("this is bill payer name: ", billpayername)
-#     return billpayername
 
 #get a single expense
 @expenses.route('/<int:id>')
