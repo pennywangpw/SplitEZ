@@ -9,6 +9,7 @@ from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
 from .api.expenses import expenses
 from .api.group import groups
+from .api.comments import comments
 from .seeds import seed_commands
 from .config import Config
 
@@ -33,6 +34,9 @@ app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(expenses, url_prefix='/api/expenses')
 app.register_blueprint(groups, url_prefix='/api/groups')
+app.register_blueprint(comments, url_prefix='/api/expenses')
+
+
 
 
 db.init_app(app)

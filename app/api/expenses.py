@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from app.models import db, Expense
+from app.models import db, Expense, User
 from flask_login import current_user, login_required
 from ..forms import ExpenseForm
 
@@ -12,9 +12,29 @@ expenses = Blueprint('expenses', __name__)
 def allExpenses():
     id = current_user.id
     allexpenses = Expense.query.filter(Expense.payer_user_id == id).all()
+    billpayername = User.query.join(Expense).filter(
+        Expense.payer_user_id == id
+    ).all()
+    print("this is bill payer name: ", billpayername)
+
     expensesList={}
     expensesList['expenses']=[expense.to_dict() for expense in allexpenses]
+    print("testing-expensesList: ", expensesList)
+
+    # billpayernameList={}
+    expensesList['billpayer']=[billpayer.to_dict() for billpayer in billpayername]
+    print("all: ",expensesList)
     return expensesList
+
+# #get billpayer name
+# @expenses.route('/all')
+# @login_required
+# def getBillPayer(payerId):
+#     billpayername = User.query.join(Expense).filter(
+#         Expense.payer_user_id == User.id
+#     ).all()
+#     print("this is bill payer name: ", billpayername)
+#     return billpayername
 
 #get a single expense
 @expenses.route('/<int:id>')

@@ -45,6 +45,10 @@
     line-height: 50px;
 }
 
+.line-5vh {
+    line-height: 5vh;
+}
+
 .height-3vh {
     height: 3vh;
 }

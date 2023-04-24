@@ -2,6 +2,8 @@ const GETALLEXPENSES = 'expenses/ALL';
 const GETAEXPENSE = 'expenses/SINGLE';
 const POSTAEXPENSE = 'expenses/CREATEEXPENSE';
 const DELETETAEXPENSE = 'expenses/DELETEEXPENSE';
+// const GETBILLPAYER = 'expenses/GETBILLPAYER';
+
 
 
 //action creator
@@ -43,6 +45,15 @@ const deleteAExpenseA = (obj) => {
     };
 };
 
+// const getBillPayerA = (obj) => {
+//     console.log("this is action creator-getBillPayerA")
+
+//     return {
+//         type: GETBILLPAYER,
+//         obj
+//     };
+// };
+
 
 //allExpenses thunk
 export const allExpenses = () => async (dispatch) => {
@@ -50,6 +61,7 @@ export const allExpenses = () => async (dispatch) => {
     const response = await fetch(`/api/expenses/all`)
     if (response.ok) {
         const data = await response.json();
+        console.log("allExpenses thunk check what i got from bk: ", data)
         dispatch(allExpensesA(data));
     };
     return response
@@ -57,7 +69,7 @@ export const allExpenses = () => async (dispatch) => {
 
 //singleExpense thunk
 export const singleExpense = (expenseid) => async (dispatch) => {
-    console.log("this is thunk-singleExpense")
+    console.log("this is thunk-singleExpense", expenseid)
     const response = await fetch(`/api/expenses/${expenseid}`)
     if (response.ok) {
         const data = await response.json();
@@ -103,7 +115,16 @@ export const deleteExpense = (expenseId) => async (dispatch) => {
 };
 
 
-
+// //get bill payer thunk
+// export const getABillPayer = (payerId) => async (dispatch) => {
+//     console.log("this is thunk-getABillPayer", payerId)
+//     const response = await fetch(`/api/expenses/all`)
+//     if (response.ok) {
+//         const data = await response.json();
+//         dispatch(getBillPayerA(data));
+//     };
+//     return response
+// };
 
 
 const initialState = {
@@ -122,13 +143,21 @@ const expensesReducer = (state = initialState, action) => {
             let newState1 = { allExpenses: { ...state.allExpenses }, singleExpense: {} };
             // let newState1 = { ...state };
             // console.log("before adding : ", newState1)
-            action.obj.expenses.forEach(expense => newState1.allExpenses[expense.id] = expense)
-            // console.log("after adding: ", newState1)
+            console.log("before adding 1: ", action.obj.expenses)
+
+            action.obj.billpayer.forEach(billpayer => newState1.allExpenses['billpayer'] = billpayer)
+            console.log("after adding 2: ", newState1)
+
+            action.obj.expenses.forEach(expense => newState1.allExpenses['expense'] = action.obj.expenses)
+            console.log("after adding 1: ", newState1)
             return newState1;
 
-        // case GETAEXPENSE:
-        //     let newState2 = { ...state }
-        //     newState2.singleExpense
+        case GETAEXPENSE:
+            let newState2 = { allExpenses: { ...state.allExpenses }, singleExpense: { ...state.singleExpense } };
+            let selectedExpense = action.obj
+            newState2.singleExpense = selectedExpense
+            return newState2
+
         case POSTAEXPENSE:
             // let newState3 = { ...state }
             let newState3 = { allExpenses: { ...state.allExpenses }, singleExpense: {} };
@@ -142,7 +171,10 @@ const expensesReducer = (state = initialState, action) => {
             delete newState4.allExpenses[deletedExpense]
             return newState4
 
-
+        // case GETBILLPAYER:
+        //     let newState5 = { ...state, allExpenses: { ...state.allExpenses }, singleExpense: { ...state.singleExpense } };
+        //     action.obj.expenses.forEach(expense => newState5.allExpenses[expense.id] = expense)
+        //     return "newState5"
 
 
         default:
