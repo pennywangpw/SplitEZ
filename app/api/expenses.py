@@ -12,8 +12,12 @@ expenses = Blueprint('expenses', __name__)
 def allExpenses():
     id = current_user.id
     '''get all expenses belong to current user'''
+    expensepool = Expense.query.all()
+    print("-----------pool: ", expensepool)
     allexpenses = Expense.query.filter(
         Expense.payer_user_id == id).all()
+    print("----------only belongs to me: ", allexpenses)
+
 
     '''get each expense billpayer's username by matching payer_user_id equals to user.id'''
     allusers=[]

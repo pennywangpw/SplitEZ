@@ -29,14 +29,19 @@ function LeftPanel() {
                     <div className="width-50">
                         <OpenModalButton
                             buttonText="+Add"
-                            modalComponent={<GroupModal />}
+                            modalComponent={<GroupModal type="create group" />}
                         />
                     </div>
 
                 </div>
                 <div>{allGroupsArr.map(group =>
                     <NavLink to={`/groups/${group.id}`} style={{ textDecoration: 'none' }}>
-                        <div>{group.name}</div>
+                        <div>{group.name}
+                            <OpenModalButton
+                                buttonText={<i class="fas fa-edit"></i>}
+                                modalComponent={<GroupModal type="edit group" />}
+                            />
+                        </div>
                     </NavLink>
                 )}</div>
             </div >

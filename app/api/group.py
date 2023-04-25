@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 from app.models import db, Group, User, users_groups
 from flask_login import current_user, login_required
-# from ..forms import GroupForm
+from ..forms import GroupForm
 
 groups = Blueprint('groups', __name__)
 
@@ -44,19 +44,22 @@ def allGroups():
     return "111"
 
 
-# #create a group
-# @groups.route('', methods=['POST'])
-# @login_required
-# def createGroup():
-#     form = GroupForm()
-#     form['csrf_token'].data = request.cookies['csrf_token']
-#     if form.validate_on_submit():
-#         print("AM I PASSING? with form.data:", form.data )
-#         new_group = Group(
-#             name= form.data['name']
-#         )
-#         db.session.add(new_group)
-#         db.session.commit()
-#         print(f'this is create new_group {new_group}')
-#         return new_group.to_dict()
-#     return "Bad Data"
+#create a group
+@groups.route('', methods=['POST'])
+@login_required
+def createGroup():
+    form = GroupForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+
+    if form.validate_on_submit():
+        new_group = Group(
+            name= form.data['name']
+        )
+        db.session.add(new_group)
+        db.session.commit()
+        print(f'this is create new_group {new_group}')
+        return new_group.to_dict()
+    return "Bad Data"
+
+
+#rename a group

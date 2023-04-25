@@ -35,7 +35,7 @@ export const allGroupsthunk = () => async (dispatch) => {
 
 //create group thunk
 export const createGroupthunk = (payload) => async (dispatch) => {
-    console.log("this is thunk--createGroupthunk")
+    console.log("this is thunk--createGroupthunk", payload)
     const response = await fetch(`/api/groups`, {
         method: 'POST',
         headers: {
