@@ -67,8 +67,8 @@ def crateExpense():
     return "Bad Data"
 
 #delete an expense
-@expenses.route('/all', methods=['DELETE'])
-# @expenses.route('/<int:id>', methods=['DELETE'])
+# @expenses.route('/all', methods=['DELETE'])
+@expenses.route('/<int:id>', methods=['DELETE'])
 @login_required
 def deleteExpense(id):
     deletedexpense = Expense.query.get(id)

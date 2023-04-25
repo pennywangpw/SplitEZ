@@ -79,3 +79,19 @@
 .width-50 {
     width: 50%
 }
+
+
+
+/*============ for nvigation =============*/
+.flx-jc-sb {
+    display: flex;
+    justify-content: space-between;
+}
+
+.mrg-l-7rem {
+    margin-left: 7rem;
+}
+
+.mrg-r-3rem {
+    margin-right: 3rem;
+}

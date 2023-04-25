@@ -112,7 +112,7 @@ export const createExpense = (payload) => async (dispatch) => {
 
 //deleteExpense thunk
 export const deleteExpense = (expenseId) => async (dispatch) => {
-    console.log("this is thunk-deleteAExpense", expenseId)
+    console.log("this is thunk-deleteAExpense", typeof expenseId, expenseId)
     const response = await fetch(`/api/expenses/${expenseId}`, {
         method: 'DELETE'
     })
