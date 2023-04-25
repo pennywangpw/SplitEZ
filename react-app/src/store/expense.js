@@ -1,8 +1,8 @@
-const GETALLEXPENSES = 'expenses/ALL';
+const GETALLEXPENSES = 'expenses/ALL_EXPENSE';
 const GETAEXPENSE = 'expenses/SINGLE';
-const POSTAEXPENSE = 'expenses/CREATEEXPENSE';
-const DELETETAEXPENSE = 'expenses/DELETEEXPENSE';
-const UPDATEAEXPENSE = 'expenses/UPDATEEXPENSE';
+const POSTAEXPENSE = 'expenses/CREATE_EXPENSE';
+const DELETETAEXPENSE = 'expenses/DELETE_EXPENSE';
+const UPDATEAEXPENSE = 'expenses/UPDATE_EXPENSE';
 // const GETBILLPAYER = 'expenses/GETBILLPAYER';
 
 

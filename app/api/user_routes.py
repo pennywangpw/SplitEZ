@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify
-from flask_login import login_required
+from flask_login import login_required,current_user
 from app.models import User
 
 user_routes = Blueprint('users', __name__)
@@ -23,3 +23,18 @@ def user(id):
     """
     user = User.query.get(id)
     return user.to_dict()
+
+
+#get all groups
+@user_routes.route('/all')
+@login_required
+def allGroups():
+    print("----123")
+    '''get all groups belong to current user'''
+    id = current_user.id
+    user = User.query.get(id)
+    groups = user.groups
+    print("get all groups: ", groups)
+    a = [group.to_dict() for group in groups]
+    print("**************************", a)
+    return a

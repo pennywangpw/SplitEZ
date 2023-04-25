@@ -12,7 +12,8 @@ expenses = Blueprint('expenses', __name__)
 def allExpenses():
     id = current_user.id
     '''get all expenses belong to current user'''
-    allexpenses = Expense.query.filter(Expense.payer_user_id == id).all()
+    allexpenses = Expense.query.filter(
+        Expense.payer_user_id == id).all()
 
     '''get each expense billpayer's username by matching payer_user_id equals to user.id'''
     allusers=[]
@@ -25,11 +26,11 @@ def allExpenses():
 
     expensesList=[expense.to_dict() for expense in allexpenses]
 
-    '''add on username attribute in the promise'''
-    for expense in expensesList:
-        t = 0
-        expense['username'] = allusers[t]
-        t += 1
+    # '''add on username attribute in the promise'''
+    # for expense in expensesList:
+    #     t = 0
+    #     expense['username'] = allusers[t]
+    #     t += 1
 
     return expensesList
 
@@ -67,7 +68,7 @@ def crateExpense():
 
 #delete an expense
 @expenses.route('/all', methods=['DELETE'])
-@expenses.route('/<int:id>', methods=['DELETE'])
+# @expenses.route('/<int:id>', methods=['DELETE'])
 @login_required
 def deleteExpense(id):
     deletedexpense = Expense.query.get(id)
