@@ -1,4 +1,5 @@
-const GETALLGROUPS = 'expenses/ALL_GROUP';
+const GETALLGROUPS = 'groups/ALL_GROUP';
+const POSTAGROUP = 'groups/CREATE_GROUP';
 
 //action creator
 const allGroupsA = (arr) => {
@@ -10,11 +11,20 @@ const allGroupsA = (arr) => {
     };
 };
 
+const createAGroupsA = (obj) => {
+    console.log("this is action creator--createAGroupsA")
+
+    return {
+        type: POSTAGROUP,
+        obj
+    };
+}
+
 
 //get all groups thunk
-export const allGroups = () => async (dispatch) => {
+export const allGroupsthunk = () => async (dispatch) => {
     console.log("this is thunk--get all groups")
-    const response = await fetch(`/api/expenses/all`)
+    const response = await fetch(`/api/users/all`)
     if (response.ok) {
         const data = await response.json();
         console.log("allGroups thunk check what i got from bk: ", data)
@@ -22,6 +32,26 @@ export const allGroups = () => async (dispatch) => {
     };
     return response
 };
+
+//create group thunk
+export const createGroupthunk = (payload) => async (dispatch) => {
+    console.log("this is thunk--createGroupthunk")
+    const response = await fetch(`/api/groups`, {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload)
+
+    })
+    if (response.ok) {
+        const data = await response.json();
+        console.log("allGroups thunk check what i got from bk: ", data)
+        dispatch(createAGroupsA(data));
+    };
+    return response
+};
+
 
 
 const initialState = {
@@ -40,7 +70,11 @@ const groupsReducer = (state = initialState, action) => {
             action.arr.forEach(group => newState1.allGroups[group.id] = group);
             return newState1;
 
-
+        case POSTAGROUP:
+            let newState2 = { allGroups: { ...state.allGroups }, singleGroup: {} };
+            let newGroup = action.obj
+            newState2.allGroups[newGroup.id] = newGroup
+            return newState2
 
         default:
             return state;

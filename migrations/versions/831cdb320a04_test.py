@@ -1,7 +1,7 @@
 """test
 
 Revision ID: 831cdb320a04
-Revises: 
+Revises:
 Create Date: 2023-04-22 02:10:24.475451
 
 """
