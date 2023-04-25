@@ -65,7 +65,7 @@ function ExpensesList() {
 
                                     <OpenModalButton
                                         buttonText={<i class="fas fa-trash-alt"></i>}
-                                        modalComponent={<DeleteConfirmationModal expenseId={exp.id} />}
+                                        modalComponent={<DeleteConfirmationModal expenseId={exp.id} type="delete expense" />}
                                     />
 
                                 </div>

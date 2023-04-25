@@ -3,7 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import * as groupsthunk from "../../store/group"
 import { NavLink } from "react-router-dom";
 import GroupModal from "../GroupModal"
+import DeleteConfirmationModal from "../DeleteConfirmationModal"
 import OpenModalButton from "../OpenModalButton";
+
 
 
 function LeftPanel() {
@@ -41,6 +43,10 @@ function LeftPanel() {
                             <OpenModalButton
                                 buttonText={<i class="fas fa-edit"></i>}
                                 modalComponent={<GroupModal type="edit group" name={group.name} id={group.id} />}
+                            />
+                            <OpenModalButton
+                                buttonText={<i class="fas fa-trash-alt"></i>}
+                                modalComponent={<DeleteConfirmationModal type="delete group" groupid={group.id} />}
                             />
                         </NavLink>
                     </div>

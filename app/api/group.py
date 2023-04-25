@@ -66,16 +66,24 @@ def createGroup():
 @groups.route('/<int:id>', methods=['PUT'])
 @login_required
 def updateGroup(id):
-    print("backend update group is working")
-
     form = GroupForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     updatedgroup = Group.query.get(id)
-    print(f"update an group {updatedgroup}")
+
     if form.validate_on_submit():
         updatedgroup.name = form.data['name']
         db.session.commit()
-        print(f'this is updated group name {updatedgroup}')
         updatedgroupDict =  updatedgroup.to_dict()
         return updatedgroupDict
     return "Bad Data-update a group"
+
+
+#delete a group
+@groups.route('/<int:id>', methods=['DELETE'])
+@login_required
+def deleteGroup(id):
+    deletedgroup = Group.query.get(id)
+    db.session.delete(deletedgroup)
+    db.session.commit()
+    deletedgroupDict = deletedgroup.to_dict()
+    return deletedgroupDict

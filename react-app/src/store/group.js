@@ -1,6 +1,8 @@
 const GETALLGROUPS = 'groups/ALL_GROUP';
 const POSTAGROUP = 'groups/CREATE_GROUP';
 const UPDATEGROUP = 'groups/UPDATE_GROUP';
+const DELETETAGROUP = 'groups/DELETE_GROUP';
+
 
 //action creator
 const allGroupsA = (arr) => {
@@ -26,6 +28,16 @@ const updateAGroupsA = (obj) => {
 
     return {
         type: UPDATEGROUP,
+        obj
+    };
+}
+
+
+const deleteAGroupsA = (obj) => {
+    console.log("this is action creator--deleteAGroupsA")
+
+    return {
+        type: DELETETAGROUP,
         obj
     };
 }
@@ -81,7 +93,20 @@ export const updateGroupthunk = (payload, id) => async (dispatch) => {
     return response
 };
 
+//delete group thunk
+export const deleteGroupthunk = (id) => async (dispatch) => {
+    console.log("this is thunk--deleteGroupthunk")
+    const response = await fetch(`/api/groups/${id}`, {
+        method: 'DELETE'
+    })
+    if (response.ok) {
+        const data = await response.json();
+        console.log("DELETE allGroups thunk check what i got from bk: ", data)
+        dispatch(deleteAGroupsA(data));
+    };
+    return response
 
+}
 
 const initialState = {
     allGroups: {},
@@ -110,6 +135,11 @@ const groupsReducer = (state = initialState, action) => {
             let updatedGroup = action.obj
             newState3.allGroups[updatedGroup.id] = updatedGroup
             return newState3
+        case DELETETAGROUP:
+            let newState4 = { allGroups: { ...state.allGroups }, singleGroup: {} };
+            let deletedGroup = action.obj.id
+            delete newState4.allGroups[deletedGroup]
+            return newState4
 
         default:
             return state;
