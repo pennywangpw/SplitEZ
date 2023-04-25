@@ -24,7 +24,7 @@ const createAGroupsA = (obj) => {
 //get all groups thunk
 export const allGroupsthunk = () => async (dispatch) => {
     console.log("this is thunk--get all groups")
-    const response = await fetch(`/api/users/all`)
+    const response = await fetch(`/api/groups/all`)
     if (response.ok) {
         const data = await response.json();
         console.log("allGroups thunk check what i got from bk: ", data)

@@ -11,6 +11,16 @@ groups = Blueprint('groups', __name__)
 @groups.route('/all')
 @login_required
 def allGroups():
+    print("----456")
+    '''get all groups belong to current user'''
+    id = current_user.id
+    user = User.query.get(id)
+    groups = user.groups
+    print("get all groups: ", groups)
+    groupsList = [group.to_dict() for group in groups]
+    print("**************************", groupsList)
+    return groupsList
+
     # print("----123")
     # '''get all groups belong to current user'''
     # id = current_user.id
