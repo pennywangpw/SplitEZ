@@ -11,7 +11,7 @@ import OpenModalButton from "../OpenModalButton";
 function LeftPanel() {
     const dispatch = useDispatch()
     // let { groupId } = useParams()
-    const [currentGroupId, SetcurrentGroupId] = useState(0)
+    const [currentGroupId, SetcurrentGroupId] = useState(1)
     const allGroups = useSelector((state) => state.groups.allGroups);
     const allGroupsArr = Object.values(allGroups)
     // console.log("--------groupId from params: ", groupId)

@@ -13,21 +13,18 @@ import ExpenseDetail from "../ExpenseDetail"
 function ExpensesListByGroup() {
     let { groupId } = useParams()
     const [showDetail, setShowDetail] = useState(false)
-    const [currentId, setCurrentId] = useState(0)
+    const [currentId, setCurrentId] = useState(1)
     const dispatch = useDispatch();
     const allExpenses = useSelector((state) => state.groups.singleGroup.expenses);
 
     console.log("here's all expenses when i click specific group--useparams: ", groupId)
     console.log("here's all expenses when i click specific group: ", allExpenses)
 
-
     useEffect(() => {
-        dispatch(groupsthunk.singleGroupthunk(groupId))
-    }, [dispatch])
-
+        dispatch(groupsthunk.singleGroupthunk(currentId))
+    }, [dispatch, currentId])
 
     if (!allExpenses) return null
-
 
     return (
         <>
