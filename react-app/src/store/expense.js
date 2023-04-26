@@ -3,6 +3,7 @@ const GETAEXPENSE = 'expenses/SINGLE';
 const POSTAEXPENSE = 'expenses/CREATE_EXPENSE';
 const DELETETAEXPENSE = 'expenses/DELETE_EXPENSE';
 const UPDATEAEXPENSE = 'expenses/UPDATE_EXPENSE';
+
 // const GETBILLPAYER = 'expenses/GETBILLPAYER';
 
 
@@ -112,7 +113,7 @@ export const createExpense = (payload) => async (dispatch) => {
 
 //deleteExpense thunk
 export const deleteExpense = (expenseId) => async (dispatch) => {
-    console.log("this is thunk-deleteAExpense", expenseId)
+    console.log("this is thunk-deleteAExpense", typeof expenseId, expenseId)
     const response = await fetch(`/api/expenses/${expenseId}`, {
         method: 'DELETE'
     })

@@ -36,7 +36,7 @@ function ExpensesList() {
 
     return (
         <>
-            <div className="panelborder bg-grey">
+            <div className="shadow">
                 <div className="flx line-h70 ">
                     <div className="fontS-220rem width-50">All expenses</div>
                     <div>
@@ -52,31 +52,41 @@ function ExpensesList() {
                 <div className="line-5vh">
                     {allExpensesArr.map(exp =>
                         <>
-                            <li className="grid-3fr height-5vh " onClick={() => {
+                            <div onClick={() => {
                                 setCurrentId(exp.id)
                                 setShowDetail(!showDetail)
                             }}>
-                                <div>{exp.expense_date}{exp.name} </div>
-                                <div>{exp.expense_total}</div>
-                                <div className="flx">
+                                <div className="grid-3fr height-5vh" id="summary">
+                                    <div>{exp.expense_date}{exp.name} </div>
+                                    <div>{exp.expense_total}</div>
+                                    <div className="flx">
 
-                                    <div>{exp.payer_user_id}</div>
-                                    <div>{exp.username}</div>
+                                        <div>{exp.payer_user_id}</div>
+                                        <div>{exp.username}</div>
 
-                                    <OpenModalButton
-                                        buttonText={<i class="fas fa-trash-alt"></i>}
-                                        modalComponent={<DeleteConfirmationModal expenseId={exp.id} />}
-                                    />
+                                        <OpenModalButton
+                                            buttonText={<i class="fas fa-trash-alt"></i>}
+                                            modalComponent={<DeleteConfirmationModal expenseId={exp.id} type="delete expense" />}
+                                        />
 
+                                    </div>
                                 </div>
-                            </li>
+
+
+                                <div className={showDetail === true ? "display-b" : "display-n"} >
+                                    <ExpenseDetail currentId={currentId} setShowDetail={setShowDetail} />
+                                </div>
+
+                                {/* {showDetail === true ?
+                                    (<div className="detail testing-bg" >
+                                        <ExpenseDetail currentId={currentId} setShowDetail={setShowDetail} />
+                                    </div>) : <div></div>
+                                } */}
+
+                            </div>
+
                         </>
                     )}
-                    {showDetail === true ?
-                        (<div className="detail" >
-                            <ExpenseDetail currentId={currentId} setShowDetail={setShowDetail} />
-                        </div>) : <div></div>
-                    }
                 </div>
             </div>
         </>

@@ -20,6 +20,20 @@
     color: red
 }
 
+.flx-spacearound {
+    display: flex;
+    justify-content: space-around;
+}
+
+
+.display-b {
+    display: block;
+}
+
+.display-n {
+    display: none;
+}
+
 /*============ className -color =============*/
 
 .bg-grey {
@@ -33,6 +47,15 @@
 .grid-3fr {
     display: grid;
     grid-template-columns: 2fr 6fr 2fr;
+}
+
+.shadow {
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
+
+}
+
+.testing-bg {
+    background-color: red;
 }
 
 /*============ className -height =============*/
@@ -62,8 +85,17 @@
     height: 88vh;
 }
 
+.height-18px {
+    line-height: 18px;
+}
+
 .fontS-220rem {
     font-size: 2.2rem;
+}
+
+.fontS-13px {
+    font-size: 13px;
+
 }
 
 .height-350px {
@@ -78,4 +110,23 @@
 
 .width-50 {
     width: 50%
+}
+
+.width-25 {
+    width: 25%
+}
+
+
+/*============ for nvigation =============*/
+.flx-jc-sb {
+    display: flex;
+    justify-content: space-between;
+}
+
+.mrg-l-7rem {
+    margin-left: 7rem;
+}
+
+.mrg-r-3rem {
+    margin-right: 3rem;
 }

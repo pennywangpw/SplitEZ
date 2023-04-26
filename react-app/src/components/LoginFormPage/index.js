@@ -16,9 +16,11 @@ function LoginFormPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = await dispatch(login(email, password)).then(history.push('/all'));
+    const data = await dispatch(login(email, password));
     if (data) {
       setErrors(data);
+    } else {
+      history.push('/all')
     }
   };
 
@@ -50,6 +52,10 @@ function LoginFormPage() {
           />
         </label>
         <button type="submit">Log In</button>
+        <button type="sibmit" onClick={() => {
+          setEmail('demo@aa.io')
+          setPassword('password')
+        }}>Log in as Demo User</button>
       </form>
     </>
   );

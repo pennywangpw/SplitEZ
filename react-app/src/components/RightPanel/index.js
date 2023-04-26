@@ -9,8 +9,7 @@ function RightPanel() {
 
     return (
         <div className="panelborder">
-            This is RightPanel
-
+            <div>GROUP BALANCES</div>
         </div>
     )
 }

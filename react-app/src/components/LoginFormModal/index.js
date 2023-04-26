@@ -3,9 +3,11 @@ import { login } from "../../store/session";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import "./LoginForm.css";
+import { useHistory } from "react-router-dom";
 
 function LoginFormModal() {
   const dispatch = useDispatch();
+  const history = useHistory()
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
@@ -17,7 +19,8 @@ function LoginFormModal() {
     if (data) {
       setErrors(data);
     } else {
-        closeModal()
+      history.push('/all')
+      closeModal()
     }
   };
 
