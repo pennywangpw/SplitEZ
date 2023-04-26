@@ -46,8 +46,8 @@ def allGroups():
 #get a group with all expenses under the group
 @groups.route('/<int:id>')
 @login_required
-def singleGroup(groupId):
-    group = Group.query.get(groupId)
+def singleGroup(id):
+    group = Group.query.get(id)
     print(f'single group {group}')
     groupDict = group.to_dict()
     groupDict['expenses'] = []
