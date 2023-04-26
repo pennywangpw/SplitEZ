@@ -6,29 +6,29 @@ import ExpenseModal from "../ExpenseModal"
 import EditExpense from "../EditExpense"
 
 
-function ExpenseDetail({ currentId, setShowDetail }) {
-    console.log("ExpenseDetail with passed currentid: ", typeof currentId, currentId, setShowDetail)
-    const aExpanse = useSelector((state) => state.expenses.singleExpense)
-    const dispatch = useDispatch()
+function ExpenseDetail({ exp, setShowDetail }) {
+    // console.log("ExpenseDetail with passed currentid: ", typeof currentId, currentId, setShowDetail)
+    // const aExpanse = useSelector((state) => state.expenses.singleExpense)
+    // const dispatch = useDispatch()
 
-    console.log("ExpenseDetail try to get a expense: ", aExpanse)
+    // console.log("ExpenseDetail try to get a expense: ", aExpanse)
 
-    useEffect(() => {
-        dispatch(expensesthunk.singleExpense(currentId))
-    }, [dispatch])
+    // useEffect(() => {
+    //     dispatch(expensesthunk.singleExpense(currentId))
+    // }, [dispatch])
 
-    if (!aExpanse) return null
+    // if (!aExpanse) return null
 
     return (
         <>
             <div className="height-350px">
                 <div>
-                    <div id="description">{aExpanse.name}</div>
-                    <div id="description">{aExpanse.expense_total}</div>
+                    <div id="description">{exp.name}</div>
+                    <div id="description">{exp.expense_total}</div>
                     <div>
                         <OpenModalButton
                             buttonText="Edit expense"
-                            modalComponent={<EditExpense expenseinfo={aExpanse} setShowDetail={setShowDetail} />}
+                            modalComponent={<EditExpense expenseinfo={exp} setShowDetail={setShowDetail} />}
                         />
                     </div>
                 </div>

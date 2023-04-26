@@ -20,7 +20,9 @@ function ExpensesList() {
         dispatch(expensesthunk.allExpenses())
     }, [dispatch])
 
-
+    const singleExpensehandler = (id) => {
+        dispatch(expensesthunk.singleExpense(id))
+    }
 
     // convert expenses object into array in order to manipulate the data
     let allExpensesArr = Object.values(allExpenses)
@@ -52,36 +54,48 @@ function ExpensesList() {
                 <div className="line-5vh">
                     {allExpensesArr.map(exp =>
                         <>
-                            <div onClick={() => {
-                                setCurrentId(exp.id)
-                                setShowDetail(!showDetail)
-                            }}>
-                                <div className="grid-3fr height-5vh" id="summary">
-                                    <div>{exp.expense_date}{exp.name} </div>
+                            <div key={exp.id}>
+                                <div
+                                    onClick={() => {
+                                        setCurrentId(exp.id);
+                                        console.log("*******current id: ", currentId)
+                                        setShowDetail(!showDetail)
+                                        singleExpensehandler(exp.id)
+                                    }}
+                                    className="grid-3fr height-5vh"
+                                    id="summary"
+                                >
+                                    <div>
+                                        {exp.expense_date}
+                                        {exp.name}
+                                    </div>
                                     <div>{exp.expense_total}</div>
                                     <div className="flx">
-
                                         <div>{exp.payer_user_id}</div>
                                         <div>{exp.username}</div>
-
                                         <OpenModalButton
-                                            buttonText={<i class="fas fa-trash-alt"></i>}
-                                            modalComponent={<DeleteConfirmationModal expenseId={exp.id} type="delete expense" />}
+                                            buttonText={<i className="fas fa-trash-alt" />}
+                                            modalComponent={
+                                                <DeleteConfirmationModal
+                                                    expenseId={exp.id}
+                                                    type="delete expense"
+                                                />
+                                            }
                                         />
-
                                     </div>
                                 </div>
 
 
-                                <div className={showDetail === true ? "display-b" : "display-n"} >
-                                    <ExpenseDetail currentId={currentId} setShowDetail={setShowDetail} />
+                                <div
+                                    className={showDetail && currentId === exp.id ? "display-b" : "display-n"}
+                                    id="detail"
+                                >
+                                    <ExpenseDetail
+                                        exp={exp}
+                                        // currentId={currentId}
+                                        setShowDetail={setShowDetail}
+                                    />
                                 </div>
-
-                                {/* {showDetail === true ?
-                                    (<div className="detail testing-bg" >
-                                        <ExpenseDetail currentId={currentId} setShowDetail={setShowDetail} />
-                                    </div>) : <div></div>
-                                } */}
 
                             </div>
 
