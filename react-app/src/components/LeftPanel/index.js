@@ -22,9 +22,13 @@ function LeftPanel() {
 
     useEffect(() => {
         dispatch(groupsthunk.allGroupsthunk())
-        dispatch(groupsthunk.singleGroupthunk(currentGroupId))
+    }, [dispatch])
 
-    }, [dispatch, currentGroupId])
+    // useEffect(() => {
+    //     dispatch(groupsthunk.allGroupsthunk())
+    //     dispatch(groupsthunk.singleGroupthunk(currentGroupId))
+
+    // }, [dispatch, currentGroupId])
 
     // const singlegrouphandler = () => {
     //     console.log("clicking ")

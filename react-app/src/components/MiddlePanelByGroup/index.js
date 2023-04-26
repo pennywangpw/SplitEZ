@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import OpenModalButton from "../OpenModalButton";
-import * as expensesthunk from "../../store/expense"
+import * as groupsthunk from "../../store/group"
 import DeleteConfirmationModal from "../DeleteConfirmationModal"
 import ExpenseModal from "../ExpenseModal"
 import CreateExpense from "../CreateExpense"
@@ -10,13 +11,19 @@ import ExpenseDetail from "../ExpenseDetail"
 
 
 function ExpensesListByGroup() {
+    let { groupId } = useParams()
     const [showDetail, setShowDetail] = useState(false)
     const [currentId, setCurrentId] = useState(0)
     const dispatch = useDispatch();
     const allExpenses = useSelector((state) => state.groups.singleGroup.expenses);
 
-
+    console.log("here's all expenses when i click specific group--useparams: ", groupId)
     console.log("here's all expenses when i click specific group: ", allExpenses)
+
+
+    useEffect(() => {
+        dispatch(groupsthunk.singleGroupthunk(groupId))
+    }, [dispatch])
 
 
     if (!allExpenses) return null
