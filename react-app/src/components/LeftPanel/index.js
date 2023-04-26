@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as groupsthunk from "../../store/group"
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import GroupModal from "../GroupModal"
 import DeleteConfirmationModal from "../DeleteConfirmationModal"
 import OpenModalButton from "../OpenModalButton";
@@ -10,13 +10,23 @@ import OpenModalButton from "../OpenModalButton";
 
 function LeftPanel() {
     const dispatch = useDispatch()
+    let { groupId } = useParams()
     const allGroups = useSelector((state) => state.groups.allGroups);
     const allGroupsArr = Object.values(allGroups)
+    console.log("--------groupId from params: ", groupId)
+
     console.log("ALL GROUPS: ", allGroupsArr)
 
     useEffect(() => {
         dispatch(groupsthunk.allGroupsthunk())
     }, [dispatch])
+
+
+
+    const singlegrouphandler = () => {
+        console.log("clicking ")
+        dispatch(groupsthunk.singleGroupthunk(groupId))
+    }
 
     return (
         <>
@@ -39,8 +49,8 @@ function LeftPanel() {
                     <div>{allGroupsArr.map(group =>
                         <div>
                             <NavLink to={`/groups/${group.id}`} style={{ textDecoration: 'none' }}>
-                                <div className="flx">
-                                    <div className="width-50">
+                                <div className="flx" >
+                                    <div className="width-50" onClick={singlegrouphandler}>
                                         {group.name}
                                     </div>
                                     <div className="width-50 flx-spacearound">

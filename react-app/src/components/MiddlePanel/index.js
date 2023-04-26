@@ -72,11 +72,16 @@ function ExpensesList() {
                                     </div>
                                 </div>
 
-                                {showDetail === true ?
+
+                                <div className={showDetail === true ? "display-b" : "display-n"} >
+                                    <ExpenseDetail currentId={currentId} setShowDetail={setShowDetail} />
+                                </div>
+
+                                {/* {showDetail === true ?
                                     (<div className="detail testing-bg" >
                                         <ExpenseDetail currentId={currentId} setShowDetail={setShowDetail} />
                                     </div>) : <div></div>
-                                }
+                                } */}
 
                             </div>
 

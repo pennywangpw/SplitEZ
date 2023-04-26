@@ -25,6 +25,15 @@
     justify-content: space-around;
 }
 
+
+.display-b {
+    display: block;
+}
+
+.display-n {
+    display: none;
+}
+
 /*============ className -color =============*/
 
 .bg-grey {

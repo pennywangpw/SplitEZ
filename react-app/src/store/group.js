@@ -1,4 +1,5 @@
 const GETALLGROUPS = 'groups/ALL_GROUP';
+const GETSINGEGROUP = 'groups/SINGLE_GROUP';
 const POSTAGROUP = 'groups/CREATE_GROUP';
 const UPDATEGROUP = 'groups/UPDATE_GROUP';
 const DELETETAGROUP = 'groups/DELETE_GROUP';
@@ -13,6 +14,17 @@ const allGroupsA = (arr) => {
         arr
     };
 };
+
+const singleGroupA = (obj) => {
+    console.log("this is action creator--singleGroupA")
+
+    return {
+        type: GETSINGEGROUP,
+        obj
+    };
+};
+
+
 
 const createAGroupsA = (obj) => {
     console.log("this is action creator--createAGroupsA")
@@ -50,6 +62,18 @@ export const allGroupsthunk = () => async (dispatch) => {
         const data = await response.json();
         console.log("allGroups thunk check what i got from bk: ", data)
         dispatch(allGroupsA(data));
+    };
+    return response
+};
+
+//get single group thunk
+export const singleGroupthunk = (groupId) => async (dispatch) => {
+    console.log("this is thunk--get single group: ", groupId)
+    const response = await fetch(`/api/groups/${groupId}`)
+    if (response.ok) {
+        const data = await response.json();
+        console.log("allGroups thunk check what i got from bk: ", data)
+        dispatch(singleGroupA(data));
     };
     return response
 };
@@ -140,6 +164,12 @@ const groupsReducer = (state = initialState, action) => {
             let deletedGroup = action.obj.id
             delete newState4.allGroups[deletedGroup]
             return newState4
+
+        case GETSINGEGROUP:
+            let newState5 = { allGroups: { ...state.allGroups }, singleGroup: { ...state.singleGroup } };
+            let singleGroup = action.obj
+            newState5.singleGroup = singleGroup
+            return newState5
 
         default:
             return state;

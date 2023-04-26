@@ -39,6 +39,7 @@ def allExpenses():
     return expensesList
 
 
+
 #get a single expense
 @expenses.route('/<int:id>')
 @login_required

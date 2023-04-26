@@ -43,6 +43,17 @@ def allGroups():
 
     return "111"
 
+#get a group with all expenses under the group
+@groups.route('/<int:id>')
+@login_required
+def singleGroup(groupId):
+    group = Group.query.get(groupId)
+    print(f'single group {group}')
+    groupDict = group.to_dict()
+    groupDict['expenses'] = []
+    for group in group.expenses:
+        groupDict['expenses'].append(group.to_dict())
+    return groupDict
 
 #create a group
 @groups.route('', methods=['POST'])
