@@ -11,7 +11,7 @@ import ExpenseDetail from "../ExpenseDetail"
 
 function ExpensesList() {
     const [showDetail, setShowDetail] = useState(false)
-    const [currentId, setCurrentId] = useState(0)
+    const [currentId, setCurrentId] = useState(1)
     const dispatch = useDispatch();
     const allExpenses = useSelector((state) => state.expenses.allExpenses);
 
