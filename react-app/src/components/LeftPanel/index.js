@@ -21,12 +21,11 @@ function LeftPanel() {
     return (
         <>
 
-            <div className="panelborder">This is Left
-                <div>Dashboard</div>
+            <div className="panelborder">
                 <NavLink to="/all" style={{ textDecoration: 'none' }}>
                     <div>All expenses</div>
                 </NavLink>
-                <div className="flx">
+                <div className="flx height-5vh">
                     <div className="width-50">GROUPS</div>
                     <div className="width-50">
                         <OpenModalButton
@@ -36,21 +35,31 @@ function LeftPanel() {
                     </div>
 
                 </div>
-                <div>{allGroupsArr.map(group =>
-                    <div>
-                        <NavLink to={`/groups/${group.id}`} style={{ textDecoration: 'none' }}>
-                            <div>{group.name}</div>
-                            <OpenModalButton
-                                buttonText={<i class="fas fa-edit"></i>}
-                                modalComponent={<GroupModal type="edit group" name={group.name} id={group.id} />}
-                            />
-                            <OpenModalButton
-                                buttonText={<i class="fas fa-trash-alt"></i>}
-                                modalComponent={<DeleteConfirmationModal type="delete group" groupid={group.id} />}
-                            />
-                        </NavLink>
-                    </div>
-                )}</div>
+                <div className="height-3vh">
+                    <div>{allGroupsArr.map(group =>
+                        <div>
+                            <NavLink to={`/groups/${group.id}`} style={{ textDecoration: 'none' }}>
+                                <div className="flx">
+                                    <div className="width-50">
+                                        {group.name}
+                                    </div>
+                                    <div className="width-50 flx-spacearound">
+                                        <OpenModalButton
+                                            buttonText={<i class="fas fa-edit"></i>}
+                                            modalComponent={<GroupModal type="edit group" name={group.name} id={group.id} />}
+                                        />
+                                        <OpenModalButton
+                                            buttonText={<i class="fas fa-trash-alt"></i>}
+                                            modalComponent={<DeleteConfirmationModal type="delete group" groupid={group.id} />}
+                                        />
+                                    </div>
+                                </div>
+
+
+                            </NavLink>
+                        </div>
+                    )}</div>
+                </div>
             </div >
 
         </>

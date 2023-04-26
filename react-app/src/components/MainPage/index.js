@@ -9,7 +9,7 @@ function MainPage() {
 
 
     return (
-        <div className="grid-3fr height-88vh">
+        <div className="grid-3fr height-88vh fontS-13px height-18px">
             <LeftPanel />
             <ExpensesList />
             <RightPanel />
