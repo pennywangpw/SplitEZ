@@ -26,7 +26,9 @@ function ExpensesListByGroup() {
     }, [dispatch, groupId])
 
     let allExpenses_belongs_group = singlegroupinfo.expenses
-    if (!allExpenses_belongs_group) return null
+    if (!allExpenses_belongs_group) return (
+        <div>No expense....</div>
+    )
 
     console.log("here's all expenses when i click!!!!!: ", allExpenses_belongs_group)
 
