@@ -36,8 +36,8 @@ def seed():
         undo_users()
 
     seed_users()
-    seed_expenses()
     seed_groups()
+    seed_expenses()
     seed_comments()
     seed_tables()
     seed_users_group_tables()

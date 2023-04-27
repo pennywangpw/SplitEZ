@@ -9,7 +9,7 @@ class Group(db.Model):
     if environment == "production":
         __table_args__ = {'schema': SCHEMA}
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, default=1)
     name = db.Column(db.String(100), nullable=False)
 
     users = db.relationship(
@@ -23,6 +23,8 @@ class Group(db.Model):
         back_populates="group",
         cascade="all, delete-orphan"
     )
+
+
 
     def to_dict(self):
         return {
