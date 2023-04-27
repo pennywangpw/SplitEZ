@@ -18,6 +18,11 @@ function ExpenseDetail({ exp, setShowDetail }) {
     //     dispatch(expensesthunk.singleExpense(currentId))
     // }, [dispatch])
 
+    //alert function for comment button
+    function handleAlert() {
+        alert("Feature Coming Soon.....")
+    }
+
     // if (!aExpanse) return null
     if (!exp) return null
 
@@ -36,8 +41,9 @@ function ExpenseDetail({ exp, setShowDetail }) {
                 </div>
 
                 <div className="flx">
-                    <div className="width-50 height-100">ppl involved</div>
-                    <div className="width-50 height-100">comments</div>
+                    {/* <div className="width-50 height-100">ppl involved</div> */}
+                    {/* <div className="width-50 height-100">comments</div> */}
+                    <button onClick={handleAlert}>comments</button>
                 </div>
             </div>
         </>

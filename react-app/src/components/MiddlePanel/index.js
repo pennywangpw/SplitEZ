@@ -18,6 +18,7 @@ function ExpensesList() {
 
     useEffect(() => {
         dispatch(expensesthunk.allExpenses())
+        return () => dispatch(expensesthunk.clearExpensesA())
     }, [dispatch])
 
     const singleExpensehandler = (id) => {
@@ -32,7 +33,7 @@ function ExpensesList() {
 
     if (allExpensesArr.length === 0) return (
         <div className="redwarning">
-            "Loading...."
+            No expenses...
         </div>
     )
 
@@ -51,7 +52,7 @@ function ExpensesList() {
                 </div>
 
                 <div className="grid-3fr height-5vh" id="summary">
-                    <div>description</div>
+                    <div>Description</div>
                     <div>Expense Total</div>
                     <div>Bill Payer</div>
                 </div>

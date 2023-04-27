@@ -43,7 +43,7 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
             <form onSubmit={handleSubmit}>
                 <div className="flx-col width-350px height-350px line-h70">
                     <header className=" bg-5cc5a7 line-h50">{type === "create" ? "Create an expense" : "Edit expense"}</header>
-                    <div>{`with you and: ${"1231"}`}</div>
+                    {/* <div>{`with you and: ${"1231"}`}</div> */}
                     <div>
                         <div>
                             Description

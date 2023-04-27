@@ -3,12 +3,20 @@ const GETAEXPENSE = 'expenses/SINGLE';
 const POSTAEXPENSE = 'expenses/CREATE_EXPENSE';
 const DELETETAEXPENSE = 'expenses/DELETE_EXPENSE';
 const UPDATEAEXPENSE = 'expenses/UPDATE_EXPENSE';
+const CLEAREXPENSES = 'expenses/CLEAR_EXPENSE';
 
 // const GETBILLPAYER = 'expenses/GETBILLPAYER';
 
 
 
 //action creator
+export const clearExpensesA = () => {
+    return {
+        type: CLEAREXPENSES,
+    };
+};
+
+
 const allExpensesA = (arr) => {
     console.log("this is action creator")
 
@@ -195,6 +203,10 @@ const expensesReducer = (state = initialState, action) => {
             let updateExpense = action.obj
             newState5.allExpenses[updateExpense.id] = updateExpense
             return newState5
+
+        case CLEAREXPENSES:
+            return { ...state, allExpenses: {} }
+
         // case GETBILLPAYER:
         //     let newState5 = { ...state, allExpenses: { ...state.allExpenses }, singleExpense: { ...state.singleExpense } };
         //     action.obj.expenses.forEach(expense => newState5.allExpenses[expense.id] = expense)
