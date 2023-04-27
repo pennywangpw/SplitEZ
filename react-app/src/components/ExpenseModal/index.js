@@ -63,14 +63,14 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
                                 required
                             />
                         </div>
-                        <div>
+                        {/* <div>
                             Bill Payer
                             <input
                                 type="text"
                                 value={billpayer}
                                 onChange={(e) => setBillpayer(e.target.value)}
                             />
-                        </div>
+                        </div> */}
                     </div>
                     <div>
                         <button type="submit">save</button>
