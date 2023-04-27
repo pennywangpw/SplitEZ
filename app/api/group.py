@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from app.models import db, Group, User, users_groups
+from app.models import db, Group, User, users_groups, Expense
 from flask_login import current_user, login_required
 from ..forms import GroupForm
 
@@ -11,14 +11,11 @@ groups = Blueprint('groups', __name__)
 @groups.route('/all')
 @login_required
 def allGroups():
-    print("----456")
     '''get all groups belong to current user'''
     id = current_user.id
     user = User.query.get(id)
     groups = user.groups
-    print("get all groups: ", groups)
     groupsList = [group.to_dict() for group in groups]
-    print("**************************", groupsList)
     return groupsList
 
     # print("----123")
@@ -46,14 +43,47 @@ def allGroups():
 #get a group with all expenses under the group
 @groups.route('/<int:id>')
 @login_required
-def singleGroup(groupId):
-    group = Group.query.get(groupId)
-    print(f'single group {group}')
+def singleGroup(id):
+
+    # 找尋Expenses使用 Groupid尋找，找出對應的expense並轉Dict
+    expenses = Expense.query.filter(Expense.group_id == id).all()
+    expensesDict = [expense.to_dict() for expense in expenses]
+
+    # 使用迴圈找出 User資料庫內的Payer_user_id欄位，並將PayerUser回存expense資料
+    for expense in expensesDict:
+        billpayer = User.query.get(expense['payer_user_id'])
+        expense['billpayer'] = billpayer.to_dict()
+
+    # 搜尋Group id, 找出Group dict
+    group = Group.query.get(id)
     groupDict = group.to_dict()
-    groupDict['expenses'] = []
-    for group in group.expenses:
-        groupDict['expenses'].append(group.to_dict())
+
+    # 將GroupDict加入ExpensesDict
+    groupDict['expenses'] = expensesDict
+
+    print("abcd123e: ", groupDict)
+
     return groupDict
+
+
+# def singleGroup(id):
+#     group = Group.query.get(id)
+#     groupDict = group.to_dict()
+
+#     query = db.session.query(Expense, User).join(User, Expense.payer_user_id == User.id).filter(Expense.group_id == id).all()
+
+#     expensesDict = []
+#     for expense, user in query:
+#         expenseDict = expense.to_dict()
+#         expenseDict['payer_user'] = user.to_dict()
+#         expensesDict.append(expenseDict)
+
+#     groupDict['expenses'] = expensesDict
+#     print("abcde: ", groupDict)
+
+#     return groupDict
+
+
 
 #create a group
 @groups.route('', methods=['POST'])

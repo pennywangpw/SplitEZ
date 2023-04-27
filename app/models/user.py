@@ -19,6 +19,7 @@ class User(db.Model, UserMixin):
     comments = db.relationship(
         "Comment",
         back_populates="user"
+
     )
 
     payer_user_id = db.relationship(
@@ -30,12 +31,14 @@ class User(db.Model, UserMixin):
         "Group",
         secondary=users_groups,
         back_populates="users"
+
     )
 
     expenses = db.relationship(
         "Expense",
         secondary=users_expenses,
         back_populates="users"
+
     )
 
     @property

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as groupsthunk from "../../store/group"
 import { NavLink, useParams } from "react-router-dom";
@@ -10,10 +10,13 @@ import OpenModalButton from "../OpenModalButton";
 
 function LeftPanel() {
     const dispatch = useDispatch()
-    let { groupId } = useParams()
+    // let { groupId } = useParams()
+    const [currentGroupId, SetcurrentGroupId] = useState(1)
     const allGroups = useSelector((state) => state.groups.allGroups);
     const allGroupsArr = Object.values(allGroups)
-    console.log("--------groupId from params: ", groupId)
+    // console.log("--------groupId from params: ", groupId)
+    // console.log("--------groupId from state: ", currentGroupId)
+
 
     console.log("ALL GROUPS: ", allGroupsArr)
 
@@ -21,12 +24,27 @@ function LeftPanel() {
         dispatch(groupsthunk.allGroupsthunk())
     }, [dispatch])
 
+    // useEffect(() => {
+    //     dispatch(groupsthunk.allGroupsthunk())
+    //     dispatch(groupsthunk.singleGroupthunk(currentGroupId))
 
+    // }, [dispatch, currentGroupId])
 
-    const singlegrouphandler = () => {
-        console.log("clicking ")
-        dispatch(groupsthunk.singleGroupthunk(groupId))
-    }
+    // const singlegrouphandler = () => {
+    //     console.log("clicking ")
+    //     SetcurrentGroupId(groupId)
+    //     console.log("--------groupId from state in handler: ", currentGroupId)
+    //     dispatch(groupsthunk.singleGroupthunk(groupId))
+    // }
+
+    // const singlegrouphandler = () => {
+    //     console.log("clicking ")
+    //     SetcurrentGroupId(groupId)
+    //     console.log("--------groupId from state in handler: ", currentGroupId)
+    //     dispatch(groupsthunk.singleGroupthunk(groupId))
+    // }
+
+    // if (allGroupsArr.length === 0) return null
 
     return (
         <>
@@ -35,8 +53,8 @@ function LeftPanel() {
                 <NavLink to="/all" style={{ textDecoration: 'none' }}>
                     <div>All expenses</div>
                 </NavLink>
-                <div className="flx height-5vh">
-                    <div className="width-50">GROUPS</div>
+                <div className="flx height-5vh bg-side-grey">
+                    <div className="width-50 ">GROUPS</div>
                     <div className="width-50">
                         <OpenModalButton
                             buttonText="+Add"
@@ -50,7 +68,7 @@ function LeftPanel() {
                         <div>
                             <NavLink to={`/groups/${group.id}`} style={{ textDecoration: 'none' }}>
                                 <div className="flx" >
-                                    <div className="width-50" onClick={singlegrouphandler}>
+                                    <div className="width-50" onClick={() => SetcurrentGroupId(group.id)}>
                                         {group.name}
                                     </div>
                                     <div className="width-50 flx-spacearound">

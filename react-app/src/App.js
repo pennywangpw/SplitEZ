@@ -26,8 +26,11 @@ function App() {
           <Route path="/signup">
             <SignupFormPage />
           </Route>
-          <Route path={["/all", "/groups/:groupId"]}>
+          <Route path="/all">
             <MainPage />
+          </Route>
+          <Route path="/groups/:groupId">
+            <MainPage type="group" />
           </Route>
           <Route exact="/">
             <HomePage />

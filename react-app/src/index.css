@@ -11,10 +11,27 @@
     flex-direction: column;
 }
 
+.flx-jc-se {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+
+.mrg-r-3rem {
+    margin-right: 3rem;
+}
+
 .panelborder {
     border: 2px solid blue;
 }
 
+.mrg-l-7rem {
+    margin-left: 7rem;
+}
+
+.mrg-r-3rem {
+    margin-right: 3rem;
+}
 
 .redwarning {
     color: red
@@ -40,6 +57,11 @@
     background-color: rgba(170, 165, 165, 0.982);
 }
 
+.bg-side-grey {
+    background-color: #f6f6f6;
+
+}
+
 .bg-5cc5a7 {
     background-color: #5cc5a7;
 }
@@ -56,6 +78,14 @@
 
 .testing-bg {
     background-color: red;
+}
+
+/* .color-white {
+    color: white;
+} */
+
+.bg-blue-0bf {
+    background-color: var(--blue-0bf);
 }
 
 /*============ className -height =============*/
@@ -104,6 +134,11 @@
 
 .height-100 {
     height: 100%;
+}
+
+.pad-tb-25p {
+    padding-top: 25px;
+    padding-bottom: 25px;
 }
 
 /*============ className -width =============*/

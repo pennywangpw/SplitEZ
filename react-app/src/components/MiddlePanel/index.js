@@ -11,25 +11,29 @@ import ExpenseDetail from "../ExpenseDetail"
 
 function ExpensesList() {
     const [showDetail, setShowDetail] = useState(false)
-    const [currentId, setCurrentId] = useState(0)
+    const [currentId, setCurrentId] = useState(1)
     const dispatch = useDispatch();
     const allExpenses = useSelector((state) => state.expenses.allExpenses);
 
 
     useEffect(() => {
         dispatch(expensesthunk.allExpenses())
+        return () => dispatch(expensesthunk.clearExpensesA())
     }, [dispatch])
 
-
+    const singleExpensehandler = (id) => {
+        dispatch(expensesthunk.singleExpense(id))
+    }
 
     // convert expenses object into array in order to manipulate the data
     let allExpensesArr = Object.values(allExpenses)
     console.log("frontend allexpenses arr: ", allExpensesArr)
 
 
+
     if (allExpensesArr.length === 0) return (
         <div className="redwarning">
-            "Loading...."
+            No expenses...
         </div>
     )
 
@@ -47,41 +51,57 @@ function ExpensesList() {
                     </div>
                 </div>
 
-                <div className="height-5vh ">month</div>
+                <div className="grid-3fr height-5vh" id="summary">
+                    <div>Description</div>
+                    <div>Expense Total</div>
+                    <div>Bill Payer</div>
+                </div>
+
 
                 <div className="line-5vh">
                     {allExpensesArr.map(exp =>
                         <>
-                            <div onClick={() => {
-                                setCurrentId(exp.id)
-                                setShowDetail(!showDetail)
-                            }}>
-                                <div className="grid-3fr height-5vh" id="summary">
-                                    <div>{exp.expense_date}{exp.name} </div>
+                            <div key={exp.id}>
+                                <div
+                                    onClick={() => {
+                                        setCurrentId(exp.id);
+                                        setShowDetail(!showDetail)
+                                        singleExpensehandler(exp.id)
+                                    }}
+                                    className="grid-3fr height-5vh"
+                                    id="summary"
+                                >
+                                    <div>
+                                        {exp.expense_date}
+                                        {exp.name}
+                                    </div>
                                     <div>{exp.expense_total}</div>
                                     <div className="flx">
-
-                                        <div>{exp.payer_user_id}</div>
+                                        <div>{exp.billpayer.username}</div>
                                         <div>{exp.username}</div>
-
                                         <OpenModalButton
-                                            buttonText={<i class="fas fa-trash-alt"></i>}
-                                            modalComponent={<DeleteConfirmationModal expenseId={exp.id} type="delete expense" />}
+                                            buttonText={<i className="fas fa-trash-alt" />}
+                                            modalComponent={
+                                                <DeleteConfirmationModal
+                                                    expenseId={exp.id}
+                                                    type="delete expense"
+                                                />
+                                            }
                                         />
-
                                     </div>
                                 </div>
 
 
-                                <div className={showDetail === true ? "display-b" : "display-n"} >
-                                    <ExpenseDetail currentId={currentId} setShowDetail={setShowDetail} />
+                                <div
+                                    className={showDetail && currentId === exp.id ? "display-b" : "display-n"}
+                                    id="detail"
+                                >
+                                    <ExpenseDetail
+                                        exp={exp}
+                                        // currentId={currentId}
+                                        setShowDetail={setShowDetail}
+                                    />
                                 </div>
-
-                                {/* {showDetail === true ?
-                                    (<div className="detail testing-bg" >
-                                        <ExpenseDetail currentId={currentId} setShowDetail={setShowDetail} />
-                                    </div>) : <div></div>
-                                } */}
 
                             </div>
 
