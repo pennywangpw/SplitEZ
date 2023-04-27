@@ -30,7 +30,6 @@ function ExpensesList() {
 
 
 
-
     if (allExpensesArr.length === 0) return (
         <div className="redwarning">
             "Loading...."
@@ -51,7 +50,12 @@ function ExpensesList() {
                     </div>
                 </div>
 
-                <div className="height-5vh ">month</div>
+                <div className="grid-3fr height-5vh" id="summary">
+                    <div>description</div>
+                    <div>Expense Total</div>
+                    <div>Bill Payer</div>
+                </div>
+
 
                 <div className="line-5vh">
                     {allExpensesArr.map(exp =>

@@ -15,16 +15,20 @@ function ExpensesListByGroup() {
     const [showDetail, setShowDetail] = useState(false)
     const [currentId, setCurrentId] = useState(1)
     const dispatch = useDispatch();
-    const allExpenses = useSelector((state) => state.groups.singleGroup.expenses);
+    const singlegroupinfo = useSelector((state) => state.groups.singleGroup);
+
 
     console.log("here's all expenses when i click specific group--useparams: ", groupId)
-    console.log("here's all expenses when i click specific group: ", allExpenses)
+    console.log("here's all expenses when i click specific group: ", singlegroupinfo)
 
     useEffect(() => {
-        dispatch(groupsthunk.singleGroupthunk(currentId))
-    }, [dispatch, currentId])
+        dispatch(groupsthunk.singleGroupthunk(groupId))
+    }, [dispatch, groupId])
 
-    if (!allExpenses) return null
+    let allExpenses_belongs_group = singlegroupinfo.expenses
+    if (!allExpenses_belongs_group) return null
+
+    console.log("here's all expenses when i click!!!!!: ", allExpenses_belongs_group)
 
     return (
         <>
@@ -39,9 +43,15 @@ function ExpensesListByGroup() {
                     </div>
                 </div>
 
+                <div className="grid-3fr height-5vh" id="summary">
+                    <div>description</div>
+                    <div>Expense Total</div>
+                    <div>Bill Payer</div>
+                </div>
+
 
                 <div className="line-5vh">
-                    {allExpenses.map(exp =>
+                    {allExpenses_belongs_group.map(exp =>
                         <>
                             <div onClick={() => {
                                 setCurrentId(exp.id)
@@ -52,7 +62,7 @@ function ExpensesListByGroup() {
                                     <div>{exp.expense_total}</div>
                                     <div className="flx">
 
-                                        <div>{exp.billpayer_user_id}</div>
+                                        <div>{exp.billpayer.username}</div>
                                         <div>{exp.username}</div>
 
                                         <OpenModalButton
