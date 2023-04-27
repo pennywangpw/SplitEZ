@@ -11,6 +11,8 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
     const history = useHistory()
     const [name, setName] = useState(expenseinfo.name)
     const [expense_total, setExpenseTotal] = useState(expenseinfo.expense_total)
+    const [billpayer, setBillpayer] = useState("")
+
     const { closeModal } = useModal();
 
 
@@ -25,7 +27,6 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
 
         if (type === "create") {
             const payload = { name, expense_total }
-            console.log("this is payload: ", payload)
             await dispatch(expensesthunk.createExpense(payload)).then(closeModal)
         } else if (type === "edit") {
             const payload = { name, expense_total }
@@ -60,6 +61,14 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
                                 value={expense_total}
                                 onChange={(e) => setExpenseTotal(e.target.value)}
                                 required
+                            />
+                        </div>
+                        <div>
+                            Bill Payer
+                            <input
+                                type="text"
+                                value={billpayer}
+                                onChange={(e) => setBillpayer(e.target.value)}
                             />
                         </div>
                     </div>

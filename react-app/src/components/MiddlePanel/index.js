@@ -64,7 +64,6 @@ function ExpensesList() {
                                 <div
                                     onClick={() => {
                                         setCurrentId(exp.id);
-                                        console.log("*******current id: ", currentId)
                                         setShowDetail(!showDetail)
                                         singleExpensehandler(exp.id)
                                     }}
