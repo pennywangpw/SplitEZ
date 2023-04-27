@@ -29,6 +29,8 @@ function ExpensesList() {
     console.log("frontend allexpenses arr: ", allExpensesArr)
 
 
+
+
     if (allExpensesArr.length === 0) return (
         <div className="redwarning">
             "Loading...."
@@ -71,7 +73,7 @@ function ExpensesList() {
                                     </div>
                                     <div>{exp.expense_total}</div>
                                     <div className="flx">
-                                        <div>{exp.payer_user_id}</div>
+                                        <div>{exp.billpayer.username}</div>
                                         <div>{exp.username}</div>
                                         <OpenModalButton
                                             buttonText={<i className="fas fa-trash-alt" />}

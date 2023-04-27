@@ -12,41 +12,42 @@ expenses = Blueprint('expenses', __name__)
 def allExpenses():
     id = current_user.id
     '''get all expenses belong to current user'''
-    expensepool = Expense.query.all()
-    print("-----------pool: ", expensepool)
+    # expensepool = Expense.query.all()
+    # print("-----------pool: ", expensepool)
     allexpenses = Expense.query.filter(
         Expense.payer_user_id == id).all()
     print("----------only belongs to me: ", allexpenses)
 
 
-    '''get each expense billpayer's username by matching payer_user_id equals to user.id'''
-    allusers=[]
+    '''get each expense billpayer's information'''
+    allexpenseswithbillpayer=[]
     for expense in allexpenses:
         print("******each expense*: ", expense)
-        username = User.query.get(expense.payer_user_id)
-        usernameDict = username.to_dict()
-        allusers.append(usernameDict['username'])
+        expense_data = expense.to_dict()
+        print("******each expense*: ", expense_data)
 
-
-    expensesList=[expense.to_dict() for expense in allexpenses]
-
-    # '''add on username attribute in the promise'''
-    # for expense in expensesList:
-    #     t = 0
-    #     expense['username'] = allusers[t]
-    #     t += 1
-
-    return expensesList
+        expense_data['billpayer'] = expense.user.to_dict()
+        allexpenseswithbillpayer.append(expense_data)
+        print("==============================",allexpenseswithbillpayer)
+    return {'allexpenses_with_billpayer':allexpenseswithbillpayer}
 
 
 
-#get a single expense
+#get a single expense with billpayer information
 @expenses.route('/<int:id>')
 @login_required
 def singleExpense(id):
     expense = Expense.query.get(id)
     print(f'single expnese {expense}')
+    '''get the billpayer info'''
+    billpayer = expense.user
+    billpayerDict = billpayer.to_dict()
+    print(f'single expnese --billpayer {billpayerDict}')
     expenseDict = expense.to_dict()
+    expenseDict['billpayer']=billpayerDict
+    # expenseDict['billpayer'].append(billpayerDict)
+    print(f'single expnese --returnning {expenseDict}')
+
     return expenseDict
 
 

@@ -7,6 +7,7 @@ import EditExpense from "../EditExpense"
 
 
 function ExpenseDetail({ exp, setShowDetail }) {
+    console.log("exp detail here: ", exp)
     // console.log("ExpenseDetail with passed currentid: ", typeof currentId, currentId, setShowDetail)
     // const aExpanse = useSelector((state) => state.expenses.singleExpense)
     // const dispatch = useDispatch()
@@ -18,6 +19,7 @@ function ExpenseDetail({ exp, setShowDetail }) {
     // }, [dispatch])
 
     // if (!aExpanse) return null
+    if (!exp) return null
 
     return (
         <>

@@ -53,8 +53,8 @@ function LeftPanel() {
                 <NavLink to="/all" style={{ textDecoration: 'none' }}>
                     <div>All expenses</div>
                 </NavLink>
-                <div className="flx height-5vh">
-                    <div className="width-50">GROUPS</div>
+                <div className="flx height-5vh bg-side-grey">
+                    <div className="width-50 ">GROUPS</div>
                     <div className="width-50">
                         <OpenModalButton
                             buttonText="+Add"

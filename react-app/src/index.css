@@ -40,6 +40,11 @@
     background-color: rgba(170, 165, 165, 0.982);
 }
 
+.bg-side-grey {
+    background-color: #f6f6f6;
+
+}
+
 .bg-5cc5a7 {
     background-color: #5cc5a7;
 }

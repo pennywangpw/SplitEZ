@@ -168,8 +168,7 @@ const expensesReducer = (state = initialState, action) => {
     switch (action.type) {
         case GETALLEXPENSES:
             let newState1 = { allExpenses: { ...state.allExpenses }, singleExpense: {} };
-            action.arr.forEach(expense => newState1.allExpenses[expense.id] = expense)
-            console.log("after adding 1: ", newState1)
+            action.arr.allexpenses_with_billpayer.forEach(expense => newState1.allExpenses[expense.id] = expense)
             return newState1;
 
         case GETAEXPENSE:
