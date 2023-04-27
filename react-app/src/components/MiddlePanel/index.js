@@ -14,6 +14,8 @@ function ExpensesList() {
     const [currentId, setCurrentId] = useState(1)
     const dispatch = useDispatch();
     const allExpenses = useSelector((state) => state.expenses.allExpenses);
+    const currentuser = useSelector((state) => state.session.user);
+    console.log("make sure what i have when ", currentuser)
 
 
     useEffect(() => {
@@ -77,7 +79,9 @@ function ExpensesList() {
                                     </div>
                                     <div>{exp.expense_total}</div>
                                     <div className="flx">
-                                        <div>{exp.billpayer.username}</div>
+                                        {/* {!exp.billpayer ? <div>Please input billpayer</div> : <div>{exp.billpayer.username}</div>} */}
+                                        <div>{currentuser.username}</div>
+
                                         <div>{exp.username}</div>
                                         <OpenModalButton
                                             buttonText={<i className="fas fa-trash-alt" />}

@@ -24,6 +24,8 @@ class Group(db.Model):
         cascade="all, delete-orphan"
     )
 
+
+
     def to_dict(self):
         return {
             'id': self.id,
