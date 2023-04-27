@@ -20,7 +20,8 @@ class Group(db.Model):
 
     expenses = db.relationship(
         "Expense",
-        back_populates="group"
+        back_populates="group",
+        cascade="all, delete-orphan"
     )
 
     def to_dict(self):

@@ -18,7 +18,8 @@ class User(db.Model, UserMixin):
 
     comments = db.relationship(
         "Comment",
-        back_populates="user"
+        back_populates="user",
+        cascade="all, delete-orphan"
     )
 
     payer_user_id = db.relationship(
@@ -29,13 +30,15 @@ class User(db.Model, UserMixin):
     groups = db.relationship(
         "Group",
         secondary=users_groups,
-        back_populates="users"
+        back_populates="users",
+        cascade="all, delete-orphan"
     )
 
     expenses = db.relationship(
         "Expense",
         secondary=users_expenses,
-        back_populates="users"
+        back_populates="users",
+        cascade="all, delete-orphan"
     )
 
     @property
