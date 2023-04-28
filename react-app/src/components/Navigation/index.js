@@ -8,25 +8,27 @@ function Navigation({ isLoaded }) {
 	const sessionUser = useSelector(state => state.session.user);
 
 	return (
-		<div className='pad-tb-25p color-white bg-blue-0bf'>
+		<div className='bg-5cc5a7 pad-tb-25p color-white '>
 
 			{isLoaded && !sessionUser && (
 				<ul className='flx-jc-fe mrg20p '>
 					<li className='flx gap15p'>
-						<div>
+						<div className='width-50'>
 							<NavLink exact to="/">Home</NavLink>
 						</div>
 
-						<div>
-							<NavLink to='/login' className={"color-white-ef2 fontS-125rem"}>
-								Login
-							</NavLink>
-						</div>
+						<div className='width-50 flx gap15p'>
+							<div>
+								<NavLink to='/login' className={"color-white-ef2 fontS-125rem"}>
+									Login
+								</NavLink>
+							</div>
 
-						<div>
-							<NavLink to='/signup' className={"color-white-ef2 fontS-125rem border-white-ef2 borderR-5p pad-tb-5p pad-lr-10p"}>
-								Sign up
-							</NavLink>
+							<div>
+								<NavLink to='/signup' className={"color-white-ef2 fontS-125rem border-white-ef2 borderR-5p pad-tb-5p pad-lr-10p"}>
+									Sign up
+								</NavLink>
+							</div>
 						</div>
 
 					</li>

@@ -25,6 +25,14 @@
     border: 2px solid blue;
 }
 
+.border-top-main {
+    border-top: 1px solid #f6f6f6
+}
+
+.border-bottom-main {
+    border-top: 1px solid #ddd
+}
+
 .mrg-l-7rem {
     margin-left: 7rem;
 }
@@ -62,6 +70,10 @@
 
 }
 
+.bg-detail-grey {
+    background-color: #f8f8f8
+}
+
 .bg-5cc5a7 {
     background-color: #5cc5a7;
 }
@@ -86,6 +98,18 @@
 
 .bg-blue-0bf {
     background-color: var(--blue-0bf);
+}
+
+.bg-ff652f {
+    background-color: #ff652f;
+}
+
+.color-fff {
+    color: #fff
+}
+
+.bg-maim-eee {
+    background-color: #eee;
 }
 
 /*============ className -height =============*/
@@ -141,6 +165,10 @@
     padding-bottom: 25px;
 }
 
+.pad-r-15px {
+    padding-right: 15px;
+}
+
 /*============ className -width =============*/
 
 .width-50 {
@@ -151,6 +179,13 @@
     width: 25%
 }
 
+.width-180 {
+    width: 180px;
+}
+
+.gap15p {
+    gap: 15px;
+}
 
 /*============ for nvigation =============*/
 .flx-jc-sb {

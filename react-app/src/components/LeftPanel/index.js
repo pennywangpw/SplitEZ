@@ -49,7 +49,7 @@ function LeftPanel() {
     return (
         <>
 
-            <div className="panelborder">
+            <div className="panelborder pad-r-15px width-180">
                 <NavLink to="/all" style={{ textDecoration: 'none' }}>
                     <div>All expenses</div>
                 </NavLink>

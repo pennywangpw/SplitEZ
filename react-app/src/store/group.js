@@ -3,9 +3,18 @@ const GETSINGEGROUP = 'groups/SINGLE_GROUP';
 const POSTAGROUP = 'groups/CREATE_GROUP';
 const UPDATEGROUP = 'groups/UPDATE_GROUP';
 const DELETETAGROUP = 'groups/DELETE_GROUP';
+const CLEARGROUP = 'expenses/CLEAR_GROUP';
+
 
 
 //action creator
+
+export const clearGroupA = () => {
+    return {
+        type: CLEARGROUP,
+    };
+};
+
 const allGroupsA = (arr) => {
     console.log("this is action creator--allGroupsA")
 
@@ -170,6 +179,9 @@ const groupsReducer = (state = initialState, action) => {
             let singleGroup = action.obj
             newState5.singleGroup = singleGroup
             return newState5
+
+        case CLEARGROUP:
+            return { ...state, singleGroup: {} }
 
         default:
             return state;

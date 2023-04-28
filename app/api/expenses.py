@@ -78,9 +78,14 @@ def crateExpense():
 @login_required
 def deleteExpense(id):
     deletedexpense = Expense.query.get(id)
-    db.session.delete(deletedexpense)
-    db.session.commit()
+    print("i think i tested this-1 ", deletedexpense)
     deletedexpenseDict = deletedexpense.to_dict()
+    db.session.delete(deletedexpense)
+    print("i think i tested this-2 ")
+
+    db.session.commit()
+
+    print("i think i tested this, ", deletedexpenseDict)
     return deletedexpenseDict
 
 #update an expense
