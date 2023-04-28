@@ -200,3 +200,10 @@
 .mrg-r-3rem {
     margin-right: 3rem;
 }
+
+
+
+#error {
+    min-height: 30px;
+    max-height: 30px;
+}
