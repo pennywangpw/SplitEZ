@@ -23,6 +23,7 @@ function ExpensesListByGroup() {
 
     useEffect(() => {
         dispatch(groupsthunk.singleGroupthunk(groupId))
+        return () => dispatch(groupsthunk.clearGroupA())
     }, [dispatch, groupId])
 
 
@@ -37,7 +38,7 @@ function ExpensesListByGroup() {
         <>
             <div className="shadow">
                 <div className="flx line-h70 ">
-                    <div className="fontS-220rem width-50">All expenses</div>
+                    <div className="fontS-220rem width-50">{singlegroupinfo.name}</div>
                     <div>
                         <OpenModalButton
                             buttonText="Add an expense"
@@ -70,7 +71,7 @@ function ExpensesListByGroup() {
 
                                         <OpenModalButton
                                             buttonText={<i class="fas fa-trash-alt"></i>}
-                                            modalComponent={<DeleteConfirmationModal expenseId={exp.id} type="delete expense" />}
+                                            modalComponent={<DeleteConfirmationModal expenseId={exp.id} type="delete expense" groupid={groupId} />}
                                         />
 
                                     </div>
