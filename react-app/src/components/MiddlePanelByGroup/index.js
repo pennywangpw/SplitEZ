@@ -25,6 +25,7 @@ function ExpensesListByGroup() {
         dispatch(groupsthunk.singleGroupthunk(groupId))
     }, [dispatch, groupId])
 
+
     let allExpenses_belongs_group = singlegroupinfo.expenses
     if (!allExpenses_belongs_group) return (
         <div>No expense....</div>

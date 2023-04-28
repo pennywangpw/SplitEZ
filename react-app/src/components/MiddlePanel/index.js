@@ -15,7 +15,6 @@ function ExpensesList() {
     const dispatch = useDispatch();
     const allExpenses = useSelector((state) => state.expenses.allExpenses);
     const currentuser = useSelector((state) => state.session.user);
-    console.log("make sure what i have when ", currentuser)
 
 
     useEffect(() => {
@@ -43,9 +42,9 @@ function ExpensesList() {
     return (
         <>
             <div className="shadow">
-                <div className="flx line-h70 ">
+                <div className="flx line-h70 bg-maim-eee border-top-main border-bottom-main fontS-13px">
                     <div className="fontS-220rem width-50">All expenses</div>
-                    <div>
+                    <div >
                         <OpenModalButton
                             buttonText="Add an expense"
                             modalComponent={<CreateExpense />}
@@ -97,7 +96,7 @@ function ExpensesList() {
 
 
                                 <div
-                                    className={showDetail && currentId === exp.id ? "display-b" : "display-n"}
+                                    className={showDetail && currentId === exp.id ? "display-b bg-detail-grey " : "display-n"}
                                     id="detail"
                                 >
                                     <ExpenseDetail
