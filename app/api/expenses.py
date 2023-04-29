@@ -19,7 +19,7 @@ def allExpenses():
     print("----------only belongs to me: ", allexpenses)
 
 
-    '''get each expense billpayer's information'''
+    '''get each expense billpayer's information and add this attribute to each expense'''
     allexpenseswithbillpayer=[]
     for expense in allexpenses:
         print("******each expense*: ", expense)
@@ -28,7 +28,9 @@ def allExpenses():
 
         expense_data['billpayer'] = expense.user.to_dict()
         allexpenseswithbillpayer.append(expense_data)
-        print("==============================",allexpenseswithbillpayer)
+
+    print("==============================",allexpenseswithbillpayer)
+    print("--------AFTER only belongs to me: ", allexpenses)
     return {'allexpenses_with_billpayer':allexpenseswithbillpayer}
 
 

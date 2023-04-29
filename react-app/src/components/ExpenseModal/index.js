@@ -6,11 +6,12 @@ import * as expensesthunk from "../../store/expense"
 
 
 function ExpenseModal({ type, expenseinfo, setShowDetail }) {
-    console.log("expense modal with expense info: ", type, expenseinfo)
+    console.log("expense modal with expense info: ", type, typeof expenseinfo.expense_total, expenseinfo.expense_total)
+
     const dispatch = useDispatch();
     const history = useHistory()
     const [name, setName] = useState(expenseinfo.name)
-    const [expense_total, setExpenseTotal] = useState(Number(expenseinfo.expense_total))
+    const [expense_total, setExpenseTotal] = useState(+expenseinfo.expense_total || 0)
     const [billpayer, setBillpayer] = useState("")
     const [errors, setErrors] = useState([])
 
@@ -88,8 +89,8 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
                             <input
                                 id="amount"
                                 type="text"
-                                value={expense_total}
-                                onChange={(e) => setExpenseTotal(Number(e.target.value))}
+                                value={+expense_total}
+                                onChange={(e) => setExpenseTotal(+e.target.value)}
                             />
                         </div>
                         {/* <div>

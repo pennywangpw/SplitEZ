@@ -139,6 +139,8 @@
     height: 88vh;
 }
 
+
+
 .height-18px {
     line-height: 18px;
 }
@@ -151,6 +153,15 @@
     font-size: 13px;
 
 }
+
+.fontS-16px {
+    font-size: 16px;
+}
+
+.fontS-22px {
+    font-size: 22px;
+}
+
 
 .height-350px {
     height: 350px;

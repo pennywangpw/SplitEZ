@@ -80,7 +80,12 @@ export const allExpenses = () => async (dispatch) => {
     const response = await fetch(`/api/expenses/all`)
     if (response.ok) {
         const data = await response.json();
-        console.log("allExpenses thunk check what i got from bk: ", data)
+        let i = 0
+        while (i < data.allexpenses_with_billpayer.length) {
+            console.log("get into it: ", data.allexpenses_with_billpayer[i])
+            data.allexpenses_with_billpayer[i]['expense_total'] = parseFloat(data.allexpenses_with_billpayer[i]['expense_total'])
+            i = i + 1
+        }
         dispatch(allExpensesA(data));
     };
     return response
@@ -92,6 +97,10 @@ export const singleExpense = (expenseid) => async (dispatch) => {
     const response = await fetch(`/api/expenses/${expenseid}`)
     if (response.ok) {
         const data = await response.json();
+        console.log("------BEFORE----, ", data)
+
+        data['expense_total'] = parseFloat(data.expense_total)
+        console.log("------AFTER----, ", data)
         dispatch(singleExpenseA(data));
     };
     return response
