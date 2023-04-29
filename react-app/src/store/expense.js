@@ -80,6 +80,7 @@ export const allExpenses = () => async (dispatch) => {
     const response = await fetch(`/api/expenses/all`)
     if (response.ok) {
         const data = await response.json();
+        // convert expense_total from string into number type
         let i = 0
         while (i < data.allexpenses_with_billpayer.length) {
             console.log("get into it: ", data.allexpenses_with_billpayer[i])

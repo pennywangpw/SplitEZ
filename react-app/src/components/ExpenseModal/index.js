@@ -3,10 +3,11 @@ import { useModal } from "../../context/Modal";
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from "react-router-dom"
 import * as expensesthunk from "../../store/expense"
+import * as groupsthunk from "../../store/group"
 
 
 function ExpenseModal({ type, expenseinfo, setShowDetail }) {
-    console.log("expense modal with expense info: ", type, typeof expenseinfo.expense_total, expenseinfo.expense_total)
+    console.log("expense modal with expense info: ", type, typeof expenseinfo.expense_total, expenseinfo.expense_total, expenseinfo)
 
     const dispatch = useDispatch();
     const history = useHistory()
@@ -22,7 +23,6 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
     let allExpensesArr = Object.values(allExpenses)
 
     console.log("expense modal: ", allExpensesArr)
-
 
 
     // validation for expense name (description)
@@ -45,7 +45,10 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
         } else if (type === "edit") {
             const payload = { name, expense_total }
             await dispatch(expensesthunk.updateExpense(expenseinfo.id, payload))
-            await dispatch(expensesthunk.singleExpense(expenseinfo.id)).then(closeModal)
+            await dispatch(groupsthunk.singleGroupthunk(expenseinfo.group_id)).then(closeModal)
+
+            // .then(dispatch(groupsthunk.singleGroupthunk(expenseinfo.group_id))).then(closeModal)
+            // .then(dispatch(expensesthunk.singleExpense(expenseinfo.id))).then(closeModal)
             setShowDetail(false)
         }
 
