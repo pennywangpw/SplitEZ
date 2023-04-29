@@ -41,12 +41,10 @@ function Navigation({ isLoaded }) {
 
 				<>
 					<div className='flx-jc-sb mrg-l-7rem mrg-r-3rem'>
-						<Link to="/"
-							className='color-white-ef2 fontS-125rem va-center'
-						>Home</Link>
 						<Link to="/all"
 							className='color-white-ef2 fontS-125rem va-center'
-						>Dashboard</Link>
+						>Home</Link>
+
 						{/* <div className='flx'>
 							<form onSubmit={handleSearch} className='bg-blue-0cc pad8p borderR-5p'>
 

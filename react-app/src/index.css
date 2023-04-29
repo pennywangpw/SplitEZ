@@ -139,6 +139,10 @@
     height: 88vh;
 }
 
+.height-2-5vh {
+    height: 2.5vh;
+}
+
 .height-18px {
     line-height: 18px;
 }
@@ -151,6 +155,15 @@
     font-size: 13px;
 
 }
+
+.fontS-16px {
+    font-size: 16px;
+}
+
+.fontS-22px {
+    font-size: 22px;
+}
+
 
 .height-350px {
     height: 350px;
@@ -199,4 +212,24 @@
 
 .mrg-r-3rem {
     margin-right: 3rem;
+}
+
+
+
+#error {
+    min-height: 30px;
+    max-height: 30px;
+}
+
+
+/*============ for create/edit modal =============*/
+
+.modal {
+    background-color: #fff;
+    width: 350px;
+    border: 1px solid #999;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    border-radius: 5px;
+
 }

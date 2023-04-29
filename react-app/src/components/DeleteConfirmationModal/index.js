@@ -3,12 +3,14 @@ import { useModal } from "../../context/Modal";
 import { useSelector, useDispatch } from 'react-redux';
 import * as expensesthunk from "../../store/expense"
 import * as groupsthunk from "../../store/group"
+import { useHistory } from "react-router-dom";
 
 
 
 function DeleteConfirmationModal({ expenseId, type, groupid }) {
     console.log("this is delete modal with expenseId: ", expenseId, type, groupid)
     const dispatch = useDispatch()
+    const history = useHistory()
     const { closeModal } = useModal()
 
     const deletehandler = () => {
@@ -16,6 +18,7 @@ function DeleteConfirmationModal({ expenseId, type, groupid }) {
             dispatch(expensesthunk.deleteExpense(expenseId)).then(() => dispatch(groupsthunk.singleGroupthunk(groupid))).then(closeModal)
         } else if (type === "delete group") {
             dispatch(groupsthunk.deleteGroupthunk(groupid)).then(() => dispatch(expensesthunk.allExpenses())).then(closeModal)
+            history.push('/all')
             // dispatch(groupsthunk.deleteGroupthunk(groupid)).then(() => dispatch(groupsthunk.allGroupsthunk())).then(closeModal)
 
         }

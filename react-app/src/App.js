@@ -7,6 +7,7 @@ import { authenticate } from "./store/session";
 import Navigation from "./components/Navigation";
 import HomePage from "./components/HomePage"
 import MainPage from "./components/MainPage"
+import PageNotFound from "./components/PageNotFound"
 
 function App() {
   const dispatch = useDispatch();
@@ -32,8 +33,11 @@ function App() {
           <Route path="/groups/:groupId">
             <MainPage type="group" />
           </Route>
-          <Route exact="/">
+          <Route exact path="/">
             <HomePage />
+          </Route>
+          <Route>
+            <PageNotFound />
           </Route>
         </Switch>
       )}

@@ -50,12 +50,12 @@ function LeftPanel() {
         <>
 
             <div className="panelborder pad-r-15px width-180">
-                <NavLink to="/all" style={{ textDecoration: 'none' }}>
-                    <div>All expenses</div>
+                <NavLink to="/all" style={{ textDecoration: 'none', lineHeight: '5vh' }}>
+                    <div className="fontS-22px height-5vh">All expenses</div>
                 </NavLink>
-                <div className="flx height-5vh bg-side-grey">
+                <div className="flx bg-side-grey">
                     <div className="width-50 ">GROUPS</div>
-                    <div className="width-50">
+                    <div className="width-50 ">
                         <OpenModalButton
                             buttonText="+Add"
                             modalComponent={<GroupModal type="create group" />}

@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import OpenModalButton from "../OpenModalButton";
 import * as groupsthunk from "../../store/group"
+import * as expensesthunk from "../../store/expense"
 import DeleteConfirmationModal from "../DeleteConfirmationModal"
 import ExpenseModal from "../ExpenseModal"
 import CreateExpense from "../CreateExpense"
@@ -26,6 +27,9 @@ function ExpensesListByGroup() {
         return () => dispatch(groupsthunk.clearGroupA())
     }, [dispatch, groupId])
 
+    const singleExpensehandler = (id) => {
+        dispatch(expensesthunk.singleExpense(id))
+    }
 
     let allExpenses_belongs_group = singlegroupinfo.expenses
     if (!allExpenses_belongs_group) return (
@@ -60,6 +64,8 @@ function ExpensesListByGroup() {
                             <div onClick={() => {
                                 setCurrentId(exp.id)
                                 setShowDetail(!showDetail)
+                                singleExpensehandler(exp.id)
+
                             }}>
                                 <div className="grid-3fr height-5vh" id="summary">
                                     <div>{exp.expense_date}{exp.name} </div>
@@ -77,9 +83,9 @@ function ExpensesListByGroup() {
                                     </div>
                                 </div>
 
-
-                                <div className={showDetail === true ? "display-b" : "display-n"} >
-                                    <ExpenseDetail currentId={currentId} setShowDetail={setShowDetail} />
+                                {console.log("WHAT'S CURRENTID AND EXP.ID: ", currentId, exp.id)}
+                                <div className={showDetail && currentId === exp.id ? "display-b bg-detail-grey " : "display-n"} >
+                                    <ExpenseDetail exp={exp} setShowDetail={setShowDetail} />
                                 </div>
 
 

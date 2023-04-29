@@ -3,15 +3,18 @@ import { useModal } from "../../context/Modal";
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from "react-router-dom"
 import * as expensesthunk from "../../store/expense"
+import * as groupsthunk from "../../store/group"
 
 
 function ExpenseModal({ type, expenseinfo, setShowDetail }) {
-    console.log("expense modal with expense info: ", type, expenseinfo)
+    console.log("expense modal with expense info: ", type, typeof expenseinfo.expense_total, expenseinfo.expense_total, expenseinfo)
+
     const dispatch = useDispatch();
     const history = useHistory()
     const [name, setName] = useState(expenseinfo.name)
-    const [expense_total, setExpenseTotal] = useState(expenseinfo.expense_total)
+    const [expense_total, setExpenseTotal] = useState(+expenseinfo.expense_total || 0)
     const [billpayer, setBillpayer] = useState("")
+    const [errors, setErrors] = useState([])
 
     const { closeModal } = useModal();
 
@@ -20,6 +23,17 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
     let allExpensesArr = Object.values(allExpenses)
 
     console.log("expense modal: ", allExpensesArr)
+
+
+    // validation for expense name (description)
+    useEffect(() => {
+        let e = []
+        if (!name) e.push("Please provide description")
+        if (name.length > 15) e.push("Description is no more than 15 characters")
+        if (!expense_total) e.push("Please provide amount")
+        if (expense_total && expense_total <= 0) e.push("Amount should be greater than 0")
+        setErrors(e)
+    }, [name, expense_total])
 
 
     const handleSubmit = async (e) => {
@@ -31,7 +45,10 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
         } else if (type === "edit") {
             const payload = { name, expense_total }
             await dispatch(expensesthunk.updateExpense(expenseinfo.id, payload))
-            await dispatch(expensesthunk.singleExpense(expenseinfo.id)).then(closeModal)
+            await dispatch(groupsthunk.singleGroupthunk(expenseinfo.group_id)).then(closeModal)
+
+            // .then(dispatch(groupsthunk.singleGroupthunk(expenseinfo.group_id))).then(closeModal)
+            // .then(dispatch(expensesthunk.singleExpense(expenseinfo.id))).then(closeModal)
             setShowDetail(false)
         }
 
@@ -45,22 +62,38 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
                     <header className=" bg-5cc5a7 line-h50">{type === "create" ? "Create an expense" : "Edit expense"}</header>
                     {/* <div>{`with you and: ${"1231"}`}</div> */}
                     <div>
+                        <div id="error">
+                            {console.log("uuuuu here is all error: ", errors)}
+                            {console.log("check what is expense total: ", typeof expense_total, expense_total)}
+
+
+                            {errors.length > 0 && (
+
+                                errors.map(error => <li>{error}</li>)
+
+                            )}
+                            {/* {errors.length > 0 ? (errors.map(error => <div>{error}</div>)) : <div className="line-h70"></div>} */}
+                        </div>
                         <div>
-                            Description
+                            <label htmlFor="description">
+                                Description
+                            </label>
                             <input
+                                id="description"
                                 type="text"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
-                                required
                             />
                         </div>
                         <div>
-                            Amout
+                            <label htmlFor="amount">
+                                Amout
+                            </label>
                             <input
+                                id="amount"
                                 type="text"
-                                value={expense_total}
-                                onChange={(e) => setExpenseTotal(e.target.value)}
-                                required
+                                value={+expense_total}
+                                onChange={(e) => setExpenseTotal(+e.target.value)}
                             />
                         </div>
                         {/* <div>
