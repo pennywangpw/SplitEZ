@@ -52,7 +52,7 @@ function ExpensesList() {
                     </div>
                 </div>
 
-                <div className="grid-3fr height-5vh" id="summary">
+                <div className="grid-3fr height-5vh expense-summary" id="summary">
                     <div>Description</div>
                     <div>Expense Total</div>
                     <div>Bill Payer</div>
@@ -69,7 +69,7 @@ function ExpensesList() {
                                         setShowDetail(!showDetail)
                                         singleExpensehandler(exp.id)
                                     }}
-                                    className="grid-3fr height-5vh"
+                                    className="grid-3fr height-5vh expense-summary "
                                     id="summary"
                                 >
                                     <div>

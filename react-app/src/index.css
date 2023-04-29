@@ -233,3 +233,42 @@
     border-radius: 5px;
 
 }
+
+
+
+.expense-summary {
+    border-bottom: solid 1px;
+    border-color: rgb(188, 187, 187)
+}
+
+
+/*============ for left side bar =============*/
+
+.l-bar-c {
+    position: relative;
+    background: #f6f6f6;
+    color: #504d4d78;
+    margin-top: 5px;
+    border-top: 1px solid #f3f3f3;
+
+}
+
+/*============ for button =============*/
+
+.btn {
+    transition-duration: 0.4s;
+}
+
+.btn:hover {
+    background-color: #5cc5a7;
+    color: white;
+}
+
+.btn-add {
+    border: none;
+    color: black;
+}
+
+.float-r {
+    float: right
+}

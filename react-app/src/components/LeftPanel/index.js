@@ -53,11 +53,12 @@ function LeftPanel() {
                 <NavLink to="/all" style={{ textDecoration: 'none', lineHeight: '5vh' }}>
                     <div className="fontS-22px height-5vh">All expenses</div>
                 </NavLink>
-                <div className="flx bg-side-grey">
+                <div className="flx bg-side-grey l-bar-c">
                     <div className="width-50 ">GROUPS</div>
-                    <div className="width-50 ">
+                    <div className="width-50">
                         <OpenModalButton
                             buttonText="+Add"
+                            className="btn-add float-r btn"
                             modalComponent={<GroupModal type="create group" />}
                         />
                     </div>
