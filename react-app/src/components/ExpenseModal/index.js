@@ -22,6 +22,7 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
     const allExpenses = useSelector((state) => state.expenses.allExpenses)
     let allExpensesArr = Object.values(allExpenses)
 
+    console.log("-----let's see th ", expense_total)
     console.log("expense modal: ", allExpensesArr)
 
 
@@ -91,10 +92,18 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
                             </label>
                             <input
                                 id="amount"
-                                type="text"
-                                value={+expense_total}
-                                onChange={(e) => setExpenseTotal(+e.target.value)}
+                                type="number"
+                                value={expense_total}
+                                min="0"
+                                step="any"
+                                onChange={(e) => setExpenseTotal(e.target.value)}
                             />
+                            {/* <input
+                                id="amount"
+                                type="text"
+                                value={expense_total}
+                                onChange={(e) => setExpenseTotal(parseFloat(e.target.value))}
+                            /> */}
                         </div>
                         {/* <div>
                             Bill Payer
