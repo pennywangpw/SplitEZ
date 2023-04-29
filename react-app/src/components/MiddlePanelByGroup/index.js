@@ -51,7 +51,7 @@ function ExpensesListByGroup() {
                     </div>
                 </div>
 
-                <div className="grid-3fr height-5vh" id="summary">
+                <div className="grid-3fr height-5vh expense-summary" id="summary">
                     <div>description</div>
                     <div>Expense Total</div>
                     <div>Bill Payer</div>
@@ -67,7 +67,7 @@ function ExpensesListByGroup() {
                                 singleExpensehandler(exp.id)
 
                             }}>
-                                <div className="grid-3fr height-5vh" id="summary">
+                                <div className="grid-3fr height-5vh expense-summary" id="summary">
                                     <div>{exp.expense_date}{exp.name} </div>
                                     <div>{exp.expense_total}</div>
                                     <div className="flx">

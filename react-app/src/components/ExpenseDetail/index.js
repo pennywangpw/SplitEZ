@@ -29,7 +29,7 @@ function ExpenseDetail({ exp, setShowDetail }) {
     return (
         <>
             <div className="height-350px">
-                <div>
+                <div className="width-50">
                     <div id="description">{exp.name}</div>
                     <div id="description">{exp.expense_total}</div>
                     <div>
@@ -40,7 +40,7 @@ function ExpenseDetail({ exp, setShowDetail }) {
                     </div>
                 </div>
 
-                <div className="flx">
+                <div className=" width-50">
                     {/* <div className="width-50 height-100">ppl involved</div> */}
                     {/* <div className="width-50 height-100">comments</div> */}
                     <button onClick={handleAlert}>comments</button>
