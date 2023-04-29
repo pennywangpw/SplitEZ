@@ -42,7 +42,8 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
 
         if (type === "create") {
             const payload = { name, expense_total }
-            await dispatch(expensesthunk.createExpense(payload)).then(closeModal)
+            await dispatch(expensesthunk.createExpense(payload))
+            await dispatch(groupsthunk.singleGroupthunk(expenseinfo.group_id)).then(closeModal)
         } else if (type === "edit") {
             const payload = { name, expense_total }
             await dispatch(expensesthunk.updateExpense(expenseinfo.id, payload))
@@ -63,17 +64,10 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
                     <header className=" bg-5cc5a7 line-h50">{type === "create" ? "Create an expense" : "Edit expense"}</header>
                     {/* <div>{`with you and: ${"1231"}`}</div> */}
                     <div>
-                        <div id="error">
-                            {console.log("uuuuu here is all error: ", errors)}
-                            {console.log("check what is expense total: ", typeof expense_total, expense_total)}
-
-
-                            {errors.length > 0 && (
-
-                                errors.map(error => <li>{error}</li>)
-
-                            )}
-                            {/* {errors.length > 0 ? (errors.map(error => <div>{error}</div>)) : <div className="line-h70"></div>} */}
+                        <div>
+                            <ul>
+                                {errors.length > 0 && (errors.map((error, idx) => <li key={idx} className="height-max-15">{error}</li>))}
+                            </ul>
                         </div>
                         <div>
                             <label htmlFor="description">
