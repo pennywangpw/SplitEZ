@@ -12,8 +12,15 @@ function ExpensesList() {
     const [currentId, setCurrentId] = useState(1)
     const dispatch = useDispatch();
     const allExpenses = useSelector((state) => state.expenses.allExpenses);
+    const allGroups = useSelector((state) => state.groups.allGroups);
     const currentuser = useSelector((state) => state.session.user);
 
+    //get group id from allGroups
+    let allGroupsArr = Object.values(allGroups)
+    let allGroupsIdArr = []
+    for (let group of allGroupsArr) {
+        allGroupsIdArr.push(group.id)
+    }
 
     useEffect(() => {
         dispatch(expensesthunk.allExpenses())
@@ -57,12 +64,17 @@ function ExpensesList() {
                                             setShowDetail(!showDetail)
                                             singleExpensehandler(exp.id)
                                         }}
-                                        className="grid-3fr height-5vh expense-summary "
+                                        className="grid-3fr height-8vh expense-summary "
                                         id="summary"
                                     >
-                                        <div>
-                                            {exp.expense_date}
-                                            {exp.name}
+                                        <div className="flx-col">
+                                            <div>
+                                                {exp.expense_date}
+                                                {exp.name}
+                                            </div>
+
+                                            {allGroupsIdArr.includes(exp.group_id) ? (<div>{exp.group_id}</div>) : (<div></div>)}
+
                                         </div>
                                         <div>{exp.expense_total}</div>
                                         <div className="flx">

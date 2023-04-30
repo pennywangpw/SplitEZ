@@ -40,32 +40,44 @@ def allGroups():
 
     return "111"
 
-#get a group with all expenses under the group
+#get a single group
 @groups.route('/<int:id>')
 @login_required
 def singleGroup(id):
-
-    # 找尋Expenses使用 Groupid尋找，找出對應的expense並轉Dict
-    expenses = Expense.query.filter(Expense.group_id == id).all()
-    expensesDict = [expense.to_dict() for expense in expenses]
-
-    # 使用迴圈找出 User資料庫內的Payer_user_id欄位，並將PayerUser回存expense資料
-    for expense in expensesDict:
-        billpayer = User.query.get(expense['payer_user_id'])
-        expense['billpayer'] = billpayer.to_dict()
-
-    # 搜尋Group id, 找出Group dict
     group = Group.query.get(id)
     groupDict = group.to_dict()
-
-    # 將GroupDict加入ExpensesDict
-    groupDict['expenses'] = expensesDict
-
-    print("abcd123e: ", groupDict)
+    print("single group: ", groupDict)
 
     return groupDict
 
+# #get a group with all expenses under the group
+# @groups.route('/<int:id>')
+# @login_required
+# def singleGroup(id):
 
+#     # 找尋Expenses使用 Groupid尋找，找出對應的expense並轉Dict
+#     expenses = Expense.query.filter(Expense.group_id == id).all()
+#     expensesDict = [expense.to_dict() for expense in expenses]
+
+#     # 使用迴圈找出 User資料庫內的Payer_user_id欄位，並將PayerUser回存expense資料
+#     for expense in expensesDict:
+#         billpayer = User.query.get(expense['payer_user_id'])
+#         expense['billpayer'] = billpayer.to_dict()
+
+#     # 搜尋Group id, 找出Group dict
+#     group = Group.query.get(id)
+#     groupDict = group.to_dict()
+
+#     # 將GroupDict加入ExpensesDict
+#     groupDict['expenses'] = expensesDict
+
+#     print("abcd123e: ", groupDict)
+
+#     return groupDict
+
+# #get a group with all expenses under the group
+# @groups.route('/<int:id>')
+# @login_required
 # def singleGroup(id):
 #     group = Group.query.get(id)
 #     groupDict = group.to_dict()

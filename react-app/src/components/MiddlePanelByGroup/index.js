@@ -10,7 +10,6 @@ import CreateExpense from "../CreateExpense"
 import ExpenseDetail from "../ExpenseDetail"
 
 
-
 function ExpensesListByGroup() {
     let { groupId } = useParams()
     const [showDetail, setShowDetail] = useState(false)
@@ -33,13 +32,6 @@ function ExpensesListByGroup() {
     const singleExpensehandler = (id) => {
         dispatch(expensesthunk.singleExpense(id))
     }
-
-    let allExpenses_belongs_group = singlegroupinfo.expenses
-    if (!allExpenses_belongs_group) return (
-        <div>No expense....</div>
-    )
-
-    console.log("here's all expenses when i click!!!!!: ", allExpenses_belongs_group)
 
     return (
         <>
@@ -75,8 +67,8 @@ function ExpensesListByGroup() {
                                     <div>{exp.expense_date}{exp.name} </div>
                                     <div>{exp.expense_total}</div>
                                     <div className="flx">
-
-                                        <div>{exp.billpayer.username}</div>
+                                        {exp.billpayer ? (<div>{exp.billpayer.username}</div>) : (<div></div>)}
+                                        {/* <div>{exp.billpayer.username}</div> */}
                                         <div>{exp.username}</div>
 
                                         <OpenModalButton

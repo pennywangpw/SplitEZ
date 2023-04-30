@@ -14,14 +14,20 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
     const [name, setName] = useState(expenseinfo.name)
     const [expense_total, setExpenseTotal] = useState(+expenseinfo.expense_total || 0)
     const [billpayer, setBillpayer] = useState("")
+    const [group_id, setGroup_id] = useState(expenseinfo.group_id)
     const [errors, setErrors] = useState([])
 
     const { closeModal } = useModal();
+
+    //get all the groups and conver into arr
+    const allGroups = useSelector((state) => state.groups.allGroups)
+    let allGroupsArr = Object.values(allGroups)
 
 
     const allExpenses = useSelector((state) => state.expenses.allExpenses)
     let allExpensesArr = Object.values(allExpenses)
 
+    console.log("---CHECK GROUP ID: -- ", group_id)
     console.log("-----let's see th ", expense_total)
     console.log("expense modal: ", allExpensesArr)
 
@@ -37,13 +43,18 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
     }, [name, expense_total])
 
 
+    useEffect(() => {
+        dispatch(expensesthunk.allExpenses())
+    }, [group_id])
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (type === "create") {
-            const payload = { name, expense_total }
-            await dispatch(expensesthunk.createExpense(payload))
-            await dispatch(groupsthunk.singleGroupthunk(expenseinfo.group_id)).then(closeModal)
+            const payload = { name, expense_total, group_id }
+            console.log("傳出去的payload: ", payload)
+            await dispatch(expensesthunk.createExpense(payload)).then(closeModal)
+            // await dispatch(groupsthunk.singleGroupthunk(expenseinfo.group_id)).then(closeModal)
         } else if (type === "edit") {
             const payload = { name, expense_total }
             await dispatch(expensesthunk.updateExpense(expenseinfo.id, payload))
@@ -56,10 +67,15 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
 
     }
 
+    const groupIdhandler = (e) => {
+        console.log("***********f CHECK E.TARGET.VALUE: ", e.target.value)
+        setGroup_id(e.target.value)
+    }
 
     return (
         <>
             <form onSubmit={handleSubmit}>
+                {console.log("來看看render 幾次")}
                 <div className="flx-col width-350px height-350px line-h70">
                     <header className=" bg-5cc5a7 line-h50">{type === "create" ? "Create an expense" : "Edit expense"}</header>
                     {/* <div>{`with you and: ${"1231"}`}</div> */}
@@ -70,9 +86,7 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
                             </ul>
                         </div>
                         <div>
-                            <label htmlFor="description">
-                                Description
-                            </label>
+                            <label htmlFor="description">Description:</label>
                             <input
                                 id="description"
                                 type="text"
@@ -81,9 +95,7 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
                             />
                         </div>
                         <div>
-                            <label htmlFor="amount">
-                                Amout
-                            </label>
+                            <label htmlFor="amount">Amout:</label>
                             <input
                                 id="amount"
                                 type="number"
@@ -98,6 +110,16 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
                                 value={expense_total}
                                 onChange={(e) => setExpenseTotal(parseFloat(e.target.value))}
                             /> */}
+                        </div>
+                        <div>
+                            <label htmlFor="group">Choose a group:</label>
+
+                            <select name="groups" id="group" onChange={groupIdhandler}>
+
+                                <option value="">--Please choose an group--</option>
+                                {allGroupsArr.map(group => <option value={group.id}>{group.name}</option>)}
+
+                            </select>
                         </div>
                         {/* <div>
                             Bill Payer
