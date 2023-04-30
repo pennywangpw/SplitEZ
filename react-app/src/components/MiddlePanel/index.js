@@ -37,7 +37,7 @@ function ExpensesList() {
 
                 <div className="flx line-h70 bg-maim-eee border-top-main border-bottom-main fontS-13px">
                     <div className="fontS-220rem width-50">All expenses</div>
-                    <div >
+                    <div className="testing-bg">
                         <OpenModalButton
                             buttonText="Add an expense"
                             modalComponent={<CreateExpense />}
@@ -72,7 +72,7 @@ function ExpensesList() {
                                                 {exp.expense_date}
                                                 {exp.name}
                                             </div>
-
+                                            {console.log("it's not working?? ", allGroupsArr, exp.group_id)}
                                             {allGroupsIdArr.includes(exp.group_id) ? (<div>{allGroups[exp.group_id].name}</div>) : (<div></div>)}
 
                                         </div>

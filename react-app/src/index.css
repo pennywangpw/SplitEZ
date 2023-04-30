@@ -1,6 +1,8 @@
 /* TODO Add site wide styles */
 
-
+body {
+    margin: 0
+}
 
 .flx {
     display: flex;
@@ -90,6 +92,10 @@
 
 .testing-bg {
     background-color: red;
+}
+
+.testing-bg button {
+    background-color: orange;
 }
 
 /* .color-white {

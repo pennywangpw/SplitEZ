@@ -17,6 +17,19 @@ def validation_errors_to_error_messages(validation_errors):
             errorMessages.append(f'{field} : {error}')
     return errorMessages
 
+def validation_errors_to_error_messages_login(validation_errors):
+    """
+    Simple function that turns the WTForms validation errors into a simple list for log in
+    """
+    errorMessages = []
+    for field in validation_errors:
+        for error in validation_errors[field]:
+            if error == "This field is required.":
+                errorMessages.append(f'Credential error: {field} is required.')
+            else:
+                errorMessages.append(f'Credential error: {error}')
+    return errorMessages
+
 
 @auth_routes.route('/')
 def authenticate():
@@ -42,7 +55,7 @@ def login():
         user = User.query.filter(User.email == form.data['email']).first()
         login_user(user)
         return user.to_dict()
-    return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+    return {'errors': validation_errors_to_error_messages_login(form.errors)}, 401
 
 
 @auth_routes.route('/logout')

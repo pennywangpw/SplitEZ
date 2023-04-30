@@ -42,7 +42,6 @@ function LoginFormPage() {
               type="text"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              required
               className="width-50"
             />
           </div>
@@ -54,7 +53,6 @@ function LoginFormPage() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              required
               className="width-50"
             />
           </div>

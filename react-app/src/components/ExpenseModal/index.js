@@ -56,10 +56,11 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
             await dispatch(expensesthunk.createExpense(payload)).then(closeModal)
             // await dispatch(groupsthunk.singleGroupthunk(expenseinfo.group_id)).then(closeModal)
         } else if (type === "edit") {
-            const payload = { name, expense_total }
+            const payload = { name, expense_total, group_id }
             await dispatch(expensesthunk.updateExpense(expenseinfo.id, payload))
-            await dispatch(groupsthunk.singleGroupthunk(expenseinfo.group_id)).then(closeModal)
+            await dispatch(expensesthunk.allExpenses()).then(closeModal)
 
+            // await dispatch(groupsthunk.singleGroupthunk(expenseinfo.group_id)).then(closeModal)
             // .then(dispatch(groupsthunk.singleGroupthunk(expenseinfo.group_id))).then(closeModal)
             // .then(dispatch(expensesthunk.singleExpense(expenseinfo.id))).then(closeModal)
             setShowDetail(false)
