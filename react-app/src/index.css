@@ -288,4 +288,13 @@
 }
 
 
-/*============ for position =============*/
+/*============ for log-in =============*/
+.login-signup {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.width-50 {
+    width: 50%;
+}

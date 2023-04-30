@@ -73,7 +73,7 @@ function ExpensesList() {
                                                 {exp.name}
                                             </div>
 
-                                            {allGroupsIdArr.includes(exp.group_id) ? (<div>{exp.group_id}</div>) : (<div></div>)}
+                                            {allGroupsIdArr.includes(exp.group_id) ? (<div>{allGroups[exp.group_id].name}</div>) : (<div></div>)}
 
                                         </div>
                                         <div>{exp.expense_total}</div>
