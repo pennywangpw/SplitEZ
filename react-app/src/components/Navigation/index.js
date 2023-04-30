@@ -14,7 +14,7 @@ function Navigation({ isLoaded }) {
 				<ul className='flx-jc-fe mrg20p '>
 					<li className='flx gap15p'>
 						<div className='width-50'>
-							<NavLink exact to="/">Home</NavLink>
+							<NavLink exact to="/">SplitEZ</NavLink>
 						</div>
 
 						<div className='width-50 flx gap15p'>
@@ -43,7 +43,7 @@ function Navigation({ isLoaded }) {
 					<div className='flx-jc-sb mrg-l-7rem mrg-r-3rem'>
 						<Link to="/all"
 							className='color-white-ef2 fontS-125rem va-center'
-						>Home</Link>
+						>SplitEZ</Link>
 
 						{/* <div className='flx'>
 							<form onSubmit={handleSearch} className='bg-blue-0cc pad8p borderR-5p'>

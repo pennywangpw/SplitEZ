@@ -10,19 +10,21 @@ import CreateExpense from "../CreateExpense"
 import ExpenseDetail from "../ExpenseDetail"
 
 
-
 function ExpensesListByGroup() {
     let { groupId } = useParams()
     const [showDetail, setShowDetail] = useState(false)
     const [currentId, setCurrentId] = useState(1)
     const dispatch = useDispatch();
     const singlegroupinfo = useSelector((state) => state.groups.singleGroup);
+    const allExpenses = useSelector((state) => state.expenses.allExpenses);
 
+    //get all expenses which group_id equals groupId chunk from the endpoint
+    const allvaluesfromAllExpenses = Object.values(allExpenses)
+    const allExpensesbyGroup = allvaluesfromAllExpenses.filter(expense => expense.group_id === +groupId)
 
-    console.log("here's all expenses when i click specific group--useparams: ", groupId)
-    console.log("here's all expenses when i click specific group: ", singlegroupinfo)
 
     useEffect(() => {
+        dispatch(expensesthunk.allExpenses())
         dispatch(groupsthunk.singleGroupthunk(groupId))
         return () => dispatch(groupsthunk.clearGroupA())
     }, [dispatch, groupId])
@@ -30,13 +32,6 @@ function ExpensesListByGroup() {
     const singleExpensehandler = (id) => {
         dispatch(expensesthunk.singleExpense(id))
     }
-
-    let allExpenses_belongs_group = singlegroupinfo.expenses
-    if (!allExpenses_belongs_group) return (
-        <div>No expense....</div>
-    )
-
-    console.log("here's all expenses when i click!!!!!: ", allExpenses_belongs_group)
 
     return (
         <>
@@ -59,8 +54,9 @@ function ExpensesListByGroup() {
 
 
                 <div className="line-5vh">
-                    {allExpenses_belongs_group.map(exp =>
+                    {allExpensesbyGroup.map(exp =>
                         <>
+                            {console.log("each of exp: ", exp)}
                             <div onClick={() => {
                                 setCurrentId(exp.id)
                                 setShowDetail(!showDetail)
@@ -71,8 +67,8 @@ function ExpensesListByGroup() {
                                     <div>{exp.expense_date}{exp.name} </div>
                                     <div>{exp.expense_total}</div>
                                     <div className="flx">
-
-                                        <div>{exp.billpayer.username}</div>
+                                        {exp.billpayer ? (<div>{exp.billpayer.username}</div>) : (<div></div>)}
+                                        {/* <div>{exp.billpayer.username}</div> */}
                                         <div>{exp.username}</div>
 
                                         <OpenModalButton
