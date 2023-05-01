@@ -22,6 +22,8 @@ function LeftPanel() {
 
     useEffect(() => {
         dispatch(groupsthunk.allGroupsthunk())
+        return () => dispatch(groupsthunk.clearGroupA())
+
     }, [dispatch])
 
     // useEffect(() => {
