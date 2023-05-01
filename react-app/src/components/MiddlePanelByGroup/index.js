@@ -63,7 +63,7 @@ function ExpensesListByGroup() {
                                 singleExpensehandler(exp.id)
 
                             }}>
-                                <div className="grid-3fr height-5vh expense-summary" id="summary">
+                                <div className="grid-3fr height-8vh expense-summary" id="summary">
                                     <div>{exp.expense_date}{exp.name} </div>
                                     <div>{exp.expense_total}</div>
                                     <div className="flx">
@@ -72,6 +72,7 @@ function ExpensesListByGroup() {
                                         <div>{exp.username}</div>
 
                                         <OpenModalButton
+                                            className={"height-max-40 mrg-t-10px mrg-l-20px"}
                                             buttonText={<i class="fas fa-trash-alt"></i>}
                                             modalComponent={<DeleteConfirmationModal expenseId={exp.id} type="delete expense" groupid={groupId} />}
                                         />

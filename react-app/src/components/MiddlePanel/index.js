@@ -88,6 +88,7 @@ function ExpensesList() {
 
                                             <div>{exp.username}</div>
                                             <OpenModalButton
+                                                className={"height-max-40 mrg-t-10px mrg-l-20px"}
                                                 buttonText={<i className="fas fa-trash-alt" />}
                                                 modalComponent={
                                                     <DeleteConfirmationModal

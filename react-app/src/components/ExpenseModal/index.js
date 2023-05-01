@@ -73,6 +73,10 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
         setGroup_id(e.target.value)
     }
 
+    function handleAlert() {
+        alert("Feature Coming Soon.....")
+    }
+
     return (
         <>
             <form onSubmit={handleSubmit}>
@@ -123,6 +127,7 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
 
                             </select>
                         </div>
+                        <button onClick={handleAlert}>Add bill payer</button>
                         {/* <div>
                             Bill Payer
                             <input

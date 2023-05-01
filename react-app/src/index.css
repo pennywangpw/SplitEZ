@@ -43,6 +43,14 @@ body {
     margin-right: 3rem;
 }
 
+.mrg-t-10px {
+    margin-top: 10px;
+}
+
+.mrg-l-20px {
+    margin-left: 20px;
+}
+
 .redwarning {
     color: red
 }
@@ -163,6 +171,10 @@ body {
     max-height: 15px;
 }
 
+.height-max-40 {
+    max-height: 40px;
+}
+
 .height-min {
     min-height: 100%;
 }
@@ -209,6 +221,10 @@ body {
 }
 
 /*============ className -width =============*/
+
+.width-100 {
+    width: 100%
+}
 
 .width-50 {
     width: 50%
@@ -290,6 +306,7 @@ body {
     font-size: 15px;
     line-height: normal;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 .btn:hover {
@@ -306,8 +323,6 @@ body {
     float: right
 }
 
-
-
 .btn-create button {
     background: #ff652f;
     color: #fff;
@@ -318,6 +333,32 @@ body {
     font-size: 15px;
     line-height: normal;
     border-radius: 5px;
+    cursor: pointer;
+}
+
+.detail button {
+    background: #ff652f;
+    color: #fff;
+    text-shadow: 0 -1px 0 #c83400;
+    padding: 2px 6px;
+    font-size: 11px;
+    line-height: 14px;
+    border-radius: 5px;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+}
+
+
+.comment button {
+    background: #ff652f;
+    color: #fff;
+    text-shadow: 0 -1px 0 #c83400;
+    padding: 2px 6px;
+    font-size: 11px;
+    line-height: 14px;
+    border-radius: 5px;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    cursor: pointer;
 }
 
 /*============ for log-in =============*/
@@ -372,4 +413,16 @@ body {
 .group-tag {
     background-color: #f6f6f6;
     border-radius: 5px;
+}
+
+
+/*============ Profile btn =============*/
+
+.profile-btn {
+    right: 0;
+    padding: 10px;
+    color: #000;
+    box-shadow: 0 0 3px #000;
+    border-radius: 5px;
+    background-color: white;
 }

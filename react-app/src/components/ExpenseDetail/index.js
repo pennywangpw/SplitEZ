@@ -29,10 +29,10 @@ function ExpenseDetail({ exp, setShowDetail }) {
     return (
         <>
             <div className="height-350px">
-                <div className="width-50">
+                <div className="height-50">
                     <div id="description">{exp.name}</div>
-                    <div id="description">{exp.expense_total}</div>
-                    <div>
+                    <div id="description">${exp.expense_total}</div>
+                    <div className="detail">
                         <OpenModalButton
                             buttonText="Edit expense"
                             modalComponent={<EditExpense expenseinfo={exp} setShowDetail={setShowDetail} />}
@@ -40,10 +40,14 @@ function ExpenseDetail({ exp, setShowDetail }) {
                     </div>
                 </div>
 
-                <div className=" width-50">
+
+                <div className=" height-50 flx">
+                    <div className="width-50">Who's in the group (coming soon)</div>
                     {/* <div className="width-50 height-100">ppl involved</div> */}
                     {/* <div className="width-50 height-100">comments</div> */}
-                    <button onClick={handleAlert}>comments</button>
+                    <div className="comment width-100">
+                        <button className=" width-50" onClick={handleAlert}>comments</button>
+                    </div>
                 </div>
             </div>
         </>
