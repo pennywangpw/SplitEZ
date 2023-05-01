@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { signUp } from "../../store/session";
@@ -13,7 +13,21 @@ function SignupFormPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [frontendErrors, setFrontendErrors] = useState([])
   const [errors, setErrors] = useState([]);
+
+  // frontend validation
+  let frontendValidation = []
+  useEffect(() => {
+    if (email.length === 0) frontendValidation.push("Email is required")
+    if (username.length < 4) frontendValidation.push("Username at least 4 characters")
+    if (username.length > 10) frontendValidation.push("Username no more than 10 characters")
+    if (password.length === 0) frontendValidation.push("Password is required")
+    if (password && password.length < 4) frontendValidation.push("Password at least 4 characters")
+    if (password && password.length > 8) frontendValidation.push("Password no more than 8 characters")
+
+    setFrontendErrors(frontendValidation)
+  }, [email, username, password])
 
   if (sessionUser) return <Redirect to="/all" />;
 
@@ -29,6 +43,7 @@ function SignupFormPage() {
     }
   };
 
+
   return (
     <>
       <div className="backgroud-img height-88vh">
@@ -38,6 +53,9 @@ function SignupFormPage() {
           <div>
 
             <form onSubmit={handleSubmit} className="login-signup height-8vh line-5vh">
+              <ul>
+                {frontendErrors.map((error, idx) => <li key={idx}>{error}</li>)}
+              </ul>
               <ul>
                 {errors.map((error, idx) => <li key={idx}>{error}</li>)}
               </ul>
@@ -77,7 +95,7 @@ function SignupFormPage() {
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 className="width-50"
               />
-              <button type="submit" className="width-50 margin-top25px" >Sign Up</button>
+              <button type="submit" className="width-50 margin-top25px" disabled={frontendErrors.length > 0} >Sign Up</button>
             </form>
           </div>
         </div>

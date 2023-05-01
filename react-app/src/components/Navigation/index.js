@@ -9,11 +9,11 @@ function Navigation({ isLoaded }) {
 	const sessionUser = useSelector(state => state.session.user);
 
 	return (
-		<div className='bg-5cc5a7 pad-tb-25p color-white '>
+		<div className='bg-5cc5a7 pad-tb-25p'>
 
 			{isLoaded && !sessionUser && (
 				<ul className='flx-jc-fe mrg20p '>
-					<li className='flx gap15p fontS-125rem color-white-ef2'>
+					<li className='flx gap15p fontS-125rem color-white'>
 
 						<div className='width-50 '>
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { login } from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useHistory } from "react-router-dom";
@@ -10,7 +10,17 @@ function LoginFormPage() {
   const sessionUser = useSelector((state) => state.session.user);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [frontendErrors, setFrontendErrors] = useState([])
   const [errors, setErrors] = useState([]);
+
+  // frontend validation
+  let frontendValidation = []
+  useEffect(() => {
+    if (email.length === 0) frontendValidation.push("Email is required")
+    if (password.length === 0) frontendValidation.push("Password is required")
+
+    setFrontendErrors(frontendValidation)
+  }, [email, password])
 
   if (sessionUser) return <Redirect to="/" />;
 
@@ -59,7 +69,7 @@ function LoginFormPage() {
               />
             </div>
             <div className="flx-col">
-              <button type="submit" className="width-50 margin-top25px">Log In</button>
+              <button type="submit" className="width-50 margin-top25px" disabled={frontendErrors.length > 0}>Log In</button>
               <button type="sibmit" className="width-50 margin-top25px" onClick={() => {
                 setEmail('demo@aa.io')
                 setPassword('password')

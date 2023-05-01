@@ -79,7 +79,7 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
 
     return (
         <>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="modal">
                 {console.log("來看看render 幾次")}
                 <div className="flx-col width-350px height-350px line-h70">
                     <header className=" bg-5cc5a7 line-h50">{type === "create" ? "Create an expense" : "Edit expense"}</header>
@@ -123,7 +123,7 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
 
                                 <option value="">--Please choose an group--</option>
                                 <option value="0">(No group) Move to All expenses</option>
-                                {allGroupsArr.map(group => <option value={group.id}>{group.name}</option>)}
+                                {allGroupsArr.map(group => <option value={group.id} selected={expenseinfo.group_id === group.id}>{group.name}</option>)}
 
                             </select>
                         </div>
