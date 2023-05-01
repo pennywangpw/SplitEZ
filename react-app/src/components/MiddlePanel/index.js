@@ -37,7 +37,7 @@ function ExpensesList() {
 
                 <div className="flx line-h70 bg-maim-eee border-top-main border-bottom-main fontS-13px">
                     <div className="fontS-220rem width-50">All expenses</div>
-                    <div className="testing-bg">
+                    <div className="btn-create">
                         <OpenModalButton
                             buttonText="Add an expense"
                             modalComponent={<CreateExpense />}
@@ -67,13 +67,18 @@ function ExpensesList() {
                                         className="grid-3fr height-8vh expense-summary "
                                         id="summary"
                                     >
-                                        <div className="flx-col">
-                                            <div>
+                                        <div id="main-block" className="flx">
+                                            <div id="date">
                                                 {exp.expense_date}
-                                                {exp.name}
                                             </div>
-                                            {console.log("it's not working?? ", allGroupsArr, exp.group_id)}
-                                            {allGroupsIdArr.includes(exp.group_id) ? (<div>{allGroups[exp.group_id].name}</div>) : (<div></div>)}
+                                            <img className="img-size" src={"https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/uncategorized/general@2x.png"} alt="img" />
+                                            <div className="flx-col line-4vh">
+                                                <div id="expense-name">
+                                                    {exp.name}
+                                                </div>
+
+                                                {allGroupsIdArr.includes(exp.group_id) ? (<div id="expense-group" className="group-tag">{allGroups[exp.group_id].name}</div>) : (<div></div>)}
+                                            </div>
 
                                         </div>
                                         <div>{exp.expense_total}</div>

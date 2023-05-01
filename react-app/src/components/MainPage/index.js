@@ -10,7 +10,7 @@ function MainPage({ type }) {
 
 
     return (
-        <div className="grid-3fr height-88vh fontS-13px height-18px">
+        <div className="grid-3fr height-88vh fontS-13px height-18px height-min ">
             <LeftPanel />
             {type === "group" ? <ExpensesListByGroup /> : <ExpensesList />}
             <RightPanel />

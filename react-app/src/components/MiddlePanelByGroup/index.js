@@ -36,9 +36,9 @@ function ExpensesListByGroup() {
     return (
         <>
             <div className="shadow">
-                <div className="flx line-h70 ">
+                <div className="flx line-h70 bg-maim-eee border-top-main border-bottom-main fontS-13px ">
                     <div className="fontS-220rem width-50">{singlegroupinfo.name}</div>
-                    <div>
+                    <div className="btn-create button">
                         <OpenModalButton
                             buttonText="Add an expense"
                             modalComponent={<CreateExpense />}

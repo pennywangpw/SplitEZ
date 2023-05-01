@@ -90,13 +90,7 @@ body {
 
 }
 
-.testing-bg {
-    background-color: red;
-}
 
-.testing-bg button {
-    background-color: orange;
-}
 
 /* .color-white {
     color: white;
@@ -132,6 +126,10 @@ body {
     line-height: 5vh;
 }
 
+.line-4vh {
+    line-height: 4vh;
+}
+
 .height-3vh {
     height: 3vh;
 }
@@ -143,6 +141,10 @@ body {
 
 .height-8vh {
     height: 8vh;
+}
+
+.height-50vh {
+    height: 50vh;
 }
 
 .height-88vh {
@@ -160,6 +162,11 @@ body {
 .height-max-15 {
     max-height: 15px;
 }
+
+.height-min {
+    min-height: 100%;
+}
+
 
 .fontS-220rem {
     font-size: 2.2rem;
@@ -233,7 +240,9 @@ body {
     margin-right: 3rem;
 }
 
-
+.color-white-ef2 {
+    color: var(--white-ef2)
+}
 
 #error {
     min-height: 30px;
@@ -277,6 +286,10 @@ body {
 
 .btn {
     transition-duration: 0.4s;
+    padding: 9px 14px;
+    font-size: 15px;
+    line-height: normal;
+    border-radius: 5px;
 }
 
 .btn:hover {
@@ -294,6 +307,19 @@ body {
 }
 
 
+
+.btn-create button {
+    background: #ff652f;
+    color: #fff;
+    text-shadow: 0 -1px 0 #c83400;
+    display: inline-block;
+    vertical-align: middle;
+    padding: 9px 14px;
+    font-size: 15px;
+    line-height: normal;
+    border-radius: 5px;
+}
+
 /*============ for log-in =============*/
 .login-signup {
     display: flex;
@@ -303,4 +329,47 @@ body {
 
 .width-50 {
     width: 50%;
+}
+
+
+.form-format {
+    width: 50%;
+    margin: auto;
+}
+
+.margin-top25px {
+    margin-top: 25px;
+}
+
+/*============ background img =============*/
+
+.backgroud-img {
+    background-image: url("../src/components/SplashPage/background.png");
+}
+
+/*============ splash page =============*/
+.welcome {
+    width: 50%;
+    margin: auto;
+}
+
+
+/*============ Navigation bar =============*/
+.fontS-125rem {
+    font-size: 1.25rem;
+}
+
+
+
+.img-size {
+    width: 20px;
+    height: 20px
+}
+
+/*============ Group tag =============*/
+
+
+.group-tag {
+    background-color: #f6f6f6;
+    border-radius: 5px;
 }

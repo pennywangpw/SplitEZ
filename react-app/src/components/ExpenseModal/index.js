@@ -118,6 +118,7 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
                             <select name="groups" id="group" onChange={groupIdhandler}>
 
                                 <option value="">--Please choose an group--</option>
+                                <option value="0">(No group) Move to All expenses</option>
                                 {allGroupsArr.map(group => <option value={group.id}>{group.name}</option>)}
 
                             </select>
