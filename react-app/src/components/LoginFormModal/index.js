@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { login } from "../../store/session";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
@@ -12,6 +12,15 @@ function LoginFormModal() {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
   const { closeModal } = useModal();
+
+
+  // validation for expense name (description)
+  useEffect(() => {
+    let e = []
+    if (email.length < 0) e.push("Please provide description")
+    if (password.length < 0) e.push("Please provide description")
+    setErrors(e)
+  }, [email, password])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -51,7 +60,7 @@ function LoginFormModal() {
             required
           />
         </label>
-        <button type="submit">Log In</button>
+        <button type="submit" >Log In</button>
       </form>
     </>
   );

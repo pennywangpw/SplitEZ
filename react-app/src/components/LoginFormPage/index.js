@@ -26,46 +26,47 @@ function LoginFormPage() {
 
   return (
     <>
-      <div>
-        <h1>Log In</h1>
-        <form onSubmit={handleSubmit} className="login-signup height-8vh ">
-          <ul>
-            {errors.map((error, idx) => (
-              <li key={idx}>{error}</li>
-            ))}
-          </ul>
-          <label>
-            Email
-          </label>
-          <div>
-            <input
-              type="text"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="width-50"
-            />
-          </div>
-          <label>
-            Password
-          </label>
-          <div>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="width-50"
-            />
-          </div>
-          <div className="flx-col">
-            <button type="submit" className="width-50">Log In</button>
-            <button type="sibmit" className="width-50" onClick={() => {
-              setEmail('demo@aa.io')
-              setPassword('password')
-            }}>Log in as Demo User</button>
-          </div>
-        </form>
+      <div className="backgroud-img height-88vh">
+        <div className="height-50vh form-format">
+
+          <h1>Log In</h1>
+          <form onSubmit={handleSubmit} className="login-signup height-8vh line-5vh ">
+            <ul>
+              {errors.map((error, idx) => (
+                <li key={idx}>{error}</li>
+              ))}
+            </ul>
+            <label>
+              Email
+            </label>
+            <div>
+              <input
+                type="text"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="width-50"
+              />
+            </div>
+            <label>
+              Password
+            </label>
+            <div>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="width-50"
+              />
+            </div>
+            <div className="flx-col">
+              <button type="submit" className="width-50 margin-top25px">Log In</button>
+              <button type="sibmit" className="width-50 margin-top25px" onClick={() => {
+                setEmail('demo@aa.io')
+                setPassword('password')
+              }}>Log in as Demo User</button>
+            </div>
+          </form>
+        </div>
       </div>
     </>
   );

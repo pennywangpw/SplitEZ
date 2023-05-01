@@ -1,6 +1,8 @@
 /* TODO Add site wide styles */
 
-
+body {
+    margin: 0
+}
 
 .flx {
     display: flex;
@@ -39,6 +41,14 @@
 
 .mrg-r-3rem {
     margin-right: 3rem;
+}
+
+.mrg-t-10px {
+    margin-top: 10px;
+}
+
+.mrg-l-20px {
+    margin-left: 20px;
 }
 
 .redwarning {
@@ -88,9 +98,7 @@
 
 }
 
-.testing-bg {
-    background-color: red;
-}
+
 
 /* .color-white {
     color: white;
@@ -126,6 +134,10 @@
     line-height: 5vh;
 }
 
+.line-4vh {
+    line-height: 4vh;
+}
+
 .height-3vh {
     height: 3vh;
 }
@@ -137,6 +149,10 @@
 
 .height-8vh {
     height: 8vh;
+}
+
+.height-50vh {
+    height: 50vh;
 }
 
 .height-88vh {
@@ -154,6 +170,15 @@
 .height-max-15 {
     max-height: 15px;
 }
+
+.height-max-40 {
+    max-height: 40px;
+}
+
+.height-min {
+    min-height: 100%;
+}
+
 
 .fontS-220rem {
     font-size: 2.2rem;
@@ -197,6 +222,10 @@
 
 /*============ className -width =============*/
 
+.width-100 {
+    width: 100%
+}
+
 .width-50 {
     width: 50%
 }
@@ -227,7 +256,9 @@
     margin-right: 3rem;
 }
 
-
+.color-white-ef2 {
+    color: var(--white-ef2)
+}
 
 #error {
     min-height: 30px;
@@ -271,6 +302,11 @@
 
 .btn {
     transition-duration: 0.4s;
+    padding: 9px 14px;
+    font-size: 15px;
+    line-height: normal;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 .btn:hover {
@@ -287,6 +323,43 @@
     float: right
 }
 
+.btn-create button {
+    background: #ff652f;
+    color: #fff;
+    text-shadow: 0 -1px 0 #c83400;
+    display: inline-block;
+    vertical-align: middle;
+    padding: 9px 14px;
+    font-size: 15px;
+    line-height: normal;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.detail button {
+    background: #ff652f;
+    color: #fff;
+    text-shadow: 0 -1px 0 #c83400;
+    padding: 2px 6px;
+    font-size: 11px;
+    line-height: 14px;
+    border-radius: 5px;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+}
+
+
+.comment button {
+    background: #ff652f;
+    color: #fff;
+    text-shadow: 0 -1px 0 #c83400;
+    padding: 2px 6px;
+    font-size: 11px;
+    line-height: 14px;
+    border-radius: 5px;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+}
 
 /*============ for log-in =============*/
 .login-signup {
@@ -297,4 +370,59 @@
 
 .width-50 {
     width: 50%;
+}
+
+
+.form-format {
+    width: 50%;
+    margin: auto;
+}
+
+.margin-top25px {
+    margin-top: 25px;
+}
+
+/*============ background img =============*/
+
+.backgroud-img {
+    background-image: url("../src/components/SplashPage/background.png");
+}
+
+/*============ splash page =============*/
+.welcome {
+    width: 50%;
+    margin: auto;
+}
+
+
+/*============ Navigation bar =============*/
+.fontS-125rem {
+    font-size: 1.25rem;
+}
+
+
+
+.img-size {
+    width: 20px;
+    height: 20px
+}
+
+/*============ Group tag =============*/
+
+
+.group-tag {
+    background-color: #f6f6f6;
+    border-radius: 5px;
+}
+
+
+/*============ Profile btn =============*/
+
+.profile-btn {
+    right: 0;
+    padding: 10px;
+    color: #000;
+    box-shadow: 0 0 3px #000;
+    border-radius: 5px;
+    background-color: white;
 }

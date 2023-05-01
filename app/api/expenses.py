@@ -104,6 +104,8 @@ def updatedExpense(id):
     if form.validate_on_submit():
         updatedexpense.name = form.data['name']
         updatedexpense.expense_total = form.data['expense_total']
+        updatedexpense.group_id = form.data['group_id']
+
         db.session.commit()
         updatedexpenseDict = updatedexpense.to_dict()
         return updatedexpenseDict

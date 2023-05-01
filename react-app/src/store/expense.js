@@ -153,6 +153,7 @@ export const updateExpense = (expenseid, payload) => async (dispatch) => {
     })
     if (response.ok) {
         const data = await response.json();
+        console.log("#######check i got in updateexpense thunk: ", data)
         dispatch(updateExpenseA(data));
     };
     return response

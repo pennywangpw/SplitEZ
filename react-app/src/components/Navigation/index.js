@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import './Navigation.css';
 
+
 function Navigation({ isLoaded }) {
 	const sessionUser = useSelector(state => state.session.user);
 
@@ -12,20 +13,22 @@ function Navigation({ isLoaded }) {
 
 			{isLoaded && !sessionUser && (
 				<ul className='flx-jc-fe mrg20p '>
-					<li className='flx gap15p'>
-						<div className='width-50'>
-							<NavLink exact to="/">SplitEZ</NavLink>
+					<li className='flx gap15p fontS-125rem color-white-ef2'>
+
+						<div className='width-50 '>
+
+							<NavLink exact to="/" style={{ textDecoration: 'none' }}>SplitEZ</NavLink>
 						</div>
 
-						<div className='width-50 flx gap15p'>
+						<div className='width-50 flx gap15p '>
 							<div>
-								<NavLink to='/login' className={"color-white-ef2 fontS-125rem"}>
+								<NavLink to='/login' style={{ textDecoration: 'none' }}>
 									Login
 								</NavLink>
 							</div>
 
 							<div>
-								<NavLink to='/signup' className={"color-white-ef2 fontS-125rem border-white-ef2 borderR-5p pad-tb-5p pad-lr-10p"}>
+								<NavLink to='/signup' style={{ textDecoration: 'none' }}>
 									Sign up
 								</NavLink>
 							</div>
@@ -40,10 +43,10 @@ function Navigation({ isLoaded }) {
 			{isLoaded && sessionUser && (
 
 				<>
-					<div className='flx-jc-sb mrg-l-7rem mrg-r-3rem'>
-						<Link to="/all"
-							className='color-white-ef2 fontS-125rem va-center'
-						>SplitEZ</Link>
+					<div className='flx-jc-sb mrg-l-7rem mrg-r-3rem fontS-125rem '>
+						<Link to="/all" style={{ textDecoration: 'none' }} >
+							SplitEZ
+						</Link>
 
 						{/* <div className='flx'>
 							<form onSubmit={handleSearch} className='bg-blue-0cc pad8p borderR-5p'>
