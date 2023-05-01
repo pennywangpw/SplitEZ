@@ -100,9 +100,9 @@ body {
 
 
 
-/* .color-white {
+.color-white {
     color: white;
-} */
+}
 
 .bg-blue-0bf {
     background-color: var(--blue-0bf);
@@ -161,6 +161,10 @@ body {
 
 .height-2-5vh {
     height: 2.5vh;
+}
+
+.height-150px {
+    height: 150px;
 }
 
 .height-18px {
@@ -415,6 +419,16 @@ body {
     border-radius: 5px;
 }
 
+.modal-group {
+    background-color: #fff;
+    width: 350px;
+    border: 1px solid #999;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    border-radius: 5px;
+    height: 180px;
+
+}
 
 /*============ Profile btn =============*/
 
@@ -425,4 +439,16 @@ body {
     box-shadow: 0 0 3px #000;
     border-radius: 5px;
     background-color: white;
+}
+
+
+.modal-delete {
+    background-color: #fff;
+    width: 500px;
+    border: 1px solid #999;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    border-radius: 5px;
+    height: 200px;
+
 }

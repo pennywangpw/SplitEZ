@@ -31,6 +31,12 @@ function ExpensesList() {
         dispatch(expensesthunk.singleExpense(id))
     }
 
+    let allExpensesinArr;
+    if (Object.values(allExpenses).length > 0) {
+        allExpensesinArr = Object.values(allExpenses)
+        allExpensesinArr.sort((a, b) => b.id - a.id)
+    }
+
     return (
         <>
             <div className="shadow">
@@ -55,7 +61,7 @@ function ExpensesList() {
                 {Object.keys(allExpenses).length === 0 ?
                     (<div>No Expenses....</div>) :
                     (<div className="line-5vh">
-                        {Object.values(allExpenses).map(exp =>
+                        {allExpensesinArr.map(exp =>
                             <>
                                 <div key={exp.id}>
                                     <div

@@ -15,7 +15,8 @@ function DeleteConfirmationModal({ expenseId, type, groupid }) {
 
     const deletehandler = () => {
         if (type === "delete expense") {
-            dispatch(expensesthunk.deleteExpense(expenseId)).then(() => dispatch(groupsthunk.singleGroupthunk(groupid))).then(closeModal)
+            dispatch(expensesthunk.deleteExpense(expenseId)).then(closeModal)
+            // dispatch(expensesthunk.deleteExpense(expenseId)).then(() => dispatch(groupsthunk.singleGroupthunk(groupid))).then(closeModal)
         } else if (type === "delete group") {
             dispatch(groupsthunk.deleteGroupthunk(groupid)).then(() => dispatch(expensesthunk.allExpenses())).then(closeModal)
             history.push('/all')
@@ -33,7 +34,7 @@ function DeleteConfirmationModal({ expenseId, type, groupid }) {
     }
 
     return (
-        <div className="width-350px height-350px">
+        <div className="modal-delete modal-delete ">
             <header className="bg-5cc5a7">
                 Delete confirmation
             </header>

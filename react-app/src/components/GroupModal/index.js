@@ -39,7 +39,7 @@ function GroupModal({ type, name, id }) {
 
     return (
         <>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="modal-group">
                 <div className="width-350px height-350px">
                     {type === "create group" ? (<header className="bg-5cc5a7">Add an group</header>) :
                         (<header className="bg-5cc5a7">Rename the group</header>)}
