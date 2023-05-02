@@ -105,12 +105,16 @@ def createGroup():
     form['csrf_token'].data = request.cookies['csrf_token']
 
     if form.validate_on_submit():
+        '''create a new group and store in db'''
         new_group = Group(
             name= form.data['name']
         )
         db.session.add(new_group)
         db.session.commit()
-        print(f'this is create new_group {new_group}')
+
+        '''append current_user table to users columns'''
+        new_group.users.append(current_user)
+        db.session.commit()
         return new_group.to_dict()
     return "Bad Data"
 
