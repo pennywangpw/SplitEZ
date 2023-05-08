@@ -16,11 +16,16 @@ function ExpenseDetail({ exp, setShowDetail, allCommentsArr }) {
     const [comment, setComment] = useState("");
     const expenseId = exp.id
 
-    //alert function for comment button
+    //create comment handler
     function createCommentHandler() {
         let payload = { comment, expenseId }
         dispatch(commentsthunk.createComments(payload))
+    }
 
+
+    //delete comment handler
+    function deleteCommentHandler(expenseId) {
+        dispatch(commentsthunk.deleteComments(expenseId))
     }
 
     // if (!aExpanse) return null
@@ -49,13 +54,18 @@ function ExpenseDetail({ exp, setShowDetail, allCommentsArr }) {
                     {/* <div className="width-50 height-100">ppl involved</div> */}
                     {/* <div className="width-50 height-100">comments</div> */}
                     <div className="comment width-100">
-                        <div className=" width-50">
+                        <div >
                             {allCommentsArr.map(comment =>
                                 <div>
-                                    <div className="font-weight">{comment.user.username}</div>
+                                    <div className="flx">
+                                        <div className="font-weight">{comment.user.username}</div>
+                                        <div className="margin-30px-auto btn-add float-r btn" onClick={deleteCommentHandler}>
+                                            <i class="fas fa-times"></i>
+                                        </div>
+                                    </div>
+
                                     <div className="flx">
                                         <div>{comment.comment}</div>
-                                        <i class="fas fa-times"></i>
                                     </div>
 
                                 </div>)}

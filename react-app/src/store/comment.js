@@ -1,6 +1,8 @@
 const GETALLCOMMENTS = 'comments/ALL_COMMENTS';
 const CLEARCOMMENT = 'comments/CLEAR_COMMENTS';
 const CREATECOMMENT = 'comments/CREATE_COMMENTS';
+const DELETECOMMENT = 'comments/DELETE_COMMENTS';
+
 
 
 
@@ -26,6 +28,16 @@ export const createCommentsA = (obj) => {
     console.log("this is action creator--create comments")
     return {
         type: CREATECOMMENT,
+        obj
+    }
+}
+
+
+
+export const deleteCommentA = (obj) => {
+    console.log("this is action creator--DELETE comments")
+    return {
+        type: DELETECOMMENT,
         obj
     }
 }
@@ -63,6 +75,16 @@ export const createComments = (payload) => async (dispatch) => {
 }
 
 
+export const deleteComments = (expenseId) => async (dispatch) => {
+    const response = await fetch(`/api/comments/${expenseId}`, {
+        method: 'DELETE'
+    })
+    if (response.ok) {
+        const data = await response.json();
+        dispatch(deleteCommentA(data));
+    };
+    return response
+}
 
 
 

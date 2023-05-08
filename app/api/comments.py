@@ -56,3 +56,17 @@ def createComment(id):
         print(f'this is create new_comment {new_comment}')
         return new_comment.to_dict()
     return "Bad Data"
+
+
+
+#delete a comment
+@comments.route('/<int:id>', methods=['DELETE'])
+@login_required
+def deleteComment(id):
+    deletecomment = Comment.query.get(id)
+    deletecommentDict = deletecomment.to_dict()
+    print(f"delete a comment : {deletecommentDict}" )
+    db.session.delete(deletecomment)
+
+    db.session.commit()
+    return deletecommentDict
