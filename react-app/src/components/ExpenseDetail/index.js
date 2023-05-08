@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as expensesthunk from "../../store/expense"
 import * as commentsthunk from "../../store/comment"
@@ -13,23 +13,13 @@ function ExpenseDetail({ exp, setShowDetail, allCommentsArr }) {
     // console.log("ExpenseDetail with passed currentid: ", typeof currentId, currentId, setShowDetail)
     // const allComments = useSelector((state) => state.comments.allComments)
     const dispatch = useDispatch()
-
+    const [comment, setComment] = useState("");
     const expenseId = exp.id
 
-    // console.log("ExpenseDetail try to get a allComments: ", expenseId, allComments)
-    // const allCommentsArr = Object.values(allComments)
-    // console.log("ExpenseDetail convert into array: ", allCommentsArr)
-
-    // useEffect(() => {
-    //     dispatch(commentsthunk.allComments(expenseId))
-    //     return () => dispatch(commentsthunk.clearCommentA())
-
-    // }, [dispatch, expenseId])
-
-
     //alert function for comment button
-    function handleAlert() {
-        dispatch(commentsthunk.createComments(expenseId))
+    function createCommentHandler() {
+        let payload = { comment, expenseId }
+        dispatch(commentsthunk.createComments(payload))
 
     }
 
@@ -40,10 +30,10 @@ function ExpenseDetail({ exp, setShowDetail, allCommentsArr }) {
 
     return (
         <>
-            <div className="height-350px">
+            <div>
                 <div className="height-50">
-                    <div id="description">{exp.name}</div>
-                    <div id="description">${exp.expense_total}</div>
+                    <h3 id="description">{exp.name}</h3>
+                    <div >${exp.expense_total}</div>
                     <div className="detail">
 
                         <OpenModalButton
@@ -54,15 +44,30 @@ function ExpenseDetail({ exp, setShowDetail, allCommentsArr }) {
                 </div>
 
 
-                <div className=" height-50 flx">
+                <div className=" height-50 border-bottom-main flx">
                     <div className="width-50">Who's in the group (coming soon)</div>
                     {/* <div className="width-50 height-100">ppl involved</div> */}
                     {/* <div className="width-50 height-100">comments</div> */}
                     <div className="comment width-100">
                         <div className=" width-50">
-                            {allCommentsArr.map(comment => <div>{comment.comment}</div>)}
+                            {allCommentsArr.map(comment =>
+                                <div>
+                                    <div className="font-weight">{comment.user.username}</div>
+                                    <div className="flx">
+                                        <div>{comment.comment}</div>
+                                        <i class="fas fa-times"></i>
+                                    </div>
+
+                                </div>)}
                         </div>
-                        <button className=" width-50" onClick={handleAlert}>comments</button>
+                        <div className="flx-col font-grey">
+                            <i class="fa-solid fa-messages "></i>
+                            NOTES AND COMMENTS
+                            <label>
+                                <textarea placeholder="Add a comment" rows="2" value={comment} onChange={(e) => setComment(e.target.value)}></textarea>
+                            </label>
+                        </div>
+                        <button className=" width-50" onClick={createCommentHandler}>Post</button>
                     </div>
                 </div>
             </div>

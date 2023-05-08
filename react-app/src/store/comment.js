@@ -45,9 +45,15 @@ export const allComments = (expenseId) => async (dispatch) => {
     }
 }
 
-export const createComments = (expenseId) => async (dispatch) => {
-
-    const response = await fetch(`/api/comments/${expenseId}/allcomments`)
+export const createComments = (payload) => async (dispatch) => {
+    console.log("這裡是createcomment的payload: ", payload, typeof payload.expenseId)
+    const response = await fetch(`/api/comments/${payload.expenseId}/allcomments`, {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload)
+    })
 
     if (response.ok) {
         const data = await response.json()
