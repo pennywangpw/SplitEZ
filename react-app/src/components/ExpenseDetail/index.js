@@ -8,7 +8,7 @@ import DeleteConfirmationModal from "../DeleteConfirmationModal"
 import OpenModalButton from "../OpenModalButton";
 
 function ExpenseDetail({ exp, setShowDetail, allCommentsArr }) {
-    console.log("exp detail here: ", exp)
+    console.log("exp detail here: ", exp, allCommentsArr)
     // console.log("ExpenseDetail with passed currentid: ", typeof currentId, currentId, setShowDetail)
     // const allComments = useSelector((state) => state.comments.allComments)
     const dispatch = useDispatch()
@@ -39,7 +39,8 @@ function ExpenseDetail({ exp, setShowDetail, allCommentsArr }) {
     // if (!aExpanse) return null
     if (!exp) return null
 
-    // if (allCommentsArr.length === 0) return null
+    // if allcomment passed in with undefined
+    if (allCommentsArr === undefined) return null
 
     return (
         <>
