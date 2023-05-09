@@ -3,12 +3,13 @@ import { useModal } from "../../context/Modal";
 import { useSelector, useDispatch } from 'react-redux';
 import * as expensesthunk from "../../store/expense"
 import * as groupsthunk from "../../store/group"
+import * as commentsthunk from "../../store/comment"
 import { useHistory } from "react-router-dom";
 
 
 
-function DeleteConfirmationModal({ expenseId, type, groupid }) {
-    console.log("this is delete modal with expenseId: ", expenseId, type, groupid)
+function DeleteConfirmationModal({ expenseId, type, groupid, commentid }) {
+    console.log("this is delete modal with expenseId: ", expenseId, type, groupid, commentid)
     const dispatch = useDispatch()
     const history = useHistory()
     const { closeModal } = useModal()
@@ -22,6 +23,9 @@ function DeleteConfirmationModal({ expenseId, type, groupid }) {
             history.push('/all')
             // dispatch(groupsthunk.deleteGroupthunk(groupid)).then(() => dispatch(groupsthunk.allGroupsthunk())).then(closeModal)
 
+        } else if (type === "delete comment") {
+            dispatch(commentsthunk.deleteComments(commentid)).then(() => dispatch(commentsthunk.allComments(expenseId))).then(closeModal)
+
         }
     }
 
@@ -31,6 +35,8 @@ function DeleteConfirmationModal({ expenseId, type, groupid }) {
         deleteitem = "expense"
     } else if (type === "delete group") {
         deleteitem = "group"
+    } else if (type === "delete comment") {
+        deleteitem = "comment"
     }
 
     return (
@@ -40,17 +46,17 @@ function DeleteConfirmationModal({ expenseId, type, groupid }) {
             </header>
             <div>
                 Are you sure you want to delete this {deleteitem}?
-                {type === "delete expense" ? (
+                {type === "delete expense" && (
                     <div>
                         This will completely remove this {deleteitem} for ALL people involved, not just you.
                     </div>
-                ) :
-                    (
-                        <div>
-                            This will completely remove this {deleteitem} for ALL expenses involved.
-                        </div>
-                    )
-                }
+                )}
+                {type === "delete group" && (
+                    <div>
+                        This will completely remove this {deleteitem} for ALL expenses involved.
+                    </div>
+                )}
+
 
             </div>
             <button onClick={deletehandler}>Yes</button>

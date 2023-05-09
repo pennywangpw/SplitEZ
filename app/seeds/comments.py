@@ -3,9 +3,9 @@ from sqlalchemy.sql import text
 
 
 def seed_comments():
-    comment1 = Comment(comment='this is testing')
-    comment2 = Comment(comment="Don't buy any snacks")
-    comment3 = Comment(comment='The bread is yum!')
+    comment1 = Comment(comment='this is testing', user_id=1,expense_id= 1)
+    comment2 = Comment(comment="Don't buy any snacks", user_id=2, expense_id=1)
+    comment3 = Comment(comment='The bread is yum!',user_id=3, expense_id=2)
 
 
     db.session.add(comment1)

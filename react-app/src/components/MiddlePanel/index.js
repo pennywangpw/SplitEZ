@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import OpenModalButton from "../OpenModalButton";
 import * as expensesthunk from "../../store/expense"
+import * as commentsthunk from "../../store/comment"
 import DeleteConfirmationModal from "../DeleteConfirmationModal"
 import CreateExpense from "../CreateExpense"
 import ExpenseDetail from "../ExpenseDetail"
@@ -14,6 +15,8 @@ function ExpensesList() {
     const allExpenses = useSelector((state) => state.expenses.allExpenses);
     const allGroups = useSelector((state) => state.groups.allGroups);
     const currentuser = useSelector((state) => state.session.user);
+    const allComments = useSelector((state) => state.comments.allComments)
+    console.log("確認一下在LOADING Middle 時抓到的Expenses comment run幾次:  ", allComments)
 
     //get group id from allGroups
     let allGroupsArr = Object.values(allGroups)
@@ -27,10 +30,23 @@ function ExpensesList() {
         return () => dispatch(expensesthunk.clearExpensesA())
     }, [dispatch])
 
+
+
     const singleExpensehandler = (id) => {
         dispatch(expensesthunk.singleExpense(id))
     }
 
+    //when the user click the expense summary fetch backend to get allcomments under the clicked expenseid
+    const loadCommentshandler = (id) => {
+        dispatch(commentsthunk.allComments(id))
+        dispatch(commentsthunk.clearCommentA())
+    }
+
+    //convert allcomments into array
+    const allCommentsArr = Object.values(allComments)
+    console.log("allCommentsArr convert into array: ", allCommentsArr)
+
+    //change the order of allExpensesinArr by descending
     let allExpensesinArr;
     if (Object.values(allExpenses).length > 0) {
         allExpensesinArr = Object.values(allExpenses)
@@ -69,6 +85,7 @@ function ExpensesList() {
                                             setCurrentId(exp.id);
                                             setShowDetail(!showDetail)
                                             singleExpensehandler(exp.id)
+                                            loadCommentshandler(exp.id)
                                         }}
                                         className="grid-3fr height-8vh expense-summary "
                                         id="summary"
@@ -115,6 +132,7 @@ function ExpensesList() {
                                             exp={exp}
                                             // currentId={currentId}
                                             setShowDetail={setShowDetail}
+                                            allCommentsArr={allCommentsArr}
                                         />
                                     </div>
 
