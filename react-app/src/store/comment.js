@@ -119,9 +119,10 @@ const commentsReducer = (state = initialState, action) => {
             return newState2
 
         case CREATECOMMENT:
-            let newState3 = { allComments: { ...state.allComments }, singleComment: { ...state.singleComment } };
+            let newState3 = { ...state, allComments: { ...state.allComments }, singleComment: { ...state.singleComment } };
             let newComment = action.obj
             newState3.allComments[newComment.id] = newComment
+
             return newState3
 
         case DELETECOMMENT:

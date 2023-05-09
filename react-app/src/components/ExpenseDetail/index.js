@@ -2,11 +2,10 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as expensesthunk from "../../store/expense"
 import * as commentsthunk from "../../store/comment"
-
-import OpenModalButton from "../OpenModalButton";
 import ExpenseModal from "../ExpenseModal"
 import EditExpense from "../EditExpense"
-
+import DeleteConfirmationModal from "../DeleteConfirmationModal"
+import OpenModalButton from "../OpenModalButton";
 
 function ExpenseDetail({ exp, setShowDetail, allCommentsArr }) {
     console.log("exp detail here: ", exp)
@@ -19,20 +18,23 @@ function ExpenseDetail({ exp, setShowDetail, allCommentsArr }) {
     //create comment handler
     function createCommentHandler() {
         let payload = { comment, expenseId }
+        console.log("create comment payload: ", payload)
         dispatch(commentsthunk.createComments(payload))
+        dispatch(commentsthunk.allComments(expenseId))
+
     }
 
 
-    //delete comment handler
-    function deleteCommentHandler(comment) {
-        console.log("delete comment handler with passed in comment: ", comment)
-        let commentId = comment.id
+    // //delete comment handler
+    // function deleteCommentHandler(comment) {
+    //     console.log("delete comment handler with passed in comment: ", comment)
+    //     let commentId = comment.id
 
-        console.log("delete comment handler with passed in comment2: ", commentId)
-        dispatch(commentsthunk.deleteComments(commentId))
+    //     console.log("delete comment handler with passed in comment2: ", commentId)
+    //     dispatch(commentsthunk.deleteComments(commentId))
 
-        // dispatch(commentsthunk.deleteComments(comment))
-    }
+    //     // dispatch(commentsthunk.deleteComments(comment))
+    // }
 
     // if (!aExpanse) return null
     if (!exp) return null
@@ -64,9 +66,13 @@ function ExpenseDetail({ exp, setShowDetail, allCommentsArr }) {
                             {allCommentsArr.map(comment =>
                                 <div>
                                     <div className="flx">
-                                        <div className="font-weight">{comment.user.username}</div>
-                                        <div className="margin-30px-auto btn-add float-r btn" onClick={() => deleteCommentHandler(comment)}>
-                                            <i class="fas fa-times"></i>
+                                        {comment.user ? <div className="font-weight">{comment.user.username}</div> : <div></div>}
+                                        <div className="margin-30px-auto btn-add float-r btn">
+                                            <OpenModalButton
+                                                buttonText={<i class="fas fa-times"></i>}
+                                                modalComponent={<DeleteConfirmationModal type="delete comment" commentid={comment.id} />}
+                                            />
+                                            {/* <i class="fas fa-times"></i> */}
                                         </div>
                                     </div>
 
