@@ -75,11 +75,13 @@ export const createComments = (payload) => async (dispatch) => {
 }
 
 
-export const deleteComments = (expenseId) => async (dispatch) => {
-    const response = await fetch(`/api/comments/${expenseId}`, {
+export const deleteComments = (commentId) => async (dispatch) => {
+    console.log("check what i passed in delete comment thunk: ", commentId)
+    const response = await fetch(`/api/comments/${commentId}`, {
         method: 'DELETE'
     })
     if (response.ok) {
+        console.log("有ok嗎")
         const data = await response.json();
         dispatch(deleteCommentA(data));
     };
@@ -121,6 +123,13 @@ const commentsReducer = (state = initialState, action) => {
             let newComment = action.obj
             newState3.allComments[newComment.id] = newComment
             return newState3
+
+        case DELETECOMMENT:
+            let newState4 = { ...state, allComments: { ...state.allComments }, singleComment: { ...state.singleComment } };
+            let deletedComment = action.obj.id
+            delete newState4.allComments[deletedComment]
+            return newState4
+
 
         default:
             return state;

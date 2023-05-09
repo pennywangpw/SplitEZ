@@ -64,6 +64,8 @@ def createComment(id):
 @login_required
 def deleteComment(id):
     deletecomment = Comment.query.get(id)
+    print("i think i tested this- delete ", deletecomment)
+
     deletecommentDict = deletecomment.to_dict()
     print(f"delete a comment : {deletecommentDict}" )
     db.session.delete(deletecomment)

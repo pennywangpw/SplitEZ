@@ -24,8 +24,14 @@ function ExpenseDetail({ exp, setShowDetail, allCommentsArr }) {
 
 
     //delete comment handler
-    function deleteCommentHandler(expenseId) {
-        dispatch(commentsthunk.deleteComments(expenseId))
+    function deleteCommentHandler(comment) {
+        console.log("delete comment handler with passed in comment: ", comment)
+        let commentId = comment.id
+
+        console.log("delete comment handler with passed in comment2: ", commentId)
+        dispatch(commentsthunk.deleteComments(commentId))
+
+        // dispatch(commentsthunk.deleteComments(comment))
     }
 
     // if (!aExpanse) return null
@@ -59,7 +65,7 @@ function ExpenseDetail({ exp, setShowDetail, allCommentsArr }) {
                                 <div>
                                     <div className="flx">
                                         <div className="font-weight">{comment.user.username}</div>
-                                        <div className="margin-30px-auto btn-add float-r btn" onClick={deleteCommentHandler}>
+                                        <div className="margin-30px-auto btn-add float-r btn" onClick={() => deleteCommentHandler(comment)}>
                                             <i class="fas fa-times"></i>
                                         </div>
                                     </div>
