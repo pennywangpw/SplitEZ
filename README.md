@@ -16,52 +16,41 @@ Here is the link to <a href="https://penny-splitez.onrender.com/">SplitEZ</a>
   <img src="https://www.vectorlogo.zone/logos/postgresql/postgresql-vertical.svg" title="PostgreSQL" alt="PostgreSQL" width="50" height="50"/>&nbsp;
   <img src="https://www.vectorlogo.zone/logos/sqlite/sqlite-ar21.svg" title="SQLite" alt="SQLite" width="50" height="50"/>&nbsp;
 
+# Splash Page
+
+
+
+
+
+# Getting started
+
+1. Clone this repository:
+
+   
+  https://github.com/pennywangpw/SplitEZ.git
+  
+  OR
+  
+  git@github.com:pennywangpw/SplitEZ.git
+
+   `
+2. Install denpendencies into the Backed and the Frontend by making a terminal for each one and then run the following:
+
+   * `npm install`
+
+3. Create a **.env** file using the **.envexample** provided 
+
+4. Set up your database with information from your .env and then run the following to create your database, migrate, and seed: 
  
+   * `npx dotenv sequelize db:create`
+   * `npx dotenv sequelize db:migrate` 
+   * `npx dotenv sequelize db:seed:all`
 
-# Set up
-# Flask React Project
+5. Start the app for both backend and frontend using:
 
-This is the starter for the Flask React project.
+   * `npm start`
 
-## Getting started
-1. Clone this repository (only this branch)
-
-2. Install dependencies
-
-      ```bash
-      pipenv install -r requirements.txt
-      ```
-
-3. Create a **.env** file based on the example with proper settings for your
-   development environment
-
-4. Make sure the SQLite3 database connection URL is in the **.env** file
-
-5. This starter organizes all tables inside the `flask_schema` schema, defined
-   by the `SCHEMA` environment variable.  Replace the value for
-   `SCHEMA` with a unique name, **making sure you use the snake_case
-   convention**.
-
-6. Get into your pipenv, migrate your database, seed your database, and run your Flask app
-
-   ```bash
-   pipenv shell
-   ```
-
-   ```bash
-   flask db upgrade
-   ```
-
-   ```bash
-   flask seed all
-   ```
-
-   ```bash
-   flask run
-   ```
-
-7. To run the React App in development, checkout the [README](./react-app/README.md) inside the `react-app` directory.
-
+6. Now you can use the Demo User or Create an account
 
 ## Deployment through Render.com
 
