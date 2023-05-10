@@ -1,15 +1,22 @@
 # Introdution
-This website is inspired by Splitwise. We understand your pain point - no body wants to do the math when hangs out with your friends, it takes time to split the bill when live with roomates....
-With our application, you can view all expenses, all groups and shopping list belong to you after login. Clicking on each expense or group, you can view more details. You can also make comments on each of expense. In our shopping wish list you can add the item.
-You can create/rename/update/delete for expense, group, comment and shopping wish list.
+This website is inspired by Splitwise. We understand your pain point - no body wants to do the math when hangs out with your friends, splitting bills can be a cumbersome process, and no one wants to spend time doing calculations.
+This application would be your best partner to make it easier for you to manage your spending.
+
+Here is the link to <a href="https://penny-splitez.onrender.com/">SplitEZ</a>
+
 
 # Technology
 
-- React - An frontend library for building user interfaces.
-- Redux - A predictable, centralized state container for JavaScript apps.
-- Python - A programming language for building backend data manipulation.
-- SQLAlchemy - A library that facilitates the communication between Python programs and databases
-- Database: Development: SQLite3
+  <img src="https://github.com/devicons/devicon/blob/master/icons/javascript/javascript-original.svg" title="JavaScript" alt="JavaScript" width="50" height="50"/>&nbsp;
+  <img src="https://www.vectorlogo.zone/logos/python/python-icon.svg" title="Python" alt="Python" width="50" height="50"/>&nbsp;
+  <img src="https://github.com/devicons/devicon/blob/master/icons/react/react-original-wordmark.svg" title="React" alt="React" width="50" height="50"/>&nbsp;
+  <img src="https://github.com/devicons/devicon/blob/master/icons/redux/redux-original.svg" title="Redux" alt="Redux" width="50" height="50"/>&nbsp;
+  <img src="https://github.com/devicons/devicon/blob/master/icons/html5/html5-plain-wordmark.svg" title="HTML" alt="HTML" width="50" height="50"/>&nbsp;
+  <img src="https://github.com/devicons/devicon/blob/master/icons/css3/css3-plain-wordmark.svg" title="CSS" alt="CSS" width="50" height="50"/>&nbsp;
+  <img src="https://www.vectorlogo.zone/logos/postgresql/postgresql-vertical.svg" title="PostgreSQL" alt="PostgreSQL" width="50" height="50"/>&nbsp;
+  <img src="https://www.vectorlogo.zone/logos/sqlite/sqlite-ar21.svg" title="SQLite" alt="SQLite" width="50" height="50"/>&nbsp;
+
+ 
 
 # Set up
 # Flask React Project
