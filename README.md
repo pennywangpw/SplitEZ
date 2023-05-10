@@ -26,14 +26,13 @@ Here is the link to <a href="https://penny-splitez.onrender.com/">SplitEZ</a>
 
 1. Clone this repository:
 
-   
-  https://github.com/pennywangpw/SplitEZ.git
-  
-  OR
-  
-  git@github.com:pennywangpw/SplitEZ.git
+    * ` https://github.com/pennywangpw/SplitEZ.git`
 
-   `
+    OR
+
+    * `git@github.com:pennywangpw/SplitEZ.git`
+
+   
 2. Install denpendencies into the Backed and the Frontend by making a terminal for each one and then run the following:
 
    * `npm install`
