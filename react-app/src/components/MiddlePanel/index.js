@@ -16,7 +16,6 @@ function ExpensesList() {
     const allGroups = useSelector((state) => state.groups.allGroups);
     const currentuser = useSelector((state) => state.session.user);
     const allComments = useSelector((state) => state.comments.allComments)
-    console.log("確認一下在LOADING Middle 時抓到的Expenses comment run幾次:  ", allComments)
 
     //get group id from allGroups
     let allGroupsArr = Object.values(allGroups)
@@ -61,6 +60,7 @@ function ExpensesList() {
                     <div className="fontS-220rem width-50">All expenses</div>
                     <div className="btn-create">
                         <OpenModalButton
+                            className={"button"}
                             buttonText="Add an expense"
                             modalComponent={<CreateExpense />}
                         />

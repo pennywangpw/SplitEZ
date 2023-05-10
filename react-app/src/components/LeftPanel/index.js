@@ -60,7 +60,7 @@ function LeftPanel() {
                     <div className="width-50">
                         <OpenModalButton
                             buttonText="+Add"
-                            className="btn-add float-r btn"
+                            className=" float-r button"
                             modalComponent={<GroupModal type="create group" />}
                         />
                     </div>

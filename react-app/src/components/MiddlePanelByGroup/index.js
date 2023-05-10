@@ -17,6 +17,7 @@ function ExpensesListByGroup() {
     const dispatch = useDispatch();
     const singlegroupinfo = useSelector((state) => state.groups.singleGroup);
     const allExpenses = useSelector((state) => state.expenses.allExpenses);
+    const allComments = useSelector((state) => state.comments.allComments)
 
     //get all expenses which group_id equals groupId chunk from the endpoint
     const allvaluesfromAllExpenses = Object.values(allExpenses)
@@ -33,13 +34,18 @@ function ExpensesListByGroup() {
         dispatch(expensesthunk.singleExpense(id))
     }
 
+    //convert allcomments into array
+    const allCommentsArr = Object.values(allComments)
+    console.log("allCommentsArr convert into array: ", allCommentsArr)
+
     return (
         <>
             <div className="shadow">
                 <div className="flx line-h70 bg-maim-eee border-top-main border-bottom-main fontS-13px ">
                     <div className="fontS-220rem width-50">{singlegroupinfo.name}</div>
-                    <div className="btn-create button">
+                    <div className="btn-create">
                         <OpenModalButton
+                            className={"button"}
                             buttonText="Add an expense"
                             modalComponent={<CreateExpense />}
                         />
@@ -80,11 +86,21 @@ function ExpensesListByGroup() {
                                     </div>
                                 </div>
 
-                                {console.log("WHAT'S CURRENTID AND EXP.ID: ", currentId, exp.id)}
+                                {/* {console.log("WHAT'S CURRENTID AND EXP.ID: ", currentId, exp.id)}
                                 <div className={showDetail && currentId === exp.id ? "display-b bg-detail-grey " : "display-n"} >
                                     <ExpenseDetail exp={exp} setShowDetail={setShowDetail} />
+                                </div> */}
+                                <div
+                                    className={showDetail && currentId === exp.id ? "display-b bg-detail-grey " : "display-n"}
+                                    id="detail"
+                                >
+                                    <ExpenseDetail
+                                        exp={exp}
+                                        // currentId={currentId}
+                                        setShowDetail={setShowDetail}
+                                        allCommentsArr={allCommentsArr}
+                                    />
                                 </div>
-
 
                             </div>
 
