@@ -16,6 +16,7 @@ def allGroups():
     user = User.query.get(id)
     groups = user.groups
     groupsList = [group.to_dict() for group in groups]
+    print(f"i need to see groupsList {groupsList}")
     return groupsList
 
     # print("----123")

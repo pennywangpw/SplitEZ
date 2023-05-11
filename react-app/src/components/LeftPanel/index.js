@@ -20,6 +20,14 @@ function LeftPanel() {
 
     console.log("ALL GROUPS: ", allGroupsArr)
 
+    //get all group id which current user has
+    let allgroupid = []
+    allGroupsArr.forEach(group => {
+        allgroupid.push(group.id)
+    })
+
+    console.log("I NEED GROUP ID LIST ", allgroupid)
+
     useEffect(() => {
         dispatch(groupsthunk.allGroupsthunk())
         return () => dispatch(groupsthunk.clearGroupA())
@@ -66,7 +74,46 @@ function LeftPanel() {
                     </div>
 
                 </div>
-                <div className="height-3vh">
+
+                <div id="group">
+                    <div>{allGroupsArr.map(group =>
+                        <div>
+                            <NavLink to={`/groups/${group.id}`} style={{ textDecoration: 'none' }}>
+                                <div className="flx" >
+                                    <div className="width-50" onClick={() => SetcurrentGroupId(group.id)}>
+                                        {group.name}
+                                    </div>
+                                    <div className="width-50 flx-spacearound">
+                                        <OpenModalButton
+                                            buttonText={<i class="fas fa-edit"></i>}
+                                            modalComponent={<GroupModal type="edit group" name={group.name} id={group.id} />}
+                                        />
+                                        <OpenModalButton
+                                            buttonText={<i class="fas fa-trash-alt"></i>}
+                                            modalComponent={<DeleteConfirmationModal type="delete group" groupid={group.id} />}
+                                        />
+                                    </div>
+                                </div>
+
+
+                            </NavLink>
+                        </div>
+                    )}</div>
+                </div>
+
+
+                <div className="flx bg-side-grey l-bar-c">
+                    <div className="width-50 ">FRIENDS</div>
+                    <div className="width-50">
+                        <OpenModalButton
+                            buttonText="+Add"
+                            className=" float-r button"
+                            modalComponent={<GroupModal type="create group" />}
+                        />
+                    </div>
+
+                </div>
+                <div className="height-3vh" id="frined">
                     <div>{allGroupsArr.map(group =>
                         <div>
                             <NavLink to={`/groups/${group.id}`} style={{ textDecoration: 'none' }}>

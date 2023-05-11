@@ -23,3 +23,13 @@ def user(id):
     """
     user = User.query.get(id)
     return user.to_dict()
+
+#get all users(frineds) belong to currentuser's group
+@user_routes.route('/all')
+@login_required
+def user(allgroupid):
+    """
+    Query for a user by
+    """
+    user = User.query.get()
+    return user.to_dict()
