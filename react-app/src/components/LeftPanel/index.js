@@ -1,35 +1,38 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import * as groupsthunk from "../../store/group"
-import { NavLink, useParams } from "react-router-dom";
+import * as groupsthunk from "../../store/group";
+import * as usersthunk from "../../store/user";
+import { NavLink } from "react-router-dom";
 import GroupModal from "../GroupModal"
 import DeleteConfirmationModal from "../DeleteConfirmationModal"
 import OpenModalButton from "../OpenModalButton";
 
 
-
 function LeftPanel() {
     const dispatch = useDispatch()
-    // let { groupId } = useParams()
     const [currentGroupId, SetcurrentGroupId] = useState(1)
     const allGroups = useSelector((state) => state.groups.allGroups);
     const allGroupsArr = Object.values(allGroups)
-    // console.log("--------groupId from params: ", groupId)
-    // console.log("--------groupId from state: ", currentGroupId)
+    const allUsers = useSelector((state) => state.groupswithusers.allGroupswithUserinfo)
 
 
-    console.log("ALL GROUPS: ", allGroupsArr)
+    //get all friends
+    const allUsersArr = Object.values(allUsers)
+    let friendsname = []
+    for (let user of allUsersArr) {
+        user.userinfo.forEach(user => friendsname.push(user.username))
+    }
 
-    //get all group id which current user has
-    let allgroupid = []
-    allGroupsArr.forEach(group => {
-        allgroupid.push(group.id)
-    })
 
-    console.log("I NEED GROUP ID LIST ", allgroupid)
+    //find unique friend's name
+    let uniquefriendsname = [... new Set(friendsname)]
+
+
+
 
     useEffect(() => {
         dispatch(groupsthunk.allGroupsthunk())
+        dispatch(usersthunk.allFriends())
         return () => dispatch(groupsthunk.clearGroupA())
 
     }, [dispatch])
@@ -114,29 +117,10 @@ function LeftPanel() {
 
                 </div>
                 <div className="height-3vh" id="frined">
-                    <div>{allGroupsArr.map(group =>
-                        <div>
-                            <NavLink to={`/groups/${group.id}`} style={{ textDecoration: 'none' }}>
-                                <div className="flx" >
-                                    <div className="width-50" onClick={() => SetcurrentGroupId(group.id)}>
-                                        {group.name}
-                                    </div>
-                                    <div className="width-50 flx-spacearound">
-                                        <OpenModalButton
-                                            buttonText={<i class="fas fa-edit"></i>}
-                                            modalComponent={<GroupModal type="edit group" name={group.name} id={group.id} />}
-                                        />
-                                        <OpenModalButton
-                                            buttonText={<i class="fas fa-trash-alt"></i>}
-                                            modalComponent={<DeleteConfirmationModal type="delete group" groupid={group.id} />}
-                                        />
-                                    </div>
-                                </div>
+                    <div>
+                        {uniquefriendsname.map(name => <div>{name}</div>)}
 
-
-                            </NavLink>
-                        </div>
-                    )}</div>
+                    </div>
                 </div>
             </div >
 

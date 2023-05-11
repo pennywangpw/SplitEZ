@@ -5,37 +5,38 @@ const allFriendsA = (arr) => {
     console.log("this is action creator--allFriendsA")
 
     return {
-        type: GETALLGROUPS,
+        type: GETALLFRIENDS,
         arr
     };
 };
 
 export const allFriends = () => async (dispatch) => {
-    const response = await fetch("/api/users/all", {
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
+    console.log("this is thunk--allFriends")
+    const response = await fetch("/api/groups/");
+
+    // const response = await fetch("/api/users/all");
 
     if (response.ok) {
-        dispatch(allFriendsA());
+        const data = await response.json();
+        console.log("I FETCH BACKEND TO GET ALL USERS IN A DICTIONARY CHECK ", data)
+        dispatch(allFriendsA(data));
     }
 };
 
 
 const initialState = {
-    allUsers: {}
+    allGroupswithUserinfo: {}
 };
 
-const groupsReducer = (state = initialState, action) => {
-    console.log("groupsReducer with action: ", action)
-    console.log("groupsReducer with action obj: ", action.obj)
+const usersReducer = (state = initialState, action) => {
+    console.log("usersReducer with action: ", action)
+    console.log("usersReducer with action obj: ", action.obj)
     console.log("initial : ", state)
 
     switch (action.type) {
-        case GETALLGROUPS:
-            let newState1 = { allGroups: { ...state.allGroups }, singleGroup: {} };
-            action.arr.forEach(group => newState1.allGroups[group.id] = group);
+        case GETALLFRIENDS:
+            let newState1 = { ...state, allGroupswithUserinfo: { ...state.allGroupswithUserinfo } };
+            action.arr.forEach(user => newState1.allGroupswithUserinfo[user.id] = user);
             return newState1;
 
         default:
@@ -43,4 +44,4 @@ const groupsReducer = (state = initialState, action) => {
     }
 };
 
-export default groupsReducer;
+export default usersReducer;
