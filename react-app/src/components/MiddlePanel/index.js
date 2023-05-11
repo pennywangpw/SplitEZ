@@ -55,7 +55,6 @@ function ExpensesList() {
     return (
         <>
             <div className="shadow">
-
                 <div className="flx line-h70 bg-maim-eee border-top-main border-bottom-main fontS-13px">
                     <div className="fontS-220rem width-50">All expenses</div>
                     <div className="btn-create">

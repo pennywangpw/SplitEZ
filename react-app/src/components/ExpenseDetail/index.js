@@ -42,6 +42,7 @@ function ExpenseDetail({ exp, setShowDetail, allCommentsArr }) {
                     <div className="detail">
 
                         <OpenModalButton
+                            className={"button"}
                             buttonText="Edit expense"
                             modalComponent={<EditExpense expenseinfo={exp} setShowDetail={setShowDetail} />}
                         />
