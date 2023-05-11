@@ -8,12 +8,13 @@ import DeleteConfirmationModal from "../DeleteConfirmationModal"
 import OpenModalButton from "../OpenModalButton";
 
 function ExpenseDetail({ exp, setShowDetail, allCommentsArr }) {
-    console.log("exp detail here: ", exp, allCommentsArr)
+    console.log("exp detail here: ", setShowDetail, exp, allCommentsArr)
     // console.log("ExpenseDetail with passed currentid: ", typeof currentId, currentId, setShowDetail)
     // const allComments = useSelector((state) => state.comments.allComments)
     const dispatch = useDispatch()
     const [comment, setComment] = useState("");
     const expenseId = exp.id
+    console.log("******************comment status: ", comment)
 
     //create comment handler
     function createCommentHandler() {
@@ -21,20 +22,10 @@ function ExpenseDetail({ exp, setShowDetail, allCommentsArr }) {
         console.log("create comment payload: ", payload)
         dispatch(commentsthunk.createComments(payload))
         dispatch(commentsthunk.allComments(expenseId))
-
+        setComment("")
     }
 
 
-    // //delete comment handler
-    // function deleteCommentHandler(comment) {
-    //     console.log("delete comment handler with passed in comment: ", comment)
-    //     let commentId = comment.id
-
-    //     console.log("delete comment handler with passed in comment2: ", commentId)
-    //     dispatch(commentsthunk.deleteComments(commentId))
-
-    //     // dispatch(commentsthunk.deleteComments(comment))
-    // }
 
     // if (!aExpanse) return null
     if (!exp) return null
@@ -51,6 +42,7 @@ function ExpenseDetail({ exp, setShowDetail, allCommentsArr }) {
                     <div className="detail">
 
                         <OpenModalButton
+                            className={"button"}
                             buttonText="Edit expense"
                             modalComponent={<EditExpense expenseinfo={exp} setShowDetail={setShowDetail} />}
                         />
@@ -68,10 +60,11 @@ function ExpenseDetail({ exp, setShowDetail, allCommentsArr }) {
                                 <div>
                                     <div className="flx">
                                         {comment.user ? <div className="font-weight">{comment.user.username}</div> : <div></div>}
-                                        <div className="margin-30px-auto btn-add float-r btn">
+                                        <div className="margin-30px-auto float-r">
                                             <OpenModalButton
                                                 buttonText={<i class="fas fa-times"></i>}
-                                                modalComponent={<DeleteConfirmationModal type="delete comment" commentid={comment.id} />}
+                                                className={"button"}
+                                                modalComponent={<DeleteConfirmationModal type="delete comment" commentid={comment.id} expenseId={expenseId} />}
                                             />
                                             {/* <i class="fas fa-times"></i> */}
                                         </div>
@@ -90,7 +83,7 @@ function ExpenseDetail({ exp, setShowDetail, allCommentsArr }) {
                                 <textarea placeholder="Add a comment" rows="2" value={comment} onChange={(e) => setComment(e.target.value)}></textarea>
                             </label>
                         </div>
-                        <button className=" width-50" onClick={createCommentHandler}>Post</button>
+                        <button className=" width-50 button" onClick={createCommentHandler} disabled={comment.length === 0}>Post</button>
                     </div>
                 </div>
             </div>

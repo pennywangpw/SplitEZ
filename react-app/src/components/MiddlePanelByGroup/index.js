@@ -17,6 +17,7 @@ function ExpensesListByGroup() {
     const dispatch = useDispatch();
     const singlegroupinfo = useSelector((state) => state.groups.singleGroup);
     const allExpenses = useSelector((state) => state.expenses.allExpenses);
+    const allComments = useSelector((state) => state.comments.allComments)
 
     //get all expenses which group_id equals groupId chunk from the endpoint
     const allvaluesfromAllExpenses = Object.values(allExpenses)
@@ -33,13 +34,18 @@ function ExpensesListByGroup() {
         dispatch(expensesthunk.singleExpense(id))
     }
 
+    //convert allcomments into array
+    const allCommentsArr = Object.values(allComments)
+    console.log("allCommentsArr convert into array: ", allCommentsArr)
+
     return (
         <>
             <div className="shadow">
                 <div className="flx line-h70 bg-maim-eee border-top-main border-bottom-main fontS-13px ">
                     <div className="fontS-220rem width-50">{singlegroupinfo.name}</div>
-                    <div className="btn-create button">
+                    <div className="btn-create">
                         <OpenModalButton
+                            className={"button"}
                             buttonText="Add an expense"
                             modalComponent={<CreateExpense />}
                         />
@@ -54,42 +60,49 @@ function ExpensesListByGroup() {
 
 
                 <div className="line-5vh">
-                    {allExpensesbyGroup.map(exp =>
-                        <>
-                            {console.log("each of exp: ", exp)}
-                            <div onClick={() => {
-                                setCurrentId(exp.id)
-                                setShowDetail(!showDetail)
-                                singleExpensehandler(exp.id)
+                    {allExpensesbyGroup.length === 0 ?
+                        (<div>No Expenses....</div>) :
+                        (allExpensesbyGroup.map(exp =>
+                            <>
+                                <div key={exp.id}>
+                                    <div onClick={() => {
+                                        setCurrentId(exp.id)
+                                        setShowDetail(!showDetail)
+                                        singleExpensehandler(exp.id)
+                                    }}>
+                                        <div className="grid-3fr height-8vh expense-summary" id="summary">
+                                            <div>{exp.expense_date}{exp.name} </div>
+                                            <div>{exp.expense_total}</div>
+                                            <div className="flx">
+                                                {exp.billpayer ? (<div>{exp.billpayer.username}</div>) : (<div></div>)}
+                                                {/* <div>{exp.billpayer.username}</div> */}
+                                                <div>{exp.username}</div>
 
-                            }}>
-                                <div className="grid-3fr height-8vh expense-summary" id="summary">
-                                    <div>{exp.expense_date}{exp.name} </div>
-                                    <div>{exp.expense_total}</div>
-                                    <div className="flx">
-                                        {exp.billpayer ? (<div>{exp.billpayer.username}</div>) : (<div></div>)}
-                                        {/* <div>{exp.billpayer.username}</div> */}
-                                        <div>{exp.username}</div>
+                                                <OpenModalButton
+                                                    className={"height-max-40 mrg-t-10px mrg-l-20px"}
+                                                    buttonText={<i class="fas fa-trash-alt"></i>}
+                                                    modalComponent={<DeleteConfirmationModal expenseId={exp.id} type="delete expense" groupid={groupId} />}
+                                                />
 
-                                        <OpenModalButton
-                                            className={"height-max-40 mrg-t-10px mrg-l-20px"}
-                                            buttonText={<i class="fas fa-trash-alt"></i>}
-                                            modalComponent={<DeleteConfirmationModal expenseId={exp.id} type="delete expense" groupid={groupId} />}
-                                        />
+                                            </div>
+                                        </div>
 
                                     </div>
+                                    <div
+                                        className={showDetail && currentId === exp.id ? "display-b bg-detail-grey " : "display-n"}
+                                        id="detail"
+                                    >
+                                        <ExpenseDetail
+                                            exp={exp}
+                                            // currentId={currentId}
+                                            setShowDetail={setShowDetail}
+                                            allCommentsArr={allCommentsArr}
+                                        />
+                                    </div>
                                 </div>
+                            </>
+                        ))}
 
-                                {console.log("WHAT'S CURRENTID AND EXP.ID: ", currentId, exp.id)}
-                                <div className={showDetail && currentId === exp.id ? "display-b bg-detail-grey " : "display-n"} >
-                                    <ExpenseDetail exp={exp} setShowDetail={setShowDetail} />
-                                </div>
-
-
-                            </div>
-
-                        </>
-                    )}
                 </div>
             </div>
         </>
