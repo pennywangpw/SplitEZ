@@ -8,7 +8,7 @@ function RightPanel() {
 
 
     return (
-        <div >
+        <div className="mrg-l-10px">
             <div>GROUP BALANCES</div>
             <div>feature coming soon....</div>
         </div>
