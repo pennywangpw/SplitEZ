@@ -54,6 +54,11 @@ body {
     margin-left: 20px;
 }
 
+
+.mrg-l-180px {
+    margin-left: 180px;
+}
+
 .margin-30px-auto {
     margin-right: 30px;
     margin-left: auto;

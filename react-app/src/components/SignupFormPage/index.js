@@ -95,7 +95,7 @@ function SignupFormPage() {
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 className="width-50"
               />
-              <button type="submit" className="width-50 margin-top25px" disabled={frontendErrors.length > 0} >Sign Up</button>
+              <button type="submit" className="width-50 margin-top25px button" disabled={frontendErrors.length > 0} >Sign Up</button>
             </form>
           </div>
         </div>

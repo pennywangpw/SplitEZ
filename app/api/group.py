@@ -16,6 +16,7 @@ def allGroups():
     user = User.query.get(id)
     groups = user.groups
     groupsList = [group.to_dict() for group in groups]
+    print(f"i need to see groupsList {groupsList}")
     return groupsList
 
     # print("----123")
@@ -39,6 +40,39 @@ def allGroups():
     # print("get the user first: ",user , user_data)
 
     return "111"
+
+
+#get all groups with users info (friends)
+@groups.route('/')
+@login_required
+def allGroupsWithUserInfo():
+    print("JUST CHECK IF THIS IS WORKING")
+
+    '''get all groups with userinfo'''
+    # id = current_user.id
+    # allgroups = Group.query.all()
+    # print(f"想看看i need to see allgroups {allgroups}")
+    # groupsList = [group.to_dict() for group in allgroups]
+    # print(f"想看看i need to see groupsList {groupsList}")
+    id = current_user.id
+    user = User.query.get(id)
+    groups = user.groups
+    groupsList = [group.to_dict() for group in groups]
+
+    '''add userinfo in groupsList'''
+    for group in groupsList:
+        print(f"1.哪一個group {group}")
+
+        eachGrouplist= Group.query.get(group['id'])
+        print(f"2.想看看i need to see eachGrouplist {eachGrouplist}")
+        usersList = [user.to_dict() for user in eachGrouplist.users]
+        print(f"3.看看i need to see usersList {usersList}")
+
+        group['userinfo'] = usersList
+
+    print(f"想看看i need to see allusers {groupsList}")
+
+    return groupsList
 
 #get a single group
 @groups.route('/<int:id>')

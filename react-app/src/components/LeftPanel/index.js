@@ -1,30 +1,45 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import * as groupsthunk from "../../store/group"
-import { NavLink, useParams } from "react-router-dom";
+import * as groupsthunk from "../../store/group";
+import * as usersthunk from "../../store/user";
+import { NavLink } from "react-router-dom";
 import GroupModal from "../GroupModal"
 import DeleteConfirmationModal from "../DeleteConfirmationModal"
 import OpenModalButton from "../OpenModalButton";
 
 
-
 function LeftPanel() {
     const dispatch = useDispatch()
-    // let { groupId } = useParams()
     const [currentGroupId, SetcurrentGroupId] = useState(1)
     const allGroups = useSelector((state) => state.groups.allGroups);
     const allGroupsArr = Object.values(allGroups)
-    // console.log("--------groupId from params: ", groupId)
-    // console.log("--------groupId from state: ", currentGroupId)
+    const allUsers = useSelector((state) => state.groupswithusers.allGroupswithUserinfo)
 
 
-    console.log("ALL GROUPS: ", allGroupsArr)
+    //get all friends
+    const allUsersArr = Object.values(allUsers)
+    let friendsname = []
+    for (let user of allUsersArr) {
+        user.userinfo.forEach(user => friendsname.push(user.username))
+    }
+
+
+    //find unique friend's name
+    let uniquefriendsname = [... new Set(friendsname)]
+
+
+
 
     useEffect(() => {
         dispatch(groupsthunk.allGroupsthunk())
+        dispatch(usersthunk.allFriends())
         return () => dispatch(groupsthunk.clearGroupA())
 
     }, [dispatch])
+
+    const friendsHandler = () => {
+        alert("feature coming soon")
+    }
 
     // useEffect(() => {
     //     dispatch(groupsthunk.allGroupsthunk())
@@ -66,7 +81,8 @@ function LeftPanel() {
                     </div>
 
                 </div>
-                <div className="height-3vh">
+
+                <div id="group">
                     <div>{allGroupsArr.map(group =>
                         <div>
                             <NavLink to={`/groups/${group.id}`} style={{ textDecoration: 'none' }}>
@@ -90,6 +106,29 @@ function LeftPanel() {
                             </NavLink>
                         </div>
                     )}</div>
+                </div>
+
+
+                <div className="flx bg-side-grey l-bar-c">
+                    <div className="width-50 ">FRIENDS</div>
+                    <div className="width-50">
+                        <button onClick={friendsHandler} className=" float-r button">
+                            +Add
+                        </button>
+                        {/* <OpenModalButton
+
+                            buttonText="+Add"
+                            className=" float-r button"
+                            modalComponent={<GroupModal type="create group" />}
+                        /> */}
+                    </div>
+
+                </div>
+                <div className="height-3vh" id="frined">
+                    <div>
+                        {uniquefriendsname.map(name => <div>{name}</div>)}
+
+                    </div>
                 </div>
             </div >
 

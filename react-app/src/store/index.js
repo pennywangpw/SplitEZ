@@ -4,12 +4,14 @@ import session from './session'
 import expensesReducer from './expense'
 import groupsReducer from './group'
 import commentsReducer from './comment'
+import usersReducer from "./user"
 
 const rootReducer = combineReducers({
   session,
   expenses: expensesReducer,
   groups: groupsReducer,
-  comments: commentsReducer
+  comments: commentsReducer,
+  groupswithusers: usersReducer,
 });
 
 
