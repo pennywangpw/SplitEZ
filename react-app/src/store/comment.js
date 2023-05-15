@@ -99,10 +99,14 @@ export const deleteComments = (commentId) => async (dispatch) => {
 
 
 
-export const updateComments = (commentId) => async (dispatch) => {
-    console.log("check what i passed in delete comment thunk: ", commentId)
-    const response = await fetch(`/api/comments/${commentId}`, {
-        method: 'PUT'
+export const updateComments = (payload) => async (dispatch) => {
+    console.log("check what i passed in delete comment thunk: ", payload, typeof payload.id)
+    const response = await fetch(`/api/comments/${payload.id}`, {
+        method: 'PUT',
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload)
     })
     if (response.ok) {
         const data = await response.json();

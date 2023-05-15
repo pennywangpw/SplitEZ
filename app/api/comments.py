@@ -78,3 +78,19 @@ def deleteComment(id):
 
     db.session.commit()
     return deletecommentDict
+
+
+#update a comment
+@comments.route('/<int:id>', methods=['PUT'])
+@login_required
+def updateComment(id):
+    form = CommentForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    updatedcomment = Comment.query.get(id)
+
+    if form.validate_on_submit():
+        updatedcomment.comment = form.data['comment']
+        db.session.commit()
+        updatedcommentDict =  updatedcomment.to_dict()
+        return updatedcommentDict
+    return "Bad Data-update a comment"

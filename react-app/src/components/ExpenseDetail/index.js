@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as expensesthunk from "../../store/expense"
 import * as commentsthunk from "../../store/comment"
-import ExpenseModal from "../ExpenseModal"
+import CommentModal from "../CommentModal"
 import EditExpense from "../EditExpense"
 import DeleteConfirmationModal from "../DeleteConfirmationModal"
 import OpenModalButton from "../OpenModalButton";
@@ -64,6 +64,8 @@ function ExpenseDetail({ exp, setShowDetail, allCommentsArr }) {
                                             <OpenModalButton
                                                 buttonText={<i class="fas fa-edit"></i>}
                                                 className={"button"}
+                                                modalComponent={<CommentModal origincomment={comment} />}
+
                                             // modalComponent={<DeleteConfirmationModal type="delete comment" commentid={comment.id} expenseId={expenseId} />}
                                             />
                                             <OpenModalButton
