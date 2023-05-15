@@ -62,6 +62,11 @@ function ExpenseDetail({ exp, setShowDetail, allCommentsArr }) {
                                         {comment.user ? <div className="font-weight">{comment.user.username}</div> : <div></div>}
                                         <div className="margin-30px-auto float-r">
                                             <OpenModalButton
+                                                buttonText={<i class="fas fa-edit"></i>}
+                                                className={"button"}
+                                            // modalComponent={<DeleteConfirmationModal type="delete comment" commentid={comment.id} expenseId={expenseId} />}
+                                            />
+                                            <OpenModalButton
                                                 buttonText={<i class="fas fa-times"></i>}
                                                 className={"button"}
                                                 modalComponent={<DeleteConfirmationModal type="delete comment" commentid={comment.id} expenseId={expenseId} />}

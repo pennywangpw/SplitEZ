@@ -2,6 +2,7 @@ const GETALLCOMMENTS = 'comments/ALL_COMMENTS';
 const CLEARCOMMENT = 'comments/CLEAR_COMMENTS';
 const CREATECOMMENT = 'comments/CREATE_COMMENTS';
 const DELETECOMMENT = 'comments/DELETE_COMMENTS';
+const UPDATECOMMENT = 'comments/UPDATE_COMMENTS';
 
 
 
@@ -38,6 +39,14 @@ export const deleteCommentA = (obj) => {
     console.log("this is action creator--DELETE comments")
     return {
         type: DELETECOMMENT,
+        obj
+    }
+}
+
+export const updateCommentA = (obj) => {
+    console.log("this is action creator--UPDATE comments")
+    return {
+        type: UPDATECOMMENT,
         obj
     }
 }
@@ -90,6 +99,20 @@ export const deleteComments = (commentId) => async (dispatch) => {
 
 
 
+export const updateComments = (commentId) => async (dispatch) => {
+    console.log("check what i passed in delete comment thunk: ", commentId)
+    const response = await fetch(`/api/comments/${commentId}`, {
+        method: 'PUT'
+    })
+    if (response.ok) {
+        const data = await response.json();
+        dispatch(updateCommentA(data));
+    };
+    return response
+}
+
+
+
 const initialState = {
     allComments: {},
     singleComment: {}
@@ -131,7 +154,11 @@ const commentsReducer = (state = initialState, action) => {
             delete newState4.allComments[deletedComment]
             return newState4
 
-
+        case UPDATECOMMENT:
+            let newState5 = { ...state, allComments: { ...state.allComments }, singleComment: { ...state.singleComment } };
+            let updatedComment = action.obj
+            newState5.allComments[updatedComment.id] = updatedComment
+            return newState5
         default:
             return state;
     }
