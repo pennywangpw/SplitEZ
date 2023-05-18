@@ -12,11 +12,10 @@ function CommentModal({ origincomment }) {
     const [errors, setErrors] = useState([])
 
 
-
     // validation for gupdated comment
     useEffect(() => {
         let e = []
-        if (comment.length < 0) e.push("updated comment can't be empty")
+        if (comment.length === 0) e.push("updated comment can't be empty")
         setErrors(e)
     }, [comment])
 
@@ -25,9 +24,7 @@ function CommentModal({ origincomment }) {
         e.preventDefault()
         let payload = { 'id': origincomment.id, 'comment': comment }
         console.log("check typeof payload: ", payload)
-
         dispatch(commentsthunk.updateComments(payload)).then(closeModal)
-
     }
 
     return (
@@ -37,7 +34,6 @@ function CommentModal({ origincomment }) {
                     <header className="bg-5cc5a7">Update your comment</header>
                     <div>
                         <div id="error">
-                            {console.log("jajajajajaj", errors)}
                             {errors.length > 0 ? (errors.map(error => <div>{error}</div>)) : <div></div>}
                         </div>
                         <input
