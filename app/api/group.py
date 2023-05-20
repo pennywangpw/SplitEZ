@@ -48,7 +48,7 @@ def allGroups():
 def allGroupsWithUserInfo():
     print("JUST CHECK IF THIS IS WORKING")
 
-    '''get all groups with userinfo'''
+    '''get all groups'''
     # id = current_user.id
     # allgroups = Group.query.all()
     # print(f"想看看i need to see allgroups {allgroups}")
