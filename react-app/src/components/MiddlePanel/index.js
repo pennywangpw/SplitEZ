@@ -103,7 +103,7 @@ function ExpensesList() {
                                             </div>
 
                                         </div>
-                                        <div>{exp.expense_total}</div>
+                                        <div>{`$` + exp.expense_total}</div>
                                         <div className="flx">
                                             {/* {!exp.billpayer ? <div>Please input billpayer</div> : <div>{exp.billpayer.username}</div>} */}
                                             <div>{currentuser.username}</div>

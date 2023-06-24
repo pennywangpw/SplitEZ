@@ -107,8 +107,9 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
                                 value={expense_total}
                                 min="0"
                                 step="any"
-                                onChange={(e) => setExpenseTotal(e.target.value)}
+                                onChange={(e) => setExpenseTotal(parseFloat(e.target.value))}
                             />
+                            {console.log("這裡是expense total: ", expense_total, typeof expense_total)}
                             {/* <input
                                 id="amount"
                                 type="text"
