@@ -78,7 +78,7 @@ function ExpensesList() {
                     (<div className="line-5vh">
                         {allExpensesinArr.map(exp =>
                             <>
-                                <div key={exp.id}>
+                                <div className="detail" key={exp.id}>
                                     <div
                                         onClick={() => {
                                             setCurrentId(exp.id);

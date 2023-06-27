@@ -273,7 +273,12 @@ body {
     gap: 15px;
 }
 
-/*============ for nvigation =============*/
+/*============ className -detail =============*/
+.detail {
+    cursor: pointer;
+}
+
+/*============ for navigation =============*/
 .flx-jc-sb {
     display: flex;
     justify-content: space-between;
@@ -329,7 +334,78 @@ body {
 
 }
 
+
+/*============ for log-in =============*/
+.login-signup {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.width-50 {
+    width: 50%;
+}
+
+
+.form-format {
+    width: 50%;
+    margin: auto;
+}
+
+.margin-top25px {
+    margin-top: 25px;
+}
+
+/*============ background img =============*/
+
+.backgroud-img {
+    background-image: url("../src/components/SplashPage/background.png");
+}
+
+/*============ splash page =============*/
+.welcome {
+    width: 50%;
+    margin: auto;
+}
+
+
+/*============ Navigation bar =============*/
+.fontS-125rem {
+    font-size: 1.25rem;
+}
+
+
+
+.img-size {
+    width: 20px;
+    height: 20px
+}
+
+/*============ Group tag =============*/
+
+
+.group-tag {
+    background-color: #f6f6f6;
+    border-radius: 5px;
+}
+
+.modal-group {
+    background-color: #fff;
+    width: 350px;
+    border: 1px solid #999;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    border-radius: 5px;
+    height: 180px;
+
+}
+
 /*============ for button =============*/
+
+button {
+    cursor: pointer;
+}
+
 
 .btn {
     transition-duration: 0.4s;
@@ -403,71 +479,6 @@ body {
 .button:hover {
     background: #999;
     color: white;
-}
-
-/*============ for log-in =============*/
-.login-signup {
-    display: flex;
-    flex-direction: column;
-}
-
-
-.width-50 {
-    width: 50%;
-}
-
-
-.form-format {
-    width: 50%;
-    margin: auto;
-}
-
-.margin-top25px {
-    margin-top: 25px;
-}
-
-/*============ background img =============*/
-
-.backgroud-img {
-    background-image: url("../src/components/SplashPage/background.png");
-}
-
-/*============ splash page =============*/
-.welcome {
-    width: 50%;
-    margin: auto;
-}
-
-
-/*============ Navigation bar =============*/
-.fontS-125rem {
-    font-size: 1.25rem;
-}
-
-
-
-.img-size {
-    width: 20px;
-    height: 20px
-}
-
-/*============ Group tag =============*/
-
-
-.group-tag {
-    background-color: #f6f6f6;
-    border-radius: 5px;
-}
-
-.modal-group {
-    background-color: #fff;
-    width: 350px;
-    border: 1px solid #999;
-    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.3);
-    overflow: hidden;
-    border-radius: 5px;
-    height: 180px;
-
 }
 
 /*============ Profile btn =============*/

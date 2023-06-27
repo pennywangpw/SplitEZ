@@ -36,11 +36,13 @@ function CommentModal({ origincomment }) {
                         <div id="error">
                             {errors.length > 0 ? (errors.map(error => <div>{error}</div>)) : <div></div>}
                         </div>
-                        <input
+                        <textarea rows="4" cols="25" value={comment} onChange={(e) => setComment(e.target.value)}></textarea>
+
+                        {/* <input
                             type="text"
                             value={comment}
                             onChange={(e) => setComment(e.target.value)}
-                        />
+                        /> */}
                     </div>
                     <button type="submit" disabled={errors.length > 0}>Yes</button>
                     <button onClick={closeModal}>No</button>
