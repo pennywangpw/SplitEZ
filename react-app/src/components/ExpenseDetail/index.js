@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as expensesthunk from "../../store/expense"
 import * as commentsthunk from "../../store/comment"
-import ExpenseModal from "../ExpenseModal"
+import CommentModal from "../CommentModal"
 import EditExpense from "../EditExpense"
 import DeleteConfirmationModal from "../DeleteConfirmationModal"
 import OpenModalButton from "../OpenModalButton";
@@ -38,7 +38,7 @@ function ExpenseDetail({ exp, setShowDetail, allCommentsArr }) {
             <div>
                 <div className="height-50">
                     <h3 id="description">{exp.name}</h3>
-                    <div >${exp.expense_total}</div>
+                    <div >${Number(exp.expense_total).toFixed(2)}</div>
                     <div className="detail">
 
                         <OpenModalButton
@@ -61,6 +61,13 @@ function ExpenseDetail({ exp, setShowDetail, allCommentsArr }) {
                                     <div className="flx">
                                         {comment.user ? <div className="font-weight">{comment.user.username}</div> : <div></div>}
                                         <div className="margin-30px-auto float-r">
+                                            <OpenModalButton
+                                                buttonText={<i class="fas fa-edit"></i>}
+                                                className={"button"}
+                                                modalComponent={<CommentModal origincomment={comment} />}
+
+                                            // modalComponent={<DeleteConfirmationModal type="delete comment" commentid={comment.id} expenseId={expenseId} />}
+                                            />
                                             <OpenModalButton
                                                 buttonText={<i class="fas fa-times"></i>}
                                                 className={"button"}

@@ -28,8 +28,6 @@ function LeftPanel() {
     let uniquefriendsname = [... new Set(friendsname)]
 
 
-
-
     useEffect(() => {
         dispatch(groupsthunk.allGroupsthunk())
         dispatch(usersthunk.allFriends())
