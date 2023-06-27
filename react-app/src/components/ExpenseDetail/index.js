@@ -38,7 +38,7 @@ function ExpenseDetail({ exp, setShowDetail, allCommentsArr }) {
             <div>
                 <div className="height-50">
                     <h3 id="description">{exp.name}</h3>
-                    <div >${exp.expense_total}</div>
+                    <div >${Number(exp.expense_total).toFixed(2)}</div>
                     <div className="detail">
 
                         <OpenModalButton
