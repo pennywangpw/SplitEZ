@@ -39,6 +39,11 @@ function LeftPanel() {
         alert("feature coming soon")
     }
 
+    const clickFriendHandler = () => {
+        console.log("clickFriendHandler")
+        dispatch(usersthunk.friendsWithGroupInfo())
+    }
+
     // useEffect(() => {
     //     dispatch(groupsthunk.allGroupsthunk())
     //     dispatch(groupsthunk.singleGroupthunk(currentGroupId))
@@ -124,7 +129,7 @@ function LeftPanel() {
                 </div>
                 <div className="height-3vh" id="frined">
                     <div>
-                        {uniquefriendsname.map(name => <div>{name}</div>)}
+                        {uniquefriendsname.map(name => <div className="friend" onClick={clickFriendHandler}>{name}</div>)}
 
                     </div>
                 </div>
