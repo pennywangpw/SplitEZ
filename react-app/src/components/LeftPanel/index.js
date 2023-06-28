@@ -13,13 +13,13 @@ function LeftPanel() {
     const [currentGroupId, SetcurrentGroupId] = useState(1)
     const allGroups = useSelector((state) => state.groups.allGroups);
     const allGroupsArr = Object.values(allGroups)
-    const allUsers = useSelector((state) => state.groupswithusers.allGroupswithUserinfo)
+    const allGroupsAndUsers = useSelector((state) => state.groupswithusers.allGroupswithUserinfo)
 
 
     //get all friends
-    const allUsersArr = Object.values(allUsers)
+    const allGroupsAndUsersArr = Object.values(allGroupsAndUsers)
     let friendsname = []
-    for (let user of allUsersArr) {
+    for (let user of allGroupsAndUsersArr) {
         user.userinfo.forEach(user => friendsname.push(user.username))
     }
 
