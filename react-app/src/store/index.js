@@ -11,7 +11,7 @@ const rootReducer = combineReducers({
   expenses: expensesReducer,
   groups: groupsReducer,
   comments: commentsReducer,
-  groupswithusers: usersReducer,
+  users: usersReducer,
 });
 
 

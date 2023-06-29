@@ -13,24 +13,35 @@ function LeftPanel() {
     const [currentGroupId, SetcurrentGroupId] = useState(1)
     const allGroups = useSelector((state) => state.groups.allGroups);
     const allGroupsArr = Object.values(allGroups)
-    const allGroupsAndUsers = useSelector((state) => state.groupswithusers.allGroupswithUserinfo)
+    // const allGroupsAndUsers = useSelector((state) => state.users.allGroupswithUserinfo)
+    const allGroupsAndUsers = useSelector((state) => state.users.friendsWithGroupInfo)
 
 
-    //get all friends
+
+
+    //get all friends- change another thunk
     const allGroupsAndUsersArr = Object.values(allGroupsAndUsers)
+
     let friendsname = []
     for (let user of allGroupsAndUsersArr) {
-        user.userinfo.forEach(user => friendsname.push(user.username))
+        friendsname.push(user.username)
     }
 
 
+    // let friendsname = []
+    // for (let user of allGroupsAndUsersArr) {
+    //     user.userinfo.forEach(user => friendsname.push(user.username))
+    // }
+
+
     //find unique friend's name
-    let uniquefriendsname = [... new Set(friendsname)]
+    // let uniquefriendsname = [... new Set(friendsname)]
 
 
     useEffect(() => {
         dispatch(groupsthunk.allGroupsthunk())
-        dispatch(usersthunk.allFriends())
+        dispatch(usersthunk.friendsWithGroupInfo())
+        // dispatch(usersthunk.allFriends())
         return () => dispatch(groupsthunk.clearGroupA())
 
     }, [dispatch])
@@ -129,7 +140,8 @@ function LeftPanel() {
                 </div>
                 <div className="height-3vh" id="frined">
                     <div>
-                        {uniquefriendsname.map(name => <div className="friend" onClick={clickFriendHandler}>{name}</div>)}
+                        {friendsname.map(name => <div className="friend" onClick={clickFriendHandler}>{name}</div>)}
+                        {/* {uniquefriendsname.map(name => <div className="friend" onClick={clickFriendHandler}>{name}</div>)} */}
 
                     </div>
                 </div>

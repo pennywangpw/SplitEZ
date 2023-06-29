@@ -12,7 +12,7 @@ const allFriendsA = (arr) => {
     };
 };
 
-const aFriendWithGroupInfo = (arr) => {
+const allFriendsWithGroupInfo = (arr) => {
     return {
         type: GETAFRIENDWITHGROUPINFO,
         arr
@@ -39,12 +39,13 @@ export const friendsWithGroupInfo = () => async (dispatch) => {
 
     if (response.ok) {
         const data = await response.json();
-        dispatch(aFriendWithGroupInfo(data))
+        dispatch(allFriendsWithGroupInfo(data))
     }
 }
 
 const initialState = {
-    allGroupswithUserinfo: {}
+    allGroupswithUserinfo: {},
+    friendsWithGroupInfo: {}
 };
 
 const usersReducer = (state = initialState, action) => {
@@ -59,9 +60,9 @@ const usersReducer = (state = initialState, action) => {
             return newState1;
 
         case GETAFRIENDWITHGROUPINFO:
-        // let newState2 = { ...state, allGroupswithUserinfo: { ...state.allGroupswithUserinfo } };
-        // action.arr.forEach(user => newState2.allGroupswithUserinfo[user.id] = user);
-        // return newState2;
+            let newState2 = { ...state, allGroupswithUserinfo: { ...state.allGroupswithUserinfo }, friendsWithGroupInfo: { ...state.friendsWithGroupInfo } };
+            action.arr.forEach(user => newState2.friendsWithGroupInfo[user.id] = user);
+            return newState2;
 
         default:
             return state;
