@@ -36,6 +36,9 @@ function App() {
           <Route path="/groups/:groupId">
             {currentuser ? <MainPage type="group" /> : <SplashPage />}
           </Route>
+          <Route path="/friends/:friendId">
+            {currentuser ? <MainPage type="friend" /> : <SplashPage />}
+          </Route>
           <Route exact path="/">
             <SplashPage />
           </Route>

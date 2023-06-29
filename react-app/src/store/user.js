@@ -35,7 +35,7 @@ export const allFriends = () => async (dispatch) => {
 
 
 export const friendsWithGroupInfo = () => async (dispatch) => {
-    const response = await fetch("api/users/all")
+    const response = await fetch("/api/users/all")
 
     if (response.ok) {
         const data = await response.json();

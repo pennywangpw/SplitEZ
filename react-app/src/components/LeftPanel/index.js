@@ -13,29 +13,33 @@ function LeftPanel() {
     const [currentGroupId, SetcurrentGroupId] = useState(1)
     const allGroups = useSelector((state) => state.groups.allGroups);
     const allGroupsArr = Object.values(allGroups)
-    // const allGroupsAndUsers = useSelector((state) => state.users.allGroupswithUserinfo)
     const allGroupsAndUsers = useSelector((state) => state.users.friendsWithGroupInfo)
-
-
-
-
-    //get all friends- change another thunk
     const allGroupsAndUsersArr = Object.values(allGroupsAndUsers)
 
-    let friendsname = []
-    for (let user of allGroupsAndUsersArr) {
-        friendsname.push(user.username)
+
+    //get all group's names
+    let groupsname = []
+    for (let group of allGroupsArr) {
+        groupsname.push(group.name)
     }
 
 
-    // let friendsname = []
-    // for (let user of allGroupsAndUsersArr) {
-    //     user.userinfo.forEach(user => friendsname.push(user.username))
-    // }
+    //get all friends- change another thunk
+    let friendsname = []
+    for (let user of allGroupsAndUsersArr) {
+        console.log("check user: ", user)
+        //get valid friends who invole in groups
+        for (let group of user.groupid) {
+            if (groupsname.includes(group.name)) {
+                friendsname.push(user)
+            }
+        }
+    }
+
+    // find unique friend's name
+    let uniquefriendsname = [... new Set(friendsname)]
 
 
-    //find unique friend's name
-    // let uniquefriendsname = [... new Set(friendsname)]
 
 
     useEffect(() => {
@@ -55,27 +59,6 @@ function LeftPanel() {
         dispatch(usersthunk.friendsWithGroupInfo())
     }
 
-    // useEffect(() => {
-    //     dispatch(groupsthunk.allGroupsthunk())
-    //     dispatch(groupsthunk.singleGroupthunk(currentGroupId))
-
-    // }, [dispatch, currentGroupId])
-
-    // const singlegrouphandler = () => {
-    //     console.log("clicking ")
-    //     SetcurrentGroupId(groupId)
-    //     console.log("--------groupId from state in handler: ", currentGroupId)
-    //     dispatch(groupsthunk.singleGroupthunk(groupId))
-    // }
-
-    // const singlegrouphandler = () => {
-    //     console.log("clicking ")
-    //     SetcurrentGroupId(groupId)
-    //     console.log("--------groupId from state in handler: ", currentGroupId)
-    //     dispatch(groupsthunk.singleGroupthunk(groupId))
-    // }
-
-    // if (allGroupsArr.length === 0) return null
 
     return (
         <>
@@ -138,11 +121,31 @@ function LeftPanel() {
                     </div>
 
                 </div>
+
                 <div className="height-3vh" id="frined">
                     <div>
-                        {friendsname.map(name => <div className="friend" onClick={clickFriendHandler}>{name}</div>)}
-                        {/* {uniquefriendsname.map(name => <div className="friend" onClick={clickFriendHandler}>{name}</div>)} */}
-
+                        {uniquefriendsname.map(user =>
+                            <div className="friend" onClick={clickFriendHandler}>
+                                <NavLink to={`/friends/${user.id}`} style={{ textDecoration: 'none' }}>
+                                    {user.username}
+                                    {/* <div className="flx" >
+                                        <div className="width-50" >
+                                            {group.name}
+                                        </div>
+                                        <div className="width-50 flx-spacearound">
+                                            <OpenModalButton
+                                                buttonText={<i class="fas fa-edit"></i>}
+                                                modalComponent={<GroupModal type="edit group" name={group.name} id={group.id} />}
+                                            />
+                                            <OpenModalButton
+                                                buttonText={<i class="fas fa-trash-alt"></i>}
+                                                modalComponent={<DeleteConfirmationModal type="delete group" groupid={group.id} />}
+                                            />
+                                        </div>
+                                    </div> */}
+                                </NavLink>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div >
