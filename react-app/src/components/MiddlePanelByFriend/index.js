@@ -10,9 +10,20 @@ import CreateExpense from "../CreateExpense"
 function GroupListByFriend() {
     let { friendId } = useParams()
     const allusersDetails = useSelector((state) => state.users.friendsWithGroupInfo)
+    const allGroups = useSelector((state) => state.groups.allGroups);
+    const allGroupsArr = Object.values(allGroups)
+
+    //get all group's names
+    let groupsname = []
+    for (let group of allGroupsArr) {
+        groupsname.push(group.name)
+    }
 
     //choose the selected frined in allusers
     let selectedFriend = allusersDetails[friendId]
+
+    //dispaly valid group in middle panel, user can only see the group he/she involes
+    let validgroup = selectedFriend.groupid.filter(group => groupsname.includes(group.name))
 
     return (
         <>
@@ -35,7 +46,7 @@ function GroupListByFriend() {
                 </div>
 
                 <div className="line-5vh">
-                    {selectedFriend.groupid.map(group =>
+                    {validgroup.map(group =>
                         <>
                             <div key={group.id} className="detail">
                                 <NavLink to={`/groups/${group.id}`} style={{ textDecoration: 'none', lineHeight: '5vh' }}>

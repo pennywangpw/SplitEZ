@@ -41,13 +41,11 @@ function LeftPanel() {
 
 
 
-
     useEffect(() => {
         dispatch(groupsthunk.allGroupsthunk())
         dispatch(usersthunk.friendsWithGroupInfo())
         // dispatch(usersthunk.allFriends())
         return () => dispatch(groupsthunk.clearGroupA())
-
     }, [dispatch])
 
     const friendsHandler = () => {
@@ -62,7 +60,6 @@ function LeftPanel() {
 
     return (
         <>
-
             <div className=" pad-r-15px mrg-l-10px ">
                 <NavLink to="/all" style={{ textDecoration: 'none', lineHeight: '5vh' }}>
                     <div className="fontS-22px height-5vh">All expenses</div>
@@ -76,33 +73,34 @@ function LeftPanel() {
                             modalComponent={<GroupModal type="create group" />}
                         />
                     </div>
-
                 </div>
 
                 <div id="group">
-                    <div>{allGroupsArr.map(group =>
-                        <div>
-                            <NavLink to={`/groups/${group.id}`} style={{ textDecoration: 'none' }}>
-                                <div className="flx" >
-                                    <div className="width-50" onClick={() => SetcurrentGroupId(group.id)}>
-                                        {group.name}
+                    <div>
+                        {allGroupsArr.map(group =>
+                            <div>
+                                <NavLink to={`/groups/${group.id}`} style={{ textDecoration: 'none' }}>
+                                    <div className="flx" >
+                                        <div className="width-50" onClick={() => SetcurrentGroupId(group.id)}>
+                                            {group.name}
+                                        </div>
+                                        <div className="width-50 flx-spacearound">
+                                            <OpenModalButton
+                                                buttonText={<i class="fas fa-edit"></i>}
+                                                modalComponent={<GroupModal type="edit group" name={group.name} id={group.id} />}
+                                            />
+                                            <OpenModalButton
+                                                buttonText={<i class="fas fa-trash-alt"></i>}
+                                                modalComponent={<DeleteConfirmationModal type="delete group" groupid={group.id} />}
+                                            />
+                                        </div>
                                     </div>
-                                    <div className="width-50 flx-spacearound">
-                                        <OpenModalButton
-                                            buttonText={<i class="fas fa-edit"></i>}
-                                            modalComponent={<GroupModal type="edit group" name={group.name} id={group.id} />}
-                                        />
-                                        <OpenModalButton
-                                            buttonText={<i class="fas fa-trash-alt"></i>}
-                                            modalComponent={<DeleteConfirmationModal type="delete group" groupid={group.id} />}
-                                        />
-                                    </div>
-                                </div>
 
 
-                            </NavLink>
-                        </div>
-                    )}</div>
+                                </NavLink>
+                            </div>
+                        )}
+                    </div>
                 </div>
 
 
@@ -127,27 +125,27 @@ function LeftPanel() {
                         {uniquefriendsname.map(user =>
                             <div className="friend" onClick={clickFriendHandler}>
                                 <NavLink to={`/friends/${user.id}`} style={{ textDecoration: 'none' }}>
-                                    {user.username}
-                                    {/* <div className="flx" >
+                                    <div className="flx" >
                                         <div className="width-50" >
-                                            {group.name}
+                                            {user.username}
                                         </div>
                                         <div className="width-50 flx-spacearound">
                                             <OpenModalButton
                                                 buttonText={<i class="fas fa-edit"></i>}
-                                                modalComponent={<GroupModal type="edit group" name={group.name} id={group.id} />}
+
                                             />
                                             <OpenModalButton
                                                 buttonText={<i class="fas fa-trash-alt"></i>}
-                                                modalComponent={<DeleteConfirmationModal type="delete group" groupid={group.id} />}
+
                                             />
                                         </div>
-                                    </div> */}
+                                    </div>
                                 </NavLink>
                             </div>
                         )}
                     </div>
                 </div>
+
             </div >
 
         </>
