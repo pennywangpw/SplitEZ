@@ -7,34 +7,27 @@ import { useState } from "react";
 
 
 
-function GroupModal({ type, name, id }) {
-    console.log("In the group modal what i got the name i passed in: ", type, name, id)
+function FriendModal({ name }) {
     const dispatch = useDispatch()
     const { closeModal } = useModal()
-    const [groupname, setGroupName] = useState(name)
+    const [friendname, setFriendName] = useState(name)
     const [errors, setErrors] = useState([])
 
     // validation for group name
     useEffect(() => {
         let e = []
-        if (groupname === undefined) e.push("Please provide a group name")
-        if (groupname !== undefined && groupname.length < 1) e.push("Please provide a group name.")
-        if (groupname !== undefined && groupname.length > 10) e.push("Please shorten the group name")
+        if (friendname === undefined) e.push("Please provide a group name")
+        if (friendname !== undefined && friendname.length < 1) e.push("Please provide a group name.")
+        if (friendname !== undefined && friendname.length > 10) e.push("Please shorten the group name")
         setErrors(e)
-    }, [groupname])
+    }, [friendname])
 
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        let payload = { 'name': groupname }
+        let payload = { 'name': friendname }
         console.log("check typeof payload: ", payload)
 
-        if (type === "create group") {
-            dispatch(groupsthunk.createGroupthunk(payload)).then(closeModal)
-        }
-        else if (type === "edit group") {
-            dispatch(groupsthunk.updateGroupthunk(payload, id)).then(dispatch(groupsthunk.singleGroupthunk(id))).then(closeModal)
-        }
     }
 
 
@@ -43,23 +36,21 @@ function GroupModal({ type, name, id }) {
         <>
             <form onSubmit={handleSubmit} className="modal-group">
                 <div className="width-350px height-350px">
-                    {type === "create group" ? (<header className="bg-5cc5a7">Add an group</header>) :
-                        (<header className="bg-5cc5a7">Rename the group</header>)}
+                    <header className="bg-5cc5a7">Add description for friend's name</header>
                     {console.log("ooooo: ", errors)}
                     <div>
                         <div id="error">
                             {errors.length > 0 ? (errors.map(error => <div>{error}</div>)) : <div></div>}
                             {/* {errors.length > 0 && errors.map(error => <div>{error}</div>)} */}
                         </div>
-                        <label htmlFor="groupname">
-                            My group shall be called...
+                        <label htmlFor="friendname">
+                            You may add description for friend's name
                         </label>
                         <input
-                            id="groupname"
+                            id="friendname"
                             type="text"
-                            placeholder="1600 Pennsylvania Ave"
-                            value={groupname}
-                            onChange={(e) => setGroupName(e.target.value)}
+                            value={friendname}
+                            onChange={(e) => setFriendName(e.target.value)}
                         />
                     </div>
                     <button type="submit" disabled={errors.length > 0}>Yes</button>
@@ -70,4 +61,4 @@ function GroupModal({ type, name, id }) {
     )
 }
 
-export default GroupModal;
+export default FriendModal;

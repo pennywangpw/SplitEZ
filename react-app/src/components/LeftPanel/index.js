@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import * as groupsthunk from "../../store/group";
 import * as usersthunk from "../../store/user";
 import { NavLink } from "react-router-dom";
-import GroupModal from "../GroupModal"
+import GroupModal from "../GroupModal";
+import FriendModal from "../FriendModal";
 import DeleteConfirmationModal from "../DeleteConfirmationModal"
 import OpenModalButton from "../OpenModalButton";
 
@@ -124,6 +125,7 @@ function LeftPanel() {
                     <div>
                         {uniquefriendsname.map(user =>
                             <div className="friend" onClick={clickFriendHandler}>
+                                {console.log("確認一下user: ", user)}
                                 <NavLink to={`/friends/${user.id}`} style={{ textDecoration: 'none' }}>
                                     <div className="flx" >
                                         <div className="width-50" >
@@ -132,7 +134,7 @@ function LeftPanel() {
                                         <div className="width-50 flx-spacearound">
                                             <OpenModalButton
                                                 buttonText={<i class="fas fa-edit"></i>}
-
+                                                modalComponent={<FriendModal name={user.username} />}
                                             />
                                             <OpenModalButton
                                                 buttonText={<i class="fas fa-trash-alt"></i>}
