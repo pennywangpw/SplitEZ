@@ -17,6 +17,7 @@ function GroupListByFriend() {
     return (
         <>
             <div className="shadow">
+
                 <div className="flx line-h70 bg-maim-eee border-top-main border-bottom-main fontS-13px ">
                     <div className="fontS-220rem width-50">{selectedFriend.username}</div>
                     <div className="btn-create">
@@ -36,7 +37,7 @@ function GroupListByFriend() {
                 <div className="line-5vh">
                     {selectedFriend.groupid.map(group =>
                         <>
-                            <div key={group.id}>
+                            <div key={group.id} className="detail">
                                 <NavLink to={`/groups/${group.id}`} style={{ textDecoration: 'none', lineHeight: '5vh' }}>
                                     <div className="grid-3fr height-8vh expense-summary">{group.name}</div>
                                 </NavLink>
@@ -44,13 +45,7 @@ function GroupListByFriend() {
                         </>
                     )}
 
-                    {/* <NavLink to={`/groups/${group.id}`}>
-                        {selectedFriend.groupid.map(group => <div>{group.name}</div>)}
-                    </NavLink> */}
                 </div>
-
-
-
 
             </div>
         </>
