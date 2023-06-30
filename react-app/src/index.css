@@ -278,6 +278,11 @@ body {
     cursor: pointer;
 }
 
+/*============ className -detail =============*/
+.friend {
+    cursor: pointer;
+}
+
 /*============ for navigation =============*/
 .flx-jc-sb {
     display: flex;

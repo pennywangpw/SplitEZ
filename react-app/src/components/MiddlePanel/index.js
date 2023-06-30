@@ -43,7 +43,6 @@ function ExpensesList() {
 
     //convert allcomments into array
     const allCommentsArr = Object.values(allComments)
-    console.log("allCommentsArr convert into array: ", allCommentsArr)
 
     //change the order of allExpensesinArr by descending
     let allExpensesinArr;

@@ -5,7 +5,6 @@ import * as commentsthunk from "../../store/comment"
 import { useState } from "react";
 
 function CommentModal({ origincomment }) {
-    console.log("In the comment modal what i got the name i passed in: ", origincomment)
     const dispatch = useDispatch()
     const { closeModal } = useModal()
     const [comment, setComment] = useState(origincomment.comment)
@@ -23,7 +22,6 @@ function CommentModal({ origincomment }) {
     const handleSubmit = (e) => {
         e.preventDefault()
         let payload = { 'id': origincomment.id, 'comment': comment }
-        console.log("check typeof payload: ", payload)
         dispatch(commentsthunk.updateComments(payload)).then(closeModal)
     }
 

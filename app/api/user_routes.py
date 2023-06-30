@@ -32,6 +32,8 @@ def userswithGroupinfo():
     '''get all users (usersDict)'''
     users = User.query.all()
     usersDict = [user.to_dict() for user in users]
+    print(f"測試看看{usersDict}")
+
 
     '''get all groups (usersWithGroup) for each of user'''
     usersWithGroup = []

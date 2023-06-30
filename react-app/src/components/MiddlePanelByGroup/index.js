@@ -37,7 +37,6 @@ function ExpensesListByGroup() {
 
     //convert allcomments into array
     const allCommentsArr = Object.values(allComments)
-    console.log("allCommentsArr convert into array: ", allCommentsArr)
 
     //change the order of allExpensesinArr by descending
     let allExpensesinArr;
@@ -73,7 +72,7 @@ function ExpensesListByGroup() {
                         (<div>No Expenses....</div>) :
                         (allExpensesinArr.map(exp =>
                             <>
-                                <div key={exp.id}>
+                                <div key={exp.id} className="detail">
                                     <div onClick={() => {
                                         setCurrentId(exp.id)
                                         setShowDetail(!showDetail)
