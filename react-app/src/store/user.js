@@ -43,6 +43,26 @@ export const friendsWithGroupInfo = () => async (dispatch) => {
     }
 }
 
+//update friend thunk
+export const updateFriendthunk = (payload) => async (dispatch) => {
+    console.log("this is thunk--updateFriendthunk", payload)
+
+    const response = await fetch(`/api/users`, {
+        method: 'PUT',
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload)
+
+    })
+    if (response.ok) {
+        const data = await response.json();
+        console.log("updateFriendthunk thunk check what i got from bk: ", data)
+
+    };
+    return response
+}
+
 const initialState = {
     allGroupswithUserinfo: {},
     friendsWithGroupInfo: {}

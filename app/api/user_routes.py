@@ -1,6 +1,8 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required,current_user
 from app.models import User
+from ..forms import UserForm
+
 
 user_routes = Blueprint('users', __name__)
 
@@ -54,6 +56,12 @@ def userswithGroupinfo():
 
     return usersDict
 
+#update friend's name, but only add a description
+@user_routes.route('/users')
+@login_required
+def updateFriendName():
+    form = UserForm()
+    print("form 長什麼樣子: ", form)
 
 
 

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useModal } from "../../context/Modal";
 import { useSelector, useDispatch } from 'react-redux';
-import * as groupsthunk from "../../store/group"
+import * as usersthunk from "../../store/user"
 import { useState } from "react";
 
 
@@ -17,8 +17,6 @@ function FriendModal({ name }) {
     useEffect(() => {
         let e = []
         if (friendname === undefined) e.push("Please provide a group name")
-        if (friendname !== undefined && friendname.length < 1) e.push("Please provide a group name.")
-        if (friendname !== undefined && friendname.length > 10) e.push("Please shorten the group name")
         setErrors(e)
     }, [friendname])
 
@@ -27,7 +25,7 @@ function FriendModal({ name }) {
         e.preventDefault()
         let payload = { 'name': friendname }
         console.log("check typeof payload: ", payload)
-
+        dispatch(usersthunk.updateFriendthunk(payload))
     }
 
 
@@ -49,8 +47,7 @@ function FriendModal({ name }) {
                         <input
                             id="friendname"
                             type="text"
-                            value={friendname}
-                            onChange={(e) => setFriendName(e.target.value)}
+                            onChange={(e) => setFriendName(friendname + e.target.value)}
                         />
                     </div>
                     <button type="submit" disabled={errors.length > 0}>Yes</button>
