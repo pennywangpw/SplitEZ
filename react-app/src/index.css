@@ -7,6 +7,13 @@ body {
 
 }
 
+footer {
+    display: flex;
+    justify-content: center;
+    padding: 5px;
+}
+
+
 .flx {
     display: flex;
 }
@@ -283,6 +290,10 @@ body {
     cursor: pointer;
 }
 
+
+
+
+
 /*============ for navigation =============*/
 .flx-jc-sb {
     display: flex;
@@ -369,8 +380,12 @@ body {
 
 /*============ splash page =============*/
 .welcome {
-    width: 50%;
-    margin: auto;
+    /* width: 50%;
+    margin: auto; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5px;
 }
 
 

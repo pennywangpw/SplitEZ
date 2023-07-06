@@ -108,9 +108,9 @@ function LeftPanel() {
                 <div className="flx bg-side-grey l-bar-c">
                     <div className="width-50 ">FRIENDS</div>
                     <div className="width-50">
-                        <button onClick={friendsHandler} className=" float-r button">
+                        {/* <button onClick={friendsHandler} className=" float-r button">
                             +Add
-                        </button>
+                        </button> */}
                         <OpenModalButton
                             buttonText="+Add"
                             className=" float-r button"
