@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required,current_user
-from app.models import User
+from app.models import db, User
 from ..forms import UserForm
 
 
@@ -57,12 +57,21 @@ def userswithGroupinfo():
     return usersDict
 
 #update friend's name, but only add a description
-@user_routes.route('/users')
+@user_routes.route('/<int:id>', methods=['PUT'])
 @login_required
-def updateFriendName():
+def updateFriendName(id):
     form = UserForm()
-    print("form 長什麼樣子: ", form)
-
+    print("form 長什麼樣子: ", form, id)
+    form['csrf_token'].data = request.cookies['csrf_token']
+    updatedfriend = User.query.get(id)
+    print("updatedfriend: ",updatedfriend)
+    if form.validate_on_submit():
+        updatedfriend.username = form.data['name']
+        db.session.commit()
+        updatedfriendDict = updatedfriend.to_dict()
+        print("updatedfriendDict: ",updatedfriendDict)
+        return updatedfriendDict
+    return "Bad Data-update a friend's name"
 
 
 # #get all users(frineds) belong to currentuser's group

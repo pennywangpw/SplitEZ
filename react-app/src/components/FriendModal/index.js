@@ -7,7 +7,7 @@ import { useState } from "react";
 
 
 
-function FriendModal({ name }) {
+function FriendModal({ name, id, type }) {
     const dispatch = useDispatch()
     const { closeModal } = useModal()
     const [friendname, setFriendName] = useState(name)
@@ -17,6 +17,8 @@ function FriendModal({ name }) {
     useEffect(() => {
         let e = []
         if (friendname === undefined) e.push("Please provide a group name")
+        if (friendname !== undefined && friendname.length > 10) e.push("Please shorten the friend's name")
+
         setErrors(e)
     }, [friendname])
 
@@ -24,8 +26,14 @@ function FriendModal({ name }) {
     const handleSubmit = (e) => {
         e.preventDefault()
         let payload = { 'name': friendname }
-        console.log("check typeof payload: ", payload)
-        dispatch(usersthunk.updateFriendthunk(payload))
+
+        if (type === "create friend") {
+            dispatch(usersthunk.createFriendthunk(payload)).then(closeModal)
+        }
+        else if (type === "edit friend") {
+            dispatch(usersthunk.updateFriendthunk(payload, id)).then(dispatch(usersthunk.friendsWithGroupInfo())).then(closeModal())
+        }
+
     }
 
 
@@ -34,7 +42,7 @@ function FriendModal({ name }) {
         <>
             <form onSubmit={handleSubmit} className="modal-group">
                 <div className="width-350px height-350px">
-                    <header className="bg-5cc5a7">Add description for friend's name</header>
+                    <header className="bg-5cc5a7">Change friend's name</header>
                     {console.log("ooooo: ", errors)}
                     <div>
                         <div id="error">
@@ -42,12 +50,13 @@ function FriendModal({ name }) {
                             {/* {errors.length > 0 && errors.map(error => <div>{error}</div>)} */}
                         </div>
                         <label htmlFor="friendname">
-                            You may add description for friend's name
+                            You may change friend's name
                         </label>
                         <input
                             id="friendname"
                             type="text"
-                            onChange={(e) => setFriendName(friendname + e.target.value)}
+                            value={friendname}
+                            onChange={(e) => setFriendName(e.target.value)}
                         />
                     </div>
                     <button type="submit" disabled={errors.length > 0}>Yes</button>

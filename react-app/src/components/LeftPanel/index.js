@@ -111,12 +111,11 @@ function LeftPanel() {
                         <button onClick={friendsHandler} className=" float-r button">
                             +Add
                         </button>
-                        {/* <OpenModalButton
-
+                        <OpenModalButton
                             buttonText="+Add"
                             className=" float-r button"
-                            modalComponent={<GroupModal type="create group" />}
-                        /> */}
+                            modalComponent={<FriendModal type="create friend" />}
+                        />
                     </div>
 
                 </div>
@@ -134,7 +133,7 @@ function LeftPanel() {
                                         <div className="width-50 flx-spacearound">
                                             <OpenModalButton
                                                 buttonText={<i class="fas fa-edit"></i>}
-                                                modalComponent={<FriendModal name={user.username} />}
+                                                modalComponent={<FriendModal name={user.username} id={user.id} type="edit friend" />}
                                             />
                                             <OpenModalButton
                                                 buttonText={<i class="fas fa-trash-alt"></i>}
