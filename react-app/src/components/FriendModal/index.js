@@ -16,7 +16,7 @@ function FriendModal({ name, id, type }) {
     // validation for group name
     useEffect(() => {
         let e = []
-        if (friendname === undefined) e.push("Please provide a group name")
+        if (friendname === undefined) e.push("Please provide friend's name")
         if (friendname !== undefined && friendname.length > 10) e.push("Please shorten the friend's name")
 
         setErrors(e)
@@ -42,16 +42,25 @@ function FriendModal({ name, id, type }) {
         <>
             <form onSubmit={handleSubmit} className="modal-group">
                 <div className="width-350px height-350px">
-                    <header className="bg-5cc5a7">Change friend's name</header>
+                    {type === "create friend" ? (<header className="bg-5cc5a7">Add a friend</header>) :
+                        (<header className="bg-5cc5a7">Change friend's name</header>)}
                     {console.log("ooooo: ", errors)}
                     <div>
                         <div id="error">
                             {errors.length > 0 ? (errors.map(error => <div>{error}</div>)) : <div></div>}
                             {/* {errors.length > 0 && errors.map(error => <div>{error}</div>)} */}
                         </div>
-                        <label htmlFor="friendname">
-                            You may change friend's name
-                        </label>
+                        {type === "create friend" ? (
+                            <label htmlFor="friendname">
+                                Friend's name...
+                            </label>
+                        ) :
+                            (
+                                <label htmlFor="friendname">
+                                    You may change friend's name
+                                </label>
+                            )}
+
                         <input
                             id="friendname"
                             type="text"

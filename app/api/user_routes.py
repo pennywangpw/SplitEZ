@@ -74,6 +74,17 @@ def updateFriendName(id):
     return "Bad Data-update a friend's name"
 
 
+#create a group
+@user_routes.route('', methods=['POST'])
+@login_required
+def createFriend(payload):
+    form = UserForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        return "213"
+    return "Bad Data-update a friend's name"
+
+
 # #get all users(frineds) belong to currentuser's group
 # @user_routes.route('/all')
 # @login_required

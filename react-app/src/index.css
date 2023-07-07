@@ -79,9 +79,9 @@ footer {
     color: red
 }
 
-.flx-spacearound {
+.flx-right {
     display: flex;
-    justify-content: space-around;
+    justify-content: right;
 }
 
 
@@ -91,6 +91,10 @@ footer {
 
 .display-n {
     display: none;
+}
+
+.text-align-j {
+    text-align: justify
 }
 
 /*============ className -color =============*/
@@ -384,7 +388,7 @@ footer {
     margin: auto; */
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    text-align: center;
     padding: 5px;
 }
 
