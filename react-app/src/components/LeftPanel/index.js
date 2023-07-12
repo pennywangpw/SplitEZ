@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import * as groupsthunk from "../../store/group";
 import * as usersthunk from "../../store/user";
 import { NavLink } from "react-router-dom";
-import GroupModal from "../GroupModal"
+import GroupModal from "../GroupModal";
+import FriendModal from "../FriendModal";
 import DeleteConfirmationModal from "../DeleteConfirmationModal"
 import OpenModalButton from "../OpenModalButton";
 
@@ -84,7 +85,7 @@ function LeftPanel() {
                                         <div className="width-50" onClick={() => SetcurrentGroupId(group.id)}>
                                             {group.name}
                                         </div>
-                                        <div className="width-50 flx-spacearound">
+                                        <div className="width-50 flx-sa">
                                             <OpenModalButton
                                                 buttonText={<i class="fas fa-edit"></i>}
                                                 modalComponent={<GroupModal type="edit group" name={group.name} id={group.id} />}
@@ -111,10 +112,9 @@ function LeftPanel() {
                             +Add
                         </button>
                         {/* <OpenModalButton
-
                             buttonText="+Add"
                             className=" float-r button"
-                            modalComponent={<GroupModal type="create group" />}
+                            modalComponent={<FriendModal type="create friend" />}
                         /> */}
                     </div>
 
@@ -124,19 +124,16 @@ function LeftPanel() {
                     <div>
                         {uniquefriendsname.map(user =>
                             <div className="friend" onClick={clickFriendHandler}>
+                                {console.log("確認一下user: ", user)}
                                 <NavLink to={`/friends/${user.id}`} style={{ textDecoration: 'none' }}>
                                     <div className="flx" >
                                         <div className="width-50" >
                                             {user.username}
                                         </div>
-                                        <div className="width-50 flx-spacearound">
+                                        <div className="width-50 flx-right">
                                             <OpenModalButton
                                                 buttonText={<i class="fas fa-edit"></i>}
-
-                                            />
-                                            <OpenModalButton
-                                                buttonText={<i class="fas fa-trash-alt"></i>}
-
+                                                modalComponent={<FriendModal name={user.username} id={user.id} type="edit friend" />}
                                             />
                                         </div>
                                     </div>

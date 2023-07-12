@@ -7,6 +7,13 @@ body {
 
 }
 
+footer {
+    display: flex;
+    justify-content: center;
+    padding: 5px;
+}
+
+
 .flx {
     display: flex;
 }
@@ -72,11 +79,15 @@ body {
     color: red
 }
 
-.flx-spacearound {
+.flx-right {
+    display: flex;
+    justify-content: right;
+}
+
+.flx-sa {
     display: flex;
     justify-content: space-around;
 }
-
 
 .display-b {
     display: block;
@@ -84,6 +95,10 @@ body {
 
 .display-n {
     display: none;
+}
+
+.text-align-j {
+    text-align: justify
 }
 
 /*============ className -color =============*/
@@ -283,6 +298,10 @@ body {
     cursor: pointer;
 }
 
+
+
+
+
 /*============ for navigation =============*/
 .flx-jc-sb {
     display: flex;
@@ -369,8 +388,12 @@ body {
 
 /*============ splash page =============*/
 .welcome {
-    width: 50%;
-    margin: auto;
+    /* width: 50%;
+    margin: auto; */
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding: 5px;
 }
 
 
