@@ -74,15 +74,28 @@ def updateFriendName(id):
     return "Bad Data-update a friend's name"
 
 
-#create a group
+#create a friend
 @user_routes.route('', methods=['POST'])
 @login_required
-def createFriend(payload):
+def createFriend():
     form = UserForm()
     form['csrf_token'].data = request.cookies['csrf_token']
+
     if form.validate_on_submit():
-        return "213"
-    return "Bad Data-update a friend's name"
+        '''create a new user(friend) and store in db'''
+        print("確認一下form: ", form.data)
+        new_friend = User(
+            username= form.data['name'],
+            email = form.data['email']
+        )
+        print("新朋友: ", new_friend)
+        print("新朋友: ", new_friend.to_dict())
+
+
+        db.session.add(new_friend)
+        db.session.commit()
+        return "123"
+    return "Bad Data"
 
 
 # #get all users(frineds) belong to currentuser's group

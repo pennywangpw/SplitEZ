@@ -11,6 +11,8 @@ function FriendModal({ name, id, type }) {
     const dispatch = useDispatch()
     const { closeModal } = useModal()
     const [friendname, setFriendName] = useState(name)
+    const [friendemail, setFriendemail] = useState()
+
     const [errors, setErrors] = useState([])
 
     // validation for group name
@@ -18,15 +20,16 @@ function FriendModal({ name, id, type }) {
         let e = []
         if (friendname === undefined) e.push("Please provide friend's name")
         if (friendname !== undefined && friendname.length > 10) e.push("Please shorten the friend's name")
+        if (friendemail === undefined) e.push("Please provide friend's email")
 
         setErrors(e)
-    }, [friendname])
+    }, [friendname, friendemail])
 
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        let payload = { 'name': friendname }
-
+        let payload = { 'name': friendname, 'email': friendemail }
+        console.log("按下load:去的pay ", payload)
         if (type === "create friend") {
             dispatch(usersthunk.createFriendthunk(payload)).then(closeModal)
         }
@@ -44,7 +47,6 @@ function FriendModal({ name, id, type }) {
                 <div className="width-350px height-350px">
                     {type === "create friend" ? (<header className="bg-5cc5a7">Add a friend</header>) :
                         (<header className="bg-5cc5a7">Change friend's name</header>)}
-                    {console.log("ooooo: ", errors)}
                     <div>
                         <div id="error">
                             {errors.length > 0 ? (errors.map(error => <div>{error}</div>)) : <div></div>}
@@ -67,6 +69,23 @@ function FriendModal({ name, id, type }) {
                             value={friendname}
                             onChange={(e) => setFriendName(e.target.value)}
                         />
+                        {type === "create friend" ? (
+                            <div>
+                                <label htmlFor="friendname">
+                                    Friend's email...
+                                </label>
+                                <input
+                                    id="friendname"
+                                    type="text"
+                                    value={friendemail}
+                                    onChange={(e) => setFriendemail(e.target.value)}
+                                />
+                            </div>
+                        ) :
+                            (
+                                <div></div>
+                            )}
+
                     </div>
                     <button type="submit" disabled={errors.length > 0}>Yes</button>
                     <button onClick={closeModal}>No</button>

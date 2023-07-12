@@ -85,7 +85,7 @@ function LeftPanel() {
                                         <div className="width-50" onClick={() => SetcurrentGroupId(group.id)}>
                                             {group.name}
                                         </div>
-                                        <div className="width-50 flx-right">
+                                        <div className="width-50 flx-sa">
                                             <OpenModalButton
                                                 buttonText={<i class="fas fa-edit"></i>}
                                                 modalComponent={<GroupModal type="edit group" name={group.name} id={group.id} />}
@@ -108,14 +108,14 @@ function LeftPanel() {
                 <div className="flx bg-side-grey l-bar-c">
                     <div className="width-50 ">FRIENDS</div>
                     <div className="width-50">
-                        {/* <button onClick={friendsHandler} className=" float-r button">
+                        <button onClick={friendsHandler} className=" float-r button">
                             +Add
-                        </button> */}
-                        <OpenModalButton
+                        </button>
+                        {/* <OpenModalButton
                             buttonText="+Add"
                             className=" float-r button"
                             modalComponent={<FriendModal type="create friend" />}
-                        />
+                        /> */}
                     </div>
 
                 </div>

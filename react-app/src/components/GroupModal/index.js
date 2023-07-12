@@ -45,7 +45,6 @@ function GroupModal({ type, name, id }) {
                 <div className="width-350px height-350px">
                     {type === "create group" ? (<header className="bg-5cc5a7">Add an group</header>) :
                         (<header className="bg-5cc5a7">Rename the group</header>)}
-                    {console.log("ooooo: ", errors)}
                     <div>
                         <div id="error">
                             {errors.length > 0 ? (errors.map(error => <div>{error}</div>)) : <div></div>}

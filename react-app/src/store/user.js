@@ -1,7 +1,7 @@
 const GETALLFRIENDS = 'friends/ALL_FRIENDS';
 const GETAFRIENDWITHGROUPINFO = 'friends/FRIEND_WITH_GROUPINFO';
 const UPDATEFRIEND = 'friends/UPDATE_FRIENDS';
-const CREATEFRIEND = 'friends/CREATE_FRIEND';
+const POSTAFRIEND = 'friends/CREATE_FRIEND';
 
 
 
@@ -29,10 +29,10 @@ const updateFriendA = (obj) => {
 }
 
 
-const createAFriendA = (arr) => {
+const createAFriendA = (obj) => {
     return {
-        type: CREATEFRIEND,
-        arr
+        type: POSTAFRIEND,
+        obj
     };
 }
 
@@ -81,6 +81,7 @@ export const updateFriendthunk = (payload, id) => async (dispatch) => {
 
 //create friend thunk
 export const createFriendthunk = (payload) => async (dispatch) => {
+    console.log("createFriendthunk payload: ", payload)
     const response = await fetch(`/api/users`, {
         method: 'POST',
         headers: {
@@ -121,6 +122,11 @@ const usersReducer = (state = initialState, action) => {
             let updatedFriend = action.obj
             newState3.friendsWithGroupInfo = updatedFriend
             return newState3
+        case POSTAFRIEND:
+            let newState4 = { ...state, allGroupswithUserinfo: { ...state.allGroupswithUserinfo }, friendsWithGroupInfo: { ...state.friendsWithGroupInfo } }
+            let newfriend = action.obj
+            newState4.friendsWithGroupInfo[newfriend.id] = newfriend
+            return newState4
         default:
             return state;
     }
