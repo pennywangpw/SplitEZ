@@ -35,7 +35,7 @@ def allExpenses():
 
 
 
-#get a single expense with billpayer information
+#get a single expense with billpayer AND associated user information
 @expenses.route('/<int:id>')
 @login_required
 def singleExpense(id):
@@ -45,12 +45,22 @@ def singleExpense(id):
     billpayer = expense.user
     billpayerDict = billpayer.to_dict()
     print(f'single expnese --billpayer {billpayerDict}')
+    '''add billpayer column to expenseDict'''
     expenseDict = expense.to_dict()
     expenseDict['billpayer']=billpayerDict
     # expenseDict['billpayer'].append(billpayerDict)
+    # print(f'single expnese --returnning {expenseDict}')
+
+    '''get associated users'''
+    associateduser = expense.users
+    associateduserDict = [user.to_dict() for user in associateduser]
+    print(f'找testing to see associated user: ',associateduserDict)
+    '''add associateduser column to expenseDict'''
+    expenseDict['associateduser'] = associateduserDict
     print(f'single expnese --returnning {expenseDict}')
 
     return expenseDict
+
 
 
 #create an expense

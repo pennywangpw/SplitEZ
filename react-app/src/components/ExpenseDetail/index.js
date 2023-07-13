@@ -7,8 +7,8 @@ import EditExpense from "../EditExpense"
 import DeleteConfirmationModal from "../DeleteConfirmationModal"
 import OpenModalButton from "../OpenModalButton";
 
-function ExpenseDetail({ exp, setShowDetail, allCommentsArr }) {
-    console.log("exp detail here: ", setShowDetail, exp, allCommentsArr)
+function ExpenseDetail({ exp, setShowDetail, allCommentsArr, singleExpenseArr }) {
+    console.log("exp detail here: ", setShowDetail, exp, allCommentsArr, singleExpenseArr)
     // console.log("ExpenseDetail with passed currentid: ", typeof currentId, currentId, setShowDetail)
     // const allComments = useSelector((state) => state.comments.allComments)
     const dispatch = useDispatch()
@@ -51,7 +51,10 @@ function ExpenseDetail({ exp, setShowDetail, allCommentsArr }) {
 
 
                 <div className=" height-50 border-bottom-main flx">
-                    <div className="width-50">Who's in the group (coming soon)</div>
+                    <div className="width-50">
+                        <div>Who's in the group (coming soon)</div>
+                        <div>dsf</div>
+                    </div>
                     {/* <div className="width-50 height-100">ppl involved</div> */}
                     {/* <div className="width-50 height-100">comments</div> */}
                     <div className="comment width-100">
