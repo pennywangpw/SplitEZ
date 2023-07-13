@@ -23,13 +23,26 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
     const allGroups = useSelector((state) => state.groups.allGroups)
     let allGroupsArr = Object.values(allGroups)
 
-
+    //get all the expenses and conver into arr
     const allExpenses = useSelector((state) => state.expenses.allExpenses)
     let allExpensesArr = Object.values(allExpenses)
+
+    //get all the users and conver into arr
+    const allUsers = useSelector((state) => state.users.friendsWithGroupInfo)
+    let allUsersArr = Object.values(allUsers)
+
+    //get currentuser
+    const current_user = useSelector((state) => state.session.user)
+
+
 
     console.log("---CHECK GROUP ID: -- ", group_id)
     console.log("-----let's see th ", expense_total)
     console.log("expense modal: ", allExpensesArr)
+    console.log("allUsersArr: ", allUsersArr)
+    console.log("current_user:  ", current_user)
+
+
 
 
     // validation for expense name (description)
@@ -128,7 +141,20 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
 
                             </select>
                         </div>
-                        <button onClick={handleAlert}>Add bill payer</button>
+
+                        <div>
+                            <label htmlFor="group">Paid by:</label>
+
+                            <select name="groups" id="group" onChange={groupIdhandler}>
+
+                                <option value="">--Please choose people who split this bill--</option>
+                                {/* <option value="0">(No group) Move to All expenses</option> */}
+                                {allUsersArr.map(user => <option value={user.id} selected={user.id === current_user.id}>{user.username}</option>)}
+
+                            </select>
+                        </div>
+
+                        {/* <button onClick={handleAlert}>Paid by</button> */}
                         {/* <div>
                             Bill Payer
                             <input

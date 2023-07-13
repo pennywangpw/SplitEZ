@@ -31,12 +31,14 @@ def user(id):
 @user_routes.route('/all')
 @login_required
 def userswithGroupinfo():
-    '''get all users (usersDict)'''
+    '''get all users and change to dictionary(usersDict) and store in a list'''
     users = User.query.all()
     usersDict = [user.to_dict() for user in users]
     print(f"測試看看{usersDict}")
 
-
+    '''create usersWithGroup to collect each user with group infomation'''
+    '''iterate through users, create user_groups [] for each user AND iterate through user.groups column '''
+    '''then append each group to user_group'''
     '''get all groups (usersWithGroup) for each of user'''
     usersWithGroup = []
     for user in users:
@@ -55,6 +57,7 @@ def userswithGroupinfo():
     print(f"123有沒有家成功{usersDict}")
 
     return usersDict
+
 
 #update friend's name, but only add a description
 @user_routes.route('/<int:id>', methods=['PUT'])

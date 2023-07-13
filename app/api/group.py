@@ -54,10 +54,13 @@ def allGroupsWithUserInfo():
     # print(f"想看看i need to see allgroups {allgroups}")
     # groupsList = [group.to_dict() for group in allgroups]
     # print(f"想看看i need to see groupsList {groupsList}")
+
+    '''get current user and select groups column, and create a groups List to print out each group'''
     id = current_user.id
     user = User.query.get(id)
     groups = user.groups
     groupsList = [group.to_dict() for group in groups]
+
 
     '''add userinfo in groupsList'''
     for group in groupsList:
