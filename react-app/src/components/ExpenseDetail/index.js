@@ -27,7 +27,11 @@ function ExpenseDetail({ exp, setShowDetail, allCommentsArr, singleExpense }) {
         setComment("")
     }
 
-
+    //caculate divide amount
+    let divided_amount;
+    if (singleExpense.associateduser) {
+        divided_amount = singleExpense.expense_total / singleExpense.associateduser.length
+    }
 
     // if (!aExpanse) return null
     if (!exp) return null
@@ -55,7 +59,8 @@ function ExpenseDetail({ exp, setShowDetail, allCommentsArr, singleExpense }) {
                 <div className=" height-50 border-bottom-main flx">
                     <div className="width-50">
                         <div>Who involes in this expense: </div>
-                        {singleExpense.associateduser ? (singleExpense.associateduser.map(user => <div>{user.username}</div>)) : (<div></div>)}
+                        {singleExpense.billpayer ? (<div>{singleExpense.billpayer.username} paid {singleExpense.expense_total} and owes {divided_amount.toFixed(2)}</div>) : (<div></div>)}
+                        {singleExpense.associateduser ? (singleExpense.associateduser.map(user => <div>{user.username} owes {divided_amount.toFixed(2)}</div>)) : (<div></div>)}
                     </div>
                     {/* <div className="width-50 height-100">ppl involved</div> */}
                     {/* <div className="width-50 height-100">comments</div> */}
