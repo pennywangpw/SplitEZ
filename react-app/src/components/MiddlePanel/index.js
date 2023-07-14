@@ -54,6 +54,7 @@ function ExpensesList() {
         allExpensesinArr = Object.values(allExpenses)
         allExpensesinArr.sort((a, b) => b.id - a.id)
     }
+    console.log("allExpensesinArr: ", allExpensesinArr)
 
     return (
         <>

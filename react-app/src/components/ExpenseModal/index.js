@@ -14,6 +14,7 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
     const [name, setName] = useState(expenseinfo.name)
     const [expense_total, setExpenseTotal] = useState(+expenseinfo.expense_total || 0)
     const [billpayer, setBillpayer] = useState("")
+    const [expense_date, setExpenseDate] = useState("")
     const [group_id, setGroup_id] = useState(expenseinfo.group_id)
     const [errors, setErrors] = useState([])
 
@@ -152,6 +153,11 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
                                 {allUsersArr.map(user => <option value={user.id} selected={user.id === current_user.id}>{user.username}</option>)}
 
                             </select>
+                        </div>
+
+                        <div>
+                            <label>Expense date:</label>
+                            <input type="date" min="2023-01-01" max="2024-12-31" onChange={(e) => setExpenseDate(e.target.value)} />
                         </div>
 
                         {/* <button onClick={handleAlert}>Paid by</button> */}
