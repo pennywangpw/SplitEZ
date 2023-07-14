@@ -17,7 +17,7 @@ function ExpensesList() {
     const allGroups = useSelector((state) => state.groups.allGroups);
     const currentuser = useSelector((state) => state.session.user);
     const allComments = useSelector((state) => state.comments.allComments)
-
+    console.log("這裡: ", singleExpense)
     //get group id from allGroups
     let allGroupsArr = Object.values(allGroups)
     let allGroupsIdArr = []
@@ -45,8 +45,8 @@ function ExpensesList() {
     //convert allcomments into array
     const allCommentsArr = Object.values(allComments)
 
-    //convert singleExpense into array
-    const singleExpenseArr = Object.values(singleExpense)
+    // //convert singleExpense into array
+    // const singleExpenseArr = Object.values(singleExpense)
 
     //change the order of allExpensesinArr by descending
     let allExpensesinArr;
@@ -135,7 +135,7 @@ function ExpensesList() {
                                             // currentId={currentId}
                                             setShowDetail={setShowDetail}
                                             allCommentsArr={allCommentsArr}
-                                            singleExpenseArr={singleExpenseArr}
+                                            singleExpense={singleExpense}
                                         />
                                     </div>
 
