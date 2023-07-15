@@ -17,7 +17,8 @@ function ExpensesList() {
     const allGroups = useSelector((state) => state.groups.allGroups);
     const currentuser = useSelector((state) => state.session.user);
     const allComments = useSelector((state) => state.comments.allComments)
-    console.log("這裡: ", singleExpense)
+
+
     //get group id from allGroups
     let allGroupsArr = Object.values(allGroups)
     let allGroupsIdArr = []
@@ -36,6 +37,16 @@ function ExpensesList() {
         dispatch(expensesthunk.singleExpense(id))
     }
 
+    // change date format
+    const date_format = (datestring) => {
+        let new_format = new Date(datestring)
+        let new_format_date = new_format.getDate()
+        let new_format_month = new_format.getMonth() + 1
+        console.log("&&&", new_format_date.toString() + new_format_month.toString())
+        return new_format_date.toString() + "," + new_format_month.toString()
+    }
+
+
     //when the user click the expense summary fetch backend to get allcomments under the clicked expenseid
     const loadCommentshandler = (id) => {
         dispatch(commentsthunk.allComments(id))
@@ -45,8 +56,6 @@ function ExpensesList() {
     //convert allcomments into array
     const allCommentsArr = Object.values(allComments)
 
-    // //convert singleExpense into array
-    // const singleExpenseArr = Object.values(singleExpense)
 
     //change the order of allExpensesinArr by descending
     let allExpensesinArr;
@@ -95,7 +104,7 @@ function ExpensesList() {
                                     >
                                         <div id="main-block" className="flx">
                                             <div id="date">
-                                                {exp.expense_date}
+                                                {exp.expense_date ? (<div>{date_format(exp.expense_date)}</div>) : (<div></div>)}
                                             </div>
                                             <img className="img-size" src={"https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/uncategorized/general@2x.png"} alt="img" />
                                             <div className="flx-col line-4vh">

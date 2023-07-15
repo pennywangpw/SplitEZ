@@ -76,7 +76,8 @@ def crateExpense():
             name= form.data['name'],
             expense_total = form.data['expense_total'],
             payer_user_id = current_user.id,
-            group_id = form.data['group_id']
+            group_id = form.data['group_id'],
+            expense_date = form.data['expense_date']
         )
         db.session.add(new_expense)
         db.session.commit()

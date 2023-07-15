@@ -19,7 +19,7 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
     const [errors, setErrors] = useState([])
 
     const { closeModal } = useModal();
-
+    console.log("expense_date: ", expense_date, typeof expense_date)
     //get all the groups and conver into arr
     const allGroups = useSelector((state) => state.groups.allGroups)
     let allGroupsArr = Object.values(allGroups)
@@ -64,8 +64,9 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+
         if (type === "create") {
-            const payload = { name, expense_total, group_id }
+            const payload = { name, expense_total, group_id, expense_date }
             console.log("傳出去的payload: ", payload)
             await dispatch(expensesthunk.createExpense(payload)).then(closeModal)
             // await dispatch(groupsthunk.singleGroupthunk(expenseinfo.group_id)).then(closeModal)
