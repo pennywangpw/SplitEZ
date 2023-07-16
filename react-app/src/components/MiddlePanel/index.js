@@ -40,10 +40,17 @@ function ExpensesList() {
     // change date format
     const date_format = (datestring) => {
         let new_format = new Date(datestring)
-        let new_format_date = new_format.getDate()
-        let new_format_month = new_format.getMonth() + 1
-        console.log("&&&", new_format_date.toString() + new_format_month.toString())
-        return new_format_date.toString() + "," + new_format_month.toString()
+        // Request a weekday along with a long date
+        const options = {
+            // weekday: "long",
+            // year: "numeric",
+            month: "long",
+            day: "numeric",
+        };
+
+        let new_date_format = new_format.toLocaleString("en-US", options)
+
+        return new_date_format
     }
 
 
@@ -79,7 +86,7 @@ function ExpensesList() {
                     </div>
                 </div>
 
-                <div className="grid-3fr height-5vh expense-summary" id="summary">
+                <div className="grid-3fr-5-3-2 height-5vh expense-summary" id="summary">
                     <div>Description</div>
                     <div>Expense Total</div>
                     <div>Bill Payer</div>
@@ -99,7 +106,7 @@ function ExpensesList() {
                                             singleExpensehandler(exp.id)
                                             loadCommentshandler(exp.id)
                                         }}
-                                        className="grid-3fr height-8vh expense-summary "
+                                        className="grid-3fr-5-3-2 height-8vh expense-summary "
                                         id="summary"
                                     >
                                         <div id="main-block" className="flx">

@@ -127,6 +127,12 @@ footer {
     grid-template-columns: 2fr 6fr 2fr;
 }
 
+.grid-3fr-5-3-2 {
+    display: grid;
+    grid-template-columns: 5fr 3fr 2fr;
+}
+
+
 .shadow {
     box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
 
