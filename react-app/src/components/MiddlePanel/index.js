@@ -155,8 +155,8 @@ function ExpensesList() {
                                             // currentId={currentId}
                                             setShowDetail={setShowDetail}
                                             allCommentsArr={allCommentsArr}
-                                            // singleExpense={singleExpense}
-                                            allExpenses={allExpenses}
+                                            singleExpense={singleExpense}
+                                        // allExpenses={allExpenses}
                                         />
                                     </div>
 
