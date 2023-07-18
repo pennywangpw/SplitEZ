@@ -28,14 +28,17 @@ function ExpensesList() {
 
     useEffect(() => {
         dispatch(expensesthunk.allExpenses())
+        if (currentId) {
+            dispatch(expensesthunk.singleExpense(currentId))
+        }
         return () => dispatch(expensesthunk.clearExpensesA())
-    }, [dispatch])
+    }, [dispatch, currentId])
 
 
 
-    const singleExpensehandler = (id) => {
-        dispatch(expensesthunk.singleExpense(id))
-    }
+    // const singleExpensehandler = (id) => {
+    //     dispatch(expensesthunk.singleExpense(id))
+    // }
 
     // change date format
     const date_format = (datestring) => {
@@ -103,7 +106,7 @@ function ExpensesList() {
                                         onClick={() => {
                                             setCurrentId(exp.id);
                                             setShowDetail(!showDetail)
-                                            singleExpensehandler(exp.id)
+                                            // singleExpensehandler(exp.id)
                                             loadCommentshandler(exp.id)
                                         }}
                                         className="grid-3fr-5-3-2 height-8vh expense-summary "
@@ -152,7 +155,8 @@ function ExpensesList() {
                                             // currentId={currentId}
                                             setShowDetail={setShowDetail}
                                             allCommentsArr={allCommentsArr}
-                                            singleExpense={singleExpense}
+                                            // singleExpense={singleExpense}
+                                            allExpenses={allExpenses}
                                         />
                                     </div>
 

@@ -42,21 +42,21 @@ function ExpenseDetail({ exp, setShowDetail, allCommentsArr, singleExpense }) {
     // }
 
 
-    let divided_amount;
+    // let divided_amount;
 
-    if (singleExpense.associateduser) {
-        divided_amount = singleExpense.expense_total / singleExpense.associateduser.length
-    }
+    // if (singleExpense.associateduser) {
+    //     divided_amount = singleExpense.expense_total / singleExpense.associateduser.length
+    // }
 
-    // users(friends) who involve in this expense and make sure the user only appears once not duplicated
-    let involved_user = [];
-    if (singleExpense.associateduser) {
-        singleExpense.associateduser.forEach(user => {
-            if (user.id !== singleExpense.billpayer.id) {
-                involved_user.push(user.username)
-            }
-        })
-    }
+    // // users(friends) who involve in this expense and make sure the user only appears once not duplicated
+    // let involved_user = [];
+    // if (singleExpense.associateduser) {
+    //     singleExpense.associateduser.forEach(user => {
+    //         if (user.id !== singleExpense.billpayer.id) {
+    //             involved_user.push(user.username)
+    //         }
+    //     })
+    // }
 
     // if (!aExpanse) return null
     if (!exp) return null
@@ -84,8 +84,8 @@ function ExpenseDetail({ exp, setShowDetail, allCommentsArr, singleExpense }) {
                 <div className=" height-50 border-bottom-main flx">
                     <div className="width-50">
                         <div>Who involes in this expense: </div>
-                        {singleExpense.billpayer ? (<div>{`${singleExpense.billpayer.username} paid $${singleExpense.expense_total} and owes $${divided_amount.toFixed(2)}`}</div>) : (<div></div>)}
-                        {involved_user.map(user => <div>{`${user} owes $${divided_amount.toFixed(2)}`}</div>)}
+                        {/* {singleExpense.billpayer ? (<div>{`${singleExpense.billpayer.username} paid $${singleExpense.expense_total} and owes $${divided_amount.toFixed(2)}`}</div>) : (<div></div>)}
+                        {involved_user.map(user => <div>{`${user} owes $${divided_amount.toFixed(2)}`}</div>)} */}
                     </div>
                     {/* <div className="width-50 height-100">ppl involved</div> */}
                     {/* <div className="width-50 height-100">comments</div> */}
