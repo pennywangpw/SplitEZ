@@ -42,8 +42,8 @@ function CommentModal({ origincomment }) {
                             onChange={(e) => setComment(e.target.value)}
                         /> */}
                     </div>
-                    <button type="submit" disabled={errors.length > 0}>Yes</button>
-                    <button onClick={closeModal}>No</button>
+                    <button className="button-decision" type="submit" disabled={errors.length > 0}>Yes</button>
+                    <button className="button-decision" onClick={closeModal}>No</button>
                 </div>
             </form>
         </>

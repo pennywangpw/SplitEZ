@@ -33,7 +33,7 @@ function GroupListByFriend() {
                     <div className="fontS-220rem width-50">{selectedFriend.username}</div>
                     <div className="btn-create">
                         <OpenModalButton
-                            className={"button"}
+                            className={"button-orange"}
                             buttonText="Add an expense"
                             modalComponent={<CreateExpense />}
                         />

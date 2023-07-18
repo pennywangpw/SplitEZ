@@ -79,7 +79,7 @@ function ExpensesList() {
                     <div className="fontS-220rem width-50">All expenses</div>
                     <div className="btn-create">
                         <OpenModalButton
-                            className={"button"}
+                            className={"button-orange"}
                             buttonText="Add an expense"
                             modalComponent={<CreateExpense />}
                         />
@@ -130,7 +130,7 @@ function ExpensesList() {
 
                                             <div>{exp.username}</div>
                                             <OpenModalButton
-                                                className={"height-max-40 mrg-t-10px mrg-l-20px"}
+                                                className={"height-max-40 mrg-t-10px mrg-l-20px button-decision "}
                                                 buttonText={<i className="fas fa-trash-alt" />}
                                                 modalComponent={
                                                     <DeleteConfirmationModal

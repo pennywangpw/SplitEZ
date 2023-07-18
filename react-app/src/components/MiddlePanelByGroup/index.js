@@ -53,7 +53,7 @@ function ExpensesListByGroup() {
                     <div className="fontS-220rem width-50">{singlegroupinfo.name}</div>
                     <div className="btn-create">
                         <OpenModalButton
-                            className={"button"}
+                            className={"button-orange"}
                             buttonText="Add an expense"
                             modalComponent={<CreateExpense />}
                         />

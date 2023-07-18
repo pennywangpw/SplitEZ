@@ -27,8 +27,23 @@ function ExpenseDetail({ exp, setShowDetail, allCommentsArr, singleExpense }) {
         setComment("")
     }
 
-    //caculate divide amount
+    // //caculate divide amount
+    // let involved_user = [];
+    // let divided_amount;
+    // if (singleExpense) {
+    //     // users(friends) who involve in this expense and make sure the user only appears once not duplicated
+    //     singleExpense.associateduser.forEach(user => {
+    //         if (user.id !== singleExpense.billpayer.id) {
+    //             involved_user.push(user.username)
+    //         }
+    //     })
+    //     //caculate divide amount
+    //     divided_amount = singleExpense.expense_total / singleExpense.associateduser.length
+    // }
+
+
     let divided_amount;
+
     if (singleExpense.associateduser) {
         divided_amount = singleExpense.expense_total / singleExpense.associateduser.length
     }
@@ -58,7 +73,7 @@ function ExpenseDetail({ exp, setShowDetail, allCommentsArr, singleExpense }) {
                     <div className="detail">
 
                         <OpenModalButton
-                            className={"button"}
+                            className={"button-orange"}
                             buttonText="Edit expense"
                             modalComponent={<EditExpense expenseinfo={exp} setShowDetail={setShowDetail} />}
                         />
@@ -110,7 +125,7 @@ function ExpenseDetail({ exp, setShowDetail, allCommentsArr, singleExpense }) {
                                 <textarea placeholder="Add a comment" rows="2" value={comment} onChange={(e) => setComment(e.target.value)}></textarea>
                             </label>
                         </div>
-                        <button className=" width-50 button" onClick={createCommentHandler} disabled={comment.length === 0}>Post</button>
+                        <button className=" width-50 button-orange" onClick={createCommentHandler} disabled={comment.length === 0}>Post</button>
                     </div>
                 </div>
             </div>

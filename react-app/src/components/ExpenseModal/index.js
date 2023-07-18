@@ -172,8 +172,8 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
                         </div> */}
                     </div>
                     <div>
-                        <button type="submit">save</button>
-                        <button onClick={closeModal}>cancel</button>
+                        <button className="button-decision" type="submit">save</button>
+                        <button className="button-decision" onClick={closeModal}>cancel</button>
                     </div>
                 </div>
             </form>

@@ -272,6 +272,10 @@ footer {
     padding-right: 15px;
 }
 
+.pad-4-12 {
+    padding: 4px 12px;
+}
+
 /*============ className -width =============*/
 
 .width-100 {
@@ -473,44 +477,32 @@ button {
     cursor: pointer;
 }
 
-/* .detail button {
-    background: #ff652f;
-    color: #fff;
-    text-shadow: 0 -1px 0 #c83400;
-    padding: 2px 6px;
-    font-size: 11px;
+.button-decision {
+    padding: 4px 16px;
     line-height: 14px;
     border-radius: 5px;
     border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-    cursor: pointer;
-} */
+    font-size: 15px;
+}
 
+.button-decision:hover {
+    background: #999;
+    color: white;
+}
 
-/* .comment button {
+.button-orange {
     background: #ff652f;
     color: #fff;
     text-shadow: 0 -1px 0 #c83400;
-    padding: 2px 6px;
-    font-size: 11px;
-    line-height: 14px;
-    border-radius: 5px;
-    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-    cursor: pointer;
-} */
-
-.button {
-    background: #ff652f;
-    color: #fff;
-    text-shadow: 0 -1px 0 #c83400;
-    padding: 2px 6px;
-    font-size: 11px;
+    padding: 4px 6px;
+    font-size: 13px;
     line-height: 14px;
     border-radius: 5px;
     border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
     cursor: pointer;
 }
 
-.button:hover {
+.button-orange:hover {
     background: #999;
     color: white;
 }
