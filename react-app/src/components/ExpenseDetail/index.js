@@ -7,16 +7,13 @@ import EditExpense from "../EditExpense"
 import DeleteConfirmationModal from "../DeleteConfirmationModal"
 import OpenModalButton from "../OpenModalButton";
 
-function ExpenseDetail({ exp, setShowDetail, allCommentsArr, singleExpense }) {
+function ExpenseDetail({ exp, setShowDetail, allCommentsArr }) {
     console.log("exp detail here: ", setShowDetail, exp, allCommentsArr)
-    console.log("exp detail here singleExpense: ", singleExpense)
-
-    // console.log("ExpenseDetail with passed currentid: ", typeof currentId, currentId, setShowDetail)
-    // const allComments = useSelector((state) => state.comments.allComments)
+    const singleExpense = useSelector((state) => state.expenses.singleExpense);
     const dispatch = useDispatch()
     const [comment, setComment] = useState("");
     const expenseId = exp.id
-    console.log("******************comment status: ", comment)
+
 
     //create comment handler
     function createCommentHandler() {
@@ -27,36 +24,28 @@ function ExpenseDetail({ exp, setShowDetail, allCommentsArr, singleExpense }) {
         setComment("")
     }
 
-    // //caculate divide amount
-    // let involved_user = [];
-    // let divided_amount;
-    // if (singleExpense) {
-    //     // users(friends) who involve in this expense and make sure the user only appears once not duplicated
-    //     singleExpense.associateduser.forEach(user => {
-    //         if (user.id !== singleExpense.billpayer.id) {
-    //             involved_user.push(user.username)
-    //         }
-    //     })
-    //     //caculate divide amount
-    //     divided_amount = singleExpense.expense_total / singleExpense.associateduser.length
-    // }
-
 
     let divided_amount;
-
-    if (singleExpense.associateduser) {
-        divided_amount = singleExpense.expense_total / singleExpense.associateduser.length
-    }
-
-    // users(friends) who involve in this expense and make sure the user only appears once not duplicated
     let involved_user = [];
-    if (singleExpense.associateduser) {
-        singleExpense.associateduser.forEach(user => {
-            if (user.id !== singleExpense.billpayer.id) {
-                involved_user.push(user.username)
-            }
-        })
+    if (Object.keys(singleExpense).length !== 0) {
+        //caculate divide amount
+        if (singleExpense.associateduser.length > 0) {
+            divided_amount = singleExpense.expense_total / singleExpense.associateduser.length
+        } else {
+            divided_amount = singleExpense.expense_total
+        }
+
+        // users(friends) who involve in this expense and make sure the user only appears once not duplicated
+        if (singleExpense.associateduser.length > 0) {
+            singleExpense.associateduser.forEach(user => {
+                if (user.id !== singleExpense.billpayer.id) {
+                    involved_user.push(user.username)
+                }
+            })
+        }
+
     }
+
 
     // if (!aExpanse) return null
     if (!exp) return null

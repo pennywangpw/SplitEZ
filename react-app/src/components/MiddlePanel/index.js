@@ -17,7 +17,7 @@ function ExpensesList() {
     const allGroups = useSelector((state) => state.groups.allGroups);
     const currentuser = useSelector((state) => state.session.user);
     const allComments = useSelector((state) => state.comments.allComments)
-
+    console.log("sINGLEexpense from middle: ", singleExpense)
 
     //get group id from allGroups
     let allGroupsArr = Object.values(allGroups)
@@ -28,17 +28,14 @@ function ExpensesList() {
 
     useEffect(() => {
         dispatch(expensesthunk.allExpenses())
-        if (currentId) {
-            dispatch(expensesthunk.singleExpense(currentId))
-        }
         return () => dispatch(expensesthunk.clearExpensesA())
-    }, [dispatch, currentId])
+    }, [dispatch])
 
 
 
-    // const singleExpensehandler = (id) => {
-    //     dispatch(expensesthunk.singleExpense(id))
-    // }
+    const singleExpensehandler = (id) => {
+        dispatch(expensesthunk.singleExpense(id))
+    }
 
     // change date format
     const date_format = (datestring) => {
@@ -106,7 +103,7 @@ function ExpensesList() {
                                         onClick={() => {
                                             setCurrentId(exp.id);
                                             setShowDetail(!showDetail)
-                                            // singleExpensehandler(exp.id)
+                                            singleExpensehandler(exp.id)
                                             loadCommentshandler(exp.id)
                                         }}
                                         className="grid-3fr-5-3-2 height-8vh expense-summary "
@@ -156,7 +153,7 @@ function ExpensesList() {
                                             setShowDetail={setShowDetail}
                                             allCommentsArr={allCommentsArr}
                                             singleExpense={singleExpense}
-                                        // allExpenses={allExpenses}
+                                            allExpenses={allExpenses}
                                         />
                                     </div>
 
