@@ -75,7 +75,8 @@ def crateExpense():
         new_expense = Expense(
             name= form.data['name'],
             expense_total = form.data['expense_total'],
-            payer_user_id = current_user.id,
+            # payer_user_id = current_user.id,
+            payer_user_id = form.data['billpayer'],
             group_id = form.data['group_id'],
             expense_date = form.data['expense_date']
         )

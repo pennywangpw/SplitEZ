@@ -66,7 +66,7 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
 
 
         if (type === "create") {
-            const payload = { name, expense_total, group_id, expense_date }
+            const payload = { name, expense_total, group_id, expense_date, billpayer }
             console.log("傳出去的payload: ", payload)
             await dispatch(expensesthunk.createExpense(payload)).then(closeModal)
             // await dispatch(groupsthunk.singleGroupthunk(expenseinfo.group_id)).then(closeModal)
@@ -147,6 +147,19 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
                         <div>
                             <label htmlFor="group">Paid by:</label>
 
+                            <select name="groups" id="group" onChange={(e) => setBillpayer(e.target.value)}>
+
+                                <option value="">--Please choose people who paid this bill--</option>
+                                {allUsersArr.map(user => <option value={user.id} selected={user.id === current_user.id}>{user.username}</option>)}
+
+                            </select>
+
+
+                        </div>
+
+                        <div>
+                            <label htmlFor="group">Split with:</label>
+
                             <select name="groups" id="group" onChange={groupIdhandler}>
 
                                 <option value="">--Please choose people who split this bill--</option>
@@ -161,8 +174,8 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
                             <input type="date" min="2023-01-01" max="2024-12-31" onChange={(e) => setExpenseDate(e.target.value)} />
                         </div>
 
-                        {/* <button onClick={handleAlert}>Paid by</button> */}
-                        {/* <div>
+                        {/* <button onClick={handleAlert}>Paid by</button>
+                        <div>
                             Bill Payer
                             <input
                                 type="text"
