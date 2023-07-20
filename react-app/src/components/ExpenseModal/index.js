@@ -13,7 +13,7 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
     const history = useHistory()
     const [name, setName] = useState(expenseinfo.name)
     const [expense_total, setExpenseTotal] = useState(+expenseinfo.expense_total || 0)
-    const [billpayer, setBillpayer] = useState("")
+    const [payer_user_id, setpayer_user_id] = useState("")
     const [expense_date, setExpenseDate] = useState("")
     const [group_id, setGroup_id] = useState(expenseinfo.group_id)
     const [errors, setErrors] = useState([])
@@ -66,7 +66,7 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
 
 
         if (type === "create") {
-            const payload = { name, expense_total, group_id, expense_date, billpayer }
+            const payload = { name, expense_total, group_id, expense_date, payer_user_id }
             console.log("傳出去的payload: ", payload)
             await dispatch(expensesthunk.createExpense(payload)).then(closeModal)
             // await dispatch(groupsthunk.singleGroupthunk(expenseinfo.group_id)).then(closeModal)
@@ -147,7 +147,7 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
                         <div>
                             <label htmlFor="group">Paid by:</label>
 
-                            <select name="groups" id="group" onChange={(e) => setBillpayer(e.target.value)}>
+                            <select name="groups" id="group" onChange={(e) => setpayer_user_id(e.target.value)}>
 
                                 <option value="">--Please choose people who paid this bill--</option>
                                 {allUsersArr.map(user => <option value={user.id} selected={user.id === current_user.id}>{user.username}</option>)}
@@ -179,8 +179,8 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
                             Bill Payer
                             <input
                                 type="text"
-                                value={billpayer}
-                                onChange={(e) => setBillpayer(e.target.value)}
+                                value={payer_user_id}
+                                onChange={(e) => setpayer_user_id(e.target.value)}
                             />
                         </div> */}
                     </div>
