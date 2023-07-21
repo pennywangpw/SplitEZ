@@ -86,7 +86,7 @@ function ExpensesList() {
                     </div>
                 </div>
 
-                <div className="grid-3fr-5-3-2 height-5vh expense-summary" id="summary">
+                <div className="grid-3fr-5-3-2 expense-summary" id="summary">
                     <div>Description</div>
                     <div>Expense Total</div>
                     <div>Bill Payer</div>
@@ -95,7 +95,7 @@ function ExpensesList() {
                 {/* check if user has any expenses on file, if so convert expenses object into array in order to manipulate the data */}
                 {Object.keys(allExpenses).length === 0 ?
                     (<div>No Expenses....</div>) :
-                    (<div className="line-5vh">
+                    (<div className="expense-line">
                         {allExpensesinArr.map(exp =>
                             <>
                                 <div className="detail" key={exp.id}>
@@ -106,7 +106,7 @@ function ExpensesList() {
                                             singleExpensehandler(exp.id)
                                             loadCommentshandler(exp.id)
                                         }}
-                                        className="grid-3fr-5-3-2 height-8vh expense-summary "
+                                        className="grid-3fr-5-3-2 expense-summary "
                                         id="summary"
                                     >
                                         <div id="main-block" className="flx">
@@ -114,7 +114,7 @@ function ExpensesList() {
                                                 {exp.expense_date ? (<div>{date_format(exp.expense_date)}</div>) : (<div></div>)}
                                             </div>
                                             <img className="img-size" src={"https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/uncategorized/general@2x.png"} alt="img" />
-                                            <div className="flx-col line-4vh">
+                                            <div className="description-with-group">
                                                 <div id="expense-name">
                                                     {exp.name}
                                                 </div>

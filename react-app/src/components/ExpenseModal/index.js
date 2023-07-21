@@ -158,15 +158,26 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
                         </div>
 
                         <div>
-                            <label htmlFor="group">Split with:</label>
+                            {/* <label htmlFor="group">Split with:</label>
 
                             <select name="groups" id="group" onChange={groupIdhandler}>
 
                                 <option value="">--Please choose people who split this bill--</option>
-                                {/* <option value="0">(No group) Move to All expenses</option> */}
                                 {allUsersArr.map(user => <option value={user.id} selected={user.id === current_user.id}>{user.username}</option>)}
 
-                            </select>
+                            </select> */}
+
+
+                            <fieldset>
+                                <legend>Split with:</legend>
+                                {allUsersArr.map(user =>
+                                    <div>
+                                        <input type="checkbox" id={user.username} name="owner" value={user.username} />
+                                        <lable for={user.username}>{user.username}</lable>
+                                    </div>
+                                )}
+
+                            </fieldset>
                         </div>
 
                         <div>

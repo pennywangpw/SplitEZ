@@ -308,9 +308,46 @@
            cursor: pointer;
        }
 
+       /*============ className -expense-line in middel panel =============*/
+
+       .expense-line {
+           line-height: 8vh;
+       }
+
+       @media(max-width:630px) {
+           .expense-line {
+               line-height: 4vh;
+           }
+       }
+
+
+       .description-with-group {
+           display: flex;
+           flex-direction: column;
+           line-height: 4vh;
+
+       }
+
+       @media(max-width:630px) {
+           .description-with-group {
+               line-height: 2vh;
+           }
+       }
 
 
 
+       .expense-summary {
+           border-bottom: solid 1px;
+           border-color: rgb(188, 187, 187);
+           /* line-height: 5vh; */
+
+       }
+
+       @media(max-width:630px) {
+           .expense-summary {
+               line-height: 2vh;
+           }
+       }
 
        /*============ for navigation =============*/
        .flx-jc-sb {
@@ -351,10 +388,6 @@
 
 
 
-       .expense-summary {
-           border-bottom: solid 1px;
-           border-color: rgb(188, 187, 187)
-       }
 
 
        /*============ for left side bar =============*/

@@ -10,13 +10,16 @@ expenses = Blueprint('expenses', __name__)
 @expenses.route('/all')
 @login_required
 def allExpenses():
-    id = current_user.id
-    '''get all expenses belong to current user'''
-    # expensepool = Expense.query.all()
-    # print("-----------pool: ", expensepool)
-    allexpenses = Expense.query.filter(
-        Expense.payer_user_id == id).all()
-    print("----------only belongs to me: ", allexpenses)
+    # id = current_user.id
+    # '''get all expenses belong to current user'''
+    # # expensepool = Expense.query.all()
+    # # print("-----------pool: ", expensepool)
+    # allexpenses = Expense.query.filter(
+    #     Expense.payer_user_id == id).all()
+    # print("----------only belongs to me: ", allexpenses)
+
+    '''get all expenses'''
+    allexpenses = Expense.query.all()
 
 
     '''get each expense billpayer's information and add this attribute to each expense'''
@@ -27,6 +30,7 @@ def allExpenses():
         print("******each expense*: ", expense_data)
 
         expense_data['billpayer'] = expense.user.to_dict()
+        print("expense.user.to_dict(): ",expense.user.to_dict())
         allexpenseswithbillpayer.append(expense_data)
 
     print("==============================",allexpenseswithbillpayer)
