@@ -16,6 +16,7 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
     const [payer_user_id, setpayer_user_id] = useState("")
     const [expense_date, setExpenseDate] = useState("")
     const [group_id, setGroup_id] = useState(expenseinfo.group_id)
+    const [splitWithUsers, setSplitWithUsers] = useState([])
     const [errors, setErrors] = useState([])
 
     const { closeModal } = useModal();
@@ -35,6 +36,20 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
     //get currentuser
     const current_user = useSelector((state) => state.session.user)
 
+    //get today
+    const today = new Date()
+    console.log("today:", today)
+    let year = today.getFullYear()
+    let month = today.getMonth()
+    let day = today.getDate()
+
+    if (today.getMonth() < 10) {
+        formatedtoday += "-0" + today.getMonth() + "-" + today.getDate()
+    }
+    let formatedtoday = year + month + day
+
+
+    console.log("formatedtoday:", formatedtoday, typeof formatedtoday)
 
 
     console.log("---CHECK GROUP ID: -- ", group_id)
@@ -57,6 +72,25 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
     }, [name, expense_total])
 
 
+    //SplitWithUserHandler to collect all the debtors
+    //if debtorId exsits in splitWithUsers we remove it
+    //if debtorId dose not esxist in splitWithUsers we add on it
+    const handleSplitWithUserChange = (e) => {
+        const debtorId = e.target.value
+        console.log("debtorId: ", debtorId)
+        if (!splitWithUsers.includes(debtorId)) {
+            setSplitWithUsers(splitWithUsers => [...splitWithUsers, debtorId])
+        } else {
+            let index = splitWithUsers.indexOf(debtorId)
+            splitWithUsers.splice(index, 1)
+            setSplitWithUsers(splitWithUsers)
+        }
+    }
+
+
+    console.log("splitWithUsers after: ", splitWithUsers)
+
+
     useEffect(() => {
         dispatch(expensesthunk.allExpenses())
     }, [group_id])
@@ -68,7 +102,8 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
         if (type === "create") {
             const payload = { name, expense_total, group_id, expense_date, payer_user_id }
             console.log("傳出去的payload: ", payload)
-            await dispatch(expensesthunk.createExpense(payload)).then(closeModal)
+            await dispatch(expensesthunk.createExpense(payload))
+            await dispatch(expensesthunk.allExpenses()).then(closeModal)
             // await dispatch(groupsthunk.singleGroupthunk(expenseinfo.group_id)).then(closeModal)
         } else if (type === "edit") {
             const payload = { name, expense_total, group_id }
@@ -96,7 +131,7 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
         <>
             <form onSubmit={handleSubmit} className="modal">
                 {console.log("來看看render 幾次")}
-                <div className="flx-col width-350px height-350px line-h70">
+                <div className="flx-col width-350px height-350px">
                     <header className=" bg-5cc5a7 line-h50">{type === "create" ? "Create an expense" : "Edit expense"}</header>
                     {/* <div>{`with you and: ${"1231"}`}</div> */}
                     <div>
@@ -158,21 +193,12 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
                         </div>
 
                         <div>
-                            {/* <label htmlFor="group">Split with:</label>
-
-                            <select name="groups" id="group" onChange={groupIdhandler}>
-
-                                <option value="">--Please choose people who split this bill--</option>
-                                {allUsersArr.map(user => <option value={user.id} selected={user.id === current_user.id}>{user.username}</option>)}
-
-                            </select> */}
-
-
                             <fieldset>
                                 <legend>Split with:</legend>
                                 {allUsersArr.map(user =>
                                     <div>
-                                        <input type="checkbox" id={user.username} name="owner" value={user.username} />
+                                        <input type="checkbox" id={user.username} name="debtor" value={user.id} onChange={handleSplitWithUserChange} />
+                                        {console.log("splitWithUsers ", splitWithUsers)}
                                         <lable for={user.username}>{user.username}</lable>
                                     </div>
                                 )}
@@ -182,7 +208,8 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
 
                         <div>
                             <label>Expense date:</label>
-                            <input type="date" min="2023-01-01" max="2024-12-31" onChange={(e) => setExpenseDate(e.target.value)} />
+                            {console.log("formatedtoday", formatedtoday)}
+                            <input type="date" min="2023-01-01" max="2024-12-31" value={formatedtoday} onChange={(e) => setExpenseDate(e.target.value)} />
                         </div>
 
                         {/* <button onClick={handleAlert}>Paid by</button>
