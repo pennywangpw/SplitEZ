@@ -193,10 +193,11 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
                         <div>
                             <label htmlFor="group">Paid by:</label>
 
-                            <select name="groups" id="group" onChange={(e) => setpayer_user_id(e.target.value)}>
+                            <select name="groups" id="group" onChange={(e) => setpayer_user_id(e.target.value)} defaultValue={current_user.id}>
 
                                 <option value="">--Please choose people who paid this bill--</option>
-                                {allUsersArr.map(user => <option value={user.id === current_user.id ? (user.id) : (current_user.id)} selected={user.id === current_user.id}>{user.username}</option>)}
+                                {/* {allUsersArr.map(user => <option value={user.id === current_user.id ? (user.id) : (current_user.id)} selected={user.id === current_user.id}>{user.username}</option>)} */}
+                                {allUsersArr.map(user => <option value={user.id} >{user.username}</option>)}
 
                                 {/* {allUsersArr.map(user => <option value={user.id} selected={user.id === current_user.id}>{user.username}</option>)} */}
 
