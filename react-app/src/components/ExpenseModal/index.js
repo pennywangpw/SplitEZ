@@ -24,12 +24,14 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
     }
     let formatedtoday = year + "-" + month + "-" + day
 
+    //get currentuser
+    const current_user = useSelector((state) => state.session.user)
 
     const dispatch = useDispatch();
     const history = useHistory()
     const [name, setName] = useState(expenseinfo.name)
     const [expense_total, setExpenseTotal] = useState(+expenseinfo.expense_total || 0)
-    const [payer_user_id, setpayer_user_id] = useState("")
+    const [payer_user_id, setpayer_user_id] = useState(current_user.id)
     const [expense_date, setExpenseDate] = useState(formatedtoday)
     const [group_id, setGroup_id] = useState(expenseinfo.group_id)
     const [splitWithUsers, setSplitWithUsers] = useState([])
@@ -49,8 +51,7 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
     const allUsers = useSelector((state) => state.users.friendsWithGroupInfo)
     let allUsersArr = Object.values(allUsers)
 
-    //get currentuser
-    const current_user = useSelector((state) => state.session.user)
+
 
 
 
@@ -195,7 +196,9 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
                             <select name="groups" id="group" onChange={(e) => setpayer_user_id(e.target.value)}>
 
                                 <option value="">--Please choose people who paid this bill--</option>
-                                {allUsersArr.map(user => <option value={user.id} selected={user.id === current_user.id}>{user.username}</option>)}
+                                {allUsersArr.map(user => <option value={user.id === current_user.id ? (user.id) : (current_user.id)} selected={user.id === current_user.id}>{user.username}</option>)}
+
+                                {/* {allUsersArr.map(user => <option value={user.id} selected={user.id === current_user.id}>{user.username}</option>)} */}
 
                             </select>
 
