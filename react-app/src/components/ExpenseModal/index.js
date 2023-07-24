@@ -9,12 +9,28 @@ import * as groupsthunk from "../../store/group"
 function ExpenseModal({ type, expenseinfo, setShowDetail }) {
     console.log("expense modal with expense info: ", type, typeof expenseinfo.expense_total, expenseinfo.expense_total, expenseinfo)
 
+    //get today
+    const today = new Date()
+    console.log("today:", today)
+    let year = today.getFullYear()
+    let month = today.getMonth()
+    let day = today.getDate()
+
+    if (month < 10) {
+        month = "0" + month
+    }
+    if (day < 10) {
+        day = "0" + day
+    }
+    let formatedtoday = year + "-" + month + "-" + day
+
+
     const dispatch = useDispatch();
     const history = useHistory()
     const [name, setName] = useState(expenseinfo.name)
     const [expense_total, setExpenseTotal] = useState(+expenseinfo.expense_total || 0)
     const [payer_user_id, setpayer_user_id] = useState("")
-    const [expense_date, setExpenseDate] = useState("")
+    const [expense_date, setExpenseDate] = useState(formatedtoday)
     const [group_id, setGroup_id] = useState(expenseinfo.group_id)
     const [splitWithUsers, setSplitWithUsers] = useState([])
     const [errors, setErrors] = useState([])
@@ -36,20 +52,7 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
     //get currentuser
     const current_user = useSelector((state) => state.session.user)
 
-    //get today
-    const today = new Date()
-    console.log("today:", today)
-    let year = today.getFullYear()
-    let month = today.getMonth()
-    let day = today.getDate()
 
-    if (today.getMonth() < 10) {
-        formatedtoday += "-0" + today.getMonth() + "-" + today.getDate()
-    }
-    let formatedtoday = year + month + day
-
-
-    console.log("formatedtoday:", formatedtoday, typeof formatedtoday)
 
 
     console.log("---CHECK GROUP ID: -- ", group_id)
@@ -85,6 +88,13 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
             splitWithUsers.splice(index, 1)
             setSplitWithUsers(splitWithUsers)
         }
+    }
+
+
+    const handleDateFormat = (e) => {
+        let targetvalue = e.target.value
+        console.log("targetvalue: ", targetvalue)
+        setExpenseDate(targetvalue)
     }
 
 
@@ -208,8 +218,9 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
 
                         <div>
                             <label>Expense date:</label>
-                            {console.log("formatedtoday", formatedtoday)}
-                            <input type="date" min="2023-01-01" max="2024-12-31" value={formatedtoday} onChange={(e) => setExpenseDate(e.target.value)} />
+                            <input type="date" min="2023-01-01" max="2024-12-31" value={expense_date} onChange={handleDateFormat} />
+
+
                         </div>
 
                         {/* <button onClick={handleAlert}>Paid by</button>

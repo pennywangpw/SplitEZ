@@ -39,16 +39,11 @@ function ExpensesList() {
 
     // change date format
     const date_format = (datestring) => {
-        let new_format = new Date(datestring)
-        // Request a weekday along with a long date
-        const options = {
-            // weekday: "long",
-            // year: "numeric",
-            month: "long",
-            day: "numeric",
-        };
+        let getyearmonthdate = datestring.split(",")[1]
+        let getmonth = getyearmonthdate.split(" ")[2]
+        let getdate = getyearmonthdate.split(" ")[1]
 
-        let new_date_format = new_format.toLocaleString("en-US", options)
+        let new_date_format = getmonth + "," + getdate
 
         return new_date_format
     }
