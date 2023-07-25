@@ -23,11 +23,13 @@ class Expense(db.Model):
         back_populates="expense"
     )
 
+    '''payer'''
     user = db.relationship(
         "User",
         back_populates="payer_user_id"
     )
 
+    '''debtor'''
     users = db.relationship(
         "User",
         secondary=users_expenses,

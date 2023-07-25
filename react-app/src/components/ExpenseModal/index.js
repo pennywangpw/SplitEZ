@@ -94,7 +94,6 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
 
     const handleDateFormat = (e) => {
         let targetvalue = e.target.value
-        console.log("targetvalue: ", targetvalue)
         setExpenseDate(targetvalue)
     }
 
@@ -111,7 +110,7 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
 
 
         if (type === "create") {
-            const payload = { name, expense_total, group_id, expense_date, payer_user_id }
+            const payload = { name, expense_total, group_id, expense_date, payer_user_id, splitWithUsers }
             console.log("傳出去的payload: ", payload)
             await dispatch(expensesthunk.createExpense(payload))
             await dispatch(expensesthunk.allExpenses()).then(closeModal)

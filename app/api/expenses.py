@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from app.models import db, Expense, User
+from app.models import db, Expense, User, users_expenses
 from flask_login import current_user, login_required
 from ..forms import ExpenseForm
 
@@ -74,6 +74,9 @@ def crateExpense():
     form = ExpenseForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     print(f'BEFORE this is create expenses form {form}')
+    data = request.get_json()
+    print(f'data is here {data}')
+
     if form.validate_on_submit():
         print("AM I PASSING? with form.data:", form.data )
         new_expense = Expense(
@@ -84,8 +87,24 @@ def crateExpense():
             group_id = form.data['group_id'],
             expense_date = form.data['expense_date']
         )
+
         db.session.add(new_expense)
+
+        for user_id in data['splitWithUsers']:
+            user = User.query.get(user_id)
+            if user:
+                new_expense.users.append(user)
+
         db.session.commit()
+        print(f'new_expense id : {new_expense.id}')
+
+        # new_users_expenses= users_expenses(
+        #     owe_id = data['splitWithUsers'],
+        #     expense_id = new_expense.id
+        # )
+        # db.session.add(new_users_expenses)
+        # db.session.commit()
+
         print(f'this is create expenses new_expense {new_expense}')
         return new_expense.to_dict()
     return "Bad Data"
