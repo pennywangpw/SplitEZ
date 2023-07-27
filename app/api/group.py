@@ -7,17 +7,17 @@ groups = Blueprint('groups', __name__)
 
 
 
-#get all groups
-@groups.route('/all')
-@login_required
-def allGroups():
-    '''get all groups belong to current user'''
-    id = current_user.id
-    user = User.query.get(id)
-    groups = user.groups
-    groupsList = [group.to_dict() for group in groups]
-    print(f"i need to see groupsList {groupsList}")
-    return groupsList
+# #get all groups
+# @groups.route('/all')
+# @login_required
+# def allGroups():
+#     '''get all groups belong to current user'''
+#     id = current_user.id
+#     user = User.query.get(id)
+#     groups = user.groups
+#     groupsList = [group.to_dict() for group in groups]
+#     print(f"i need to see groupsList {groupsList}")
+#     return groupsList
 
     # print("----123")
     # '''get all groups belong to current user'''
@@ -39,11 +39,11 @@ def allGroups():
     # user_data = user.to_dict()
     # print("get the user first: ",user , user_data)
 
-    return "111"
+
 
 
 #get all groups with users info (friends)
-@groups.route('/')
+@groups.route('/all')
 @login_required
 def allGroupsWithUserInfo():
     print("JUST CHECK IF THIS IS WORKING")
@@ -77,7 +77,7 @@ def allGroupsWithUserInfo():
 
     return groupsList
 
-#get a single group
+#get a single group with user info
 @groups.route('/<int:id>')
 @login_required
 def singleGroup(id):
@@ -85,7 +85,26 @@ def singleGroup(id):
     groupDict = group.to_dict()
     print("single group: ", groupDict)
 
-    return groupDict
+    singlegroup_withusers = group.users
+    print("BEFORE singlegroup_withusers: ", singlegroup_withusers)
+    usersList = [user.to_dict() for user in singlegroup_withusers]
+    groupid_with_usersList = {}
+    groupid_with_usersList[id] = usersList
+    print("AFTER usersList: ", groupid_with_usersList)
+
+    return groupid_with_usersList
+
+
+# #get a single group
+# @groups.route('/<int:id>')
+# @login_required
+# def singleGroup(id):
+#     group = Group.query.get(id)
+#     groupDict = group.to_dict()
+#     print("single group: ", groupDict)
+
+#     return groupDict
+
 
 # #get a group with all expenses under the group
 # @groups.route('/<int:id>')

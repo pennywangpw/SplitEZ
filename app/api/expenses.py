@@ -132,7 +132,7 @@ def updatedExpense(id):
     form = ExpenseForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     updatedexpense = Expense.query.get(id)
-    print(f'update an expense see type {updatedexpense}')
+    print(f'--update an expense see type {updatedexpense}')
     # updatedexpenseDict = updatedexpense.to_dict()
     # print(f'update an expense {updatedexpenseDict}')
     print(f'this is form.data {form.data}')
@@ -140,6 +140,9 @@ def updatedExpense(id):
         updatedexpense.name = form.data['name']
         updatedexpense.expense_total = form.data['expense_total']
         updatedexpense.group_id = form.data['group_id']
+        updatedexpense.expense_date = form.data['expense_date']
+        updatedexpense.payer_user_id = form.data['payer_user_id']
+
 
         db.session.commit()
         updatedexpenseDict = updatedexpense.to_dict()
