@@ -37,6 +37,8 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
     const [splitWithUsers, setSplitWithUsers] = useState([])
     const [splitUsers_price, setSplitUsers_price] = useState({})
 
+
+
     const [errors, setErrors] = useState([])
 
     const { closeModal } = useModal();
@@ -84,35 +86,63 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
     //SplitWithUserHandler to collect all the debtors
     //if debtorId exsits in splitWithUsers we remove it
     //if debtorId dose not esxist in splitWithUsers we add on it
+    let split_with_users = []
+    let total_for_a_user = 0
     const handleSplitWithUserChange = (e) => {
         const debtorId = e.target.value
         console.log("debtorId: ", debtorId)
-        console.log("splitWithUsers-一開始: ", splitWithUsers)
+        console.log("allUsers_inGroup[group_id]: ", allUsers_inGroup[group_id])
 
-
-        if (!splitWithUsers.includes(debtorId)) {
-            splitWithUsers.push(debtorId)
-        } else {
-            let index = splitWithUsers.indexOf(debtorId)
-            splitWithUsers.splice(index, 1)
-        }
-        setSplitWithUsers(splitWithUsers)
-
+        //if uesr input a total, caculate split amount for each split user
         if (expense_total !== 0) {
-            console.log("分帳有run?")
-            console.log("splitWithUsers-經過勾選+--後: ", splitWithUsers)
 
-            for (let debtor of splitWithUsers) {
-                setSplitUsers_price[debtor] = expense_total / splitWithUsers.length
+            for (let debtor of allUsers_inGroup[group_id]) {
+                if (!split_with_users.includes(debtorId)) {
+                    split_with_users.push(debtorId)
+                    console.log("點選後的-人數: ", split_with_users)
+
+                }
+
+                total_for_a_user = expense_total / split_with_users.length
                 console.log("分帳後的$-toal: ", expense_total, typeof expense_total)
-                console.log("分帳後的$-人數: ", splitWithUsers.length)
+                console.log("分帳後的$-人數: ", split_with_users.length)
 
-                console.log("分帳後的$: ", expense_total / splitWithUsers.length)
+                console.log("分帳後的$: ", total_for_a_user)
             }
+
         }
 
 
     }
+    // const handleSplitWithUserChange = (e) => {
+    //     const debtorId = e.target.value
+    //     console.log("debtorId: ", debtorId)
+    //     console.log("splitWithUsers-一開始: ", splitWithUsers)
+
+
+    //     if (!splitWithUsers.includes(debtorId)) {
+    //         splitWithUsers.push(debtorId)
+    //     } else {
+    //         let index = splitWithUsers.indexOf(debtorId)
+    //         splitWithUsers.splice(index, 1)
+    //     }
+    //     setSplitWithUsers(splitWithUsers)
+
+    //     if (expense_total !== 0) {
+    //         console.log("分帳有run?")
+    //         console.log("splitWithUsers-經過勾選+--後: ", splitWithUsers)
+
+    //         for (let debtor of splitWithUsers) {
+    //             setSplitUsers_price[debtor] = expense_total / splitWithUsers.length
+    //             console.log("分帳後的$-toal: ", expense_total, typeof expense_total)
+    //             console.log("分帳後的$-人數: ", splitWithUsers.length)
+
+    //             console.log("分帳後的$: ", expense_total / splitWithUsers.length)
+    //         }
+    //     }
+
+
+    // }
 
 
 
@@ -224,37 +254,30 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
                                 <legend>Split with:</legend>
                                 {allUsers_inGroup[group_id] === undefined ?
                                     (allUsersArr.map(user =>
-                                        <div>
-                                            <input type="checkbox" id={user.username} name="debtor" value={user.id} onChange={handleSplitWithUserChange} />
-                                            <lable for={user.username}>{user.username}</lable>
-                                        </div>
+                                        <>
+                                            <div className="flx-col">
+                                                <div>
+                                                    <input type="checkbox" id={user.username} name="debtor" value={user.id} onChange={handleSplitWithUserChange} />
+                                                    <lable for={user.username}>{user.username}</lable>
+                                                </div>
+
+                                            </div>
+                                        </>
+
                                     ))
                                     :
                                     (allUsers_inGroup[group_id].map(user =>
-                                        <div>
-                                            <input type="checkbox" id={user.username} name="debtor" value={user.id} onChange={handleSplitWithUserChange} />
-                                            <lable for={user.username}>{user.username}</lable>
-                                        </div>
+                                        <>
+                                            <div className="flx-col">
+                                                <div>
+                                                    <input type="checkbox" id={user.username} name="debtor" value={user.id} onChange={handleSplitWithUserChange} />
+                                                    <lable for={user.username}>{user.username}</lable>
+                                                </div>
+
+                                            </div>
+                                        </>
                                     ))
                                 }
-
-                                {/* {allUsers_inGroup[group_id] === undefined ?
-                                    (allUsersArr.map(user =>
-                                        <div>
-                                            <input type="checkbox" id={user.username} name="debtor" value={user.id} onChange={handleSplitWithUserChange} />
-                                            <lable for={user.username}>{user.username}</lable>
-                                        </div>
-                                    ))
-                                    :
-                                    (allUsers_inGroup[group_id].map(user =>
-                                        <div>
-                                            <input type="checkbox" id={user.username} name="debtor" value={user.id} onChange={handleSplitWithUserChange} />
-                                            <lable for={user.username}>{user.username}</lable>
-                                        </div>
-
-                                    ))
-                                } */}
-
 
                             </fieldset>
                         </div>
