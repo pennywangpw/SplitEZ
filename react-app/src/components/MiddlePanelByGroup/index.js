@@ -45,6 +45,21 @@ function ExpensesListByGroup() {
         allExpensesinArr.sort((a, b) => b.id - a.id)
     }
 
+    // change date format
+    const date_format = (datestring) => {
+        let new_format = new Date(datestring)
+        // Request a weekday along with a long date
+        const options = {
+            // weekday: "long",
+            // year: "numeric",
+            month: "long",
+            day: "numeric",
+        };
+
+        let new_date_format = new_format.toLocaleString("en-US", options)
+
+        return new_date_format
+    }
 
     return (
         <>
@@ -53,14 +68,14 @@ function ExpensesListByGroup() {
                     <div className="fontS-220rem width-50">{singlegroupinfo.name}</div>
                     <div className="btn-create">
                         <OpenModalButton
-                            className={"button"}
+                            className={"button-orange"}
                             buttonText="Add an expense"
                             modalComponent={<CreateExpense />}
                         />
                     </div>
                 </div>
 
-                <div className="grid-3fr height-5vh expense-summary" id="summary">
+                <div className="grid-3fr-5-3-2 height-5vh expense-summary" id="summary">
                     <div>description</div>
                     <div>Expense Total</div>
                     <div>Bill Payer</div>
@@ -78,12 +93,12 @@ function ExpensesListByGroup() {
                                         setShowDetail(!showDetail)
                                         singleExpensehandler(exp.id)
                                     }}
-                                        className="grid-3fr height-8vh expense-summary "
+                                        className="grid-3fr-5-3-2 height-8vh expense-summary "
                                         id="summary"
                                     >
                                         <div id="main-block" className="flx">
                                             <div id="date">
-                                                {exp.expense_date}
+                                                {exp.expense_date ? (<div>{date_format(exp.expense_date)}</div>) : (<div></div>)}
                                             </div>
                                             <img className="img-size" src={"https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/uncategorized/general@2x.png"} alt="img" />
                                             <div className="flx-col line-4vh">
@@ -94,7 +109,9 @@ function ExpensesListByGroup() {
                                                 {/* {allGroupsIdArr.includes(exp.group_id) ? (<div id="expense-group" className="group-tag">{allGroups[exp.group_id].name}</div>) : (<div></div>)} */}
                                             </div>
                                         </div>
-                                        <div>{exp.expense_total}</div>
+                                        {/* <div>{exp.expense_total}</div> */}
+                                        <div>{`$` + Number(exp.expense_total).toFixed(2)}</div>
+
                                         <div className="flx">
                                             {/* {!exp.billpayer ? <div>Please input billpayer</div> : <div>{exp.billpayer.username}</div>} */}
                                             <div>{currentuser.username}</div>
@@ -113,30 +130,6 @@ function ExpensesListByGroup() {
                                         </div>
 
                                     </div>
-                                    {/* <div onClick={() => {
-                                        setCurrentId(exp.id)
-                                        setShowDetail(!showDetail)
-                                        singleExpensehandler(exp.id)
-                                    }}>
-                                        <div className="grid-3fr height-8vh expense-summary" id="summary">
-                                            <div>{exp.expense_date}{exp.name} </div>
-                                            <div>{exp.expense_total}</div>
-                                            <div className="flx">
-                                                {exp.billpayer ? (<div>{exp.billpayer.username}</div>) : (<div></div>)}
-                                                <div>{exp.billpayer.username}</div>
-                                                <div>{exp.username}</div>
-
-                                                <OpenModalButton
-                                                    className={"height-max-40 mrg-t-10px mrg-l-20px"}
-                                                    buttonText={<i class="fas fa-trash-alt"></i>}
-                                                    modalComponent={<DeleteConfirmationModal expenseId={exp.id} type="delete expense" groupid={groupId} />}
-                                                />
-
-                                            </div>
-                                        </div>
-
-                                    </div> */}
-
 
                                     <div
                                         className={showDetail && currentId === exp.id ? "display-b bg-detail-grey " : "display-n"}

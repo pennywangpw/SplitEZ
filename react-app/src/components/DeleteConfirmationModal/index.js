@@ -59,8 +59,8 @@ function DeleteConfirmationModal({ expenseId, type, groupid, commentid }) {
 
 
             </div>
-            <button onClick={deletehandler}>Yes</button>
-            <button onClick={closeModal}>No</button>
+            <button className="button-decision" onClick={deletehandler}>Yes</button>
+            <button className="button-decision" onClick={closeModal}>No</button>
         </div>
 
     )

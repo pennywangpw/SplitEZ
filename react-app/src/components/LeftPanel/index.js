@@ -70,7 +70,7 @@ function LeftPanel() {
                     <div className="width-50">
                         <OpenModalButton
                             buttonText="+Add"
-                            className=" float-r button"
+                            className=" float-r button-orange"
                             modalComponent={<GroupModal type="create group" />}
                         />
                     </div>
@@ -88,10 +88,12 @@ function LeftPanel() {
                                         <div className="width-50 flx-sa">
                                             <OpenModalButton
                                                 buttonText={<i class="fas fa-edit"></i>}
+                                                className="button-decision pad-4-12"
                                                 modalComponent={<GroupModal type="edit group" name={group.name} id={group.id} />}
                                             />
                                             <OpenModalButton
                                                 buttonText={<i class="fas fa-trash-alt"></i>}
+                                                className="button-decision pad-4-12"
                                                 modalComponent={<DeleteConfirmationModal type="delete group" groupid={group.id} />}
                                             />
                                         </div>
@@ -108,7 +110,7 @@ function LeftPanel() {
                 <div className="flx bg-side-grey l-bar-c">
                     <div className="width-50 ">FRIENDS</div>
                     <div className="width-50">
-                        <button onClick={friendsHandler} className=" float-r button">
+                        <button onClick={friendsHandler} className=" float-r button-orange">
                             +Add
                         </button>
                         {/* <OpenModalButton
@@ -133,6 +135,7 @@ function LeftPanel() {
                                         <div className="width-50 flx-right">
                                             <OpenModalButton
                                                 buttonText={<i class="fas fa-edit"></i>}
+                                                className="button-decision pad-4-12"
                                                 modalComponent={<FriendModal name={user.username} id={user.id} type="edit friend" />}
                                             />
                                         </div>

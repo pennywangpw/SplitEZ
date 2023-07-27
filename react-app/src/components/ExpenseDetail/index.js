@@ -9,12 +9,11 @@ import OpenModalButton from "../OpenModalButton";
 
 function ExpenseDetail({ exp, setShowDetail, allCommentsArr }) {
     console.log("exp detail here: ", setShowDetail, exp, allCommentsArr)
-    // console.log("ExpenseDetail with passed currentid: ", typeof currentId, currentId, setShowDetail)
-    // const allComments = useSelector((state) => state.comments.allComments)
+    const singleExpense = useSelector((state) => state.expenses.singleExpense);
     const dispatch = useDispatch()
     const [comment, setComment] = useState("");
     const expenseId = exp.id
-    console.log("******************comment status: ", comment)
+
 
     //create comment handler
     function createCommentHandler() {
@@ -25,6 +24,27 @@ function ExpenseDetail({ exp, setShowDetail, allCommentsArr }) {
         setComment("")
     }
 
+
+    let divided_amount;
+    let involved_user = [];
+    if (Object.keys(singleExpense).length !== 0) {
+        //caculate divide amount
+        if (singleExpense.associateduser.length > 0) {
+            divided_amount = singleExpense.expense_total / singleExpense.associateduser.length
+        } else {
+            divided_amount = singleExpense.expense_total
+        }
+
+        // users(friends) who involve in this expense and make sure the user only appears once not duplicated
+        if (singleExpense.associateduser.length > 0) {
+            singleExpense.associateduser.forEach(user => {
+                if (user.id !== singleExpense.billpayer.id) {
+                    involved_user.push(user.username)
+                }
+            })
+        }
+
+    }
 
 
     // if (!aExpanse) return null
@@ -42,7 +62,7 @@ function ExpenseDetail({ exp, setShowDetail, allCommentsArr }) {
                     <div className="detail">
 
                         <OpenModalButton
-                            className={"button"}
+                            className={"button-orange"}
                             buttonText="Edit expense"
                             modalComponent={<EditExpense expenseinfo={exp} setShowDetail={setShowDetail} />}
                         />
@@ -51,7 +71,11 @@ function ExpenseDetail({ exp, setShowDetail, allCommentsArr }) {
 
 
                 <div className=" height-50 border-bottom-main flx">
-                    <div className="width-50">Who's in the group (coming soon)</div>
+                    <div className="width-50">
+                        <div>Who involes in this expense: </div>
+                        {singleExpense.billpayer ? (<div>{`${singleExpense.billpayer.username} paid $${singleExpense.expense_total} and owes $${divided_amount.toFixed(2)}`}</div>) : (<div></div>)}
+                        {involved_user.map(user => <div>{`${user} owes $${divided_amount.toFixed(2)}`}</div>)}
+                    </div>
                     {/* <div className="width-50 height-100">ppl involved</div> */}
                     {/* <div className="width-50 height-100">comments</div> */}
                     <div className="comment width-100">
@@ -90,7 +114,7 @@ function ExpenseDetail({ exp, setShowDetail, allCommentsArr }) {
                                 <textarea placeholder="Add a comment" rows="2" value={comment} onChange={(e) => setComment(e.target.value)}></textarea>
                             </label>
                         </div>
-                        <button className=" width-50 button" onClick={createCommentHandler} disabled={comment.length === 0}>Post</button>
+                        <button className=" width-50 button-orange" onClick={createCommentHandler} disabled={comment.length === 0}>Post</button>
                     </div>
                 </div>
             </div>

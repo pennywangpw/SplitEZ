@@ -69,8 +69,8 @@ function LoginFormPage() {
               />
             </div>
             <div className="flx-col">
-              <button type="submit" className="width-50 margin-top25px button" disabled={frontendErrors.length > 0}>Log In</button>
-              <button type="sibmit" className="width-50 margin-top25px button" onClick={() => {
+              <button type="submit" className="width-50 margin-top25px button-orange" disabled={frontendErrors.length > 0}>Log In</button>
+              <button type="sibmit" className="width-50 margin-top25px button-orange" onClick={() => {
                 setEmail('demo@aa.io')
                 setPassword('password')
               }}>Log in as Demo User</button>

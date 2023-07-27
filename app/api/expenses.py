@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from app.models import db, Expense, User
+from app.models import db, Expense, User, users_expenses
 from flask_login import current_user, login_required
 from ..forms import ExpenseForm
 
@@ -10,13 +10,16 @@ expenses = Blueprint('expenses', __name__)
 @expenses.route('/all')
 @login_required
 def allExpenses():
-    id = current_user.id
-    '''get all expenses belong to current user'''
-    # expensepool = Expense.query.all()
-    # print("-----------pool: ", expensepool)
-    allexpenses = Expense.query.filter(
-        Expense.payer_user_id == id).all()
-    print("----------only belongs to me: ", allexpenses)
+    # id = current_user.id
+    # '''get all expenses belong to current user'''
+    # # expensepool = Expense.query.all()
+    # # print("-----------pool: ", expensepool)
+    # allexpenses = Expense.query.filter(
+    #     Expense.payer_user_id == id).all()
+    # print("----------only belongs to me: ", allexpenses)
+
+    '''get all expenses'''
+    allexpenses = Expense.query.all()
 
 
     '''get each expense billpayer's information and add this attribute to each expense'''
@@ -27,6 +30,7 @@ def allExpenses():
         print("******each expense*: ", expense_data)
 
         expense_data['billpayer'] = expense.user.to_dict()
+        print("expense.user.to_dict(): ",expense.user.to_dict())
         allexpenseswithbillpayer.append(expense_data)
 
     print("==============================",allexpenseswithbillpayer)
@@ -35,7 +39,7 @@ def allExpenses():
 
 
 
-#get a single expense with billpayer information
+#get a single expense with billpayer AND associated user information
 @expenses.route('/<int:id>')
 @login_required
 def singleExpense(id):
@@ -45,12 +49,22 @@ def singleExpense(id):
     billpayer = expense.user
     billpayerDict = billpayer.to_dict()
     print(f'single expnese --billpayer {billpayerDict}')
+    '''add billpayer column to expenseDict'''
     expenseDict = expense.to_dict()
     expenseDict['billpayer']=billpayerDict
     # expenseDict['billpayer'].append(billpayerDict)
+    # print(f'single expnese --returnning {expenseDict}')
+
+    '''get associated users'''
+    associateduser = expense.users
+    associateduserDict = [user.to_dict() for user in associateduser]
+    print(f'找testing to see associated user: ',associateduserDict)
+    '''add associateduser column to expenseDict'''
+    expenseDict['associateduser'] = associateduserDict
     print(f'single expnese --returnning {expenseDict}')
 
     return expenseDict
+
 
 
 #create an expense
@@ -60,16 +74,37 @@ def crateExpense():
     form = ExpenseForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     print(f'BEFORE this is create expenses form {form}')
+    data = request.get_json()
+    print(f'data is here {data}')
+
     if form.validate_on_submit():
         print("AM I PASSING? with form.data:", form.data )
         new_expense = Expense(
             name= form.data['name'],
             expense_total = form.data['expense_total'],
-            payer_user_id = current_user.id,
-            group_id = form.data['group_id']
+            # payer_user_id = current_user.id,
+            payer_user_id = form.data['payer_user_id'],
+            group_id = form.data['group_id'],
+            expense_date = form.data['expense_date']
         )
+
         db.session.add(new_expense)
+
+        for user_id in data['splitWithUsers']:
+            user = User.query.get(user_id)
+            if user:
+                new_expense.users.append(user)
+
         db.session.commit()
+        print(f'new_expense id : {new_expense.id}')
+
+        # new_users_expenses= users_expenses(
+        #     owe_id = data['splitWithUsers'],
+        #     expense_id = new_expense.id
+        # )
+        # db.session.add(new_users_expenses)
+        # db.session.commit()
+
         print(f'this is create expenses new_expense {new_expense}')
         return new_expense.to_dict()
     return "Bad Data"
@@ -97,7 +132,7 @@ def updatedExpense(id):
     form = ExpenseForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     updatedexpense = Expense.query.get(id)
-    print(f'update an expense see type {updatedexpense}')
+    print(f'--update an expense see type {updatedexpense}')
     # updatedexpenseDict = updatedexpense.to_dict()
     # print(f'update an expense {updatedexpenseDict}')
     print(f'this is form.data {form.data}')
@@ -105,6 +140,9 @@ def updatedExpense(id):
         updatedexpense.name = form.data['name']
         updatedexpense.expense_total = form.data['expense_total']
         updatedexpense.group_id = form.data['group_id']
+        updatedexpense.expense_date = form.data['expense_date']
+        updatedexpense.payer_user_id = form.data['payer_user_id']
+
 
         db.session.commit()
         updatedexpenseDict = updatedexpense.to_dict()
