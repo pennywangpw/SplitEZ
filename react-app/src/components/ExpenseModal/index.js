@@ -10,7 +10,7 @@ import * as groupsthunk from "../../store/group"
 function ExpenseModal({ type, expenseinfo, setShowDetail }) {
     console.log("expense modal with expense info: ", type, typeof expenseinfo.expense_total, expenseinfo.expense_total, expenseinfo)
 
-    //get today
+    //get today and change the format
     const today = new Date()
     let year = today.getFullYear()
     let month = today.getMonth()
@@ -35,12 +35,13 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
     const [expense_date, setExpenseDate] = useState(formatedtoday)
     const [group_id, setGroup_id] = useState(expenseinfo.group_id)
     const [splitWithUsers, setSplitWithUsers] = useState([])
-    const [splitUsers_price, setSplitUsers_price] = useState({})
+
+    const [split_Users_price, setSplit_Users_price] = useState([])
     const [total_for_a_user, setTotal_for_a_user] = useState(0)
 
-
-
     const [errors, setErrors] = useState([])
+
+
 
     const { closeModal } = useModal();
     //get all the groups and conver into arr
@@ -70,22 +71,35 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
         setErrors(e)
     }, [name, expense_total])
 
-
-    //if group_id change splitWithUsers should be changed
+    //FOR -split with section
+    //if group_id change, debtors in split with section should be change
+    //if group_id is selected, get singleGroup
+    //if not selected, get allGroups/ friendswithgroupinfo
     useEffect(() => {
-        dispatch(expensesthunk.allExpenses())
+        // dispatch(expensesthunk.allExpenses())
         dispatch(userthunk.friendsWithGroupInfo())
         dispatch(groupsthunk.singleGroupthunk(group_id))
     }, [group_id])
 
-
+    //FOR -choose a group section
+    //get all groups
     useEffect(() => {
         dispatch(groupsthunk.allGroupsthunk())
     }, [])
 
+
+    //FOR -total_for_a_user update
     useEffect(() => {
         console.log("Updated splitWithUsers: ", splitWithUsers);
+        // setSplit_Users_price([splitWithUsers.pop(), expense_total / splitWithUsers.length])
+        // console.log("分帳後的-人&錢: ", split_Users_price)
     }, [splitWithUsers]);
+
+
+    //FOR -in order to re-render the page before payload send to backend
+    useEffect(() => {
+        console.log("split_Users_price if changed: ", split_Users_price);
+    }, [split_Users_price]);
 
     //SplitWithUserHandler to collect all the debtors
     //if debtorId exsits in splitWithUsers we remove it
@@ -95,7 +109,7 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
         console.log("debtorId: ", debtorId, typeof debtorId)
         console.log("allUsers_inGroup[group_id]: ", allUsers_inGroup[group_id])
 
-        //collect split users' id without duplicating
+
         if (!splitWithUsers.includes(debtorId)) {
             splitWithUsers.push(debtorId)
             console.log("點選後的-人數: ", splitWithUsers)
@@ -109,6 +123,7 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
         //if uesr input a total, caculate split amount for each split user
         if (splitWithUsers.length === 0) setTotal_for_a_user(0)
         if (expense_total > 0 && splitWithUsers.length > 0) {
+
             setTotal_for_a_user(expense_total / splitWithUsers.length)
             console.log("分帳後的$-toal: ", total_for_a_user, typeof total_for_a_user)
             console.log("分帳後的$-人數: ", splitWithUsers.length)
@@ -116,38 +131,32 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
             // console.log("分帳後的$: ", total_for_a_user, typeof total_for_a_user)
         }
 
-
-
     }
-    // let split_with_users = []
-    // let total_for_a_user = 0
     // const handleSplitWithUserChange = (e) => {
-    //     const debtorId = e.target.value
-    //     console.log("debtorId: ", debtorId)
+    //     const debtorId = Number(e.target.value)
+    //     console.log("debtorId: ", debtorId, typeof debtorId)
     //     console.log("allUsers_inGroup[group_id]: ", allUsers_inGroup[group_id])
 
     //     //collect split users' id without duplicating
-    //     if (!split_with_users.includes(debtorId)) {
-    //         split_with_users.push(debtorId)
-    //         console.log("點選後的-人數: ", split_with_users)
+    //     if (!splitWithUsers.includes(debtorId)) {
+    //         splitWithUsers.push(debtorId)
+    //         console.log("點選後的-人數: ", splitWithUsers)
 
     //     } else {
-    //         const index = split_with_users.indexOf(debtorId);
-    //         split_with_users.splice(index, 1);
-    //         console.log("點選後的-人數: ", split_with_users);
+    //         const index = splitWithUsers.indexOf(debtorId);
+    //         splitWithUsers.splice(index, 1);
+    //         console.log("點選後的-人數: ", splitWithUsers);
     //     }
 
     //     //if uesr input a total, caculate split amount for each split user
-    //     if (expense_total > 0) {
-
-    //         total_for_a_user = expense_total / split_with_users.length
-    //         console.log("分帳後的$-toal: ", expense_total, typeof expense_total)
-    //         console.log("分帳後的$-人數: ", split_with_users.length)
+    //     if (splitWithUsers.length === 0) setTotal_for_a_user(0)
+    //     if (expense_total > 0 && splitWithUsers.length > 0) {
+    //         setTotal_for_a_user(expense_total / splitWithUsers.length)
+    //         console.log("分帳後的$-toal: ", total_for_a_user, typeof total_for_a_user)
+    //         console.log("分帳後的$-人數: ", splitWithUsers.length)
 
     //         // console.log("分帳後的$: ", total_for_a_user, typeof total_for_a_user)
     //     }
-
-    //     setSplitWithUsers([...split_with_users])
 
     // }
 
@@ -161,14 +170,26 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        console.log("submit的人id: ", splitWithUsers)
+        console.log("submit的總金額: ", total_for_a_user)
+        let debtorId_oweAmount = { "debtorId": null, "oweAmount": null }
+        for (let debtor of splitWithUsers) {
+            debtorId_oweAmount["debtorId"] = debtor
+            debtorId_oweAmount["oweAmount"] = total_for_a_user
+        }
+        console.log("submit 後的 人+金額-1: ", debtorId_oweAmount)
+
+        setSplit_Users_price([...split_Users_price, debtorId_oweAmount])
+
+
         if (type === "create") {
-            const payload = { name, expense_total, group_id, expense_date, payer_user_id, splitWithUsers, splitUsers_price }
+            const payload = { name, expense_total, group_id, expense_date, payer_user_id, splitWithUsers, split_Users_price }
             console.log("傳出去的payload: ", payload)
             await dispatch(expensesthunk.createExpense(payload))
             await dispatch(expensesthunk.allExpenses()).then(closeModal)
             // await dispatch(groupsthunk.singleGroupthunk(expenseinfo.group_id)).then(closeModal)
         } else if (type === "edit") {
-            const payload = { name, expense_total, group_id, expense_date, payer_user_id, splitWithUsers, splitUsers_price }
+            const payload = { name, expense_total, group_id, expense_date, payer_user_id, splitWithUsers, split_Users_price }
             await dispatch(expensesthunk.updateExpense(expenseinfo.id, payload))
             await dispatch(expensesthunk.allExpenses()).then(closeModal)
 
