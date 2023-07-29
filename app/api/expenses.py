@@ -96,7 +96,7 @@ def crateExpense():
                 new_expense.users.append(user)
 
         db.session.commit()
-        print(f'new_expense id : {new_expense.id}')
+
 
         # new_users_expenses= users_expenses(
         #     owe_id = data['splitWithUsers'],
