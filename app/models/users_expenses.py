@@ -13,7 +13,9 @@ users_expenses = db.Table(
     "users_expenses",
     db.Model.metadata,
     db.Column("owe_id", db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), primary_key=True),
-    db.Column("expense_id", db.Integer, db.ForeignKey(add_prefix_for_prod("expenses.id")), primary_key=True))
+    db.Column("expense_id", db.Integer, db.ForeignKey(add_prefix_for_prod("expenses.id")), primary_key=True),
+    db.Column("amount_payable", db.Numeric)
+    )
 
 
 if environment == "production":
