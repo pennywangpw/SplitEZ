@@ -36,7 +36,7 @@ function GroupListByFriend() {
     }
 
 
-    //dispaly valid group in middle panel, user can only see the group he/she involes
+    //dispaly valid groups in middle panel, user can only see the groups he/she involes
     let validgroup = []
     if (selectedFriend) {
         if (selectedFriend.groupid) {
@@ -70,15 +70,17 @@ function GroupListByFriend() {
                 </div>
 
                 <div className="line-5vh">
-                    {validgroup.length > 0 ? (validgroup.map(group =>
-                        <>
+                    {validgroup.length > 0 ?
+                        (validgroup.map(group =>
                             <div key={group.id} className="detail">
                                 <NavLink to={`/groups/${group.id}`} style={{ textDecoration: 'none', lineHeight: '5vh' }}>
                                     <div className="grid-3fr height-8vh expense-summary">{group.name}</div>
                                 </NavLink>
                             </div>
-                        </>
-                    )) : (<div></div>)}
+                        ))
+                        :
+                        (<div></div>)
+                    }
 
                 </div>
 
