@@ -8,7 +8,7 @@ import DeleteConfirmationModal from "../DeleteConfirmationModal"
 import OpenModalButton from "../OpenModalButton";
 
 function ExpenseDetail({ exp, setShowDetail, allCommentsArr }) {
-    console.log("exp detail here: ", setShowDetail, exp, allCommentsArr)
+    // console.log("exp detail here: ", setShowDetail, exp, allCommentsArr)
     const singleExpense = useSelector((state) => state.expenses.singleExpense);
     const dispatch = useDispatch()
     const [comment, setComment] = useState("");

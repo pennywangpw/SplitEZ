@@ -8,7 +8,7 @@ import * as groupsthunk from "../../store/group"
 
 
 function ExpenseModal({ type, expenseinfo, setShowDetail }) {
-    console.log("expense modal with expense info: ", type, typeof expenseinfo.expense_total, expenseinfo.expense_total, expenseinfo)
+    // console.log("expense modal with expense info: ", type, typeof expenseinfo.expense_total, expenseinfo.expense_total, expenseinfo)
 
     //get today and change the format
     const today = new Date()
@@ -57,14 +57,14 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
 
 
     // validation for expense name (description)
-    useEffect(() => {
-        let e = []
-        if (!name) e.push("Please provide description")
-        if (name.length > 15) e.push("Description is no more than 15 characters")
-        if (!expense_total) e.push("Please provide amount")
-        if (expense_total && expense_total <= 0) e.push("Amount should be greater than 0")
-        setErrors(e)
-    }, [name, expense_total])
+    // useEffect(() => {
+    //     let e = []
+    //     if (!name) e.push("Please provide description")
+    //     if (name.length > 15) e.push("Description is no more than 15 characters")
+    //     if (!expense_total) e.push("Please provide amount")
+    //     if (expense_total && expense_total <= 0) e.push("Amount should be greater than 0")
+    //     setErrors(e)
+    // }, [name, expense_total])
 
     //FOR -split with section
     //if group_id change, debtors in split with section should be change
@@ -72,15 +72,10 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
     //if not selected, get allGroups/ friendswithgroupinfo
     useEffect(() => {
         // dispatch(expensesthunk.allExpenses())
+        dispatch(groupsthunk.allGroupsthunk())
         dispatch(userthunk.friendsWithGroupInfo())
         dispatch(groupsthunk.singleGroupthunk(group_id))
     }, [group_id])
-
-    //FOR -choose a group section
-    //get all groups
-    useEffect(() => {
-        dispatch(groupsthunk.allGroupsthunk())
-    }, [])
 
 
     //caculate split amount
@@ -100,6 +95,7 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
         //if nothing in split_Users_price we just add it
         if (split_Users_price.length === 0) {
             split_Users_price.push({ "debtor_id": debtorId, "owe_amount": split_amount })
+            console.log("split_Users_price  function after adding: ", split_Users_price)
 
         } else {
             //if there's some debtor in split_Users_price, we have to check if selected debtor can be found or not
@@ -109,32 +105,33 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
 
             if (checked_debtor.length === 0) {
                 split_Users_price.push({ "debtor_id": debtorId, "owe_amount": null })
-                let added_debtor = split_Users_price.find(debtor => debtor["debtor_id"] === debtorId)
-                if (added_debtor) {
-                    handleSplitAmount()
-                }
+                handleSplitAmount()
+                // let added_debtor = split_Users_price.find(debtor => debtor["debtor_id"] === debtorId)
+                // if (added_debtor) {
+                //     handleSplitAmount()
+                // }
 
-            } else {
+            }
+            else {
                 let index = split_Users_price.indexOf(checked_debtor[0])
                 split_Users_price.splice(index, 1)
-
+                handleSplitAmount()
             }
 
         }
-
     }
 
 
 
     const handleDateFormat = (e) => {
         let targetvalue = e.target.value
-        setExpenseDate(targetvalue)
+        // setExpenseDate(targetvalue)
     }
 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        console.log("when clicking submit btn split_Users_price: ", split_Users_price)
         if (type === "create") {
             const payload = { name, expense_total, group_id, expense_date, payer_user_id, splitWithUsers, split_Users_price }
             console.log("傳出去的payload: ", payload)

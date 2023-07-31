@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 from app.models import db, Expense, User, users_expenses
 from flask_login import current_user, login_required
-from ..forms import ExpenseForm
+from ..forms import ExpenseForm,  Debtor, Debotrdetail
 
 expenses = Blueprint('expenses', __name__)
 
@@ -65,6 +65,29 @@ def singleExpense(id):
 
     return expenseDict
 
+# #create an expense fake by crab
+# @expenses.route('/crab', methods=['POST'])
+# def crateExpenseFake():
+#     form = CrabExpForm.from_json(request.json)
+
+#     form['csrf_token'].data = request.cookies['csrf_token']
+#     print(f'data is here {form.data}')
+#     if form.validate_on_submit():
+#         return 'pass'
+#     else:
+#         return form.errors
+
+#create an expense fake by penny
+@expenses.route('/penny', methods=['POST'])
+def crateExpenseFake():
+    form = Debtor.from_json(request.json)
+
+    form['csrf_token'].data = request.cookies['csrf_token']
+    print(f'data is here {form.data}')
+    if form.validate_on_submit():
+        return 'pass'
+    else:
+        return form.errors
 
 
 #create an expense
