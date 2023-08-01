@@ -1,6 +1,8 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, DateField, DecimalField, FormField, FieldList
 from wtforms.validators import DataRequired
+import wtforms_json
+wtforms_json.init()
 
 
 class ExpenseForm(FlaskForm):

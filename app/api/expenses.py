@@ -70,10 +70,12 @@ def singleExpense(id):
 @expenses.route('/penny', methods=['POST'])
 @login_required
 def pennytest():
-    form = DebtorsForm()
+    form = DebtorsForm.from_json(request.json)
+    form['csrf_token'].data = request.cookies['csrf_token']
+
     if form.validate_on_submit():
         return "pass"
-    return "fail"
+    return form.errors
 
 
 
