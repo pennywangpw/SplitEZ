@@ -4,7 +4,6 @@ from wtforms.validators import DataRequired
 import wtforms_json
 wtforms_json.init()
 
-
 class ExpenseForm(FlaskForm):
     name = StringField('name', validators=[DataRequired()])
     expense_date = DateField('expense_date')
@@ -15,6 +14,8 @@ class ExpenseForm(FlaskForm):
 
 
 class DebtorDetailForm(FlaskForm):
+    class Meta:
+        csrf= False
     debtor_id = IntegerField('debtor_id', validators=[DataRequired()])
     owe_amount = DecimalField('expense_total', validators=[DataRequired()])
 
