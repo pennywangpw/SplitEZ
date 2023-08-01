@@ -66,16 +66,29 @@ def singleExpense(id):
     return expenseDict
 
 
-#create an expense
+#create an expense fake by penny
 @expenses.route('/penny', methods=['POST'])
-@login_required
-def pennytest():
-    form = DebtorsForm.from_json(request.json)
+def crateExpenseFake():
+    debtorform = DebtorsForm.from_json(request.json)
+    debtorform['csrf_token'].data = request.cookies['csrf_token']
+
+    form = ExpenseForm.from_json(request.json)
     form['csrf_token'].data = request.cookies['csrf_token']
 
-    if form.validate_on_submit():
-        return "pass"
-    return form.errors
+    print(f'data is here {form.data}')
+    if form.validate_on_submit() and debtorform.validate_on_submit():
+        form = ExpenseForm()
+        form['csrf_token'].data = request.cookies['csrf_token']
+        print(f'PENNY this is create expenses form {form}')
+        '''parse data as JSON'''
+        data = request.get_json()
+        print(f'PENNY data is here -1{form.data}')
+
+        print(f'PENNY data is here -2{data}')
+
+        return data
+    else:
+        return form.errors
 
 
 
