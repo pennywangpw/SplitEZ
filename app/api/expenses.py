@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 from app.models import db, Expense, User, users_expenses
 from flask_login import current_user, login_required
-from ..forms import ExpenseForm, DebtorDetailForm, DebtorsForm
+from ..forms import ExpenseForm, DebtorDetailForm
 
 expenses = Blueprint('expenses', __name__)
 
@@ -67,68 +67,88 @@ def singleExpense(id):
 
 
 #create an expense fake by penny
-@expenses.route('/penny', methods=['POST'])
+@expenses.route('/all', methods=['POST'])
 def crateExpenseFake():
-    debtorform = DebtorsForm.from_json(request.json)
-    debtorform['csrf_token'].data = request.cookies['csrf_token']
-
+    '''Create a form with user input'''
     form = ExpenseForm.from_json(request.json)
     form['csrf_token'].data = request.cookies['csrf_token']
+    print(f"this is form data when i create expense {form.data}")
+    '''check if form passes validation, if so, create an Expense and store in db'''
+    if form.validate_on_submit():
+        new_expense = Expense(
+            name = form.data['name'],
+            expense_date = form.data['expense_date'],
+            expense_total = form.data['expense_total'],
+            payer_user_id = form.data['payer_user_id'],
+            group_id = form.data['group_id']
+        )
 
-    print(f'data is here {form.data}')
-    if form.validate_on_submit() and debtorform.validate_on_submit():
-        form = ExpenseForm()
-        form['csrf_token'].data = request.cookies['csrf_token']
-        '''parse data as JSON'''
-        data = request.get_json()
-        return data
+
+        # '''expense 加一筆user'''
+        # for debtor in form.data['debtors']:
+        #     print(f"here's debtor in form.data {debtor}")
+        #     debtor_for_this_expense = User(debtor["debtor_id"])
+        #     print(f"debtor_for_this_expense {debtor_for_this_expense}")
+
+        #     # find_debtor = User.query.get(debtor["debtor_id"])
+        #     # print(f"user is here {find_debtor.to_dict()}")
+        #     # new_expense.users.append(find_debtor)
+
+
+        '''expense 加一筆user'''
+        for debtor in form.data['debtors']:
+            print(f"here's debtor in form.data {debtor}")
+            find_debtor = User.query.get(debtor["debtor_id"])
+            print(f"user is here {find_debtor.to_dict()}")
+            new_expense.users.append(find_debtor)
+
+        db.session.add(new_expense)
+        db.session.commit()
+
+        print(f'this is create expenses new_expense {new_expense.to_dict()}')
+
+        return new_expense.to_dict()
 
     else:
         return form.errors
 
 
 
-#create an expense
-@expenses.route('/all', methods=['POST'])
-@login_required
-def crateExpense():
-    form = ExpenseForm()
-    form['csrf_token'].data = request.cookies['csrf_token']
-    print(f'BEFORE this is create expenses form {form}')
-    data = request.get_json()
-    print(f'data is here {data}')
+# #create an expense
+# @expenses.route('/all', methods=['POST'])
+# @login_required
+# def crateExpense():
+#     form = ExpenseForm()
+#     form['csrf_token'].data = request.cookies['csrf_token']
+#     print(f'BEFORE this is create expenses form {form}')
+#     data = request.get_json()
+#     print(f'data is here {data}')
 
-    if form.validate_on_submit():
-        print("AM I PASSING? with form.data:", form.data )
-        new_expense = Expense(
-            name= form.data['name'],
-            expense_total = form.data['expense_total'],
-            # payer_user_id = current_user.id,
-            payer_user_id = form.data['payer_user_id'],
-            group_id = form.data['group_id'],
-            expense_date = form.data['expense_date']
-        )
+#     if form.validate_on_submit():
+#         print("AM I PASSING? with form.data:", form.data )
+#         new_expense = Expense(
+#             name= form.data['name'],
+#             expense_total = form.data['expense_total'],
+#             # payer_user_id = current_user.id,
+#             payer_user_id = form.data['payer_user_id'],
+#             group_id = form.data['group_id'],
+#             expense_date = form.data['expense_date']
+#         )
 
-        db.session.add(new_expense)
+#         db.session.add(new_expense)
 
-        for user_id in data['splitWithUsers']:
-            user = User.query.get(user_id)
-            if user:
-                new_expense.users.append(user)
+#         for user_id in data['splitWithUsers']:
+#             user = User.query.get(user_id)
+#             if user:
+#                 new_expense.users.append(user)
 
-        db.session.commit()
+#         db.session.commit()
 
 
-        # new_users_expenses= users_expenses(
-        #     owe_id = data['splitWithUsers'],
-        #     expense_id = new_expense.id
-        # )
-        # db.session.add(new_users_expenses)
-        # db.session.commit()
 
-        print(f'this is create expenses new_expense {new_expense}')
-        return new_expense.to_dict()
-    return "Bad Data"
+#         print(f'this is create expenses new_expense {new_expense}')
+#         return new_expense.to_dict()
+#     return "Bad Data"
 
 #delete an expense
 # @expenses.route('/all', methods=['DELETE'])
