@@ -79,14 +79,10 @@ def crateExpenseFake():
     if form.validate_on_submit() and debtorform.validate_on_submit():
         form = ExpenseForm()
         form['csrf_token'].data = request.cookies['csrf_token']
-        print(f'PENNY this is create expenses form {form}')
         '''parse data as JSON'''
         data = request.get_json()
-        print(f'PENNY data is here -1{form.data}')
-
-        print(f'PENNY data is here -2{data}')
-
         return data
+
     else:
         return form.errors
 
