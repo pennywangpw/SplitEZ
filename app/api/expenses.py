@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 from app.models import db, Expense, User, users_expenses
 from flask_login import current_user, login_required
-from ..forms import ExpenseForm
+from ..forms import ExpenseForm, DebtorDetailForm, DebtorsForm
 
 expenses = Blueprint('expenses', __name__)
 
@@ -64,6 +64,16 @@ def singleExpense(id):
     print(f'single expnese --returnning {expenseDict}')
 
     return expenseDict
+
+
+#create an expense
+@expenses.route('/penny', methods=['POST'])
+@login_required
+def pennytest():
+    form = DebtorsForm()
+    if form.validate_on_submit():
+        return "pass"
+    return "fail"
 
 
 
