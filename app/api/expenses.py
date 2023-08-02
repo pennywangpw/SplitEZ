@@ -102,9 +102,12 @@ def crateExpenseFake():
 
 
         print(f'this is create expenses new_expense {new_expense.to_dict()}')
-
+        new_expense_usersDict=[user.to_dict() for user in new_expense.users]
+        print(f'checking new_expense.users {new_expense_usersDict}')
 
         new_expenseDict = new_expense.to_dict()
+        user = users_expenses.query.get(form.data.id)
+        print(f"trying to find user {user}")
         new_expenseDict["debtor"] = form.data["debtors"]
         print(f'AFTER this is create expenses new_expense {new_expenseDict}')
 
