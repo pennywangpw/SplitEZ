@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, request
 from app.models import db, Expense, User, users_expenses
 from flask_login import current_user, login_required
 from ..forms import ExpenseForm, DebtorDetailForm
-
+from sqlalchemy.orm import aliased
 
 expenses = Blueprint('expenses', __name__)
 
@@ -67,7 +67,7 @@ def singleExpense(id):
     return expenseDict
 
 
-#create an expense fake by penny
+#create an expense
 @expenses.route('/all', methods=['POST'])
 def crateExpenseFake():
     '''Create a form with user input'''
@@ -101,15 +101,22 @@ def crateExpenseFake():
 
 
 
-        print(f'this is create expenses new_expense {new_expense.to_dict()}')
         new_expense_usersDict=[user.to_dict() for user in new_expense.users]
-        print(f'checking new_expense.users {new_expense_usersDict}')
+
+
+        '''query all debtors from db and add related columns'''
+        debtors = db.session.query(users_expenses).filter_by(expense_id = new_expense.id).all()
+        print(f'create {debtors}')
+        debtors_formated = []
+        for debtor in debtors:
+            debtor_formated ={
+                "debtor_id": debtor.owe_id,
+                "owe_amount": debtor.amount_payable
+            }
+            debtors_formated.append(debtor_formated)
 
         new_expenseDict = new_expense.to_dict()
-        user = users_expenses.query.get(form.data.id)
-        print(f"trying to find user {user}")
-        new_expenseDict["debtor"] = form.data["debtors"]
-        print(f'AFTER this is create expenses new_expense {new_expenseDict}')
+        new_expenseDict["debtors"] = debtors_formated
 
         return new_expenseDict
 
@@ -174,22 +181,35 @@ def deleteExpense(id):
 @expenses.route('/<int:id>', methods=['PUT'])
 @login_required
 def updatedExpense(id):
-    form = ExpenseForm()
-    form['csrf_token'].data = request.cookies['csrf_token']
-    updatedexpense = Expense.query.get(id)
-    print(f'--update an expense see type {updatedexpense}')
-    # updatedexpenseDict = updatedexpense.to_dict()
-    # print(f'update an expense {updatedexpenseDict}')
-    print(f'this is form.data {form.data}')
-    if form.validate_on_submit():
-        updatedexpense.name = form.data['name']
-        updatedexpense.expense_total = form.data['expense_total']
-        updatedexpense.group_id = form.data['group_id']
-        updatedexpense.expense_date = form.data['expense_date']
-        updatedexpense.payer_user_id = form.data['payer_user_id']
+    '''query db to get the expense which I want to update'''
+
+    t = db.session.query(users_expenses).filter_by(owe_id=200, expense_id=22).one()
+    print(t.owe_id)
+    print(t.expense_id)
+    a = {
+        'owe_id': t.owe_id,
+        'expenses_id': t.expense_id
+    }
+    print(a)
+    return "test"
+    # form = ExpenseForm()
+    # form['csrf_token'].data = request.cookies['csrf_token']
+    # updatedexpense = Expense.query.get(id)
+    # print(f'--update an expense see type {updatedexpense}')
+    # # updatedexpenseDict = updatedexpense.to_dict()
+    # # print(f'update an expense {updatedexpenseDict}')
+    # print(f'this is form.data {form.data}')
+    # if form.validate_on_submit():
+    #     updatedexpense.name = form.data['name']
+    #     updatedexpense.expense_total = form.data['expense_total']
+    #     updatedexpense.group_id = form.data['group_id']
+    #     updatedexpense.expense_date = form.data['expense_date']
+    #     updatedexpense.payer_user_id = form.data['payer_user_id']
+    #     updatedexpense.debtors = form.data['debtors']
 
 
-        db.session.commit()
-        updatedexpenseDict = updatedexpense.to_dict()
-        return updatedexpenseDict
-    return "Bad data-update an expense"
+
+    #     db.session.commit()
+    #     updatedexpenseDict = updatedexpense.to_dict()
+    #     return updatedexpenseDict
+    # return "Bad data-update an expense"
