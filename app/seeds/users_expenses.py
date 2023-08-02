@@ -6,26 +6,26 @@ from sqlalchemy.sql import text
 
 def seed_tables():
     user_expense_data = [
-        {'owe_id': 1, 'expense_id':1},
-        {'owe_id': 1, 'expense_id':2},
-        {'owe_id': 2, 'expense_id':3},
-        {'owe_id': 2, 'expense_id':4},
-        {'owe_id': 2, 'expense_id':5},
-        {'owe_id': 2, 'expense_id':6},
-        {'owe_id': 2, 'expense_id':7},
-        {'owe_id': 2, 'expense_id':8},
-        {'owe_id': 3, 'expense_id':1},
-        {'owe_id': 3, 'expense_id':2},
-        {'owe_id': 3, 'expense_id':5},
-        {'owe_id': 3, 'expense_id':6},
-        {'owe_id': 3, 'expense_id':7},
-        {'owe_id': 4, 'expense_id':2},
-        {'owe_id': 4, 'expense_id':3},
-        {'owe_id': 4, 'expense_id':4},
-        {'owe_id': 5, 'expense_id':1},
-        {'owe_id': 5, 'expense_id':2},
-        {'owe_id': 5, 'expense_id':3},
-        {'owe_id': 5, 'expense_id':8},
+        {'owe_id': 1, 'expense_id':1, 'amount_payable': 10},
+        {'owe_id': 1, 'expense_id':2, 'amount_payable': 10},
+        {'owe_id': 2, 'expense_id':3, 'amount_payable': 10},
+        {'owe_id': 2, 'expense_id':4, 'amount_payable': 10},
+        {'owe_id': 2, 'expense_id':5, 'amount_payable': 10},
+        {'owe_id': 2, 'expense_id':6, 'amount_payable': 10},
+        {'owe_id': 2, 'expense_id':7, 'amount_payable': 10},
+        {'owe_id': 2, 'expense_id':8, 'amount_payable': 10},
+        {'owe_id': 3, 'expense_id':1, 'amount_payable': 10},
+        {'owe_id': 3, 'expense_id':2, 'amount_payable': 10},
+        {'owe_id': 3, 'expense_id':5, 'amount_payable': 10},
+        {'owe_id': 3, 'expense_id':6, 'amount_payable': 10},
+        {'owe_id': 3, 'expense_id':7, 'amount_payable': 10},
+        {'owe_id': 4, 'expense_id':2, 'amount_payable': 10},
+        {'owe_id': 4, 'expense_id':3, 'amount_payable': 10},
+        {'owe_id': 4, 'expense_id':4, 'amount_payable': 10},
+        {'owe_id': 5, 'expense_id':1, 'amount_payable': 10},
+        {'owe_id': 5, 'expense_id':2, 'amount_payable': 10},
+        {'owe_id': 5, 'expense_id':3, 'amount_payable': 10},
+        {'owe_id': 5, 'expense_id':8, 'amount_payable': 10},
 
     ]
 
@@ -40,6 +40,6 @@ def undo_tables():
     if environment == "production":
         db.session.execute(f"TRUNCATE table {SCHEMA}.users_expenses RESTART IDENTITY CASCADE;")
     else:
-        db.session.execute(text("DELETE FROM tables"))
+        db.session.execute(text("DELETE FROM users_expenses"))
 
     db.session.commit()

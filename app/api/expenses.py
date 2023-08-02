@@ -3,6 +3,7 @@ from app.models import db, Expense, User, users_expenses
 from flask_login import current_user, login_required
 from ..forms import ExpenseForm, DebtorDetailForm
 
+
 expenses = Blueprint('expenses', __name__)
 
 
@@ -83,31 +84,31 @@ def crateExpenseFake():
             group_id = form.data['group_id']
         )
 
-
-        # '''expense 加一筆user'''
-        # for debtor in form.data['debtors']:
-        #     print(f"here's debtor in form.data {debtor}")
-        #     debtor_for_this_expense = User(debtor["debtor_id"])
-        #     print(f"debtor_for_this_expense {debtor_for_this_expense}")
-
-        #     # find_debtor = User.query.get(debtor["debtor_id"])
-        #     # print(f"user is here {find_debtor.to_dict()}")
-        #     # new_expense.users.append(find_debtor)
-
-
-        '''expense 加一筆user'''
-        for debtor in form.data['debtors']:
-            print(f"here's debtor in form.data {debtor}")
-            find_debtor = User.query.get(debtor["debtor_id"])
-            print(f"user is here {find_debtor.to_dict()}")
-            new_expense.users.append(find_debtor)
-
         db.session.add(new_expense)
         db.session.commit()
 
+        '''insert debtors in relationship table - users_expenses'''
+        for debtor in form.data['debtors']:
+            print(f"here's debtor in form.data {debtor}")
+            new_users_expenses = users_expenses.insert().values(
+                owe_id = debtor["debtor_id"],
+                expense_id = new_expense.id,
+                amount_payable = debtor["owe_amount"]
+            )
+            # db.session.add(new_users_expenses)
+            db.session.execute(new_users_expenses)
+            db.session.commit()
+
+
+
         print(f'this is create expenses new_expense {new_expense.to_dict()}')
 
-        return new_expense.to_dict()
+
+        new_expenseDict = new_expense.to_dict()
+        new_expenseDict["debtor"] = form.data["debtors"]
+        print(f'AFTER this is create expenses new_expense {new_expenseDict}')
+
+        return new_expenseDict
 
     else:
         return form.errors
