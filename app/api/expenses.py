@@ -181,17 +181,62 @@ def deleteExpense(id):
 @expenses.route('/<int:id>', methods=['PUT'])
 @login_required
 def updatedExpense(id):
-    '''query db to get the expense which I want to update'''
+    '''check if form is validate or not'''
+    form = ExpenseForm.from_json(request.json)
+    form['csrf_token'].data = request.cookies['csrf_token']
+    print(f"check if convert into JSON {form}")
 
-    t = db.session.query(users_expenses).filter_by(owe_id=200, expense_id=22).one()
-    print(t.owe_id)
-    print(t.expense_id)
-    a = {
-        'owe_id': t.owe_id,
-        'expenses_id': t.expense_id
-    }
-    print(a)
-    return "test"
+
+    if form.validate_on_submit():
+        '''query db to get the expense which the user might want to update'''
+        updatedexpense = Expense.query.get(id)
+        print(f"2-----check if i query updatedexpense {updatedexpense}")
+
+        '''query db to get the debtors which the user might want to update'''
+        debtors = db.session.query(users_expenses).filter_by(expense_id = id).all()
+
+        print(f"1.-----check if i query debtors {debtors}")
+
+        '''update the value with user input'''
+        updatedexpense.name = form.data['name']
+        updatedexpense.expense_total = form.data['expense_total']
+        updatedexpense.group_id = form.data['group_id']
+        updatedexpense.expense_date = form.data['expense_date']
+        updatedexpense.payer_user_id = form.data['payer_user_id']
+
+
+        '''先刪掉再加回來'''
+        # db.session.delete(users_expenses).where(expense_id = id)
+        # for debtor in debtors:
+        #     db.session.delete(debtor)
+
+        '''找到後重新assign'''
+        for debtor in debtors:
+            debtor[0] = form.data["debtors"]["debtor_id"]
+            debtor[2] = form.data["debtors"]["owe_amount"]
+
+
+
+        # updatedexpenseDict["name"] = form.data['name']
+        # updatedexpenseDict["expense_total"] = form.data['expense_total']
+        # updatedexpenseDict["group_id"] = form.data['group_id']
+        # updatedexpenseDict["expense_date"] = form.data['expense_date']
+        # updatedexpenseDict["payer_user_id"] = form.data['payer_user_id']
+        # print(f"AFTER UPDATING THE INFO {updatedexpenseDict}")
+
+        db.session.commit()
+
+
+
+    # t = db.session.query(users_expenses).filter_by(owe_id=200, expense_id=22).one()
+    # print(t.owe_id)
+    # print(t.expense_id)
+    # a = {
+    #     'owe_id': t.owe_id,
+    #     'expenses_id': t.expense_id
+    # }
+    # print(a)
+    return form.errors
     # form = ExpenseForm()
     # form['csrf_token'].data = request.cookies['csrf_token']
     # updatedexpense = Expense.query.get(id)
