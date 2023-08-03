@@ -197,12 +197,12 @@ def updatedExpense(id):
 
         print(f"1.-----check if i query debtors {debtors}")
 
-        '''update the value with user input'''
-        updatedexpense.name = form.data['name']
-        updatedexpense.expense_total = form.data['expense_total']
-        updatedexpense.group_id = form.data['group_id']
-        updatedexpense.expense_date = form.data['expense_date']
-        updatedexpense.payer_user_id = form.data['payer_user_id']
+        # '''update the value with user input'''
+        # updatedexpense.name = form.data['name']
+        # updatedexpense.expense_total = form.data['expense_total']
+        # updatedexpense.group_id = form.data['group_id']
+        # updatedexpense.expense_date = form.data['expense_date']
+        # updatedexpense.payer_user_id = form.data['payer_user_id']
 
 
         '''先刪掉再加回來'''
@@ -210,10 +210,7 @@ def updatedExpense(id):
         # for debtor in debtors:
         #     db.session.delete(debtor)
 
-        '''找到後重新assign'''
-        for debtor in debtors:
-            debtor[0] = form.data["debtors"]["debtor_id"]
-            debtor[2] = form.data["debtors"]["owe_amount"]
+
 
 
 
