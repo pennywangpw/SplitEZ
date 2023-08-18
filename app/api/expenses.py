@@ -11,33 +11,22 @@ expenses = Blueprint('expenses', __name__)
 @expenses.route('/all')
 @login_required
 def allExpenses():
-    # id = current_user.id
-    # '''get all expenses belong to current user'''
-    # # expensepool = Expense.query.all()
-    # # print("-----------pool: ", expensepool)
-    # allexpenses = Expense.query.filter(
-    #     Expense.payer_user_id == id).all()
-    # print("----------only belongs to me: ", allexpenses)
-
     '''get all expenses'''
     allexpenses = Expense.query.all()
 
-
-    '''get each expense billpayer's information and add this attribute to each expense'''
-    allexpenseswithbillpayer=[]
+    expenses = []
     for expense in allexpenses:
-        print("******each expense*: ", expense)
         expense_data = expense.to_dict()
-        print("******each expense*: ", expense_data)
 
-        expense_data['billpayer'] = expense.user.to_dict()
-        print("expense.user.to_dict(): ",expense.user.to_dict())
-        allexpenseswithbillpayer.append(expense_data)
+        # Get debtor information using the users relationship
+        debtors = expense.users  # This accesses the debtor users associated with the expense
+        expense_data['debtors'] = [debtor.to_dict() for debtor in debtors]
 
-    print("==============================",allexpenseswithbillpayer)
-    print("--------AFTER only belongs to me: ", allexpenses)
-    return {'allexpenses_with_billpayer':allexpenseswithbillpayer}
+        expenses.append(expense_data)
 
+    print("--------所有的expense ", expenses)
+
+    return expenses
 
 
 #get a single expense with billpayer AND associated user information
@@ -191,27 +180,26 @@ def updatedExpense(id):
         '''query db to get the expense which the user might want to update'''
         updatedexpense = Expense.query.get(id)
         print(f"2-----check if i query updatedexpense {updatedexpense}")
+        print(f"2-----check if i query updatedexpense to dict{updatedexpense.to_dict()}")
 
-        '''query db to get the debtors which the user might want to update'''
-        debtors = db.session.query(users_expenses).filter_by(expense_id = id).all()
 
-        print(f"1.-----check if i query debtors {debtors}")
+        # '''query db to get the debtors which the user might want to update'''
+        # debtors = db.session.query(users_expenses).filter_by(expense_id = id).all()
 
-        # '''update the value with user input'''
-        # updatedexpense.name = form.data['name']
-        # updatedexpense.expense_total = form.data['expense_total']
-        # updatedexpense.group_id = form.data['group_id']
-        # updatedexpense.expense_date = form.data['expense_date']
-        # updatedexpense.payer_user_id = form.data['payer_user_id']
+        # print(f"1.-----check if i query debtors {debtors}")
+
+        '''update the value with user input'''
+        updatedexpense.name = form.data['name']
+        updatedexpense.expense_total = form.data['expense_total']
+        updatedexpense.group_id = form.data['group_id']
+        updatedexpense.expense_date = form.data['expense_date']
+        updatedexpense.payer_user_id = form.data['payer_user_id']
 
 
         '''先刪掉再加回來'''
         # db.session.delete(users_expenses).where(expense_id = id)
         # for debtor in debtors:
         #     db.session.delete(debtor)
-
-
-
 
 
         # updatedexpenseDict["name"] = form.data['name']
@@ -222,7 +210,7 @@ def updatedExpense(id):
         # print(f"AFTER UPDATING THE INFO {updatedexpenseDict}")
 
         db.session.commit()
-
+        return updatedexpense.to_dict()
 
 
     # t = db.session.query(users_expenses).filter_by(owe_id=200, expense_id=22).one()
@@ -234,6 +222,9 @@ def updatedExpense(id):
     # }
     # print(a)
     return form.errors
+
+
+
     # form = ExpenseForm()
     # form['csrf_token'].data = request.cookies['csrf_token']
     # updatedexpense = Expense.query.get(id)
