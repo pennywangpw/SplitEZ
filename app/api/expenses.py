@@ -11,18 +11,30 @@ expenses = Blueprint('expenses', __name__)
 @expenses.route('/all')
 @login_required
 def allExpenses():
-    '''get all expenses'''
+    '''get all expenses from db'''
     allexpenses = Expense.query.all()
 
+    '''iterate through all Expenses from db to add debtors information'''
     expenses = []
     for expense in allexpenses:
         expense_data = expense.to_dict()
 
-        # Get debtor information using the users relationship
-        debtors = expense.users  # This accesses the debtor users associated with the expense
-        expense_data['debtors'] = [debtor.to_dict() for debtor in debtors]
+        '''query users_expenses to get all debtors'''
+        debtors = db.session.query(users_expenses).filter_by(expense_id = expense.id).all()
+        print(f'0--to check if i get users_expenses with all debtors {debtors}')
 
+        '''iterate through debtors to re-format each debtor and add on expense'''
+        debtors_formated = []
+        for debtor in debtors:
+            debtor_formated ={
+                "debtor_id": debtor.owe_id,
+                "owe_amount": debtor.amount_payable
+            }
+            debtors_formated.append(debtor_formated)
+
+        expense_data['debtors'] = debtors_formated
         expenses.append(expense_data)
+
 
     print("--------所有的expense ", expenses)
 
@@ -76,6 +88,7 @@ def crateExpenseFake():
         db.session.add(new_expense)
         db.session.commit()
 
+        '''iterate through user input (debtors)'''
         '''insert debtors in relationship table - users_expenses'''
         for debtor in form.data['debtors']:
             print(f"here's debtor in form.data {debtor}")
@@ -170,30 +183,31 @@ def deleteExpense(id):
 @expenses.route('/<int:id>', methods=['PUT'])
 @login_required
 def updatedExpense(id):
-    '''check if form is validate or not'''
     form = ExpenseForm.from_json(request.json)
     form['csrf_token'].data = request.cookies['csrf_token']
-    print(f"check if convert into JSON {form}")
 
 
+    '''check if form is validate'''
     if form.validate_on_submit():
-        '''query db to get the expense which the user might want to update'''
+        '''query db to get the expense which the user wants to update'''
         updatedexpense = Expense.query.get(id)
         print(f"2-----check if i query updatedexpense {updatedexpense}")
         print(f"2-----check if i query updatedexpense to dict{updatedexpense.to_dict()}")
 
 
-        # '''query db to get the debtors which the user might want to update'''
-        # debtors = db.session.query(users_expenses).filter_by(expense_id = id).all()
+        # '''update the value with user input'''
+        # updatedexpense.name = form.data['name']
+        # updatedexpense.expense_total = form.data['expense_total']
+        # updatedexpense.group_id = form.data['group_id']
+        # updatedexpense.expense_date = form.data['expense_date']
+        # updatedexpense.payer_user_id = form.data['payer_user_id']
+        # debtors = form.data['debtors']
 
-        # print(f"1.-----check if i query debtors {debtors}")
+        '''access all debtors by users_expenses'''
+        debtors = db.session.query(users_expenses).filter_by(expense_id = updatedexpense.id).all()
 
-        '''update the value with user input'''
-        updatedexpense.name = form.data['name']
-        updatedexpense.expense_total = form.data['expense_total']
-        updatedexpense.group_id = form.data['group_id']
-        updatedexpense.expense_date = form.data['expense_date']
-        updatedexpense.payer_user_id = form.data['payer_user_id']
+
+
 
 
         '''先刪掉再加回來'''
