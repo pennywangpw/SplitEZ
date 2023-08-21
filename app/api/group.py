@@ -42,38 +42,42 @@ groups = Blueprint('groups', __name__)
 
 
 
+# #get all groups with users info (friends)
+# @groups.route('/all')
+# @login_required
+# def allGroupsWithUserInfo():
+
+#     '''get all groups'''
+#     '''get current user and select groups column, and create a groups List to print out each group'''
+#     id = current_user.id
+#     user = User.query.get(id)
+#     groups = user.groups
+#     groupsList = [group.to_dict() for group in groups]
+
+
+#     '''add userinfo in groupsList'''
+#     for group in groupsList:
+#         print(f"1.哪一個group {group}")
+
+#         eachGrouplist= Group.query.get(group['id'])
+#         print(f"2.想看看i need to see eachGrouplist {eachGrouplist}")
+#         usersList = [user.to_dict() for user in eachGrouplist.users]
+#         print(f"3.看看i need to see usersList {usersList}")
+
+#         group['userinfo'] = usersList
+
+#     print(f"想看看i need to see allusers {groupsList}")
+
+#     return groupsList
+
 #get all groups with users info (friends)
 @groups.route('/all')
 @login_required
 def allGroupsWithUserInfo():
-    print("JUST CHECK IF THIS IS WORKING")
 
     '''get all groups'''
-    # id = current_user.id
-    # allgroups = Group.query.all()
-    # print(f"想看看i need to see allgroups {allgroups}")
-    # groupsList = [group.to_dict() for group in allgroups]
-    # print(f"想看看i need to see groupsList {groupsList}")
-
-    '''get current user and select groups column, and create a groups List to print out each group'''
-    id = current_user.id
-    user = User.query.get(id)
-    groups = user.groups
-    groupsList = [group.to_dict() for group in groups]
-
-
-    '''add userinfo in groupsList'''
-    for group in groupsList:
-        print(f"1.哪一個group {group}")
-
-        eachGrouplist= Group.query.get(group['id'])
-        print(f"2.想看看i need to see eachGrouplist {eachGrouplist}")
-        usersList = [user.to_dict() for user in eachGrouplist.users]
-        print(f"3.看看i need to see usersList {usersList}")
-
-        group['userinfo'] = usersList
-
-    print(f"想看看i need to see allusers {groupsList}")
+    allgroups = Group.query.all()
+    allgroupsDict = allgroups.to_dict()
 
     return groupsList
 
