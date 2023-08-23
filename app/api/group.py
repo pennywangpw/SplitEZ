@@ -157,7 +157,7 @@ def createGroup():
 @groups.route('/<int:id>', methods=['PUT'])
 @login_required
 def updateGroup(id):
-    '''query updatedgroup from db'''
+    '''query updatedgroup from db by id which user wants to update'''
     # form = GroupForm()
     form = GroupForm.from_json(request.json)
     form['csrf_token'].data = request.cookies['csrf_token']
@@ -200,8 +200,23 @@ def updateGroup(id):
 @groups.route('/<int:id>', methods=['DELETE'])
 @login_required
 def deleteGroup(id):
+    '''query the group by id which user wants to delete'''
     deletedgroup = Group.query.get(id)
+
+    '''query all members belongs to deletedgroup'''
+    deleted_group_members= deletedgroup.users
+    print(f"check the deleted_group_members {deleted_group_members}")
+    formated_deleted_group_members = []
+    for member in deleted_group_members:
+        memberDict= member.to_dict()
+        formated_deleted_group_members.append(memberDict)
+    print(f"check the formated_deleted_group_members {formated_deleted_group_members}")
+
+    '''delete deletedgroup'''
     db.session.delete(deletedgroup)
     db.session.commit()
+
+
     deletedgroupDict = deletedgroup.to_dict()
+    deletedgroupDict["group_members"] = formated_deleted_group_members
     return deletedgroupDict
