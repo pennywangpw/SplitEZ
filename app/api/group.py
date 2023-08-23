@@ -119,12 +119,10 @@ def singleGroup(id):
 def createGroup():
     # form = GroupForm()
     form = GroupForm.from_json(request.json)
-
     form['csrf_token'].data = request.cookies['csrf_token']
-    print(f'#######create group--before {form.data}')
+
 
     if form.validate_on_submit():
-        print(f'#######create group--this is form.data {form.data}')
         '''create a new group and store in db'''
         new_group = Group(
             name= form.data['name']
@@ -132,41 +130,70 @@ def createGroup():
         db.session.add(new_group)
         db.session.commit()
 
-        # '''iterate through user input(group members)'''
-        # '''insert group members in relationship table- users_groups'''
-        # for member in form.data['group_members']:
-        #     users_groups.insert().values(
-        #         user_id = member.id,
-        #         group_id = new_group.id
-        #     )
-        # db.session.execute(users_groups)
-        # db.session.commit()
+        '''iterate through user input(group members)'''
+        '''insert group members in relationship table- users_groups'''
+        for member in form.data['group_members']:
+            new_users_groups = users_groups.insert().values(
+                user_id = member["member_id"],
+                group_id = new_group.id
+            )
+            db.session.execute(new_users_groups)
+            db.session.commit()
 
-        # '''query all group members'''
-        # group_members= db.session.query(users_groups).filter_by(group_id = new_group.id).all()
-        # print(f'all group_members {group_members}')
 
-        # '''append current_user table to users columns'''
-        # new_group.users.append(current_user)
-        # db.session.commit()
-        return new_group.to_dict()
+        '''query all group members and add related columns to return'''
+        new_group_members = new_group.users
+        new_group_membersDict = [member.to_dict() for member in new_group_members]
+        new_groupDict = new_group.to_dict()
+        new_groupDict["group_members"] = new_group_membersDict
+
+
+        return new_groupDict
+
     return form.errors
 
 
-#rename a group
+#update a group- rename and update group members
 @groups.route('/<int:id>', methods=['PUT'])
 @login_required
 def updateGroup(id):
-    form = GroupForm()
+    '''query updatedgroup from db'''
+    # form = GroupForm()
+    form = GroupForm.from_json(request.json)
     form['csrf_token'].data = request.cookies['csrf_token']
     updatedgroup = Group.query.get(id)
 
     if form.validate_on_submit():
+        '''update group name'''
         updatedgroup.name = form.data['name']
         db.session.commit()
-        updatedgroupDict =  updatedgroup.to_dict()
+
+
+        '''query all members from users_groups, delete all and re-insert user input to users_groups'''
+        delete_members = users_groups.delete().where(users_groups.c.group_id == updatedgroup.id)
+        db.session.execute(delete_members)
+
+        for member in form.data["group_members"]:
+            print(f"here's member {member}")
+            new_users_groups = users_groups.insert().values(
+                group_id = updatedgroup.id,
+                user_id = member["member_id"]
+            )
+            db.session.execute(new_users_groups)
+            db.session.commit()
+
+        print(f"check updatedgroup's users {updatedgroup.users}")
+        formated_group_members =[]
+        for member in updatedgroup.users:
+            print(f"this is updatedgroup member {member}")
+            formated_group_members.append(member.to_dict())
+
+        updatedgroupDict = updatedgroup.to_dict()
+        print(f"print out formated_group_members {formated_group_members}")
+        updatedgroupDict["group_members"] = formated_group_members
+
         return updatedgroupDict
-    return "Bad Data-update a group"
+    return form.errors
 
 
 #delete a group
