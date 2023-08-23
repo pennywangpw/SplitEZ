@@ -1,7 +1,8 @@
 from flask import Blueprint, jsonify, request
 from app.models import db, Expense, User, users_expenses
 from flask_login import current_user, login_required
-from ..forms import ExpenseForm
+from ..forms import ExpenseForm, DebtorDetailForm
+from sqlalchemy.orm import aliased
 
 expenses = Blueprint('expenses', __name__)
 
@@ -10,141 +11,199 @@ expenses = Blueprint('expenses', __name__)
 @expenses.route('/all')
 @login_required
 def allExpenses():
-    # id = current_user.id
-    # '''get all expenses belong to current user'''
-    # # expensepool = Expense.query.all()
-    # # print("-----------pool: ", expensepool)
-    # allexpenses = Expense.query.filter(
-    #     Expense.payer_user_id == id).all()
-    # print("----------only belongs to me: ", allexpenses)
-
-    '''get all expenses'''
+    '''get all expenses from db'''
     allexpenses = Expense.query.all()
 
-
-    '''get each expense billpayer's information and add this attribute to each expense'''
-    allexpenseswithbillpayer=[]
+    '''iterate through all Expenses from db to add debtors information'''
+    expenses = []
     for expense in allexpenses:
-        print("******each expense*: ", expense)
         expense_data = expense.to_dict()
-        print("******each expense*: ", expense_data)
 
-        expense_data['billpayer'] = expense.user.to_dict()
-        print("expense.user.to_dict(): ",expense.user.to_dict())
-        allexpenseswithbillpayer.append(expense_data)
+        '''query users_expenses to get all debtors'''
+        debtors = db.session.query(users_expenses).filter_by(expense_id = expense.id).all()
+        print(f'0--to check if i get users_expenses with all debtors {debtors}')
 
-    print("==============================",allexpenseswithbillpayer)
-    print("--------AFTER only belongs to me: ", allexpenses)
-    return {'allexpenses_with_billpayer':allexpenseswithbillpayer}
+        '''iterate through debtors to re-format each debtor and add on expense'''
+        debtors_formated = []
+        for debtor in debtors:
+            debtor_formated ={
+                "debtor_id": debtor.owe_id,
+                "owe_amount": debtor.amount_payable
+            }
+            debtors_formated.append(debtor_formated)
 
+        expense_data['debtors'] = debtors_formated
+        expenses.append(expense_data)
+
+    return expenses
 
 
 #get a single expense with billpayer AND associated user information
 @expenses.route('/<int:id>')
 @login_required
 def singleExpense(id):
+    '''query the expense which user wants to see from db'''
     expense = Expense.query.get(id)
-    print(f'single expnese {expense}')
-    '''get the billpayer info'''
-    billpayer = expense.user
-    billpayerDict = billpayer.to_dict()
-    print(f'single expnese --billpayer {billpayerDict}')
-    '''add billpayer column to expenseDict'''
     expenseDict = expense.to_dict()
-    expenseDict['billpayer']=billpayerDict
-    # expenseDict['billpayer'].append(billpayerDict)
-    # print(f'single expnese --returnning {expenseDict}')
 
-    '''get associated users'''
-    associateduser = expense.users
-    associateduserDict = [user.to_dict() for user in associateduser]
-    print(f'找testing to see associated user: ',associateduserDict)
-    '''add associateduser column to expenseDict'''
-    expenseDict['associateduser'] = associateduserDict
-    print(f'single expnese --returnning {expenseDict}')
+    '''query users_expenses to get all debtors'''
+    debtors = db.session.query(users_expenses).filter_by(expense_id = expense.id).all()
+
+    '''iterate through debtors to re-format each debtor and add on expense'''
+    debtors_formated = []
+    for debtor in debtors:
+        debtor_formated ={
+            "debtor_id": debtor.owe_id,
+            "owe_amount": debtor.amount_payable
+        }
+        debtors_formated.append(debtor_formated)
+
+    expenseDict['debtors'] = debtors_formated
 
     return expenseDict
 
 
-
 #create an expense
 @expenses.route('/all', methods=['POST'])
-@login_required
-def crateExpense():
-    form = ExpenseForm()
+def crateExpenseFake():
+    '''Create a form with user input'''
+    form = ExpenseForm.from_json(request.json)
     form['csrf_token'].data = request.cookies['csrf_token']
-    print(f'BEFORE this is create expenses form {form}')
-    data = request.get_json()
-    print(f'data is here {data}')
+    print(f"this is form data when i create expense {form.data}")
 
+    '''check if form passes validation, if so, create an Expense and store in db'''
     if form.validate_on_submit():
-        print("AM I PASSING? with form.data:", form.data )
         new_expense = Expense(
-            name= form.data['name'],
+            name = form.data['name'],
+            expense_date = form.data['expense_date'],
             expense_total = form.data['expense_total'],
-            # payer_user_id = current_user.id,
             payer_user_id = form.data['payer_user_id'],
-            group_id = form.data['group_id'],
-            expense_date = form.data['expense_date']
+            group_id = form.data['group_id']
         )
 
         db.session.add(new_expense)
-
-        for user_id in data['splitWithUsers']:
-            user = User.query.get(user_id)
-            if user:
-                new_expense.users.append(user)
-
         db.session.commit()
-        print(f'new_expense id : {new_expense.id}')
 
-        # new_users_expenses= users_expenses(
-        #     owe_id = data['splitWithUsers'],
-        #     expense_id = new_expense.id
-        # )
-        # db.session.add(new_users_expenses)
-        # db.session.commit()
+        '''iterate through user input (debtors)'''
+        '''insert debtors in relationship table - users_expenses'''
+        for debtor in form.data['debtors']:
+            print(f"here's debtor in form.data {debtor}")
+            new_users_expenses = users_expenses.insert().values(
+                owe_id = debtor["debtor_id"],
+                expense_id = new_expense.id,
+                amount_payable = debtor["owe_amount"]
+            )
+            db.session.execute(new_users_expenses)
+            db.session.commit()
 
-        print(f'this is create expenses new_expense {new_expense}')
-        return new_expense.to_dict()
-    return "Bad Data"
+
+        '''query all debtors from db and add related columns'''
+        debtors = db.session.query(users_expenses).filter_by(expense_id = new_expense.id).all()
+        print(f'create {debtors}')
+        debtors_formated = []
+        for debtor in debtors:
+            debtor_formated ={
+                "debtor_id": debtor.owe_id,
+                "owe_amount": debtor.amount_payable
+            }
+            debtors_formated.append(debtor_formated)
+
+        new_expenseDict = new_expense.to_dict()
+        new_expenseDict["debtors"] = debtors_formated
+
+        return new_expenseDict
+
+    else:
+        return form.errors
+
+
 
 #delete an expense
-# @expenses.route('/all', methods=['DELETE'])
 @expenses.route('/<int:id>', methods=['DELETE'])
 @login_required
 def deleteExpense(id):
-    deletedexpense = Expense.query.get(id)
-    print("i think i tested this-1 ", deletedexpense)
-    deletedexpenseDict = deletedexpense.to_dict()
-    db.session.delete(deletedexpense)
-    print("i think i tested this-2 ")
+    '''query the expense which the user wants to delete from db'''
+    deleted_expense = Expense.query.get(id)
+    print("i think i tested this-1 ", deleted_expense)
 
+
+    '''query users_expenses to get all debtors'''
+    debtors = db.session.query(users_expenses).filter_by(expense_id = deleted_expense.id).all()
+
+    '''iterate through debtors to re-format each debtor and add on expense'''
+    debtors_formated = []
+    for debtor in debtors:
+        debtor_formated ={
+            "debtor_id": debtor.owe_id,
+            "owe_amount": debtor.amount_payable
+        }
+        debtors_formated.append(debtor_formated)
+
+    deleted_expenseDict = deleted_expense.to_dict()
+    deleted_expenseDict['debtors'] = debtors_formated
+
+    '''delete the expense'''
+    db.session.delete(deleted_expense)
     db.session.commit()
 
-    print("i think i tested this, ", deletedexpenseDict)
-    return deletedexpenseDict
+    return deleted_expenseDict
 
 #update an expense
 @expenses.route('/<int:id>', methods=['PUT'])
 @login_required
 def updatedExpense(id):
-    form = ExpenseForm()
+    form = ExpenseForm.from_json(request.json)
     form['csrf_token'].data = request.cookies['csrf_token']
-    updatedexpense = Expense.query.get(id)
-    print(f'--update an expense see type {updatedexpense}')
-    # updatedexpenseDict = updatedexpense.to_dict()
-    # print(f'update an expense {updatedexpenseDict}')
-    print(f'this is form.data {form.data}')
+
     if form.validate_on_submit():
-        updatedexpense.name = form.data['name']
-        updatedexpense.expense_total = form.data['expense_total']
-        updatedexpense.group_id = form.data['group_id']
-        updatedexpense.expense_date = form.data['expense_date']
-        updatedexpense.payer_user_id = form.data['payer_user_id']
 
+        '''query db to get the expense which the user wants to update'''
+        updated_expense = Expense.query.get(id)
 
+        # update the value with user input-all information except debtors
+        updated_expense.name = form.data['name']
+        updated_expense.expense_total = form.data['expense_total']
+        updated_expense.group_id = form.data['group_id']
+        updated_expense.expense_date = form.data['expense_date']
+        updated_expense.payer_user_id = form.data['payer_user_id']
+
+        # update the value with user input-debtors information
+        '''access all debtors by users_expenses and delete all debtors'''
+        delete_debtors = users_expenses.delete().where(users_expenses.c.expense_id == updated_expense.id)
+        db.session.execute(delete_debtors)
         db.session.commit()
-        updatedexpenseDict = updatedexpense.to_dict()
-        return updatedexpenseDict
-    return "Bad data-update an expense"
+
+        '''re-insert debtors with user input'''
+        for debtor in form.data['debtors']:
+            new_users_expenses = users_expenses.insert().values(
+                owe_id = debtor["debtor_id"],
+                expense_id = updated_expense.id,
+                amount_payable = debtor["owe_amount"]
+            )
+            db.session.execute(new_users_expenses)
+            db.session.commit()
+
+        '''query all debtors from db and format debtors data'''
+        debtors = db.session.query(users_expenses).filter_by(expense_id = updated_expense.id).all()
+        debtors_formated = []
+        for debtor in debtors:
+            debtor_formated ={
+                "debtor_id": debtor.owe_id,
+                "owe_amount": debtor.amount_payable
+            }
+            debtors_formated.append(debtor_formated)
+
+        updated_expenseDict = updated_expense.to_dict()
+        updated_expenseDict["debtors"] = debtors_formated
+
+        return updated_expenseDict
+
+    # t = db.session.query(users_expenses).filter_by(owe_id=200, expense_id=22).one()
+    # print(t.owe_id)
+    # print(t.expense_id)
+    # a = {
+    #     'owe_id': t.owe_id,
+    #     'expenses_id': t.expense_id
+    # }
+    # print(a)
+    return form.errors

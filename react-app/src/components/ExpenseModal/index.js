@@ -10,7 +10,7 @@ import * as groupsthunk from "../../store/group"
 function ExpenseModal({ type, expenseinfo, setShowDetail }) {
     console.log("expense modal with expense info: ", type, typeof expenseinfo.expense_total, expenseinfo.expense_total, expenseinfo)
 
-    //get today
+    //get today and change the format
     const today = new Date()
     let year = today.getFullYear()
     let month = today.getMonth()
@@ -28,22 +28,21 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
     const current_user = useSelector((state) => state.session.user)
 
     const dispatch = useDispatch();
-    const history = useHistory()
     const [name, setName] = useState(expenseinfo.name)
     const [expense_total, setExpenseTotal] = useState(+expenseinfo.expense_total || 0)
     const [payer_user_id, setpayer_user_id] = useState(current_user.id)
     const [expense_date, setExpenseDate] = useState(formatedtoday)
     const [group_id, setGroup_id] = useState(expenseinfo.group_id)
     const [splitWithUsers, setSplitWithUsers] = useState([])
-    const [splitUsers_price, setSplitUsers_price] = useState({})
-
     const [errors, setErrors] = useState([])
+    let split_Users_price = []
+    let split_amount = expense_total
+
 
     const { closeModal } = useModal();
     //get all the groups and conver into arr
     const allGroups = useSelector((state) => state.groups.allGroups)
     let allGroupsArr = Object.values(allGroups)
-
 
     //get all the expenses and conver into arr
     const allExpenses = useSelector((state) => state.expenses.allExpenses)
@@ -67,50 +66,61 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
         setErrors(e)
     }, [name, expense_total])
 
-
-    //if group_id change splitWithUsers should be changed
+    //FOR -split with section
+    //if group_id change, debtors in split with section should be change
+    //if group_id is selected, get singleGroup
+    //if not selected, get allGroups/ friendswithgroupinfo
     useEffect(() => {
-        dispatch(expensesthunk.allExpenses())
+        // dispatch(expensesthunk.allExpenses())
         dispatch(userthunk.friendsWithGroupInfo())
         dispatch(groupsthunk.singleGroupthunk(group_id))
     }, [group_id])
 
-
+    //FOR -choose a group section
+    //get all groups
     useEffect(() => {
         dispatch(groupsthunk.allGroupsthunk())
     }, [])
+
+
+    //caculate split amount
+    const handleSplitAmount = () => {
+        split_Users_price.map(debtor => debtor["owe_amount"] = split_amount / split_Users_price.length)
+    }
+
 
 
     //SplitWithUserHandler to collect all the debtors
     //if debtorId exsits in splitWithUsers we remove it
     //if debtorId dose not esxist in splitWithUsers we add on it
     const handleSplitWithUserChange = (e) => {
-        const debtorId = e.target.value
-        console.log("debtorId: ", debtorId)
-        console.log("splitWithUsers-一開始: ", splitWithUsers)
+        const debtorId = Number(e.target.value)
+        console.log("split_Users_price  function start: ", split_Users_price)
 
+        //if nothing in split_Users_price we just add it
+        if (split_Users_price.length === 0) {
+            split_Users_price.push({ "debtor_id": debtorId, "owe_amount": split_amount })
 
-        if (!splitWithUsers.includes(debtorId)) {
-            splitWithUsers.push(debtorId)
         } else {
-            let index = splitWithUsers.indexOf(debtorId)
-            splitWithUsers.splice(index, 1)
-        }
-        setSplitWithUsers(splitWithUsers)
+            //if there's some debtor in split_Users_price, we have to check if selected debtor can be found or not
+            //if i the debtor is selected but can't be found in split_Users_price we need to add on it
+            //if can be found then we revmoe it
+            let checked_debtor = split_Users_price.filter(debtor => debtor["debtor_id"] === debtorId)
 
-        if (expense_total !== 0) {
-            console.log("分帳有run?")
-            console.log("splitWithUsers-經過勾選+--後: ", splitWithUsers)
+            if (checked_debtor.length === 0) {
+                split_Users_price.push({ "debtor_id": debtorId, "owe_amount": null })
+                let added_debtor = split_Users_price.find(debtor => debtor["debtor_id"] === debtorId)
+                if (added_debtor) {
+                    handleSplitAmount()
+                }
 
-            for (let debtor of splitWithUsers) {
-                setSplitUsers_price[debtor] = expense_total / splitWithUsers.length
-                console.log("分帳後的$-toal: ", expense_total, typeof expense_total)
-                console.log("分帳後的$-人數: ", splitWithUsers.length)
+            } else {
+                let index = split_Users_price.indexOf(checked_debtor[0])
+                split_Users_price.splice(index, 1)
 
-                console.log("分帳後的$: ", expense_total / splitWithUsers.length)
             }
-        }
 
+        }
 
     }
 
@@ -125,15 +135,14 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-
         if (type === "create") {
-            const payload = { name, expense_total, group_id, expense_date, payer_user_id, splitWithUsers, splitUsers_price }
+            const payload = { name, expense_total, group_id, expense_date, payer_user_id, splitWithUsers, split_Users_price }
             console.log("傳出去的payload: ", payload)
             await dispatch(expensesthunk.createExpense(payload))
             await dispatch(expensesthunk.allExpenses()).then(closeModal)
             // await dispatch(groupsthunk.singleGroupthunk(expenseinfo.group_id)).then(closeModal)
         } else if (type === "edit") {
-            const payload = { name, expense_total, group_id, expense_date, payer_user_id, splitWithUsers, splitUsers_price }
+            const payload = { name, expense_total, group_id, expense_date, payer_user_id, splitWithUsers, split_Users_price }
             await dispatch(expensesthunk.updateExpense(expenseinfo.id, payload))
             await dispatch(expensesthunk.allExpenses()).then(closeModal)
 
@@ -158,7 +167,6 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
             <form onSubmit={handleSubmit} className="modal">
                 <div className="flx-col width-350px height-350px">
                     <header className=" bg-5cc5a7 line-h50">{type === "create" ? "Create an expense" : "Edit expense"}</header>
-                    {/* <div>{`with you and: ${"1231"}`}</div> */}
                     <div>
                         <div>
                             <ul>
@@ -209,10 +217,10 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
                             <select name="groups" id="group" onChange={(e) => setpayer_user_id(e.target.value)} defaultValue={current_user.id}>
 
                                 <option value="">--Please choose people who paid this bill--</option>
-                                {/* {allUsersArr.map(user => <option value={user.id === current_user.id ? (user.id) : (current_user.id)} selected={user.id === current_user.id}>{user.username}</option>)} */}
-                                {allUsersArr.map(user => <option value={user.id} >{user.username}</option>)}
-
-                                {/* {allUsersArr.map(user => <option value={user.id} selected={user.id === current_user.id}>{user.username}</option>)} */}
+                                {allUsers_inGroup[group_id] === undefined ?
+                                    (allUsersArr.map(user => <option value={user.id === current_user.id ? (user.id) : (current_user.id)} selected={user.id === current_user.id}>{user.username}</option>))
+                                    :
+                                    (allUsers_inGroup[group_id].map(user => <option value={user.id === current_user.id ? (user.id) : (current_user.id)} selected={user.id === current_user.id}>{user.username}</option>))}
 
                             </select>
 
@@ -224,37 +232,35 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
                                 <legend>Split with:</legend>
                                 {allUsers_inGroup[group_id] === undefined ?
                                     (allUsersArr.map(user =>
-                                        <div>
-                                            <input type="checkbox" id={user.username} name="debtor" value={user.id} onChange={handleSplitWithUserChange} />
-                                            <lable for={user.username}>{user.username}</lable>
-                                        </div>
+                                        <>
+                                            <div className="flx">
+                                                <div>
+                                                    <input type="checkbox" id={user.username} name="debtor" value={user.id} onChange={handleSplitWithUserChange} />
+                                                    <lable for={user.username}>{user.username}</lable>
+                                                </div>
+                                                {console.log("look at split_Users_price: ", split_Users_price)}
+                                                {/* {splitWithUsers.includes(user.id) ? (<div>{total_for_a_user}</div>) : (<div></div>)} */}
+
+                                            </div>
+                                        </>
+
                                     ))
                                     :
                                     (allUsers_inGroup[group_id].map(user =>
-                                        <div>
-                                            <input type="checkbox" id={user.username} name="debtor" value={user.id} onChange={handleSplitWithUserChange} />
-                                            <lable for={user.username}>{user.username}</lable>
-                                        </div>
+                                        <>
+                                            <div className="flx">
+                                                <div>
+                                                    <input type="checkbox" id={user.username} name="debtor" value={user.id} onChange={handleSplitWithUserChange} />
+                                                    <lable for={user.username}>{user.username}</lable>
+                                                </div>
+                                                {console.log("look at split_Users_price: ", split_Users_price)}
+
+                                                {/* {splitWithUsers.includes(user.id) ? (<div>{total_for_a_user}</div>) : (<div></div>)} */}
+
+                                            </div>
+                                        </>
                                     ))
                                 }
-
-                                {/* {allUsers_inGroup[group_id] === undefined ?
-                                    (allUsersArr.map(user =>
-                                        <div>
-                                            <input type="checkbox" id={user.username} name="debtor" value={user.id} onChange={handleSplitWithUserChange} />
-                                            <lable for={user.username}>{user.username}</lable>
-                                        </div>
-                                    ))
-                                    :
-                                    (allUsers_inGroup[group_id].map(user =>
-                                        <div>
-                                            <input type="checkbox" id={user.username} name="debtor" value={user.id} onChange={handleSplitWithUserChange} />
-                                            <lable for={user.username}>{user.username}</lable>
-                                        </div>
-
-                                    ))
-                                } */}
-
 
                             </fieldset>
                         </div>
