@@ -64,7 +64,7 @@ def singleExpense(id):
 
 
 #create an expense
-@expenses.route('/all', methods=['POST'])
+@expenses.route('', methods=['POST'])
 def crateExpenseFake():
     '''Create a form with user input'''
     form = ExpenseForm.from_json(request.json)
@@ -126,29 +126,31 @@ def deleteExpense(id):
     deleted_expense = Expense.query.get(id)
     print("i think i tested this-1 ", deleted_expense)
 
+    if deleted_expense is not None:
+        '''query users_expenses to get all debtors'''
+        debtors = db.session.query(users_expenses).filter_by(expense_id = deleted_expense.id).all()
 
-    '''query users_expenses to get all debtors'''
-    debtors = db.session.query(users_expenses).filter_by(expense_id = deleted_expense.id).all()
+        '''iterate through debtors to re-format each debtor and add on expense'''
+        debtors_formated = []
+        for debtor in debtors:
+            debtor_formated ={
+                "debtor_id": debtor.owe_id,
+                "owe_amount": debtor.amount_payable
+            }
+            debtors_formated.append(debtor_formated)
 
-    '''iterate through debtors to re-format each debtor and add on expense'''
-    debtors_formated = []
-    for debtor in debtors:
-        debtor_formated ={
-            "debtor_id": debtor.owe_id,
-            "owe_amount": debtor.amount_payable
-        }
-        debtors_formated.append(debtor_formated)
+        deleted_expenseDict = deleted_expense.to_dict()
+        deleted_expenseDict['debtors'] = debtors_formated
 
-    deleted_expenseDict = deleted_expense.to_dict()
-    deleted_expenseDict['debtors'] = debtors_formated
+        '''delete the expense'''
+        db.session.delete(deleted_expense)
+        db.session.commit()
 
-    '''delete the expense'''
-    db.session.delete(deleted_expense)
-    db.session.commit()
+        return deleted_expenseDict
+    return "The expense does not exisit"
 
-    return deleted_expenseDict
 
-#update an expense
+#update an expense- expense name, total, data, group_id, payer_user_id can be updated
 @expenses.route('/<int:id>', methods=['PUT'])
 @login_required
 def updatedExpense(id):

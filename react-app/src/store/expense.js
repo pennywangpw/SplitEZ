@@ -80,13 +80,14 @@ export const allExpenses = () => async (dispatch) => {
     const response = await fetch(`/api/expenses/all`)
     if (response.ok) {
         const data = await response.json();
+        console.log("here's allExpenses thunk---: ", data)
         // convert expense_total from string into number type
-        let i = 0
-        while (i < data.allexpenses_with_billpayer.length) {
-            console.log("get into it: ", data.allexpenses_with_billpayer[i])
-            data.allexpenses_with_billpayer[i]['expense_total'] = parseFloat(data.allexpenses_with_billpayer[i]['expense_total'])
-            i = i + 1
-        }
+        // let i = 0
+        // while (i < data.allexpenses_with_billpayer.length) {
+        //     console.log("get into it: ", data.allexpenses_with_billpayer[i])
+        //     data.allexpenses_with_billpayer[i]['expense_total'] = parseFloat(data.allexpenses_with_billpayer[i]['expense_total'])
+        //     i = i + 1
+        // }
         dispatch(allExpensesA(data));
     };
     return response

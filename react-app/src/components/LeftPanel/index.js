@@ -29,7 +29,7 @@ function LeftPanel() {
     let friends = []
     for (let group of allGroupsArr) {
         console.log("group: ", group)
-        for (let user of group["userinfo"]) {
+        for (let user of group["group_members"]) {
             friends.push(user)
         }
     }

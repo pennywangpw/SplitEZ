@@ -5,8 +5,6 @@ from ..forms import CommentForm
 
 comments = Blueprint('comments', __name__)
 
-
-
 #get all comments
 @comments.route('/<int:id>/allcomments')
 @login_required
@@ -17,31 +15,51 @@ def allCommentForExpense(id):
 
     comments = Comment.query.filter(Comment.expense_id == id).all()
     print(f'all the comments for the specific expense {comments}')
-    for comment in comments:
-        comment.user = comment.user
+    # for comment in comments:
+    #     comment.user = comment.user
 
     print(f'AFTER ADDIND comments looks like {comments}')
     commentDict = [comment.to_dict() for comment in comments]
     print(f'all the comments for the specific expense-- {commentDict}')
 
-    # '''get all comments from selected expense with users detail'''
-    # allcomments = Comment.query.all()
-    # print(f'====all comments {allcomments}')
-    # allcommentsDict = [all.to_dict() for all in allcomments]
-
-    # '''add user detail attribute'''
-    # for comment in allcommentsDict:
-    #     userinfo = User.query.get(comment['user_id'] == current_user.id)
-    #     if userinfo != None:
-    #         comment['user'] = userinfo.to_dict()
-
-    # '''filter comments by expense_id'''
-    # comments = [comment for comment in allcommentsDict if comment['expense_id'] == id]
-
-    # print(f'all the comments for the specific expense {comments}')
-
-    # return comments
     return commentDict
+
+
+# #get all comments
+# @comments.route('/<int:id>/allcomments')
+# @login_required
+# def allCommentForExpense(id):
+#     print(f'passed in id {id}')
+
+#     '''get all comments from selected expense AND add user info'''
+
+#     comments = Comment.query.filter(Comment.expense_id == id).all()
+#     print(f'all the comments for the specific expense {comments}')
+#     for comment in comments:
+#         comment.user = comment.user
+
+#     print(f'AFTER ADDIND comments looks like {comments}')
+#     commentDict = [comment.to_dict() for comment in comments]
+#     print(f'all the comments for the specific expense-- {commentDict}')
+
+#     # '''get all comments from selected expense with users detail'''
+#     # allcomments = Comment.query.all()
+#     # print(f'====all comments {allcomments}')
+#     # allcommentsDict = [all.to_dict() for all in allcomments]
+
+#     # '''add user detail attribute'''
+#     # for comment in allcommentsDict:
+#     #     userinfo = User.query.get(comment['user_id'] == current_user.id)
+#     #     if userinfo != None:
+#     #         comment['user'] = userinfo.to_dict()
+
+#     # '''filter comments by expense_id'''
+#     # comments = [comment for comment in allcommentsDict if comment['expense_id'] == id]
+
+#     # print(f'all the comments for the specific expense {comments}')
+
+#     # return comments
+#     return commentDict
 
 
 
