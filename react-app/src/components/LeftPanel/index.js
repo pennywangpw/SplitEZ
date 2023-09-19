@@ -18,10 +18,18 @@ function LeftPanel() {
     const allGroupsAndUsersArr = Object.values(allGroupsAndUsers)
 
     //重新整理
+    // useEffect(() => {
+    //     dispatch(groupsthunk.allGroupsthunk())
+    //     return () => dispatch(groupsthunk.clearGroupA())
+    // }, [dispatch])
+
+    //testing
     useEffect(() => {
         dispatch(groupsthunk.allGroupsthunk())
         return () => dispatch(groupsthunk.clearGroupA())
-    }, [dispatch])
+    }, [])
+
+    console.log("left panel- allGroups: ", allGroups)
 
     console.log("left panel- allGroupsArr: ", allGroupsArr)
 
@@ -30,14 +38,19 @@ function LeftPanel() {
     for (let group of allGroupsArr) {
         console.log("group: ", group)
         for (let user of group["group_members"]) {
-            friends.push(user)
+            if (!friends.includes(user)) {
+                friends.push(user)
+            }
         }
     }
+    console.log("check up friends :", friends)
 
     // find unique friend's name
     const uniquefriend = new Set()
+
     for (let friend of friends) {
         console.log("each friend: ", friend)
+        // convert value to a JSON string
         const friendString = JSON.stringify(friend)
         if (!uniquefriend.has(friendString)) {
             uniquefriend.add(friendString)
@@ -47,10 +60,8 @@ function LeftPanel() {
     //convert uniquefriend to array
     const uniquefriendArr = [...uniquefriend]
 
-
     //convert the value in array into object
     const uniquefriendObj = uniquefriendArr.map(friendString => JSON.parse(friendString))
-
 
 
     const friendsHandler = () => {
@@ -61,46 +72,6 @@ function LeftPanel() {
         console.log("clickFriendHandler")
         dispatch(usersthunk.friendsWithGroupInfo())
     }
-
-    // //get all group's names
-    // let groupsname = []
-    // for (let group of allGroupsArr) {
-    //     groupsname.push(group.name)
-    // }
-
-
-    // //get all friends- change another thunk
-    // let friendsname = []
-    // for (let user of allGroupsAndUsersArr) {
-    //     console.log("check user: ", user)
-    //     //get valid friends who invole in groups
-    //     for (let group of user.groupid) {
-    //         if (groupsname.includes(group.name)) {
-    //             friendsname.push(user)
-    //         }
-    //     }
-    // }
-
-    // // find unique friend's name
-    // let uniquefriendsname = [... new Set(friendsname)]
-
-
-
-    // useEffect(() => {
-    //     dispatch(groupsthunk.allGroupsthunk())
-    //     dispatch(usersthunk.friendsWithGroupInfo())
-    //     // dispatch(usersthunk.allFriends())
-    //     return () => dispatch(groupsthunk.clearGroupA())
-    // }, [dispatch])
-
-    // const friendsHandler = () => {
-    //     alert("feature coming soon")
-    // }
-
-    // const clickFriendHandler = () => {
-    //     console.log("clickFriendHandler")
-    //     dispatch(usersthunk.friendsWithGroupInfo())
-    // }
 
 
     return (
