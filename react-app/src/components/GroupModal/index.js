@@ -1,10 +1,8 @@
 import React, { useEffect } from "react";
 import { useModal } from "../../context/Modal";
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import * as groupsthunk from "../../store/group"
 import { useState } from "react";
-
-
 
 
 function GroupModal({ type, name, id }) {

@@ -17,6 +17,7 @@ function LeftPanel() {
     const allGroupsAndUsers = useSelector((state) => state.users.friendsWithGroupInfo)
     const allGroupsAndUsersArr = Object.values(allGroupsAndUsers)
 
+    console.log("here's allGroupsAndUsersArr: ", allGroupsAndUsersArr)
     //重新整理
     // useEffect(() => {
     //     dispatch(groupsthunk.allGroupsthunk())
@@ -26,42 +27,40 @@ function LeftPanel() {
     //testing
     useEffect(() => {
         dispatch(groupsthunk.allGroupsthunk())
+        dispatch(usersthunk.friendsWithGroupInfo())
         return () => dispatch(groupsthunk.clearGroupA())
     }, [])
 
-    console.log("left panel- allGroups: ", allGroups)
 
-    console.log("left panel- allGroupsArr: ", allGroupsArr)
+    // //get all friends' name
+    // let friends = []
+    // for (let group of allGroupsArr) {
+    //     console.log("group: ", group)
+    //     for (let user of group["group_members"]) {
+    //         if (!friends.includes(user)) {
+    //             friends.push(user)
+    //         }
+    //     }
+    // }
+    // console.log("check up friends :", friends)
 
-    //get all friends' name
-    let friends = []
-    for (let group of allGroupsArr) {
-        console.log("group: ", group)
-        for (let user of group["group_members"]) {
-            if (!friends.includes(user)) {
-                friends.push(user)
-            }
-        }
-    }
-    console.log("check up friends :", friends)
+    // // find unique friend's name
+    // const uniquefriend = new Set()
 
-    // find unique friend's name
-    const uniquefriend = new Set()
+    // for (let friend of friends) {
+    //     console.log("each friend: ", friend)
+    //     // convert value to a JSON string
+    //     const friendString = JSON.stringify(friend)
+    //     if (!uniquefriend.has(friendString)) {
+    //         uniquefriend.add(friendString)
+    //     }
+    // }
 
-    for (let friend of friends) {
-        console.log("each friend: ", friend)
-        // convert value to a JSON string
-        const friendString = JSON.stringify(friend)
-        if (!uniquefriend.has(friendString)) {
-            uniquefriend.add(friendString)
-        }
-    }
+    // //convert uniquefriend to array
+    // const uniquefriendArr = [...uniquefriend]
 
-    //convert uniquefriend to array
-    const uniquefriendArr = [...uniquefriend]
-
-    //convert the value in array into object
-    const uniquefriendObj = uniquefriendArr.map(friendString => JSON.parse(friendString))
+    // //convert the value in array into object
+    // const uniquefriendObj = uniquefriendArr.map(friendString => JSON.parse(friendString))
 
 
     const friendsHandler = () => {
@@ -134,7 +133,7 @@ function LeftPanel() {
 
                 <div className="height-3vh" id="frined">
                     <div>
-                        {uniquefriendObj.map(user =>
+                        {allGroupsAndUsersArr.map(user =>
                             <div className="friend" onClick={clickFriendHandler}>
                                 {console.log("確認一下user: ", user)}
                                 <NavLink to={`/friends/${user.id}`} style={{ textDecoration: 'none' }}>

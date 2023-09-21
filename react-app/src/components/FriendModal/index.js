@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { useModal } from "../../context/Modal";
 import { useSelector, useDispatch } from 'react-redux';
-import * as usersthunk from "../../store/user"
+import * as usersthunk from "../../store/user";
+import * as groupsthunk from "../../store/group";
 import { useState } from "react";
 
 
@@ -17,10 +18,11 @@ function FriendModal({ name, id, type }) {
 
     // validation for group name
     useEffect(() => {
+        console.log("run times: ", friendname)
         let e = []
         if (friendname === undefined) e.push("Please provide friend's name")
         if (friendname !== undefined && friendname.length > 10) e.push("Please shorten the friend's name")
-        if (friendemail === undefined) e.push("Please provide friend's email")
+        // if (friendemail === undefined) e.push("Please provide friend's email")
 
         setErrors(e)
     }, [friendname, friendemail])
@@ -35,6 +37,7 @@ function FriendModal({ name, id, type }) {
         }
         else if (type === "edit friend") {
             dispatch(usersthunk.updateFriendthunk(payload, id)).then(dispatch(usersthunk.friendsWithGroupInfo())).then(closeModal())
+            // dispatch(usersthunk.updateFriendthunk(payload, id)).then(dispatch(groupsthunk.allGroupsthunk())).then(closeModal())
         }
 
     }
