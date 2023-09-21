@@ -14,6 +14,7 @@ function GroupModal({ type, name, id }) {
 
     // validation for group name
     useEffect(() => {
+        console.log("render 次數")
         let e = []
         if (groupname === undefined) e.push("Please provide a group name")
         if (groupname !== undefined && groupname.length < 1) e.push("Please provide a group name.")

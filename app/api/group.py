@@ -8,6 +8,7 @@ groups = Blueprint('groups', __name__)
 
 
 #get all groups with group members
+#[{name,id, group_members:[{emil,id,username}...]}...]
 @groups.route('/all')
 @login_required
 def allGroupsWithUserInfo():
@@ -26,22 +27,39 @@ def allGroupsWithUserInfo():
 
     return groups
 
-#get a single group with user info
+#get a single group
+#groupId:[{emil,id,username}...]
 @groups.route('/<int:id>')
 @login_required
 def singleGroup(id):
+    '''find the specific group'''
     group = Group.query.get(id)
-    groupDict = group.to_dict()
-    print("single group: ", groupDict)
+    group_data = group.to_dict()
 
-    singlegroup_withusers = group.users
-    print("BEFORE singlegroup_withusers: ", singlegroup_withusers)
-    usersList = [user.to_dict() for user in singlegroup_withusers]
-    groupid_with_usersList = {}
-    groupid_with_usersList[id] = usersList
-    print("AFTER usersList: ", groupid_with_usersList)
+    group_members = group.users
 
-    return groupid_with_usersList
+    group_membersDict = [user.to_dict() for user in group_members]
+    group_data['group_members'] = group_membersDict
+
+    return group_data
+
+# #get a single group with user info
+# #groupId:[{emil,id,username}...]
+# @groups.route('/<int:id>')
+# @login_required
+# def singleGroup(id):
+#     group = Group.query.get(id)
+#     groupDict = group.to_dict()
+#     print("single group: ", groupDict)
+
+#     singlegroup_withusers = group.users
+#     print("BEFORE singlegroup_withusers: ", singlegroup_withusers)
+#     usersList = [user.to_dict() for user in singlegroup_withusers]
+#     groupid_with_usersList = {}
+#     groupid_with_usersList[id] = usersList
+#     print("AFTER usersList: ", groupid_with_usersList)
+
+#     return groupid_with_usersList
 
 
 #create a group
@@ -83,8 +101,7 @@ def createGroup():
 
     return form.errors
 
-
-#update a group- name and group members (both data are required)
+#update a group- name (only change name)
 @groups.route('/<int:id>', methods=['PUT'])
 @login_required
 def updateGroup(id):
@@ -95,33 +112,55 @@ def updateGroup(id):
     updatedgroup = Group.query.get(id)
 
     if form.validate_on_submit():
+
         '''update group name'''
         updatedgroup.name = form.data['name']
         db.session.commit()
 
-        '''query all members from users_groups, delete all and re-insert user input to users_groups'''
-        delete_members = users_groups.delete().where(users_groups.c.group_id == updatedgroup.id)
-        db.session.execute(delete_members)
-
-        for member in form.data["group_members"]:
-            new_users_groups = users_groups.insert().values(
-                group_id = updatedgroup.id,
-                user_id = member["member_id"]
-            )
-            db.session.execute(new_users_groups)
-            db.session.commit()
-
-        '''format group_members information and add on res'''
-        formated_group_members =[]
-        for member in updatedgroup.users:
-            formated_group_members.append(member.to_dict())
-
         updatedgroupDict = updatedgroup.to_dict()
-        updatedgroupDict["group_members"] = formated_group_members
 
         return updatedgroupDict
 
     return form.errors
+
+# #update a group- name and group members (both data are required)
+# @groups.route('/<int:id>', methods=['PUT'])
+# @login_required
+# def updateGroup(id):
+#     '''query updatedgroup from db by id which user wants to update'''
+#     # form = GroupForm()
+#     form = GroupForm.from_json(request.json)
+#     form['csrf_token'].data = request.cookies['csrf_token']
+#     updatedgroup = Group.query.get(id)
+
+#     if form.validate_on_submit():
+#         '''update group name'''
+#         updatedgroup.name = form.data['name']
+#         db.session.commit()
+
+#         '''query all members from users_groups, delete all and re-insert user input to users_groups'''
+#         delete_members = users_groups.delete().where(users_groups.c.group_id == updatedgroup.id)
+#         db.session.execute(delete_members)
+
+#         for member in form.data["group_members"]:
+#             new_users_groups = users_groups.insert().values(
+#                 group_id = updatedgroup.id,
+#                 user_id = member["member_id"]
+#             )
+#             db.session.execute(new_users_groups)
+#             db.session.commit()
+
+#         '''format group_members information and add on res'''
+#         formated_group_members =[]
+#         for member in updatedgroup.users:
+#             formated_group_members.append(member.to_dict())
+
+#         updatedgroupDict = updatedgroup.to_dict()
+#         updatedgroupDict["group_members"] = formated_group_members
+
+#         return updatedgroupDict
+
+#     return form.errors
 
 
 #delete a group

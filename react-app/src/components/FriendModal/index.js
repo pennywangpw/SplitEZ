@@ -21,6 +21,7 @@ function FriendModal({ name, id, type }) {
         console.log("run times: ", friendname)
         let e = []
         if (friendname === undefined) e.push("Please provide friend's name")
+        if (friendname.length === 0) e.push("Please provide friend's name")
         if (friendname !== undefined && friendname.length > 10) e.push("Please shorten the friend's name")
         // if (friendemail === undefined) e.push("Please provide friend's email")
 

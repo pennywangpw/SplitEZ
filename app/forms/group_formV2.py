@@ -5,9 +5,9 @@ from wtforms.validators import DataRequired, Email
 class GroupMembersDetailForm(FlaskForm):
     class Meta:
         csrf= False
-    email = StringField('email', validators=[DataRequired(), Email()])
-    username = StringField('username', validators=[DataRequired()])
-    member_id = IntegerField('member_id', validators=[DataRequired()])
+    email = StringField('email')
+    username = StringField('username')
+    member_id = IntegerField('member_id')
 
 class GroupForm(FlaskForm):
     name = StringField('name', validators=[DataRequired()])
