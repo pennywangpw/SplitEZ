@@ -29,16 +29,16 @@ function ExpenseDetail({ exp, setShowDetail, allCommentsArr }) {
     let involved_user = [];
     if (Object.keys(singleExpense).length !== 0) {
         //caculate divide amount
-        if (singleExpense.associateduser.length > 0) {
-            divided_amount = singleExpense.expense_total / singleExpense.associateduser.length
+        if (singleExpense.debtors.length > 0) {
+            divided_amount = singleExpense.expense_total / singleExpense.debtors.length
         } else {
             divided_amount = singleExpense.expense_total
         }
 
         // users(friends) who involve in this expense and make sure the user only appears once not duplicated
-        if (singleExpense.associateduser.length > 0) {
-            singleExpense.associateduser.forEach(user => {
-                if (user.id !== singleExpense.billpayer.id) {
+        if (singleExpense.debtors.length > 0) {
+            singleExpense.debtors.forEach(user => {
+                if (user.id !== singleExpense.payer_user_id) {
                     involved_user.push(user.username)
                 }
             })
@@ -74,7 +74,9 @@ function ExpenseDetail({ exp, setShowDetail, allCommentsArr }) {
                     <div className="width-50">
                         <div>Who involes in this expense: </div>
                         {singleExpense.billpayer ? (<div>{`${singleExpense.billpayer.username} paid $${singleExpense.expense_total} and owes $${divided_amount.toFixed(2)}`}</div>) : (<div></div>)}
-                        {involved_user.map(user => <div>{`${user} owes $${divided_amount.toFixed(2)}`}</div>)}
+                        {singleExpense.debtors ? (singleExpense.debtors.map(user => <div>{`${user.debtor_id} owes $${divided_amount.toFixed(2)}`}</div>)) : (<div>no ppl involes</div>)}
+                        {/* {singleExpense.billpayer ? (<div>{`${singleExpense.billpayer.username} paid $${singleExpense.expense_total} and owes $${divided_amount.toFixed(2)}`}</div>) : (<div></div>)}
+                        {involved_user.map(user => <div>{`${user} owes $${divided_amount.toFixed(2)}`}</div>)} */}
                     </div>
                     {/* <div className="width-50 height-100">ppl involved</div> */}
                     {/* <div className="width-50 height-100">comments</div> */}

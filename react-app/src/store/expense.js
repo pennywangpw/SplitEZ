@@ -1,5 +1,5 @@
 const GETALLEXPENSES = 'expenses/ALL_EXPENSE';
-const GETAEXPENSE = 'expenses/SINGLE';
+const GETAEXPENSE = 'expenses/SINGLE_EXPENSE';
 const POSTAEXPENSE = 'expenses/CREATE_EXPENSE';
 const DELETETAEXPENSE = 'expenses/DELETE_EXPENSE';
 const UPDATEAEXPENSE = 'expenses/UPDATE_EXPENSE';
