@@ -16,7 +16,7 @@ def users():
     users = User.query.all()
     return {'users': [user.to_dict() for user in users]}
 
-
+#get a specific friend by friend's id
 @user_routes.route('/<int:id>')
 @login_required
 def user(id):
