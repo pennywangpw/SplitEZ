@@ -51,7 +51,9 @@ def userswithGroupinfo():
     '''add groupinfo in userDict'''
     idx=0
     for userinfo in usersDict:
-            userinfo['groupid'] = usersWithGroup[idx]
+            print(f"userinfo: {userinfo}")
+            userinfo['involved_group'] = usersWithGroup[idx]
+            userinfo['user_id'] = userinfo['id']
             idx+=1
 
     print(f"123有沒有家成功{usersDict}")

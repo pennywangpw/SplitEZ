@@ -7,8 +7,8 @@ import EditExpense from "../EditExpense"
 import DeleteConfirmationModal from "../DeleteConfirmationModal"
 import OpenModalButton from "../OpenModalButton";
 
-function ExpenseDetail({ exp, setShowDetail, allCommentsArr }) {
-    console.log("exp detail here: ", setShowDetail, exp, allCommentsArr)
+function ExpenseDetail({ exp, setShowDetail, allCommentsArr, debtors_name, billpayer_name }) {
+    console.log("exp detail here: ", setShowDetail, exp, allCommentsArr, debtors_name, billpayer_name)
     const singleExpense = useSelector((state) => state.expenses.singleExpense);
     const dispatch = useDispatch()
     const [comment, setComment] = useState("");
@@ -73,8 +73,9 @@ function ExpenseDetail({ exp, setShowDetail, allCommentsArr }) {
                 <div className=" height-50 border-bottom-main flx">
                     <div className="width-50">
                         <div>Who involes in this expense: </div>
-                        {singleExpense.billpayer ? (<div>{`${singleExpense.billpayer.username} paid $${singleExpense.expense_total} and owes $${divided_amount.toFixed(2)}`}</div>) : (<div></div>)}
-                        {singleExpense.debtors ? (singleExpense.debtors.map(user => <div>{`${user.debtor_id} owes $${divided_amount.toFixed(2)}`}</div>)) : (<div>no ppl involes</div>)}
+                        {billpayer_name ? (<div>{`${billpayer_name} paid $${singleExpense.expense_total} and owes $${divided_amount.toFixed(2)}`}</div>) : (<div></div>)}
+                        {console.log("debtors_name name: ", debtors_name)}
+                        {debtors_name.length > 0 ? (debtors_name.map(user => <div>{`${user} owes $${divided_amount.toFixed(2)}`}</div>)) : (<div>no ppl involes</div>)}
                         {/* {singleExpense.billpayer ? (<div>{`${singleExpense.billpayer.username} paid $${singleExpense.expense_total} and owes $${divided_amount.toFixed(2)}`}</div>) : (<div></div>)}
                         {involved_user.map(user => <div>{`${user} owes $${divided_amount.toFixed(2)}`}</div>)} */}
                     </div>

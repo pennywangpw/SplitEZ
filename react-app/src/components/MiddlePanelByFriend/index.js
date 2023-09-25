@@ -13,14 +13,14 @@ function GroupListByFriend() {
     let { friendId } = useParams()
     const dispatch = useDispatch()
 
-    const allGroupsAndUsers = useSelector((state) => state.users.friendsWithGroupInfo)
+    const allGroupsAndUsers = useSelector((state) => state.users.allfriendsWithGroupInfo)
     const allGroupsAndUsersArr = Object.values(allGroupsAndUsers)
     const allGroups = useSelector((state) => state.groups.allGroups);
     const allGroupsArr = Object.values(allGroups)
 
-    // //check if there're 2 friendswithgroupinfo fetch
+    // //check if there're 2 allfriendsWithGroupInfo fetch
     // useEffect(() => {
-    //     dispatch(usersthunk.friendsWithGroupInfo())
+    //     dispatch(usersthunk.allfriendsWithGroupInfo())
     // }, [])
 
     //get all group's names

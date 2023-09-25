@@ -48,7 +48,7 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
     const allExpenses = useSelector((state) => state.expenses.allExpenses)
 
     //get all the users and convert into arr
-    const allUsers = useSelector((state) => state.users.friendsWithGroupInfo)
+    const allUsers = useSelector((state) => state.users.allfriendsWithGroupInfo)
     let allUsersArr = Object.values(allUsers)
 
     //get the singleGroup
@@ -69,10 +69,10 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
     //FOR -split with section
     //if group_id change, debtors in split with section should be change
     //if group_id is selected, get singleGroup
-    //if not selected, get allGroups/ friendswithgroupinfo
+    //if not selected, get allGroups/ allfriendsWithGroupInfo
     useEffect(() => {
         // dispatch(expensesthunk.allExpenses())
-        dispatch(userthunk.friendsWithGroupInfo())
+        dispatch(userthunk.allfriendsWithGroupInfo())
         dispatch(groupsthunk.singleGroupthunk(group_id))
     }, [group_id])
 
