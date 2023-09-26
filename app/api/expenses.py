@@ -65,14 +65,16 @@ def singleExpense(id):
 
 #create an expense
 @expenses.route('', methods=['POST'])
-def crateExpenseFake():
+def createExpense():
     '''Create a form with user input'''
     form = ExpenseForm.from_json(request.json)
     form['csrf_token'].data = request.cookies['csrf_token']
+    print(f"想看request.json {request.json}")
     print(f"this is form data when i create expense {form.data}")
 
     '''check if form passes validation, if so, create an Expense and store in db'''
     if form.validate_on_submit():
+        print("form的validation過了")
         new_expense = Expense(
             name = form.data['name'],
             expense_date = form.data['expense_date'],
@@ -87,7 +89,6 @@ def crateExpenseFake():
         '''iterate through user input (debtors)'''
         '''insert debtors in relationship table - users_expenses'''
         for debtor in form.data['debtors']:
-            print(f"here's debtor in form.data {debtor}")
             new_users_expenses = users_expenses.insert().values(
                 owe_id = debtor["debtor_id"],
                 expense_id = new_expense.id,

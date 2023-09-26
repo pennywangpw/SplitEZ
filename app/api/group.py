@@ -79,15 +79,18 @@ def createGroup():
         db.session.add(new_group)
         db.session.commit()
 
+
         '''iterate through user input(group members)'''
         '''insert group members in relationship table- users_groups'''
         for member in form.data['group_members']:
-            new_users_groups = users_groups.insert().values(
-                user_id = member["member_id"],
-                group_id = new_group.id
-            )
-            db.session.execute(new_users_groups)
-            db.session.commit()
+            ''''check the condition before adding to db'''
+            if member["member_id"] is not None:
+                new_users_groups = users_groups.insert().values(
+                    user_id = member["member_id"],
+                    group_id = new_group.id
+                )
+                db.session.execute(new_users_groups)
+                db.session.commit()
 
 
         '''format group_members information and add on res'''

@@ -86,6 +86,7 @@ function ExpensesList() {
 
     //find the debtor name
     console.log("---1.allUsersArr: ", allUsersArr)
+    console.log("---all_debtors_id: ", all_debtors_id)
 
     for (let friend of allUsersArr) {
         console.log("---2.friend: ", friend)

@@ -111,7 +111,7 @@ export const singleExpense = (expenseid) => async (dispatch) => {
 //createExpense thunk
 export const createExpense = (payload) => async (dispatch) => {
     console.log("this is thunk-createExpense")
-    const response = await fetch(`/api/expenses/all`, {
+    const response = await fetch(`/api/expenses`, {
         method: 'POST',
         headers: {
             "Content-Type": "application/json",

@@ -35,7 +35,7 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
     const [group_id, setGroup_id] = useState(expenseinfo.group_id)
     const [splitWithUsers, setSplitWithUsers] = useState([])
     const [errors, setErrors] = useState([])
-    let split_Users_price = []
+    let debtors = []
     let split_amount = expense_total
 
 
@@ -85,7 +85,7 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
 
     //caculate split amount
     const handleSplitAmount = () => {
-        split_Users_price.map(debtor => debtor["owe_amount"] = split_amount / split_Users_price.length)
+        debtors.map(debtor => debtor["owe_amount"] = split_amount / debtors.length)
     }
 
 
@@ -95,28 +95,28 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
     //if debtorId dose not esxist in splitWithUsers we add on it
     const handleSplitWithUserChange = (e) => {
         const debtorId = Number(e.target.value)
-        console.log("split_Users_price  function start: ", split_Users_price)
+        console.log("debtors  function start: ", debtors)
 
-        //if nothing in split_Users_price we just add it
-        if (split_Users_price.length === 0) {
-            split_Users_price.push({ "debtor_id": debtorId, "owe_amount": split_amount })
+        //if nothing in debtors we just add it
+        if (debtors.length === 0) {
+            debtors.push({ "debtor_id": debtorId, "owe_amount": split_amount })
 
         } else {
-            //if there's some debtor in split_Users_price, we have to check if selected debtor can be found or not
-            //if i the debtor is selected but can't be found in split_Users_price we need to add on it
+            //if there's some debtor in debtors, we have to check if selected debtor can be found or not
+            //if i the debtor is selected but can't be found in debtors we need to add on it
             //if can be found then we revmoe it
-            let checked_debtor = split_Users_price.filter(debtor => debtor["debtor_id"] === debtorId)
+            let checked_debtor = debtors.filter(debtor => debtor["debtor_id"] === debtorId)
 
             if (checked_debtor.length === 0) {
-                split_Users_price.push({ "debtor_id": debtorId, "owe_amount": null })
-                let added_debtor = split_Users_price.find(debtor => debtor["debtor_id"] === debtorId)
+                debtors.push({ "debtor_id": debtorId, "owe_amount": null })
+                let added_debtor = debtors.find(debtor => debtor["debtor_id"] === debtorId)
                 if (added_debtor) {
                     handleSplitAmount()
                 }
 
             } else {
-                let index = split_Users_price.indexOf(checked_debtor[0])
-                split_Users_price.splice(index, 1)
+                let index = debtors.indexOf(checked_debtor[0])
+                debtors.splice(index, 1)
 
             }
 
@@ -136,13 +136,13 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
         e.preventDefault();
 
         if (type === "create") {
-            const payload = { name, expense_total, group_id, expense_date, payer_user_id, splitWithUsers, split_Users_price }
+            const payload = { name, expense_total, group_id, expense_date, payer_user_id, splitWithUsers, debtors }
             console.log("傳出去的payload: ", payload)
             await dispatch(expensesthunk.createExpense(payload))
             await dispatch(expensesthunk.allExpenses()).then(closeModal)
             // await dispatch(groupsthunk.singleGroupthunk(expenseinfo.group_id)).then(closeModal)
         } else if (type === "edit") {
-            const payload = { name, expense_total, group_id, expense_date, payer_user_id, splitWithUsers, split_Users_price }
+            const payload = { name, expense_total, group_id, expense_date, payer_user_id, splitWithUsers, debtors }
             await dispatch(expensesthunk.updateExpense(expenseinfo.id, payload))
             await dispatch(expensesthunk.allExpenses()).then(closeModal)
 
@@ -238,7 +238,7 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
                                                     <input type="checkbox" id={user.username} name="debtor" value={user.id} onChange={handleSplitWithUserChange} />
                                                     <lable for={user.username}>{user.username}</lable>
                                                 </div>
-                                                {console.log("look at split_Users_price: ", split_Users_price)}
+                                                {console.log("look at debtors: ", debtors)}
                                                 {/* {splitWithUsers.includes(user.id) ? (<div>{total_for_a_user}</div>) : (<div></div>)} */}
 
                                             </div>
@@ -253,7 +253,7 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
                                                     <input type="checkbox" id={user.username} name="debtor" value={user.id} onChange={handleSplitWithUserChange} />
                                                     <lable for={user.username}>{user.username}</lable>
                                                 </div>
-                                                {console.log("look at split_Users_price: ", split_Users_price)}
+                                                {console.log("look at debtors: ", debtors)}
 
                                                 {/* {splitWithUsers.includes(user.id) ? (<div>{total_for_a_user}</div>) : (<div></div>)} */}
 
