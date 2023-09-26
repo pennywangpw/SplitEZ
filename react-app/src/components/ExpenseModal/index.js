@@ -35,7 +35,7 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
     const [group_id, setGroup_id] = useState(expenseinfo.group_id)
     const [splitWithUsers, setSplitWithUsers] = useState([])
     const [errors, setErrors] = useState([])
-    let debtors = []
+    const [debtors, setdebtors] = useState([])
     let split_amount = expense_total
 
 
@@ -63,8 +63,9 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
         if (name.length > 15) e.push("Description is no more than 15 characters")
         if (!expense_total) e.push("Please provide amount")
         if (expense_total && expense_total <= 0) e.push("Amount should be greater than 0")
+        if (debtors.length === 0) e.push("Please select debtors")
         setErrors(e)
-    }, [name, expense_total])
+    }, [name, expense_total, debtors])
 
     //FOR -split with section
     //if group_id change, debtors in split with section should be change
@@ -94,11 +95,14 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
     //if debtorId exsits in splitWithUsers we remove it
     //if debtorId dose not esxist in splitWithUsers we add on it
     const handleSplitWithUserChange = (e) => {
+        console.log("FIRE FIRE FIRE FIRE")
         const debtorId = Number(e.target.value)
-
+        console.log("打勾變動後的debtors: ", debtorId)
         //if nothing in debtors we just add it
         if (debtors.length === 0) {
-            debtors.push({ "debtor_id": debtorId, "owe_amount": split_amount })
+            let debtor_select = debtors.push({ "debtor_id": debtorId, "owe_amount": split_amount })
+            setdebtors(debtor_select)
+            console.log("每次打勾就會加到debtors'裡面: ", debtors)
 
         } else {
             //if there's some debtor in debtors, we have to check if selected debtor can be found or not
@@ -282,7 +286,7 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
                         </div> */}
                     </div>
                     <div>
-                        <button className="button-decision" type="submit">save</button>
+                        <button className="button-decision" type="submit" disabled={errors.length > 0}>save</button>
                         <button className="button-decision" onClick={closeModal}>cancel</button>
                     </div>
                 </div>
