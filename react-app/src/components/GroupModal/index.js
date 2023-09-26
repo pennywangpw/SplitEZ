@@ -1,16 +1,20 @@
 import React, { useEffect } from "react";
 import { useModal } from "../../context/Modal";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as groupsthunk from "../../store/group"
 import { useState } from "react";
 
 
 function GroupModal({ type, name, id }) {
     console.log("In the group modal what i got the name i passed in: ", type, name, id)
+    const currentuser = useSelector((state) => state.session.user);
     const dispatch = useDispatch()
     const { closeModal } = useModal()
     const [groupname, setGroupName] = useState(name)
     const [errors, setErrors] = useState([])
+    const [group_members, setGroup_members] = useState([])
+
+
 
     // validation for group name
     useEffect(() => {
@@ -25,7 +29,8 @@ function GroupModal({ type, name, id }) {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        let payload = { 'name': groupname }
+        setGroup_members(group_members.push(currentuser))
+        let payload = { 'name': groupname, 'group_members': group_members }
         console.log("check typeof payload: ", payload)
 
         if (type === "create group") {

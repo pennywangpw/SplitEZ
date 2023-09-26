@@ -69,6 +69,8 @@ def createGroup():
     # form = GroupForm()
     form = GroupForm.from_json(request.json)
     form['csrf_token'].data = request.cookies['csrf_token']
+    print(f"GROUP-REQUEST.JSON{request.json}")
+    print(f"GROUP-form{form}")
 
 
     if form.validate_on_submit():
@@ -84,9 +86,9 @@ def createGroup():
         '''insert group members in relationship table- users_groups'''
         for member in form.data['group_members']:
             ''''check the condition before adding to db'''
-            if member["member_id"] is not None:
+            if member["id"] is not None:
                 new_users_groups = users_groups.insert().values(
-                    user_id = member["member_id"],
+                    user_id = member["id"],
                     group_id = new_group.id
                 )
                 db.session.execute(new_users_groups)

@@ -95,7 +95,6 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
     //if debtorId dose not esxist in splitWithUsers we add on it
     const handleSplitWithUserChange = (e) => {
         const debtorId = Number(e.target.value)
-        console.log("debtors  function start: ", debtors)
 
         //if nothing in debtors we just add it
         if (debtors.length === 0) {
@@ -238,7 +237,7 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
                                                     <input type="checkbox" id={user.username} name="debtor" value={user.id} onChange={handleSplitWithUserChange} />
                                                     <lable for={user.username}>{user.username}</lable>
                                                 </div>
-                                                {console.log("look at debtors: ", debtors)}
+
                                                 {/* {splitWithUsers.includes(user.id) ? (<div>{total_for_a_user}</div>) : (<div></div>)} */}
 
                                             </div>
@@ -253,7 +252,7 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
                                                     <input type="checkbox" id={user.username} name="debtor" value={user.id} onChange={handleSplitWithUserChange} />
                                                     <lable for={user.username}>{user.username}</lable>
                                                 </div>
-                                                {console.log("look at debtors: ", debtors)}
+
 
                                                 {/* {splitWithUsers.includes(user.id) ? (<div>{total_for_a_user}</div>) : (<div></div>)} */}
 

@@ -7,7 +7,7 @@ class GroupMembersDetailForm(FlaskForm):
         csrf= False
     email = StringField('email')
     username = StringField('username')
-    member_id = IntegerField('member_id')
+    id = IntegerField('id')
 
 class GroupForm(FlaskForm):
     name = StringField('name', validators=[DataRequired()])
