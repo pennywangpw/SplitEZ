@@ -7,12 +7,16 @@ import EditExpense from "../EditExpense"
 import DeleteConfirmationModal from "../DeleteConfirmationModal"
 import OpenModalButton from "../OpenModalButton";
 
-function ExpenseDetail({ exp, setShowDetail, allCommentsArr, debtors_name, billpayer_name }) {
-    console.log("exp detail here: ", setShowDetail, exp, allCommentsArr, debtors_name, billpayer_name)
+function ExpenseDetail({ exp, setShowDetail, allCommentsArr, debtors_name }) {
+    console.log("exp detail here: ", setShowDetail, exp, allCommentsArr, debtors_name)
+    const allUsers = useSelector((state) => state.users.allfriendsWithGroupInfo)
+    let allUsersArr = Object.values(allUsers)
     const singleExpense = useSelector((state) => state.expenses.singleExpense);
     const dispatch = useDispatch()
     const [comment, setComment] = useState("");
     const expenseId = exp.id
+    let billpayer_name;
+
 
 
     //create comment handler
@@ -47,11 +51,21 @@ function ExpenseDetail({ exp, setShowDetail, allCommentsArr, debtors_name, billp
     }
 
 
+    //find bill payer name
+    for (let friend of allUsersArr) {
+        if (friend.id === singleExpense.payer_user_id) {
+            billpayer_name = friend.username
+            break
+        }
+    }
+
     // if (!aExpanse) return null
     if (!exp) return null
 
     // if allcomment passed in with undefined
     if (allCommentsArr === undefined) return null
+
+    console.log("重新繪製時billpayer_name: ", billpayer_name)
 
     return (
         <>

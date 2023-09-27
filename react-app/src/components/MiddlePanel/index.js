@@ -20,8 +20,6 @@ function ExpensesList() {
     const allComments = useSelector((state) => state.comments.allComments)
     const allUsers = useSelector((state) => state.users.allfriendsWithGroupInfo)
     let allUsersArr = Object.values(allUsers)
-    console.log("sINGLEexpense from middle: ", singleExpense)
-    console.log("allUsers: ", allUsers)
     let all_debtors_id = []
     let debtors_name = []
     let billpayer_name;
@@ -72,7 +70,7 @@ function ExpensesList() {
         allExpensesinArr = Object.values(allExpenses)
         allExpensesinArr.sort((a, b) => b.id - a.id)
     }
-    console.log("allExpensesinArr: ", allExpensesinArr)
+
 
     //find debtors information
     //find all debtors id
@@ -85,25 +83,22 @@ function ExpensesList() {
     }
 
     //find the debtor name
-    console.log("---1.allUsersArr: ", allUsersArr)
-    console.log("---all_debtors_id: ", all_debtors_id)
-
     for (let friend of allUsersArr) {
-        console.log("---2.friend: ", friend)
-        if (all_debtors_id.includes(friend.id)) {
+        if (all_debtors_id.includes(friend.user_id)) {
             debtors_name.push(friend.username)
-            console.log("---3.debtors_name: ", debtors_name)
         }
     }
 
-    //find bill payer name
-    for (let friend of allUsersArr) {
-        if (friend.user_id = singleExpense.payer_user_id) {
-            billpayer_name = friend.username
-        }
-    }
-    console.log("all_debtors_id: ", all_debtors_id)
-    console.log("debtors: ", debtors_name)
+    // console.log("修改後的singleExpense.payer_user_id: ", singleExpense.payer_user_id)
+    // //find bill payer name
+    // for (let friend of allUsersArr) {
+    //     if (friend.id = singleExpense.payer_user_id) {
+    //         billpayer_name = friend.username
+    //         break
+    //     }
+    // }
+
+
     return (
         <>
             <div className="shadow">
@@ -187,7 +182,7 @@ function ExpensesList() {
                                             singleExpense={singleExpense}
                                             allExpenses={allExpenses}
                                             debtors_name={debtors_name}
-                                            billpayer_name={billpayer_name}
+                                        // billpayer_name={billpayer_name}
                                         />
                                     </div>
 

@@ -30,13 +30,14 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
     const dispatch = useDispatch();
     const [name, setName] = useState(expenseinfo.name)
     const [expense_total, setExpenseTotal] = useState(+expenseinfo.expense_total || 0)
-    const [payer_user_id, setpayer_user_id] = useState(current_user.id)
+    const [payer_user_id, setPayer_user_id] = useState(current_user.id)
     const [expense_date, setExpenseDate] = useState(formatedtoday)
     const [group_id, setGroup_id] = useState(expenseinfo.group_id)
     const [splitWithUsers, setSplitWithUsers] = useState([])
     const [errors, setErrors] = useState([])
     const [debtors, setdebtors] = useState([])
     let split_amount = expense_total
+    let debtor_select = []
 
 
     const { closeModal } = useModal();
@@ -85,37 +86,37 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
 
 
     //caculate split amount
-    const handleSplitAmount = () => {
+    if (debtors.length > 1) {
         debtors.map(debtor => debtor["owe_amount"] = split_amount / debtors.length)
     }
 
-
+    console.log("追蹤debtors: ", debtors)
+    console.log("5jo yj/ payer_user_id: ", payer_user_id)
 
     //SplitWithUserHandler to collect all the debtors
     //if debtorId exsits in splitWithUsers we remove it
     //if debtorId dose not esxist in splitWithUsers we add on it
     const handleSplitWithUserChange = (e) => {
-        console.log("FIRE FIRE FIRE FIRE")
         const debtorId = Number(e.target.value)
         console.log("打勾變動後的debtors: ", debtorId)
         //if nothing in debtors we just add it
+
         if (debtors.length === 0) {
-            let debtor_select = debtors.push({ "debtor_id": debtorId, "owe_amount": split_amount })
+            debtor_select.push({ "debtor_id": debtorId, "owe_amount": split_amount })
             setdebtors(debtor_select)
-            console.log("每次打勾就會加到debtors'裡面: ", debtors)
 
         } else {
             //if there's some debtor in debtors, we have to check if selected debtor can be found or not
-            //if i the debtor is selected but can't be found in debtors we need to add on it
+            //if the debtor is selected but can't be found in debtors we need to add on it
             //if can be found then we revmoe it
+            console.log("1.為什麼在打勾就不在debtors:", debtors, debtors["debtor_id"])
+
             let checked_debtor = debtors.filter(debtor => debtor["debtor_id"] === debtorId)
 
             if (checked_debtor.length === 0) {
-                debtors.push({ "debtor_id": debtorId, "owe_amount": null })
-                let added_debtor = debtors.find(debtor => debtor["debtor_id"] === debtorId)
-                if (added_debtor) {
-                    handleSplitAmount()
-                }
+                let new_debtors = [...debtors, { "debtor_id": debtorId, "owe_amount": null }]
+                setdebtors(new_debtors)
+
 
             } else {
                 let index = debtors.indexOf(checked_debtor[0])
@@ -146,8 +147,11 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
             // await dispatch(groupsthunk.singleGroupthunk(expenseinfo.group_id)).then(closeModal)
         } else if (type === "edit") {
             const payload = { name, expense_total, group_id, expense_date, payer_user_id, splitWithUsers, debtors }
+            console.log("edit-傳出去的payload: ", payload)
             await dispatch(expensesthunk.updateExpense(expenseinfo.id, payload))
             await dispatch(expensesthunk.allExpenses()).then(closeModal)
+            // await dispatch(expensesthunk.allExpenses())
+            // await dispatch(expensesthunk.singleExpense(expenseinfo.id)).then(closeModal)
 
             // await dispatch(groupsthunk.singleGroupthunk(expenseinfo.group_id)).then(closeModal)
             // .then(dispatch(groupsthunk.singleGroupthunk(expenseinfo.group_id))).then(closeModal)
@@ -159,6 +163,10 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
 
     const groupIdhandler = (e) => {
         setGroup_id(e.target.value)
+    }
+
+    const billPayerhandler = (e) => {
+        setPayer_user_id(e.target.value)
     }
 
     // function handleAlert() {
@@ -215,15 +223,19 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
                         </div>
 
                         <div>
-                            <label htmlFor="group">Paid by:</label>
+                            <label htmlFor="billpayer">Paid by:</label>
 
-                            <select name="groups" id="group" onChange={(e) => setpayer_user_id(e.target.value)} defaultValue={current_user.id}>
+                            {/* <select name="payernames" id="billpayer" onChange={(e) => setPayer_user_id(e.target.value)} defaultValue={current_user.id}> */}
+                            <select name="payernames" id="billpayer" onChange={billPayerhandler} defaultValue={current_user.id}>
 
                                 <option value="">--Please choose people who paid this bill--</option>
-                                {allUsers_inGroup[group_id] === undefined ?
+                                {console.log("檢查用:", allUsersArr, current_user.id)}
+                                {allUsersArr.map(user => <option value={user.id} selected={user.id === current_user.id}>{user.username}</option>)}
+                                {/* {allUsers_inGroup[group_id] === undefined ?
                                     (allUsersArr.map(user => <option value={user.id === current_user.id ? (user.id) : (current_user.id)} selected={user.id === current_user.id}>{user.username}</option>))
                                     :
-                                    (allUsers_inGroup[group_id].map(user => <option value={user.id === current_user.id ? (user.id) : (current_user.id)} selected={user.id === current_user.id}>{user.username}</option>))}
+                                    (allUsers_inGroup[group_id].map(user => <option value={user.id === current_user.id ? (user.id) : (current_user.id)} selected={user.id === current_user.id}>{user.username}</option>))
+                                } */}
 
                             </select>
 
@@ -281,7 +293,7 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
                             <input
                                 type="text"
                                 value={payer_user_id}
-                                onChange={(e) => setpayer_user_id(e.target.value)}
+                                onChange={(e) => setPayer_user_id(e.target.value)}
                             />
                         </div> */}
                     </div>
