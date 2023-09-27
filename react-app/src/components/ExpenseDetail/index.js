@@ -65,7 +65,6 @@ function ExpenseDetail({ exp, setShowDetail, allCommentsArr, debtors_name }) {
     // if allcomment passed in with undefined
     if (allCommentsArr === undefined) return null
 
-    console.log("重新繪製時billpayer_name: ", billpayer_name)
 
     return (
         <>
@@ -89,13 +88,22 @@ function ExpenseDetail({ exp, setShowDetail, allCommentsArr, debtors_name }) {
                         <div>Who involes in this expense: </div>
                         {billpayer_name ? (<div>{`${billpayer_name} paid $${singleExpense.expense_total} and owes $${divided_amount.toFixed(2)}`}</div>) : (<div></div>)}
                         {console.log("debtors_name name: ", debtors_name)}
-                        {debtors_name.length > 0 ? (debtors_name.map(user => <div>{`${user} owes $${divided_amount.toFixed(2)}`}</div>)) : (<div>no ppl involes</div>)}
+                        {/* {debtors_name.length > 0 ? (debtors_name.map(user => <div>{`${user} owes $${divided_amount.toFixed(2)}`}</div>)) : (<div>no ppl involes</div>)} */}
+                        {debtors_name.length > 0 ?
+                            (debtors_name.map(username => {
+                                if (username !== billpayer_name) {
+                                    return <div>{`${username} owes $${divided_amount.toFixed(2)}`}</div>
+                                }
+                            }))
+                            : (<div>no ppl involes</div>)
+                        }
+
                         {/* {singleExpense.billpayer ? (<div>{`${singleExpense.billpayer.username} paid $${singleExpense.expense_total} and owes $${divided_amount.toFixed(2)}`}</div>) : (<div></div>)}
                         {involved_user.map(user => <div>{`${user} owes $${divided_amount.toFixed(2)}`}</div>)} */}
                     </div>
                     {/* <div className="width-50 height-100">ppl involved</div> */}
                     {/* <div className="width-50 height-100">comments</div> */}
-                    <div className="comment width-100">
+                    <div className="comment width-50">
                         <div >
                             {allCommentsArr.map(comment =>
                                 <div>

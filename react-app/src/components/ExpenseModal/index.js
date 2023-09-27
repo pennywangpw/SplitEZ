@@ -54,8 +54,6 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
 
     //get the singleGroup
     const allUsers_inGroup = useSelector((state) => state.groups.singleGroup)
-    console.log("allUsers_inGroup: ", allUsers_inGroup)
-
 
     // validation for expense name (description)
     useEffect(() => {
@@ -90,17 +88,13 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
         debtors.map(debtor => debtor["owe_amount"] = split_amount / debtors.length)
     }
 
-    console.log("追蹤debtors: ", debtors)
-    console.log("5jo yj/ payer_user_id: ", payer_user_id)
-
     //SplitWithUserHandler to collect all the debtors
     //if debtorId exsits in splitWithUsers we remove it
     //if debtorId dose not esxist in splitWithUsers we add on it
     const handleSplitWithUserChange = (e) => {
         const debtorId = Number(e.target.value)
-        console.log("打勾變動後的debtors: ", debtorId)
-        //if nothing in debtors we just add it
 
+        //if nothing in debtors we just add it
         if (debtors.length === 0) {
             debtor_select.push({ "debtor_id": debtorId, "owe_amount": split_amount })
             setdebtors(debtor_select)
@@ -109,8 +103,6 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
             //if there's some debtor in debtors, we have to check if selected debtor can be found or not
             //if the debtor is selected but can't be found in debtors we need to add on it
             //if can be found then we revmoe it
-            console.log("1.為什麼在打勾就不在debtors:", debtors, debtors["debtor_id"])
-
             let checked_debtor = debtors.filter(debtor => debtor["debtor_id"] === debtorId)
 
             if (checked_debtor.length === 0) {
@@ -229,7 +221,6 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
                             <select name="payernames" id="billpayer" onChange={billPayerhandler} defaultValue={current_user.id}>
 
                                 <option value="">--Please choose people who paid this bill--</option>
-                                {console.log("檢查用:", allUsersArr, current_user.id)}
                                 {allUsersArr.map(user => <option value={user.id} selected={user.id === current_user.id}>{user.username}</option>)}
                                 {/* {allUsers_inGroup[group_id] === undefined ?
                                     (allUsersArr.map(user => <option value={user.id === current_user.id ? (user.id) : (current_user.id)} selected={user.id === current_user.id}>{user.username}</option>))
@@ -287,15 +278,6 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
 
                         </div>
 
-                        {/* <button onClick={handleAlert}>Paid by</button>
-                        <div>
-                            Bill Payer
-                            <input
-                                type="text"
-                                value={payer_user_id}
-                                onChange={(e) => setPayer_user_id(e.target.value)}
-                            />
-                        </div> */}
                     </div>
                     <div>
                         <button className="button-decision" type="submit" disabled={errors.length > 0}>save</button>
