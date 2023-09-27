@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logout } from "../../store/session";
+import { NavLink } from "react-router-dom";
 import OpenModalButton from "../OpenModalButton";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
@@ -52,6 +53,9 @@ function ProfileButton({ user }) {
           <>
             <ul>{user.username}</ul>
             <ul>{user.email}</ul>
+            <ul>
+              <NavLink to="/account/settings" style={{ textDecoration: 'none', lineHeight: '5vh' }}>Your Account</NavLink>
+            </ul>
             <ul>
               <button onClick={handleLogout}>Log Out</button>
             </ul>

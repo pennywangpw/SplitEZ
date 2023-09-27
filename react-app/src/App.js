@@ -5,9 +5,10 @@ import SignupFormPage from "./components/SignupFormPage";
 import LoginFormPage from "./components/LoginFormPage";
 import { authenticate } from "./store/session";
 import Navigation from "./components/Navigation";
-import SplashPage from "./components/SplashPage"
-import MainPage from "./components/MainPage"
-import PageNotFound from "./components/PageNotFound"
+import SplashPage from "./components/SplashPage";
+import MainPage from "./components/MainPage";
+import PageNotFound from "./components/PageNotFound";
+import AccountSetting from "./components/AccountSetting"
 
 function App() {
   const dispatch = useDispatch();
@@ -41,6 +42,9 @@ function App() {
           </Route>
           <Route exact path="/">
             <SplashPage />
+          </Route>
+          <Route path="/account/settings">
+            <AccountSetting />
           </Route>
           <Route>
             <PageNotFound />
