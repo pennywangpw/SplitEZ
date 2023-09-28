@@ -39,6 +39,11 @@ function ProfileButton({ user }) {
     history.push("/")
   };
 
+  const handleYourAccount = (e) => {
+    e.preventDefault();
+    history.push("/account/settings")
+    setShowMenu(false)
+  };
   const ulClassName = "profile-dropdown profile-btn " + (showMenu ? "" : " hidden");
   const closeMenu = () => setShowMenu(false);
 
@@ -54,7 +59,7 @@ function ProfileButton({ user }) {
             <ul>{user.username}</ul>
             <ul>{user.email}</ul>
             <ul>
-              <NavLink to="/account/settings" style={{ textDecoration: 'none', lineHeight: '5vh' }}>Your Account</NavLink>
+              <button onClick={handleYourAccount}>Your Account</button>
             </ul>
             <ul>
               <button onClick={handleLogout}>Log Out</button>

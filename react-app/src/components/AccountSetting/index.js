@@ -1,20 +1,47 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import * as userthunk from "../../store/user";
 
 
 function AccountSetting() {
     const dispatch = useDispatch()
     const currentuser = useSelector((state) => state.session.user);
-    const [editbar, setEditbar] = useState("off")
+    const [editnamebar, setEditnamebar] = useState("off")
+    const [editemailbar, setEditemailbar] = useState("off")
     const [username, setUsername] = useState(currentuser.username)
+    const [useremail, setUseremail] = useState(currentuser.email)
+    const divRef = useRef();
 
-    const editNamehandler = (new_name) => {
-        console.log("修改profile的new_name:", new_name)
-        setEditbar("on")
+    useEffect(() => {
+        console.log("useEffect 有runs")
+        // if (editnamebar) return;
+
+        const closeMenu = (e) => {
+            console.log("Account-closeMenu檢查e是什麼?", e)
+
+            if (!divRef.current.contains(e.target)) {
+                setEditnamebar("off");
+            }
+        };
+
+        document.addEventListener("click", closeMenu);
+        return () => document.removeEventListener("click", closeMenu);
+
+    }, [editnamebar])
+
+    const editNamehandler = () => {
+        setEditnamebar("on")
         // dispatch(userthunk.updateFriendthunk(new_name, currentuser.id))
     }
-    console.log("查閱editbar", editbar)
+
+    const editEmailhandler = () => {
+        setEditemailbar("on")
+        // dispatch(userthunk.updateFriendthunk(new_name, currentuser.id))
+    }
+    console.log("查閱username", username)
+
+    console.log("查閱editbar", editnamebar)
+    // console.log("這個是flyoutbtn", flyoutbtn)
 
     return (
         <>
@@ -25,32 +52,36 @@ function AccountSetting() {
                     <div className="flx-col width-50">
                         <div>
                             <ul>Your name</ul>
-                            <div className='flx'>
-                                {/* <input
-                                    id="username"
-                                    type="text"
-                                    value={currentuser.username}
-                                    onChange={(e) => editNamehandler(e.target.value)}
-                                /> */}
-                                {/* <ul>{currentuser.username}</ul> */}
-                                {editbar === "on" ? (<input
-                                    id="username"
+                            <div className='flx' ref={divRef} >
+                                {editnamebar === "on" ? (<input
+                                    id="user_name"
                                     type="text"
                                     value={username}
-                                    onChange={(e) => editNamehandler(e.target.value)}
-                                />) : (<ul>{currentuser.username}</ul>)}
+                                    onChange={(e) => {
+                                        setUsername(e.target.value)
+                                    }
+                                    }
+                                />) : (<ul>{username}</ul>)}
 
                                 <ul>
-                                    <button className='button-decision' onClick={editNamehandler}>Edit</button>
+                                    <button className='button-decision' id="editname-btn" onClick={editNamehandler} >Edit</button>
                                 </ul>
                             </div>
                         </div>
                         <div>
                             <ul>Your email address</ul>
                             <div className='flx'>
-                                <ul>{currentuser.email}</ul>
+                                {editemailbar === "on" ? (<input
+                                    id="username"
+                                    type="text"
+                                    value={useremail}
+                                    onChange={(e) => {
+                                        setUseremail(e.target.value)
+                                    }
+                                    }
+                                />) : (<ul>{currentuser.email}</ul>)}
                                 <ul>
-                                    <button className='button-decision'>Edit</button>
+                                    <button className='button-decision' onClick={editEmailhandler}>Edit</button>
                                 </ul>
                             </div>
                         </div>
