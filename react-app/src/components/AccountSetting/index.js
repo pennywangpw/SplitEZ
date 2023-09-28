@@ -11,23 +11,43 @@ function AccountSetting() {
     const [username, setUsername] = useState(currentuser.username)
     const [useremail, setUseremail] = useState(currentuser.email)
     const divRef = useRef();
+    const inputRef = useRef()
 
     useEffect(() => {
-        console.log("useEffect 有runs")
-        // if (editnamebar) return;
 
-        const closeMenu = (e) => {
-            console.log("Account-closeMenu檢查e是什麼?", e)
-
+        const closeUserNameInput = (e) => {
+            console.log("Account-closeUserNameInput檢查e是什麼?", e)
+            console.log("useeffect中的username: ", username)
             if (!divRef.current.contains(e.target)) {
+                let payload = { 'name': username, 'email': useremail }
+
+                dispatch(userthunk.updateFriendthunk(payload, currentuser.id))
                 setEditnamebar("off");
             }
         };
+        document.addEventListener("click", closeUserNameInput);
+        console.log("username: ", username)
+        // dispatch(userthunk.updateFriendthunk(username, currentuser.id))
+        return () => document.removeEventListener("click", closeUserNameInput);
 
-        document.addEventListener("click", closeMenu);
-        return () => document.removeEventListener("click", closeMenu);
+    }, [editnamebar, username])
 
-    }, [editnamebar])
+
+    useEffect(() => {
+
+        const closeUserEmailInput = (e) => {
+            console.log("Account-closeUserEmailInput檢查e是什麼?", e)
+
+            if (!inputRef.current.contains(e.target)) {
+                setEditemailbar("off");
+            }
+        };
+
+        document.addEventListener("click", closeUserEmailInput);
+        return () => document.removeEventListener("click", closeUserEmailInput);
+
+    }, [editemailbar])
+
 
     const editNamehandler = () => {
         setEditnamebar("on")
@@ -40,8 +60,9 @@ function AccountSetting() {
     }
     console.log("查閱username", username)
 
-    console.log("查閱editbar", editnamebar)
-    // console.log("這個是flyoutbtn", flyoutbtn)
+    console.log("查閱editnamebar", editnamebar)
+    console.log("查閱editemailbar", editemailbar)
+
 
     return (
         <>
@@ -51,7 +72,7 @@ function AccountSetting() {
                     <div className="width-50">picture</div>
                     <div className="flx-col width-50">
                         <div>
-                            <ul>Your name</ul>
+                            <ul>Your name:</ul>
                             <div className='flx' ref={divRef} >
                                 {editnamebar === "on" ? (<input
                                     id="user_name"
@@ -69,17 +90,17 @@ function AccountSetting() {
                             </div>
                         </div>
                         <div>
-                            <ul>Your email address</ul>
-                            <div className='flx'>
+                            <ul>Your email address:</ul>
+                            <div className='flx' ref={inputRef}>
                                 {editemailbar === "on" ? (<input
-                                    id="username"
+                                    id="user_email"
                                     type="text"
                                     value={useremail}
                                     onChange={(e) => {
                                         setUseremail(e.target.value)
                                     }
                                     }
-                                />) : (<ul>{currentuser.email}</ul>)}
+                                />) : (<ul>{useremail}</ul>)}
                                 <ul>
                                     <button className='button-decision' onClick={editEmailhandler}>Edit</button>
                                 </ul>
