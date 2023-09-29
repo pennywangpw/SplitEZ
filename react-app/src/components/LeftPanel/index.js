@@ -64,7 +64,10 @@ function LeftPanel() {
 
 
     const friendsHandler = () => {
-        alert("feature coming soon")
+        // alert("feature coming soon")
+        // let payload = { 'name': username }
+        // dispatch(usersthunk.addFriendthunk(payload))
+        console.log("5555")
     }
 
     const clickFriendHandler = () => {
@@ -124,9 +127,14 @@ function LeftPanel() {
                 <div className="flx bg-side-grey l-bar-c">
                     <div className="width-50 ">FRIENDS</div>
                     <div className="width-50">
-                        <button onClick={friendsHandler} className=" float-r button-orange">
+                        <OpenModalButton
+                            buttonText="+Add"
+                            className="float-r button-orange"
+                            modalComponent={<FriendModal type="add friend" />}
+                        />
+                        {/* <button onClick={friendsHandler} className=" float-r button-orange">
                             +Add
-                        </button>
+                        </button> */}
                     </div>
 
                 </div>
@@ -141,13 +149,13 @@ function LeftPanel() {
                                         <div className="width-50" >
                                             {user.username}
                                         </div>
-                                        <div className="width-50 flx-right">
+                                        {/* <div className="width-50 flx-right">
                                             <OpenModalButton
                                                 buttonText={<i class="fas fa-edit"></i>}
                                                 className="button-decision pad-4-12"
                                                 modalComponent={<FriendModal name={user.username} id={user.id} type="edit friend" />}
                                             />
-                                        </div>
+                                        </div> */}
                                     </div>
                                 </NavLink>
                             </div>

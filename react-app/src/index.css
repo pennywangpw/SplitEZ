@@ -567,3 +567,16 @@
        .cursor {
            cursor: pointer;
        }
+
+       /*============ AccountSetting btn =============*/
+
+       .edit-btn {
+           background: transparent;
+           border: none;
+       }
+
+       .edit-btn:hover {
+           background: #999;
+           color: white;
+           border-radius: 10px;
+       }

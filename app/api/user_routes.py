@@ -67,15 +67,18 @@ def userswithGroupinfo():
 def updateFriendName(id):
     form = UserForm()
     form['csrf_token'].data = request.cookies['csrf_token']
-    print("form 長什麼樣子: ", form, id)
-    updatedfriend = User.query.get(id)
-    print("updatedfriend: ",updatedfriend)
 
-    updatedfriend.username = form.data['name']
-    db.session.commit()
-    updatedfriendDict = updatedfriend.to_dict()
-    print("updatedfriendDict: ",updatedfriendDict)
-    return updatedfriendDict
+    if form.validate_on_submit():
+        '''query db to get the user which the user wants to update'''
+        updatedfriend = User.query.get(id)
+        print("updatedfriend: ",updatedfriend)
+
+        updatedfriend.username = form.data['name']
+        updatedfriend.email = form.data['email']
+        db.session.commit()
+        updatedfriendDict = updatedfriend.to_dict()
+        print("updatedfriendDict: ",updatedfriendDict)
+        return updatedfriendDict
 
 
 # #update friend's name, but only add a description
@@ -120,6 +123,28 @@ def createFriend():
     return "Bad Data"
 
 
+#Add a friend
+@user_routes.route('/add-a-friend', methods=['POST'])
+@login_required
+def addFriend():
+    form = UserForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    print("確認一下是否有到add a friend")
+    # if form.validate_on_submit():
+    #     '''create a new user(friend) and store in db'''
+    #     print("確認一下form: ", form.data)
+    #     new_friend = User(
+    #         username= form.data['name'],
+    #         email = form.data['email']
+    #     )
+    #     print("新朋友: ", new_friend)
+    #     print("新朋友: ", new_friend.to_dict())
+
+
+    #     db.session.add(new_friend)
+    #     db.session.commit()
+    #     return "123"
+    return "Bad Data"
 # #get all users(frineds) belong to currentuser's group
 # @user_routes.route('/all')
 # @login_required

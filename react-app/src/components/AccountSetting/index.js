@@ -18,11 +18,13 @@ function AccountSetting() {
         const closeUserNameInput = (e) => {
             console.log("Account-closeUserNameInput檢查e是什麼?", e)
             console.log("useeffect中的username: ", username)
-            if (!divRef.current.contains(e.target)) {
-                let payload = { 'name': username, 'email': useremail }
+            if (divRef.current) {
+                if (!divRef.current.contains(e.target)) {
+                    // let payload = { 'name': username, 'email': useremail }
 
-                dispatch(userthunk.updateFriendthunk(payload, currentuser.id))
-                setEditnamebar("off");
+                    // dispatch(userthunk.updateFriendthunk(payload, currentuser.id))
+                    setEditnamebar("off");
+                }
             }
         };
         document.addEventListener("click", closeUserNameInput);
@@ -37,26 +39,34 @@ function AccountSetting() {
 
         const closeUserEmailInput = (e) => {
             console.log("Account-closeUserEmailInput檢查e是什麼?", e)
+            console.log("useeffect中的useremail: ", useremail)
+            if (inputRef.current) {
+                if (!inputRef.current.contains(e.target)) {
+                    // let payload = { 'name': username, 'email': useremail }
 
-            if (!inputRef.current.contains(e.target)) {
-                setEditemailbar("off");
+                    // dispatch(userthunk.updateFriendthunk(payload, currentuser.id))
+                    setEditemailbar("off");
+                }
             }
         };
 
         document.addEventListener("click", closeUserEmailInput);
         return () => document.removeEventListener("click", closeUserEmailInput);
 
-    }, [editemailbar])
+    }, [editemailbar, useremail])
 
 
     const editNamehandler = () => {
         setEditnamebar("on")
-        // dispatch(userthunk.updateFriendthunk(new_name, currentuser.id))
     }
 
     const editEmailhandler = () => {
         setEditemailbar("on")
-        // dispatch(userthunk.updateFriendthunk(new_name, currentuser.id))
+    }
+
+    const updateUserinfohandler = () => {
+        let payload = { 'name': username, 'email': useremail }
+        dispatch(userthunk.updateFriendthunk(payload, currentuser.id))
     }
     console.log("查閱username", username)
 
@@ -73,7 +83,7 @@ function AccountSetting() {
                     <div className="flx-col width-50">
                         <div>
                             <ul>Your name:</ul>
-                            <div className='flx' ref={divRef} >
+                            <div className='flx font-weight' ref={divRef} >
                                 {editnamebar === "on" ? (<input
                                     id="user_name"
                                     type="text"
@@ -85,13 +95,16 @@ function AccountSetting() {
                                 />) : (<ul>{username}</ul>)}
 
                                 <ul>
-                                    <button className='button-decision' id="editname-btn" onClick={editNamehandler} >Edit</button>
+                                    <button className="edit-btn" id="editname-btn" onClick={editNamehandler} >
+                                        <i class="fas fa-edit"></i>
+                                        Edit
+                                    </button>
                                 </ul>
                             </div>
                         </div>
                         <div>
                             <ul>Your email address:</ul>
-                            <div className='flx' ref={inputRef}>
+                            <div className='flx font-weight' ref={inputRef}>
                                 {editemailbar === "on" ? (<input
                                     id="user_email"
                                     type="text"
@@ -102,20 +115,21 @@ function AccountSetting() {
                                     }
                                 />) : (<ul>{useremail}</ul>)}
                                 <ul>
-                                    <button className='button-decision' onClick={editEmailhandler}>Edit</button>
+
+                                    <button className="edit-btn" onClick={editEmailhandler}>
+                                        <i class="fas fa-edit"></i>
+                                        Edit
+                                    </button>
                                 </ul>
                             </div>
+                            <ul>
+                                <button className="button-orange" onClick={updateUserinfohandler}>Save</button>
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
-            <div className="height-50">
-                <div>Advanced feature</div>
-                <div className="flx">
-                    <button>Delete your account</button>
-                </div>
 
-            </div>
         </>
     )
 }

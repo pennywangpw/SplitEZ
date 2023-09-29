@@ -118,6 +118,23 @@ export const createFriendthunk = (payload) => async (dispatch) => {
     return response
 }
 
+//add a friend on LeftPanel
+export const addFriendthunk = (payload) => async (dispatch) => {
+    console.log("addFriendthunk payload: ", payload)
+    const response = await fetch(`/api/users/add-a-friend`, {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload)
+    })
+    if (response.ok) {
+        const data = await response.json();
+        dispatch(createAFriendA(data))
+    }
+    return response
+}
+
 const initialState = {
     allfriendsWithGroupInfo: {},
     singleFriend: {}
