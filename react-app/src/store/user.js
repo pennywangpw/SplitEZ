@@ -1,22 +1,32 @@
-const GETALLFRIENDS = 'friends/ALL_FRIENDS';
-const GETAFRIENDWITHGROUPINFO = 'friends/FRIEND_WITH_GROUPINFO';
+// const GETALLFRIENDS = 'friends/ALL_FRIENDS';
+const GETAFRIEND = 'friends/SINGLE_FRIEND';
+const GETALLFRIENDWITHGROUPINFO = 'friends/ALL_FRIEND_WITH_GROUPINFO';
 const UPDATEFRIEND = 'friends/UPDATE_FRIENDS';
 const POSTAFRIEND = 'friends/CREATE_FRIEND';
 
 
 
-const allFriendsA = (arr) => {
-    console.log("this is action creator--allFriendsA")
+// const allFriendsA = (arr) => {
+//     console.log("this is action creator--allFriendsA")
+
+//     return {
+//         type: GETALLFRIENDS,
+//         arr
+//     };
+// };
+
+const singleFriend = (obj) => {
+    console.log("this is action creator--singleFriend")
 
     return {
-        type: GETALLFRIENDS,
-        arr
+        type: GETAFRIEND,
+        obj
     };
 };
 
-const allFriendsWithGroupInfo = (arr) => {
+const allfriendsWithGroupInfoA = (arr) => {
     return {
-        type: GETAFRIENDWITHGROUPINFO,
+        type: GETALLFRIENDWITHGROUPINFO,
         arr
     };
 };
@@ -36,27 +46,39 @@ const createAFriendA = (obj) => {
     };
 }
 
-export const allFriends = () => async (dispatch) => {
-    console.log("this is thunk--allFriends")
-    const response = await fetch("/api/groups/");
+// //allFriend thunk
+// export const allFriends = () => async (dispatch) => {
+//     console.log("this is thunk--allFriends")
+//     const response = await fetch("/api/groups/");
 
-    // const response = await fetch("/api/users/all");
+//     // const response = await fetch("/api/users/all");
 
-    if (response.ok) {
-        const data = await response.json();
-        console.log("I FETCH BACKEND TO GET ALL USERS IN A DICTIONARY CHECK ", data)
-        dispatch(allFriendsA(data));
-    }
-};
+//     if (response.ok) {
+//         const data = await response.json();
+//         console.log("I FETCH BACKEND TO GET ALL USERS IN A DICTIONARY CHECK ", data)
+//         dispatch(allFriendsA(data));
+//     }
+// };
 
 
-export const friendsWithGroupInfo = () => async (dispatch) => {
+export const allfriendsWithGroupInfo = () => async (dispatch) => {
     const response = await fetch("/api/users/all")
 
     if (response.ok) {
         const data = await response.json();
-        dispatch(allFriendsWithGroupInfo(data))
+        dispatch(allfriendsWithGroupInfoA(data))
+    };
+}
+
+
+//singleFriend thunk
+export const getAfFriend = (id) => async (dispatch) => {
+    const response = await fetch(`/api/users/${id}`)
+    if (response.ok) {
+        const data = await response.json()
+        dispatch(singleFriend(data))
     }
+    return response
 }
 
 //update friend thunk
@@ -97,36 +119,49 @@ export const createFriendthunk = (payload) => async (dispatch) => {
 }
 
 const initialState = {
-    allGroupswithUserinfo: {},
-    friendsWithGroupInfo: {}
+    allfriendsWithGroupInfo: {},
+    singleFriend: {}
 };
 
 const usersReducer = (state = initialState, action) => {
-    console.log("usersReducer with action: ", action)
+    console.log("--usersReducer with action: ", action)
     console.log("usersReducer with action obj: ", action.obj)
     console.log("initial : ", state)
 
     switch (action.type) {
-        case GETALLFRIENDS:
-            let newState1 = { ...state, allGroupswithUserinfo: { ...state.allGroupswithUserinfo } };
-            action.arr.forEach(user => newState1.allGroupswithUserinfo[user.id] = user);
-            return newState1;
+        // case GETALLFRIENDS:
+        //     let newState1 = { ...state, allGroupswithUserinfo: { ...state.allGroupswithUserinfo } };
+        //     action.arr.forEach(user => newState1.allGroupswithUserinfo[user.id] = user);
+        //     return newState1;
 
-        case GETAFRIENDWITHGROUPINFO:
-            let newState2 = { ...state, allGroupswithUserinfo: { ...state.allGroupswithUserinfo }, friendsWithGroupInfo: { ...state.friendsWithGroupInfo } };
-            console.log("action.arr: ", action.arr)
-            action.arr.forEach(user => newState2.friendsWithGroupInfo[user.id] = user);
+        case GETALLFRIENDWITHGROUPINFO:
+            let newState2 = { ...state, allfriendsWithGroupInfo: { ...state.allfriendsWithGroupInfo }, singleFriend: { ...state.singleFriend } };
+            let idx = 0
+            action.arr.forEach(user => {
+                newState2.allfriendsWithGroupInfo[idx] = user
+                idx += 1
+            }
+            )
+            // action.arr.forEach(user => newState2.allfriendsWithGroupInfo[user.id] = user);
             return newState2;
+
         case UPDATEFRIEND:
-            let newState3 = { ...state, allGroupswithUserinfo: { ...state.allGroupswithUserinfo }, friendsWithGroupInfo: { ...state.friendsWithGroupInfo } }
+            let newState3 = { ...state, allfriendsWithGroupInfo: { ...state.allfriendsWithGroupInfo } }
             let updatedFriend = action.obj
-            newState3.friendsWithGroupInfo = updatedFriend
+            newState3.allfriendsWithGroupInfo = updatedFriend
             return newState3
         case POSTAFRIEND:
-            let newState4 = { ...state, allGroupswithUserinfo: { ...state.allGroupswithUserinfo }, friendsWithGroupInfo: { ...state.friendsWithGroupInfo } }
+            let newState4 = { ...state, allfriendsWithGroupInfo: { ...state.allfriendsWithGroupInfo } }
             let newfriend = action.obj
-            newState4.friendsWithGroupInfo[newfriend.id] = newfriend
+            newState4.allfriendsWithGroupInfo[newfriend.id] = newfriend
             return newState4
+
+        case GETAFRIEND:
+            let newState5 = { ...state, singleFriend: { ...state.singleFriend } };
+            let selectedFriend = action.obj
+            newState5.singleFriend = selectedFriend
+            return newState5;
+
         default:
             return state;
     }

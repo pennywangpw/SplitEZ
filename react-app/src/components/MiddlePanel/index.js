@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import OpenModalButton from "../OpenModalButton";
-import * as expensesthunk from "../../store/expense"
-import * as commentsthunk from "../../store/comment"
+import * as expensesthunk from "../../store/expense";
+import * as commentsthunk from "../../store/comment";
+import * as usersthunk from "../../store/user";
 import DeleteConfirmationModal from "../DeleteConfirmationModal"
 import CreateExpense from "../CreateExpense"
 import ExpenseDetail from "../ExpenseDetail"
@@ -17,7 +18,11 @@ function ExpensesList() {
     const allGroups = useSelector((state) => state.groups.allGroups);
     const currentuser = useSelector((state) => state.session.user);
     const allComments = useSelector((state) => state.comments.allComments)
-    console.log("sINGLEexpense from middle: ", singleExpense)
+    const allUsers = useSelector((state) => state.users.allfriendsWithGroupInfo)
+    let allUsersArr = Object.values(allUsers)
+    let all_debtors_id = []
+    let debtors_name = []
+    let billpayer_name;
 
     //get group id from allGroups
     let allGroupsArr = Object.values(allGroups)
@@ -65,7 +70,34 @@ function ExpensesList() {
         allExpensesinArr = Object.values(allExpenses)
         allExpensesinArr.sort((a, b) => b.id - a.id)
     }
-    console.log("allExpensesinArr: ", allExpensesinArr)
+
+
+    //find debtors information
+    //find all debtors id
+    if (Object.keys(singleExpense).length !== 0) {
+
+        for (let debtor of singleExpense.debtors) {
+            all_debtors_id.push(debtor.debtor_id)
+        }
+
+    }
+
+    //find the debtor name
+    for (let friend of allUsersArr) {
+        if (all_debtors_id.includes(friend.user_id)) {
+            debtors_name.push(friend.username)
+        }
+    }
+
+    // console.log("修改後的singleExpense.payer_user_id: ", singleExpense.payer_user_id)
+    // //find bill payer name
+    // for (let friend of allUsersArr) {
+    //     if (friend.id = singleExpense.payer_user_id) {
+    //         billpayer_name = friend.username
+    //         break
+    //     }
+    // }
+
 
     return (
         <>
@@ -149,6 +181,8 @@ function ExpensesList() {
                                             allCommentsArr={allCommentsArr}
                                             singleExpense={singleExpense}
                                             allExpenses={allExpenses}
+                                            debtors_name={debtors_name}
+                                        // billpayer_name={billpayer_name}
                                         />
                                     </div>
 

@@ -7,12 +7,16 @@ import EditExpense from "../EditExpense"
 import DeleteConfirmationModal from "../DeleteConfirmationModal"
 import OpenModalButton from "../OpenModalButton";
 
-function ExpenseDetail({ exp, setShowDetail, allCommentsArr }) {
-    console.log("exp detail here: ", setShowDetail, exp, allCommentsArr)
+function ExpenseDetail({ exp, setShowDetail, allCommentsArr, debtors_name }) {
+    console.log("exp detail here: ", setShowDetail, exp, allCommentsArr, debtors_name)
+    const allUsers = useSelector((state) => state.users.allfriendsWithGroupInfo)
+    let allUsersArr = Object.values(allUsers)
     const singleExpense = useSelector((state) => state.expenses.singleExpense);
     const dispatch = useDispatch()
     const [comment, setComment] = useState("");
     const expenseId = exp.id
+    let billpayer_name;
+
 
 
     //create comment handler
@@ -29,16 +33,16 @@ function ExpenseDetail({ exp, setShowDetail, allCommentsArr }) {
     let involved_user = [];
     if (Object.keys(singleExpense).length !== 0) {
         //caculate divide amount
-        if (singleExpense.associateduser.length > 0) {
-            divided_amount = singleExpense.expense_total / singleExpense.associateduser.length
+        if (singleExpense.debtors.length > 0) {
+            divided_amount = singleExpense.expense_total / singleExpense.debtors.length
         } else {
             divided_amount = singleExpense.expense_total
         }
 
         // users(friends) who involve in this expense and make sure the user only appears once not duplicated
-        if (singleExpense.associateduser.length > 0) {
-            singleExpense.associateduser.forEach(user => {
-                if (user.id !== singleExpense.billpayer.id) {
+        if (singleExpense.debtors.length > 0) {
+            singleExpense.debtors.forEach(user => {
+                if (user.id !== singleExpense.payer_user_id) {
                     involved_user.push(user.username)
                 }
             })
@@ -47,11 +51,20 @@ function ExpenseDetail({ exp, setShowDetail, allCommentsArr }) {
     }
 
 
+    //find bill payer name
+    for (let friend of allUsersArr) {
+        if (friend.id === singleExpense.payer_user_id) {
+            billpayer_name = friend.username
+            break
+        }
+    }
+
     // if (!aExpanse) return null
     if (!exp) return null
 
     // if allcomment passed in with undefined
     if (allCommentsArr === undefined) return null
+
 
     return (
         <>
@@ -73,12 +86,24 @@ function ExpenseDetail({ exp, setShowDetail, allCommentsArr }) {
                 <div className=" height-50 border-bottom-main flx">
                     <div className="width-50">
                         <div>Who involes in this expense: </div>
-                        {singleExpense.billpayer ? (<div>{`${singleExpense.billpayer.username} paid $${singleExpense.expense_total} and owes $${divided_amount.toFixed(2)}`}</div>) : (<div></div>)}
-                        {involved_user.map(user => <div>{`${user} owes $${divided_amount.toFixed(2)}`}</div>)}
+                        {billpayer_name ? (<div>{`${billpayer_name} paid $${singleExpense.expense_total} and owes $${divided_amount.toFixed(2)}`}</div>) : (<div></div>)}
+                        {console.log("debtors_name name: ", debtors_name)}
+                        {/* {debtors_name.length > 0 ? (debtors_name.map(user => <div>{`${user} owes $${divided_amount.toFixed(2)}`}</div>)) : (<div>no ppl involes</div>)} */}
+                        {debtors_name.length > 0 ?
+                            (debtors_name.map(username => {
+                                if (username !== billpayer_name) {
+                                    return <div>{`${username} owes $${divided_amount.toFixed(2)}`}</div>
+                                }
+                            }))
+                            : (<div>no ppl involes</div>)
+                        }
+
+                        {/* {singleExpense.billpayer ? (<div>{`${singleExpense.billpayer.username} paid $${singleExpense.expense_total} and owes $${divided_amount.toFixed(2)}`}</div>) : (<div></div>)}
+                        {involved_user.map(user => <div>{`${user} owes $${divided_amount.toFixed(2)}`}</div>)} */}
                     </div>
                     {/* <div className="width-50 height-100">ppl involved</div> */}
                     {/* <div className="width-50 height-100">comments</div> */}
-                    <div className="comment width-100">
+                    <div className="comment width-50">
                         <div >
                             {allCommentsArr.map(comment =>
                                 <div>

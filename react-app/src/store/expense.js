@@ -1,5 +1,5 @@
 const GETALLEXPENSES = 'expenses/ALL_EXPENSE';
-const GETAEXPENSE = 'expenses/SINGLE';
+const GETAEXPENSE = 'expenses/SINGLE_EXPENSE';
 const POSTAEXPENSE = 'expenses/CREATE_EXPENSE';
 const DELETETAEXPENSE = 'expenses/DELETE_EXPENSE';
 const UPDATEAEXPENSE = 'expenses/UPDATE_EXPENSE';
@@ -80,13 +80,14 @@ export const allExpenses = () => async (dispatch) => {
     const response = await fetch(`/api/expenses/all`)
     if (response.ok) {
         const data = await response.json();
+        console.log("here's allExpenses thunk---: ", data)
         // convert expense_total from string into number type
-        let i = 0
-        while (i < data.allexpenses_with_billpayer.length) {
-            console.log("get into it: ", data.allexpenses_with_billpayer[i])
-            data.allexpenses_with_billpayer[i]['expense_total'] = parseFloat(data.allexpenses_with_billpayer[i]['expense_total'])
-            i = i + 1
-        }
+        // let i = 0
+        // while (i < data.allexpenses_with_billpayer.length) {
+        //     console.log("get into it: ", data.allexpenses_with_billpayer[i])
+        //     data.allexpenses_with_billpayer[i]['expense_total'] = parseFloat(data.allexpenses_with_billpayer[i]['expense_total'])
+        //     i = i + 1
+        // }
         dispatch(allExpensesA(data));
     };
     return response
@@ -110,7 +111,7 @@ export const singleExpense = (expenseid) => async (dispatch) => {
 //createExpense thunk
 export const createExpense = (payload) => async (dispatch) => {
     console.log("this is thunk-createExpense")
-    const response = await fetch(`/api/expenses/all`, {
+    const response = await fetch(`/api/expenses`, {
         method: 'POST',
         headers: {
             "Content-Type": "application/json",
@@ -187,7 +188,7 @@ const expensesReducer = (state = initialState, action) => {
     switch (action.type) {
         case GETALLEXPENSES:
             let newState1 = { allExpenses: { ...state.allExpenses }, singleExpense: {} };
-            action.arr.allexpenses_with_billpayer.forEach(expense => newState1.allExpenses[expense.id] = expense)
+            action.arr.forEach(expense => newState1.allExpenses[expense.id] = expense)
             return newState1;
 
         case GETAEXPENSE:

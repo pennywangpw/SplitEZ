@@ -17,12 +17,17 @@ function ExpensesListByGroup() {
     const dispatch = useDispatch();
     const singlegroupinfo = useSelector((state) => state.groups.singleGroup);
     const allExpenses = useSelector((state) => state.expenses.allExpenses);
+    const singleExpense = useSelector((state) => state.expenses.singleExpense);
     const currentuser = useSelector((state) => state.session.user);
     const allComments = useSelector((state) => state.comments.allComments)
-
+    const allUsers = useSelector((state) => state.users.allfriendsWithGroupInfo)
+    let allUsersArr = Object.values(allUsers)
     //get all expenses which group_id equals groupId chunk from the endpoint
     const allvaluesfromAllExpenses = Object.values(allExpenses)
     const allExpensesbyGroup = allvaluesfromAllExpenses.filter(expense => expense.group_id === +groupId)
+    let all_debtors_id = []
+    let debtors_name = [];
+    let billpayer_name;
 
 
     useEffect(() => {
@@ -59,6 +64,34 @@ function ExpensesListByGroup() {
         let new_date_format = new_format.toLocaleString("en-US", options)
 
         return new_date_format
+    }
+
+    //find debtors information
+    //find all debtors id
+    if (Object.keys(singleExpense).length !== 0) {
+
+        for (let debtor of singleExpense.debtors) {
+            all_debtors_id.push(debtor.debtor_id)
+        }
+
+    }
+    //find the debtor name
+    console.log("---1.allUsersArr: ", allUsersArr)
+    console.log("---all_debtors_id: ", all_debtors_id)
+
+    for (let friend of allUsersArr) {
+        console.log("---2.friend: ", friend)
+        if (all_debtors_id.includes(friend.id)) {
+            debtors_name.push(friend.username)
+            console.log("---3.debtors_name: ", debtors_name)
+        }
+    }
+
+    //find bill payer name
+    for (let friend of allUsersArr) {
+        if (friend.user_id = singleExpense.payer_user_id) {
+            billpayer_name = friend.username
+        }
     }
 
     return (
@@ -140,6 +173,8 @@ function ExpensesListByGroup() {
                                             // currentId={currentId}
                                             setShowDetail={setShowDetail}
                                             allCommentsArr={allCommentsArr}
+                                            debtors_name={debtors_name}
+                                            billpayer_name={billpayer_name}
                                         />
                                     </div>
                                 </div>

@@ -7,35 +7,8 @@ groups = Blueprint('groups', __name__)
 
 
 
-# #get all groups with users info (friends)
-# @groups.route('/all')
-# @login_required
-# def allGroupsWithUserInfo():
-
-#     '''get all groups'''
-#     '''get current user and select groups column, and create a groups List to print out each group'''
-#     id = current_user.id
-#     user = User.query.get(id)
-#     groups = user.groups
-#     groupsList = [group.to_dict() for group in groups]
-
-
-#     '''add userinfo in groupsList'''
-#     for group in groupsList:
-#         print(f"1.哪一個group {group}")
-
-#         eachGrouplist= Group.query.get(group['id'])
-#         print(f"2.想看看i need to see eachGrouplist {eachGrouplist}")
-#         usersList = [user.to_dict() for user in eachGrouplist.users]
-#         print(f"3.看看i need to see usersList {usersList}")
-
-#         group['userinfo'] = usersList
-
-#     print(f"想看看i need to see allusers {groupsList}")
-
-#     return groupsList
-
 #get all groups with group members
+#[{name,id, group_members:[{emil,id,username}...]}...]
 @groups.route('/all')
 @login_required
 def allGroupsWithUserInfo():
@@ -47,35 +20,31 @@ def allGroupsWithUserInfo():
     groups = []
     for group in allgroups:
         group_data = group.to_dict()
-
         group_members= group.users
         group_membersDict= [member.to_dict() for member in group_members]
-
-
         group_data['group_members'] = group_membersDict
         groups.append(group_data)
 
     return groups
 
-#get a single group with user info
+#get a single group
+#groupId:[{emil,id,username}...]
 @groups.route('/<int:id>')
 @login_required
 def singleGroup(id):
+    '''find the specific group'''
     group = Group.query.get(id)
-    groupDict = group.to_dict()
-    print("single group: ", groupDict)
+    group_data = group.to_dict()
 
-    singlegroup_withusers = group.users
-    print("BEFORE singlegroup_withusers: ", singlegroup_withusers)
-    usersList = [user.to_dict() for user in singlegroup_withusers]
-    groupid_with_usersList = {}
-    groupid_with_usersList[id] = usersList
-    print("AFTER usersList: ", groupid_with_usersList)
+    group_members = group.users
 
-    return groupid_with_usersList
+    group_membersDict = [user.to_dict() for user in group_members]
+    group_data['group_members'] = group_membersDict
 
+    return group_data
 
-# #get a single group
+# #get a single group with user info
+# #groupId:[{emil,id,username}...]
 # @groups.route('/<int:id>')
 # @login_required
 # def singleGroup(id):
@@ -83,34 +52,14 @@ def singleGroup(id):
 #     groupDict = group.to_dict()
 #     print("single group: ", groupDict)
 
-#     return groupDict
+#     singlegroup_withusers = group.users
+#     print("BEFORE singlegroup_withusers: ", singlegroup_withusers)
+#     usersList = [user.to_dict() for user in singlegroup_withusers]
+#     groupid_with_usersList = {}
+#     groupid_with_usersList[id] = usersList
+#     print("AFTER usersList: ", groupid_with_usersList)
 
-
-# #get a group with all expenses under the group
-# @groups.route('/<int:id>')
-# @login_required
-# def singleGroup(id):
-
-#     # 找尋Expenses使用 Groupid尋找，找出對應的expense並轉Dict
-#     expenses = Expense.query.filter(Expense.group_id == id).all()
-#     expensesDict = [expense.to_dict() for expense in expenses]
-
-#     # 使用迴圈找出 User資料庫內的Payer_user_id欄位，並將PayerUser回存expense資料
-#     for expense in expensesDict:
-#         billpayer = User.query.get(expense['payer_user_id'])
-#         expense['billpayer'] = billpayer.to_dict()
-
-#     # 搜尋Group id, 找出Group dict
-#     group = Group.query.get(id)
-#     groupDict = group.to_dict()
-
-#     # 將GroupDict加入ExpensesDict
-#     groupDict['expenses'] = expensesDict
-
-#     print("abcd123e: ", groupDict)
-
-#     return groupDict
-
+#     return groupid_with_usersList
 
 
 #create a group
@@ -119,12 +68,12 @@ def singleGroup(id):
 def createGroup():
     # form = GroupForm()
     form = GroupForm.from_json(request.json)
-
     form['csrf_token'].data = request.cookies['csrf_token']
-    print(f'#######create group--before {form.data}')
+    print(f"GROUP-REQUEST.JSON{request.json}")
+    print(f"GROUP-form{form}")
+
 
     if form.validate_on_submit():
-        print(f'#######create group--this is form.data {form.data}')
         '''create a new group and store in db'''
         new_group = Group(
             name= form.data['name']
@@ -132,49 +81,116 @@ def createGroup():
         db.session.add(new_group)
         db.session.commit()
 
-        # '''iterate through user input(group members)'''
-        # '''insert group members in relationship table- users_groups'''
-        # for member in form.data['group_members']:
-        #     users_groups.insert().values(
-        #         user_id = member.id,
-        #         group_id = new_group.id
-        #     )
-        # db.session.execute(users_groups)
-        # db.session.commit()
 
-        # '''query all group members'''
-        # group_members= db.session.query(users_groups).filter_by(group_id = new_group.id).all()
-        # print(f'all group_members {group_members}')
+        '''iterate through user input(group members)'''
+        '''insert group members in relationship table- users_groups'''
+        for member in form.data['group_members']:
+            ''''check the condition before adding to db'''
+            if member["id"] is not None:
+                new_users_groups = users_groups.insert().values(
+                    user_id = member["id"],
+                    group_id = new_group.id
+                )
+                db.session.execute(new_users_groups)
+                db.session.commit()
 
-        # '''append current_user table to users columns'''
-        # new_group.users.append(current_user)
-        # db.session.commit()
-        return new_group.to_dict()
+
+        '''format group_members information and add on res'''
+        new_group_members = new_group.users
+        new_group_membersDict = [member.to_dict() for member in new_group_members]
+        new_groupDict = new_group.to_dict()
+        new_groupDict["group_members"] = new_group_membersDict
+
+
+        return new_groupDict
+
     return form.errors
 
-
-#rename a group
+#update a group- name (only change name)
 @groups.route('/<int:id>', methods=['PUT'])
 @login_required
 def updateGroup(id):
-    form = GroupForm()
+    '''query updatedgroup from db by id which user wants to update'''
+    # form = GroupForm()
+    form = GroupForm.from_json(request.json)
     form['csrf_token'].data = request.cookies['csrf_token']
     updatedgroup = Group.query.get(id)
 
     if form.validate_on_submit():
+
+        '''update group name'''
         updatedgroup.name = form.data['name']
         db.session.commit()
-        updatedgroupDict =  updatedgroup.to_dict()
+
+        updatedgroupDict = updatedgroup.to_dict()
+
         return updatedgroupDict
-    return "Bad Data-update a group"
+
+    return form.errors
+
+# #update a group- name and group members (both data are required)
+# @groups.route('/<int:id>', methods=['PUT'])
+# @login_required
+# def updateGroup(id):
+#     '''query updatedgroup from db by id which user wants to update'''
+#     # form = GroupForm()
+#     form = GroupForm.from_json(request.json)
+#     form['csrf_token'].data = request.cookies['csrf_token']
+#     updatedgroup = Group.query.get(id)
+
+#     if form.validate_on_submit():
+#         '''update group name'''
+#         updatedgroup.name = form.data['name']
+#         db.session.commit()
+
+#         '''query all members from users_groups, delete all and re-insert user input to users_groups'''
+#         delete_members = users_groups.delete().where(users_groups.c.group_id == updatedgroup.id)
+#         db.session.execute(delete_members)
+
+#         for member in form.data["group_members"]:
+#             new_users_groups = users_groups.insert().values(
+#                 group_id = updatedgroup.id,
+#                 user_id = member["member_id"]
+#             )
+#             db.session.execute(new_users_groups)
+#             db.session.commit()
+
+#         '''format group_members information and add on res'''
+#         formated_group_members =[]
+#         for member in updatedgroup.users:
+#             formated_group_members.append(member.to_dict())
+
+#         updatedgroupDict = updatedgroup.to_dict()
+#         updatedgroupDict["group_members"] = formated_group_members
+
+#         return updatedgroupDict
+
+#     return form.errors
 
 
 #delete a group
 @groups.route('/<int:id>', methods=['DELETE'])
 @login_required
 def deleteGroup(id):
+    '''query the group by id which user wants to delete'''
     deletedgroup = Group.query.get(id)
-    db.session.delete(deletedgroup)
-    db.session.commit()
-    deletedgroupDict = deletedgroup.to_dict()
-    return deletedgroupDict
+
+    '''query all members belongs to deletedgroup'''
+    '''format group_members information and add on res'''
+    if deletedgroup is not None:
+        deleted_group_members= deletedgroup.users
+        formated_deleted_group_members = []
+        for member in deleted_group_members:
+            memberDict= member.to_dict()
+            formated_deleted_group_members.append(memberDict)
+
+        deletedgroupDict = deletedgroup.to_dict()
+        deletedgroupDict["group_members"] = formated_deleted_group_members
+
+        '''delete deletedgroup'''
+        db.session.delete(deletedgroup)
+        db.session.commit()
+
+        return deletedgroupDict
+
+    return "The group does not exisit"

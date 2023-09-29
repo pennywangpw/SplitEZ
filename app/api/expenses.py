@@ -64,15 +64,17 @@ def singleExpense(id):
 
 
 #create an expense
-@expenses.route('/all', methods=['POST'])
-def crateExpenseFake():
+@expenses.route('', methods=['POST'])
+def createExpense():
     '''Create a form with user input'''
     form = ExpenseForm.from_json(request.json)
     form['csrf_token'].data = request.cookies['csrf_token']
+    print(f"想看request.json {request.json}")
     print(f"this is form data when i create expense {form.data}")
 
     '''check if form passes validation, if so, create an Expense and store in db'''
     if form.validate_on_submit():
+        print("form的validation過了")
         new_expense = Expense(
             name = form.data['name'],
             expense_date = form.data['expense_date'],
@@ -87,7 +89,6 @@ def crateExpenseFake():
         '''iterate through user input (debtors)'''
         '''insert debtors in relationship table - users_expenses'''
         for debtor in form.data['debtors']:
-            print(f"here's debtor in form.data {debtor}")
             new_users_expenses = users_expenses.insert().values(
                 owe_id = debtor["debtor_id"],
                 expense_id = new_expense.id,
@@ -126,29 +127,31 @@ def deleteExpense(id):
     deleted_expense = Expense.query.get(id)
     print("i think i tested this-1 ", deleted_expense)
 
+    if deleted_expense is not None:
+        '''query users_expenses to get all debtors'''
+        debtors = db.session.query(users_expenses).filter_by(expense_id = deleted_expense.id).all()
 
-    '''query users_expenses to get all debtors'''
-    debtors = db.session.query(users_expenses).filter_by(expense_id = deleted_expense.id).all()
+        '''iterate through debtors to re-format each debtor and add on expense'''
+        debtors_formated = []
+        for debtor in debtors:
+            debtor_formated ={
+                "debtor_id": debtor.owe_id,
+                "owe_amount": debtor.amount_payable
+            }
+            debtors_formated.append(debtor_formated)
 
-    '''iterate through debtors to re-format each debtor and add on expense'''
-    debtors_formated = []
-    for debtor in debtors:
-        debtor_formated ={
-            "debtor_id": debtor.owe_id,
-            "owe_amount": debtor.amount_payable
-        }
-        debtors_formated.append(debtor_formated)
+        deleted_expenseDict = deleted_expense.to_dict()
+        deleted_expenseDict['debtors'] = debtors_formated
 
-    deleted_expenseDict = deleted_expense.to_dict()
-    deleted_expenseDict['debtors'] = debtors_formated
+        '''delete the expense'''
+        db.session.delete(deleted_expense)
+        db.session.commit()
 
-    '''delete the expense'''
-    db.session.delete(deleted_expense)
-    db.session.commit()
+        return deleted_expenseDict
+    return "The expense does not exisit"
 
-    return deleted_expenseDict
 
-#update an expense
+#update an expense- expense name, total, data, group_id, payer_user_id can be updated
 @expenses.route('/<int:id>', methods=['PUT'])
 @login_required
 def updatedExpense(id):

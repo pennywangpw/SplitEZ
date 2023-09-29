@@ -1,12 +1,13 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, FormField, FieldList
+from wtforms import StringField, FormField, FieldList, IntegerField
 from wtforms.validators import DataRequired, Email
 
 class GroupMembersDetailForm(FlaskForm):
     class Meta:
         csrf= False
-    email = StringField('email', validators=[DataRequired(), Email()])
-    username = StringField('username', validators=[DataRequired()])
+    email = StringField('email')
+    username = StringField('username')
+    id = IntegerField('id')
 
 class GroupForm(FlaskForm):
     name = StringField('name', validators=[DataRequired()])
