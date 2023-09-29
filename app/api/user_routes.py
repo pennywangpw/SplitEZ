@@ -127,24 +127,23 @@ def createFriend():
 @user_routes.route('/add-a-friend', methods=['POST'])
 @login_required
 def addFriend():
-    form = UserForm()
+    form = UserForm.from_json(request.json)
     form['csrf_token'].data = request.cookies['csrf_token']
-    print("確認一下是否有到add a friend")
-    # if form.validate_on_submit():
-    #     '''create a new user(friend) and store in db'''
-    #     print("確認一下form: ", form.data)
-    #     new_friend = User(
-    #         username= form.data['name'],
-    #         email = form.data['email']
-    #     )
-    #     print("新朋友: ", new_friend)
-    #     print("新朋友: ", new_friend.to_dict())
+
+    if form.validate_on_submit():
+        '''query all users from db'''
+        updatedfriend = User.query.all()
+        print(f"updatedfriend: {updatedfriend}")
+        updatedfriendDict = [friend.to_dict() for friend in updatedfriend]
+        print(f"updatedfriendDict: {updatedfriendDict}")
+        for friend in updatedfriendDict:
+            if friend['email'] == form.data['email']:
+                return friend
+        return "The friend doesn't exisit"
+    return "invalid email address"
 
 
-    #     db.session.add(new_friend)
-    #     db.session.commit()
-    #     return "123"
-    return "Bad Data"
+
 # #get all users(frineds) belong to currentuser's group
 # @user_routes.route('/all')
 # @login_required

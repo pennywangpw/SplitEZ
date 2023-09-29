@@ -16,21 +16,20 @@ function FriendModal({ name, id, type }) {
     const [errors, setErrors] = useState([])
 
     // validation for group name
-    // useEffect(() => {
-    //     console.log("run times: ", friendname)
-    //     let e = []
-    //     if (friendname === undefined) e.push("Please provide friend's name")
-    //     if (friendname.length === 0) e.push("Please provide friend's name")
-    //     if (friendname !== undefined && friendname.length > 10) e.push("Please shorten the friend's name")
-    //     // if (friendemail === undefined) e.push("Please provide friend's email")
+    useEffect(() => {
+        let e = []
+        // if (friendname === undefined) e.push("Please provide friend's name")
+        // if (friendname.length === 0) e.push("Please provide friend's name")
+        // if (friendname !== undefined && friendname.length > 10) e.push("Please shorten the friend's name")
+        if (friendemail === undefined) e.push("Please provide friend's email")
 
-    //     setErrors(e)
-    // }, [friendname, friendemail])
+        setErrors(e)
+    }, [friendemail])
 
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        let payload = { 'email': friendemail }
+        let payload = { 'name': 'null', 'email': friendemail }
         console.log("按下load:去的pay ", payload)
         if (type === "add friend") {
             dispatch(usersthunk.addFriendthunk(payload)).then(closeModal)
@@ -57,7 +56,7 @@ function FriendModal({ name, id, type }) {
                         </div>
                         {type === "add friend" ? (
                             <label htmlFor="friendname">
-                                Please provide friend's email
+                                Your friend's email...
                             </label>
                         ) :
                             (

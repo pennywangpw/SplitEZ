@@ -3,6 +3,8 @@ const GETAFRIEND = 'friends/SINGLE_FRIEND';
 const GETALLFRIENDWITHGROUPINFO = 'friends/ALL_FRIEND_WITH_GROUPINFO';
 const UPDATEFRIEND = 'friends/UPDATE_FRIENDS';
 const POSTAFRIEND = 'friends/CREATE_FRIEND';
+const ADDAFRIEND = 'friends/ADD_FRIEND';
+
 
 
 
@@ -46,6 +48,12 @@ const createAFriendA = (obj) => {
     };
 }
 
+const addAFriendA = (obj) => {
+    return {
+        type: ADDAFRIEND,
+        obj
+    };
+}
 // //allFriend thunk
 // export const allFriends = () => async (dispatch) => {
 //     console.log("this is thunk--allFriends")
@@ -118,7 +126,7 @@ export const createFriendthunk = (payload) => async (dispatch) => {
     return response
 }
 
-//add a friend on LeftPanel
+//add a friend on LeftPanel thunk
 export const addFriendthunk = (payload) => async (dispatch) => {
     console.log("addFriendthunk payload: ", payload)
     const response = await fetch(`/api/users/add-a-friend`, {
@@ -130,7 +138,7 @@ export const addFriendthunk = (payload) => async (dispatch) => {
     })
     if (response.ok) {
         const data = await response.json();
-        dispatch(createAFriendA(data))
+        dispatch(addAFriendA(data))
     }
     return response
 }
@@ -179,6 +187,11 @@ const usersReducer = (state = initialState, action) => {
             newState5.singleFriend = selectedFriend
             return newState5;
 
+        case ADDAFRIEND:
+            let newState6 = { ...state, allfriendsWithGroupInfo: { ...state.allfriendsWithGroupInfo } }
+            let added_friend = action.obj
+            newState6.allfriendsWithGroupInfo[added_friend.id] = added_friend
+            return newState6
         default:
             return state;
     }
