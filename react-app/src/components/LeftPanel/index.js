@@ -14,7 +14,7 @@ function LeftPanel() {
     const [currentGroupId, SetcurrentGroupId] = useState(1)
     const allGroups = useSelector((state) => state.groups.allGroups);
     const allGroupsArr = Object.values(allGroups)
-    const allGroupsAndUsers = useSelector((state) => state.users.allfriendsWithGroupInfo)
+    const allGroupsAndUsers = useSelector((state) => state.users.allUsersWithGroupInfo)
     const allGroupsAndUsersArr = Object.values(allGroupsAndUsers)
 
     console.log("here's allGroupsAndUsersArr: ", allGroupsAndUsersArr)
@@ -27,7 +27,7 @@ function LeftPanel() {
     //testing
     useEffect(() => {
         dispatch(groupsthunk.allGroupsthunk())
-        dispatch(usersthunk.allfriendsWithGroupInfo())
+        dispatch(usersthunk.allUsersWithGroupInfo())
         return () => dispatch(groupsthunk.clearGroupA())
     }, [])
 
@@ -72,7 +72,7 @@ function LeftPanel() {
 
     const clickFriendHandler = () => {
         console.log("clickFriendHandler")
-        dispatch(usersthunk.allfriendsWithGroupInfo())
+        dispatch(usersthunk.allUsersWithGroupInfo())
     }
 
 

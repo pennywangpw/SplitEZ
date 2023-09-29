@@ -20,7 +20,7 @@ function ExpensesListByGroup() {
     const singleExpense = useSelector((state) => state.expenses.singleExpense);
     const currentuser = useSelector((state) => state.session.user);
     const allComments = useSelector((state) => state.comments.allComments)
-    const allUsers = useSelector((state) => state.users.allfriendsWithGroupInfo)
+    const allUsers = useSelector((state) => state.users.allUsersWithGroupInfo)
     let allUsersArr = Object.values(allUsers)
     //get all expenses which group_id equals groupId chunk from the endpoint
     const allvaluesfromAllExpenses = Object.values(allExpenses)

@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required,current_user
-from app.models import db, User
+from app.models import db, User, Group
 from ..forms import UserForm
 
 
@@ -59,6 +59,54 @@ def userswithGroupinfo():
     print(f"123有沒有家成功{usersDict}")
 
     return usersDict
+
+#get all friends with group info, return in arr with user and group info
+@user_routes.route('/myfriends')
+@login_required
+def friendwithGroupinfo():
+    '''get all users and change to dictionary(usersDict) and store in a list'''
+    users = User.query.all()
+    usersDict = [user.to_dict() for user in users]
+
+    '''create usersWithGroup to collect each user with group infomation'''
+    '''iterate through users, create user_groups [] for each user AND iterate through user.groups column '''
+    '''then append each group to user_group'''
+    '''get all groups (usersWithGroup) for each of user'''
+    usersWithGroup2 = []
+    for user in users:
+        user_groups = []
+        for group in user.groups:
+            user_groups.append(group.to_dict())
+        usersWithGroup2.append(user_groups)
+
+    print(f"正在測試usersWithGroup2{usersWithGroup2}")
+
+    '''add groupinfo in userDict'''
+    idx=0
+    for userinfo in usersDict:
+            print(f"userinfo: {userinfo}")
+            userinfo['involved_group'] = usersWithGroup2[idx]
+            userinfo['user_id'] = userinfo['id']
+            idx+=1
+    print(f"看下最終長什麼{usersDict}")
+
+    '''select my friend who is involed in the groups I have'''
+    friends=[]
+
+    allgroups = Group.query.all()
+    allgroupsDict = [group.to_dict() for group in allgroups]
+    mygroups =[]
+    for group in allgroupsDict:
+        mygroups.append(group['id'])
+
+    print(f"所有的group{allgroupsDict}")
+    print(f"所有的mygroups{mygroups}")
+
+    for user in usersDict:
+        print(f"每一個user{user}")
+        if user['id'] in mygroups:
+            friends.append(user)
+    return friends
 
 
 #update friend's name, but only add a description

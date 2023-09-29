@@ -35,7 +35,7 @@ function FriendModal({ name, id, type }) {
             dispatch(usersthunk.addFriendthunk(payload)).then(closeModal)
         }
         else if (type === "edit friend") {
-            dispatch(usersthunk.updateFriendthunk(payload, id)).then(dispatch(usersthunk.allfriendsWithGroupInfo())).then(closeModal())
+            dispatch(usersthunk.updateFriendthunk(payload, id)).then(dispatch(usersthunk.allUsersWithGroupInfo())).then(closeModal())
             // dispatch(usersthunk.updateFriendthunk(payload, id)).then(dispatch(groupsthunk.allGroupsthunk())).then(closeModal())
         }
 
@@ -125,7 +125,7 @@ function FriendModal({ name, id, type }) {
 //             dispatch(usersthunk.createFriendthunk(payload)).then(closeModal)
 //         }
 //         else if (type === "edit friend") {
-//             dispatch(usersthunk.updateFriendthunk(payload, id)).then(dispatch(usersthunk.allfriendsWithGroupInfo())).then(closeModal())
+//             dispatch(usersthunk.updateFriendthunk(payload, id)).then(dispatch(usersthunk.allUsersWithGroupInfo())).then(closeModal())
 //             // dispatch(usersthunk.updateFriendthunk(payload, id)).then(dispatch(groupsthunk.allGroupsthunk())).then(closeModal())
 //         }
 

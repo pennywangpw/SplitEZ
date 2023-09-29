@@ -9,7 +9,7 @@ import OpenModalButton from "../OpenModalButton";
 
 function ExpenseDetail({ exp, setShowDetail, allCommentsArr, debtors_name }) {
     console.log("exp detail here: ", setShowDetail, exp, allCommentsArr, debtors_name)
-    const allUsers = useSelector((state) => state.users.allfriendsWithGroupInfo)
+    const allUsers = useSelector((state) => state.users.allUsersWithGroupInfo)
     let allUsersArr = Object.values(allUsers)
     const singleExpense = useSelector((state) => state.expenses.singleExpense);
     const dispatch = useDispatch()
