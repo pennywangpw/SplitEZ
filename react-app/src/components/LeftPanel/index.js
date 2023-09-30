@@ -14,10 +14,14 @@ function LeftPanel() {
     const [currentGroupId, SetcurrentGroupId] = useState(1)
     const allGroups = useSelector((state) => state.groups.allGroups);
     const allGroupsArr = Object.values(allGroups)
-    const allGroupsAndUsers = useSelector((state) => state.users.allUsersWithGroupInfo)
-    const allGroupsAndUsersArr = Object.values(allGroupsAndUsers)
+    // const allGroupsAndUsers = useSelector((state) => state.users.allUsersWithGroupInfo)
+    // const allGroupsAndUsersArr = Object.values(allGroupsAndUsers)
+    const allGroupsAndFriends = useSelector((state) => state.users.allFriendsWithGroupInfo)
+    const allGroupsAndFriendsArr = Object.values(allGroupsAndFriends)
 
-    console.log("here's allGroupsAndUsersArr: ", allGroupsAndUsersArr)
+    // console.log("here's allGroupsAndUsersArr: ", allGroupsAndUsersArr)
+    console.log("*****here's allGroupsAndFriendsArr: ", allGroupsAndFriendsArr)
+
     //重新整理
     // useEffect(() => {
     //     dispatch(groupsthunk.allGroupsthunk())
@@ -27,7 +31,9 @@ function LeftPanel() {
     //testing
     useEffect(() => {
         dispatch(groupsthunk.allGroupsthunk())
-        dispatch(usersthunk.allUsersWithGroupInfo())
+        // dispatch(usersthunk.allUsersWithGroupInfo())
+        dispatch(usersthunk.allFriendsWithGroupInfo())
+
         return () => dispatch(groupsthunk.clearGroupA())
     }, [])
 
@@ -141,7 +147,7 @@ function LeftPanel() {
 
                 <div className="height-3vh" id="frined">
                     <div>
-                        {allGroupsAndUsersArr.map(user =>
+                        {allGroupsAndFriendsArr.map(user =>
                             <div className="friend" onClick={clickFriendHandler}>
                                 {console.log("確認一下user: ", user)}
                                 <NavLink to={`/friends/${user.id}`} style={{ textDecoration: 'none' }}>

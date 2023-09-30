@@ -68,24 +68,24 @@ def friendwithGroupinfo():
     users = User.query.all()
     usersDict = [user.to_dict() for user in users]
 
-    '''create usersWithGroup to collect each user with group infomation'''
+    '''create usersWithGroups to collect each user with group infomation'''
     '''iterate through users, create user_groups [] for each user AND iterate through user.groups column '''
     '''then append each group to user_group'''
     '''get all groups (usersWithGroup) for each of user'''
-    usersWithGroup2 = []
+    usersWithGroups = []
     for user in users:
         user_groups = []
         for group in user.groups:
             user_groups.append(group.to_dict())
-        usersWithGroup2.append(user_groups)
+        usersWithGroups.append(user_groups)
 
-    print(f"正在測試usersWithGroup2{usersWithGroup2}")
+    print(f"正在測試usersWithGroups{usersWithGroups}")
 
     '''add groupinfo in userDict'''
     idx=0
     for userinfo in usersDict:
             print(f"userinfo: {userinfo}")
-            userinfo['involved_group'] = usersWithGroup2[idx]
+            userinfo['involved_group'] = usersWithGroups[idx]
             userinfo['user_id'] = userinfo['id']
             idx+=1
     print(f"看下最終長什麼{usersDict}")
@@ -93,19 +93,23 @@ def friendwithGroupinfo():
     '''select my friend who is involed in the groups I have'''
     friends=[]
 
+    '''query all groups to find all group id'''
     allgroups = Group.query.all()
     allgroupsDict = [group.to_dict() for group in allgroups]
-    mygroups =[]
+    mygroupsid =[]
     for group in allgroupsDict:
-        mygroups.append(group['id'])
+        mygroupsid.append(group['id'])
 
     print(f"所有的group{allgroupsDict}")
-    print(f"所有的mygroups{mygroups}")
+    print(f"所有的mygroupsid{mygroupsid}")
 
+    '''iterate all users to check if user's involved_group id in mygroupsid'''
     for user in usersDict:
         print(f"每一個user{user}")
-        if user['id'] in mygroups:
-            friends.append(user)
+        for involved_group in user['involved_group']:
+            if involved_group['id'] in mygroupsid:
+                friends.append(user)
+                break
     return friends
 
 

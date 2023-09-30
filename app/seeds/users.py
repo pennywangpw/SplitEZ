@@ -16,6 +16,10 @@ def seed_users():
         username='tracy', email='tracy@aa.io', password='password')
     jack = User(
         username='jack', email='jack@aa.io', password='password')
+    nik = User(
+        username='nik', email='nik@aa.io', password='password')
+    woody = User(
+        username='woody', email='woody@aa.io', password='password')
 
     db.session.add(demo)
     db.session.add(marnie)
@@ -23,6 +27,8 @@ def seed_users():
     db.session.add(alice)
     db.session.add(tracy)
     db.session.add(jack)
+    db.session.add(nik)
+    db.session.add(woody)
 
 
 

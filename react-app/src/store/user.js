@@ -1,6 +1,7 @@
 // const GETALLFRIENDS = 'friends/ALL_FRIENDS';
 const GETAFRIEND = 'friends/SINGLE_FRIEND';
-const GETALLFRIENDWITHGROUPINFO = 'friends/ALL_FRIEND_WITH_GROUPINFO';
+const GETALLUSERSWITHGROUPINFO = 'friends/ALL_USERS_WITH_GROUPINFO';
+const GETALLFRIENDSWITHGROUPINFO = 'friends/ALL_FRIENDS_WITH_GROUPINFO';
 const UPDATEFRIEND = 'friends/UPDATE_FRIENDS';
 const POSTAFRIEND = 'friends/CREATE_FRIEND';
 const ADDAFRIEND = 'friends/ADD_FRIEND';
@@ -28,11 +29,17 @@ const singleFriend = (obj) => {
 
 const allUsersWithGroupInfoA = (arr) => {
     return {
-        type: GETALLFRIENDWITHGROUPINFO,
+        type: GETALLUSERSWITHGROUPINFO,
         arr
     };
 };
 
+const allFriendsWithGroupInfoA = (arr) => {
+    return {
+        type: GETALLFRIENDSWITHGROUPINFO,
+        arr
+    };
+}
 const updateFriendA = (obj) => {
     return {
         type: UPDATEFRIEND,
@@ -69,6 +76,7 @@ const addAFriendA = (obj) => {
 // };
 
 
+//get all users with group info thunk
 export const allUsersWithGroupInfo = () => async (dispatch) => {
     const response = await fetch("/api/users/all")
 
@@ -78,8 +86,19 @@ export const allUsersWithGroupInfo = () => async (dispatch) => {
     };
 }
 
+//get all friends with group info thunk
+export const allFriendsWithGroupInfo = () => async (dispatch) => {
+    const response = await fetch("/api/users/myfriends")
 
-//singleFriend thunk
+    if (response.ok) {
+        const data = await response.json();
+        dispatch(allFriendsWithGroupInfoA(data))
+    };
+}
+
+
+
+//get singleFriend thunk
 export const getAfFriend = (id) => async (dispatch) => {
     const response = await fetch(`/api/users/${id}`)
     if (response.ok) {
@@ -145,6 +164,7 @@ export const addFriendthunk = (payload) => async (dispatch) => {
 
 const initialState = {
     allUsersWithGroupInfo: {},
+    allFriendsWithGroupInfo: {},
     singleFriend: {}
 };
 
@@ -159,8 +179,8 @@ const usersReducer = (state = initialState, action) => {
         //     action.arr.forEach(user => newState1.allGroupswithUserinfo[user.id] = user);
         //     return newState1;
 
-        case GETALLFRIENDWITHGROUPINFO:
-            let newState2 = { ...state, allUsersWithGroupInfo: { ...state.allUsersWithGroupInfo }, singleFriend: { ...state.singleFriend } };
+        case GETALLUSERSWITHGROUPINFO:
+            let newState2 = { ...state, allUsersWithGroupInfo: { ...state.allUsersWithGroupInfo }, allFriendsWithGroupInfo: { ...state.allFriendsWithGroupInfo }, singleFriend: { ...state.singleFriend } };
             let idx = 0
             action.arr.forEach(user => {
                 newState2.allUsersWithGroupInfo[idx] = user
@@ -192,6 +212,16 @@ const usersReducer = (state = initialState, action) => {
             let added_friend = action.obj
             newState6.allUsersWithGroupInfo[added_friend.id] = added_friend
             return newState6
+
+        case GETALLFRIENDSWITHGROUPINFO:
+            let newState7 = { ...state, allUsersWithGroupInfo: { ...state.allUsersWithGroupInfo }, allFriendsWithGroupInfo: { ...state.allFriendsWithGroupInfo }, singleFriend: { ...state.singleFriend } };
+            let index = 0
+            action.arr.forEach(user => {
+                newState7.allFriendsWithGroupInfo[index] = user
+                index += 1
+            }
+            )
+            return newState7;
         default:
             return state;
     }
