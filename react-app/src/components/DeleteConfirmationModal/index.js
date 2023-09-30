@@ -1,9 +1,10 @@
 import React from "react";
 import { useModal } from "../../context/Modal";
 import { useSelector, useDispatch } from 'react-redux';
-import * as expensesthunk from "../../store/expense"
-import * as groupsthunk from "../../store/group"
-import * as commentsthunk from "../../store/comment"
+import * as expensesthunk from "../../store/expense";
+import * as groupsthunk from "../../store/group";
+import * as commentsthunk from "../../store/comment";
+import * as usersthunk from "../../store/user";
 import { useHistory } from "react-router-dom";
 
 
@@ -19,8 +20,11 @@ function DeleteConfirmationModal({ expenseId, type, groupid, commentid }) {
             dispatch(expensesthunk.deleteExpense(expenseId)).then(closeModal)
             // dispatch(expensesthunk.deleteExpense(expenseId)).then(() => dispatch(groupsthunk.singleGroupthunk(groupid))).then(closeModal)
         } else if (type === "delete group") {
-            dispatch(groupsthunk.deleteGroupthunk(groupid)).then(() => dispatch(expensesthunk.allExpenses())).then(closeModal)
-            history.push('/all')
+            dispatch(groupsthunk.deleteGroupthunk(groupid))
+                .then(() => dispatch(usersthunk.allUsersWithGroupInfo()))
+                .then(() => dispatch(expensesthunk.allExpenses()))
+                .then(closeModal)
+            // history.push('/all')
             // dispatch(groupsthunk.deleteGroupthunk(groupid)).then(() => dispatch(groupsthunk.allGroupsthunk())).then(closeModal)
 
         } else if (type === "delete comment") {

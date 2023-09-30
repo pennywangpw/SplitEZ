@@ -11,17 +11,11 @@ import * as usersthunk from "../../store/user";
 
 function GroupListByFriend() {
     let { friendId } = useParams()
-    const dispatch = useDispatch()
-
     const allGroupsAndUsers = useSelector((state) => state.users.allUsersWithGroupInfo)
     const allGroupsAndUsersArr = Object.values(allGroupsAndUsers)
     const allGroups = useSelector((state) => state.groups.allGroups);
     const allGroupsArr = Object.values(allGroups)
 
-    // //check if there're 2 allUsersWithGroupInfo fetch
-    // useEffect(() => {
-    //     dispatch(usersthunk.allUsersWithGroupInfo())
-    // }, [])
 
     //get all group's names
     let groupsname = []
@@ -29,21 +23,17 @@ function GroupListByFriend() {
         groupsname.push(group.name)
     }
 
+
     //choose the selected frined in allusers
     let selectedFriend
     if (allGroupsAndUsersArr.length > 0) {
-        selectedFriend = allGroupsAndUsers[friendId]
-    }
-
-
-    //dispaly valid groups in middle panel, user can only see the groups he/she involes
-    let validgroup = []
-    if (selectedFriend) {
-        if (selectedFriend.groupid) {
-            validgroup = selectedFriend.groupid.filter(group => groupsname.includes(group.name))
+        for (let user of allGroupsAndUsersArr) {
+            if (user.id === Number(friendId)) {
+                selectedFriend = user
+            }
         }
-
     }
+
 
     return (
         <>
@@ -70,15 +60,18 @@ function GroupListByFriend() {
                 </div>
 
                 <div className="line-5vh">
-                    {validgroup.length > 0 ?
-                        (validgroup.map(group =>
-                            <div key={group.id} className="detail">
-                                <NavLink to={`/groups/${group.id}`} style={{ textDecoration: 'none', lineHeight: '5vh' }}>
-                                    <div className="grid-3fr height-8vh expense-summary">{group.name}</div>
-                                </NavLink>
-                            </div>
-                        ))
-                        :
+                    {selectedFriend ?
+                        (selectedFriend.involved_group.length > 0 ?
+                            (selectedFriend.involved_group.map(group =>
+                                <div key={group.id} className="detail">
+                                    <NavLink to={`/groups/${group.id}`} style={{ textDecoration: 'none', lineHeight: '5vh' }}>
+                                        <div className="grid-3fr height-8vh expense-summary">{group.name}</div>
+                                    </NavLink>
+                                </div>
+                            ))
+                            :
+                            (<div> Not involes in any groups...</div>)
+                        ) :
                         (<div></div>)
                     }
 

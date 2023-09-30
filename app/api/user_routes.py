@@ -95,6 +95,7 @@ def friendwithGroupinfo():
 
     '''query all groups to find all group id'''
     allgroups = Group.query.all()
+    print(f"後端確認現在Group {allgroups}")
     allgroupsDict = [group.to_dict() for group in allgroups]
     mygroupsid =[]
     for group in allgroupsDict:
@@ -110,6 +111,7 @@ def friendwithGroupinfo():
             if involved_group['id'] in mygroupsid:
                 friends.append(user)
                 break
+    print(f"最終返回的friends{friends}")
     return friends
 
 

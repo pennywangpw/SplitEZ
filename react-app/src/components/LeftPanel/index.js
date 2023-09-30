@@ -14,13 +14,13 @@ function LeftPanel() {
     const [currentGroupId, SetcurrentGroupId] = useState(1)
     const allGroups = useSelector((state) => state.groups.allGroups);
     const allGroupsArr = Object.values(allGroups)
-    // const allGroupsAndUsers = useSelector((state) => state.users.allUsersWithGroupInfo)
-    // const allGroupsAndUsersArr = Object.values(allGroupsAndUsers)
-    const allGroupsAndFriends = useSelector((state) => state.users.allFriendsWithGroupInfo)
-    const allGroupsAndFriendsArr = Object.values(allGroupsAndFriends)
+    const allGroupsAndUsers = useSelector((state) => state.users.allUsersWithGroupInfo)
+    const allGroupsAndUsersArr = Object.values(allGroupsAndUsers)
+    // const allGroupsAndFriends = useSelector((state) => state.users.allFriendsWithGroupInfo)
+    // const allGroupsAndFriendsArr = Object.values(allGroupsAndFriends)
 
-    // console.log("here's allGroupsAndUsersArr: ", allGroupsAndUsersArr)
-    console.log("*****here's allGroupsAndFriendsArr: ", allGroupsAndFriendsArr)
+    console.log("here's allGroupsAndUsersArr: ", allGroupsAndUsersArr)
+    // console.log("*****here's allGroupsAndFriendsArr: ", allGroupsAndFriendsArr)
 
     //重新整理
     // useEffect(() => {
@@ -31,8 +31,8 @@ function LeftPanel() {
     //testing
     useEffect(() => {
         dispatch(groupsthunk.allGroupsthunk())
-        // dispatch(usersthunk.allUsersWithGroupInfo())
-        dispatch(usersthunk.allFriendsWithGroupInfo())
+        dispatch(usersthunk.allUsersWithGroupInfo())
+        // dispatch(usersthunk.allFriendsWithGroupInfo())
 
         return () => dispatch(groupsthunk.clearGroupA())
     }, [])
@@ -76,10 +76,11 @@ function LeftPanel() {
         console.log("5555")
     }
 
-    const clickFriendHandler = () => {
-        console.log("clickFriendHandler")
-        dispatch(usersthunk.allUsersWithGroupInfo())
-    }
+    // const clickFriendHandler = (user_id) => {
+
+    //     console.log("clickFriendHandler user id 查看", user_id)
+
+    // }
 
 
     return (
@@ -147,24 +148,26 @@ function LeftPanel() {
 
                 <div className="height-3vh" id="frined">
                     <div>
-                        {allGroupsAndFriendsArr.map(user =>
-                            <div className="friend" onClick={clickFriendHandler}>
-                                {console.log("確認一下user: ", user)}
-                                <NavLink to={`/friends/${user.id}`} style={{ textDecoration: 'none' }}>
-                                    <div className="flx" >
-                                        <div className="width-50" >
-                                            {user.username}
-                                        </div>
-                                        {/* <div className="width-50 flx-right">
+                        {allGroupsAndUsersArr.map(user =>
+                            <>
+                                {console.log("user 在這裡", user)}
+                                <div className="friend" >
+                                    <NavLink to={`/friends/${user.id}`} style={{ textDecoration: 'none' }}>
+                                        <div className="flx" >
+                                            <div className="width-50" >
+                                                {user.username}
+                                            </div>
+                                            {/* <div className="width-50 flx-right">
                                             <OpenModalButton
                                                 buttonText={<i class="fas fa-edit"></i>}
                                                 className="button-decision pad-4-12"
                                                 modalComponent={<FriendModal name={user.username} id={user.id} type="edit friend" />}
                                             />
                                         </div> */}
-                                    </div>
-                                </NavLink>
-                            </div>
+                                        </div>
+                                    </NavLink>
+                                </div>
+                            </>
                         )}
                     </div>
                 </div>
