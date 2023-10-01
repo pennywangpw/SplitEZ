@@ -9,8 +9,10 @@ import { useHistory } from "react-router-dom";
 
 
 
-function DeleteConfirmationModal({ expenseId, type, groupid, commentid }) {
-    console.log("this is delete modal with expenseId: ", expenseId, type, groupid, commentid)
+function DeleteConfirmationModal({ expenseId, type, id, commentid }) {
+    console.log("this is delete modal with expenseId: ", expenseId, type, id, commentid)
+    console.log("this is delete modal with expenseId-2: ", type, id)
+
     const dispatch = useDispatch()
     const history = useHistory()
     const { closeModal } = useModal()
@@ -20,18 +22,21 @@ function DeleteConfirmationModal({ expenseId, type, groupid, commentid }) {
             dispatch(expensesthunk.deleteExpense(expenseId)).then(closeModal)
             // dispatch(expensesthunk.deleteExpense(expenseId)).then(() => dispatch(groupsthunk.singleGroupthunk(groupid))).then(closeModal)
         } else if (type === "delete group") {
-            dispatch(groupsthunk.deleteGroupthunk(groupid))
+            dispatch(groupsthunk.deleteGroupthunk(id))
                 .then(() => dispatch(usersthunk.allUsersWithGroupInfo()))
                 .then(() => dispatch(expensesthunk.allExpenses()))
                 .then(closeModal)
-            // history.push('/all')
+            history.push('/all')
             // dispatch(groupsthunk.deleteGroupthunk(groupid)).then(() => dispatch(groupsthunk.allGroupsthunk())).then(closeModal)
 
         } else if (type === "delete comment") {
             dispatch(commentsthunk.deleteComments(commentid)).then(() => dispatch(commentsthunk.allComments(expenseId))).then(closeModal)
 
         } else if (type === "delete friend") {
-            dispatch(commentsthunk.deleteComments(commentid))
+            dispatch(usersthunk.deleteFriendthunk(id))
+                .then(() => dispatch(usersthunk.allUsersWithGroupInfo()))
+                .then(closeModal)
+            history.push("/all")
         }
     }
 
@@ -43,6 +48,8 @@ function DeleteConfirmationModal({ expenseId, type, groupid, commentid }) {
         deleteitem = "group"
     } else if (type === "delete comment") {
         deleteitem = "comment"
+    } else if (type === "delete friend") {
+        deleteitem = "friend"
     }
 
     return (

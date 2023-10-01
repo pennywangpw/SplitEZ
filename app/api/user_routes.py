@@ -34,7 +34,6 @@ def userswithGroupinfo():
     '''get all users and change to dictionary(usersDict) and store in a list'''
     users = User.query.all()
     usersDict = [user.to_dict() for user in users]
-    print(f"測試看看{usersDict}")
 
     '''create usersWithGroup to collect each user with group infomation'''
     '''iterate through users, create user_groups [] for each user AND iterate through user.groups column '''
@@ -51,12 +50,9 @@ def userswithGroupinfo():
     '''add groupinfo in userDict'''
     idx=0
     for userinfo in usersDict:
-            print(f"userinfo: {userinfo}")
             userinfo['involved_group'] = usersWithGroup[idx]
             userinfo['user_id'] = userinfo['id']
             idx+=1
-
-    print(f"123有沒有家成功{usersDict}")
 
     return usersDict
 
@@ -79,39 +75,32 @@ def friendwithGroupinfo():
             user_groups.append(group.to_dict())
         usersWithGroups.append(user_groups)
 
-    print(f"正在測試usersWithGroups{usersWithGroups}")
-
     '''add groupinfo in userDict'''
     idx=0
     for userinfo in usersDict:
-            print(f"userinfo: {userinfo}")
             userinfo['involved_group'] = usersWithGroups[idx]
             userinfo['user_id'] = userinfo['id']
             idx+=1
-    print(f"看下最終長什麼{usersDict}")
+
 
     '''select my friend who is involed in the groups I have'''
     friends=[]
 
     '''query all groups to find all group id'''
     allgroups = Group.query.all()
-    print(f"後端確認現在Group {allgroups}")
+
     allgroupsDict = [group.to_dict() for group in allgroups]
     mygroupsid =[]
     for group in allgroupsDict:
         mygroupsid.append(group['id'])
 
-    print(f"所有的group{allgroupsDict}")
-    print(f"所有的mygroupsid{mygroupsid}")
 
     '''iterate all users to check if user's involved_group id in mygroupsid'''
     for user in usersDict:
-        print(f"每一個user{user}")
         for involved_group in user['involved_group']:
             if involved_group['id'] in mygroupsid:
                 friends.append(user)
                 break
-    print(f"最終返回的friends{friends}")
     return friends
 
 
@@ -121,18 +110,18 @@ def friendwithGroupinfo():
 def updateFriendName(id):
     form = UserForm()
     form['csrf_token'].data = request.cookies['csrf_token']
-    print(f"檢查update friend {form.data}")
+
     if form.validate_on_submit():
         '''query db to get the user which the user wants to update'''
         updatedfriend = User.query.get(id)
-        print("updatedfriend: ",updatedfriend)
 
         updatedfriend.username = updatedfriend.username + form.data['name']
-        print(f"是否有修改名字成功{updatedfriend}")
+
         updatedfriend.email = form.data['email']
+
         db.session.commit()
         updatedfriendDict = updatedfriend.to_dict()
-        print("updatedfriendDict: ",updatedfriendDict)
+
         return updatedfriendDict
 
 
@@ -191,14 +180,21 @@ def createFriend():
 def deleteFriend(id):
     '''query the friend which the user wants to delete from db'''
     deleted_friend = User.query.get(id)
-    print("找出要deleted_friend ", deleted_friend)
 
     if deleted_friend is not None:
+        deleted_friendDict =  deleted_friend.to_dict()
 
-        print("找出要deleted_friend ", deleted_friend.to_dict())
-        print("找出要deleted_friend groups ", deleted_friend.groups)
-        return "123"
+        '''add involved_group attribute and insert associated groups if any'''
+        deleted_friendDict['involved_group'] =[]
+        for group in deleted_friend.groups:
+            deleted_friendDict['involved_group'].append(group.to_dict())
 
+        '''add user_id attribute'''
+        deleted_friendDict['user_id'] = deleted_friendDict['id']
+
+        db.session.delete(deleted_friend)
+        db.session.commit()
+        return deleted_friendDict
 
     return "The friend does not exisit"
 

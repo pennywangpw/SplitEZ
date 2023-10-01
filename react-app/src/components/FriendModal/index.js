@@ -107,17 +107,14 @@ function FriendModal({ name, id, email, type }) {
     // validation for group name
     useEffect(() => {
         if (!initialRender) {
-            console.log("run times: ", friendname, errors)
             let e = []
             if (friendname === undefined) e.push("Please provide friend's name")
             if (friendname.length === 0) e.push("Please provide friend's name")
             if (friendname !== undefined && friendname.length > 10) e.push("Please shorten the friend's name")
             if (friendemail === undefined) e.push("Please provide friend's email")
-            console.log("在useffect中-friendemail", friendemail)
             if (friendemail === 'Invalid email address.') e.push("Invalid email address.")
 
             if (errors.length === 0) {
-                console.log("沒有errors")
                 // closeModal()
             }
             setErrors(e)
@@ -134,7 +131,6 @@ function FriendModal({ name, id, email, type }) {
     const handleSubmit = async (e) => {
         e.preventDefault()
         let payload = { 'name': friendname, 'email': friendemail }
-        console.log("按下load:去的pay ", payload)
         if (type === "create friend") {
             // dispatch(usersthunk.createFriendthunk(payload)).then(dispatch(usersthunk.allUsersWithGroupInfo())).then(closeModal())
             try {
@@ -173,22 +169,37 @@ function FriendModal({ name, id, email, type }) {
                             {/* {errors.length > 0 && errors.map(error => <div>{error}</div>)} */}
                         </div>
                         {type === "create friend" ? (
-                            <label htmlFor="friendname">
-                                Friend's name...
-                            </label>
+                            <div>
+                                <label htmlFor="friendname">
+                                    Friend's name...
+                                </label>
+                                <input
+                                    id="friendname"
+                                    type="text"
+                                    value={friendname}
+                                    onChange={(e) => setFriendName(e.target.value)}
+                                />
+                            </div>
                         ) :
                             (
-                                <label htmlFor="friendname">
-                                    You may change friend's name
-                                </label>
+                                <div>
+                                    <label htmlFor="friendname">
+                                        You may add nickname for your friend...
+                                    </label>
+                                    <input
+                                        id="friendname"
+                                        type="text"
+                                        onChange={(e) => setFriendName(e.target.value)}
+                                    />
+                                </div>
                             )}
 
-                        <input
+                        {/* <input
                             id="friendname"
                             type="text"
                             value={friendname}
                             onChange={(e) => setFriendName(e.target.value)}
-                        />
+                        /> */}
                         {type === "create friend" ? (
                             <div>
                                 <label htmlFor="friendname">

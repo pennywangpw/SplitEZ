@@ -118,7 +118,7 @@ function LeftPanel() {
                                             <OpenModalButton
                                                 buttonText={<i class="fas fa-trash-alt"></i>}
                                                 className="button-decision pad-4-12"
-                                                modalComponent={<DeleteConfirmationModal type="delete group" groupid={group.id} />}
+                                                modalComponent={<DeleteConfirmationModal type="delete group" id={group.id} />}
                                             />
                                         </div>
                                     </div>
@@ -167,7 +167,7 @@ function LeftPanel() {
                                             <OpenModalButton
                                                 buttonText={<i class="fas fa-trash-alt"></i>}
                                                 className="button-decision pad-4-12"
-                                                modalComponent={<DeleteConfirmationModal type="delete friend" groupid="2" />}
+                                                modalComponent={<DeleteConfirmationModal type="delete friend" id={user.id} />}
                                             />
                                         </div>
                                     </NavLink>

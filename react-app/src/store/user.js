@@ -5,6 +5,7 @@ const GETALLFRIENDSWITHGROUPINFO = 'friends/ALL_FRIENDS_WITH_GROUPINFO';
 const UPDATEFRIEND = 'friends/UPDATE_FRIENDS';
 const POSTAFRIEND = 'friends/CREATE_FRIEND';
 const ADDAFRIEND = 'friends/ADD_FRIEND';
+const DELETETAFRIEND = 'friends/DELETE_FRIEND';
 
 
 
@@ -60,6 +61,16 @@ const addAFriendA = (obj) => {
         type: ADDAFRIEND,
         obj
     };
+}
+
+
+const deleteAFriendA = (obj) => {
+    console.log("this is action creator--deleteAFriendA")
+
+    return {
+        type: DELETETAFRIEND,
+        obj
+    }
 }
 // //allFriend thunk
 // export const allFriends = () => async (dispatch) => {
@@ -180,14 +191,14 @@ export const addFriendthunk = (payload) => async (dispatch) => {
 
 //delete friend thunk
 export const deleteFriendthunk = (id) => async (dispatch) => {
-    console.log("this is thunk--deleteFriendthunk")
+    console.log("this is thunk--deleteFriendthunk:", id)
     const response = await fetch(`/api/users/${id}`, {
         method: 'DELETE'
     })
     if (response.ok) {
         const data = await response.json();
         console.log("DELETE A Friend thunk check what i got from bk: ", data)
-
+        dispatch(deleteAFriendA(data))
     };
     return response
 
@@ -253,6 +264,16 @@ const usersReducer = (state = initialState, action) => {
             }
             )
             return newState7;
+
+        case DELETETAFRIEND:
+            let newState8 = { ...state, allUsersWithGroupInfo: { ...state.allUsersWithGroupInfo }, allFriendsWithGroupInfo: { ...state.allFriendsWithGroupInfo }, singleFriend: { ...state.singleFriend } };
+            let deleted_friend = action.obj.id
+            console.log("檢查是否有刪除", deleted_friend)
+            delete newState8.allUsersWithGroupInfo[deleted_friend - 1]
+            console.log("檢查是否有刪除成功", newState8)
+
+            return newState8
+
         default:
             return state;
     }
