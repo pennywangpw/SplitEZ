@@ -30,6 +30,8 @@ function DeleteConfirmationModal({ expenseId, type, groupid, commentid }) {
         } else if (type === "delete comment") {
             dispatch(commentsthunk.deleteComments(commentid)).then(() => dispatch(commentsthunk.allComments(expenseId))).then(closeModal)
 
+        } else if (type === "delete friend") {
+            dispatch(commentsthunk.deleteComments(commentid))
         }
     }
 

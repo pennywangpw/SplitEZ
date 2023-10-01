@@ -181,7 +181,27 @@ def createFriend():
         db.session.commit()
         new_friendDict = new_friend.to_dict()
         return new_friendDict
-    return form.errors
+    else:
+        return jsonify(errors= form.errors), 400
+
+
+#delete a friend
+@user_routes.route('/<int:id>', methods=['DELETE'])
+@login_required
+def deleteFriend(id):
+    '''query the friend which the user wants to delete from db'''
+    deleted_friend = User.query.get(id)
+    print("找出要deleted_friend ", deleted_friend)
+
+    if deleted_friend is not None:
+
+        print("找出要deleted_friend ", deleted_friend.to_dict())
+        print("找出要deleted_friend groups ", deleted_friend.groups)
+        return "123"
+
+
+    return "The friend does not exisit"
+
 
 
 # #Add a friend-test

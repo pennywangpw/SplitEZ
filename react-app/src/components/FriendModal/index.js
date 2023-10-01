@@ -101,34 +101,61 @@ function FriendModal({ name, id, email, type }) {
     const { closeModal } = useModal()
     const [friendname, setFriendName] = useState(name)
     const [friendemail, setFriendemail] = useState(email)
-
+    const [initialRender, setInitialRender] = useState(true)
     const [errors, setErrors] = useState([])
 
     // validation for group name
     useEffect(() => {
-        console.log("run times: ", friendname)
-        let e = []
-        if (friendname === undefined) e.push("Please provide friend's name")
-        if (friendname.length === 0) e.push("Please provide friend's name")
-        if (friendname !== undefined && friendname.length > 10) e.push("Please shorten the friend's name")
-        if (friendemail === undefined) e.push("Please provide friend's email")
+        if (!initialRender) {
+            console.log("run times: ", friendname, errors)
+            let e = []
+            if (friendname === undefined) e.push("Please provide friend's name")
+            if (friendname.length === 0) e.push("Please provide friend's name")
+            if (friendname !== undefined && friendname.length > 10) e.push("Please shorten the friend's name")
+            if (friendemail === undefined) e.push("Please provide friend's email")
+            console.log("在useffect中-friendemail", friendemail)
+            if (friendemail === 'Invalid email address.') e.push("Invalid email address.")
 
-        setErrors(e)
-    }, [friendname, friendemail])
+            if (errors.length === 0) {
+                console.log("沒有errors")
+                // closeModal()
+            }
+            setErrors(e)
+        } else {
+            setInitialRender(false)
+
+        }
+
+    }, [friendname, friendemail, initialRender])
 
 
-    const handleSubmit = (e) => {
+
+
+    const handleSubmit = async (e) => {
         e.preventDefault()
         let payload = { 'name': friendname, 'email': friendemail }
         console.log("按下load:去的pay ", payload)
         if (type === "create friend") {
-            dispatch(usersthunk.createFriendthunk(payload)).then(dispatch(usersthunk.allUsersWithGroupInfo())).then(closeModal)
+            // dispatch(usersthunk.createFriendthunk(payload)).then(dispatch(usersthunk.allUsersWithGroupInfo())).then(closeModal())
+            try {
+                await dispatch(usersthunk.createFriendthunk(payload))
+
+            } catch (error) {
+                let errorinfo = error.errors
+                let errormessage = errorinfo.email[0]
+
+                await setFriendemail(errormessage)
+
+            }
+            await dispatch(usersthunk.allUsersWithGroupInfo())
+
         }
         else if (type === "edit friend") {
             let payload = { 'name': friendname, 'email': email }
             dispatch(usersthunk.updateFriendthunk(payload, id)).then(() => dispatch(usersthunk.allUsersWithGroupInfo())).then(closeModal())
             // dispatch(usersthunk.updateFriendthunk(payload, id)).then(dispatch(groupsthunk.allGroupsthunk())).then(closeModal())
         }
+
 
     }
 

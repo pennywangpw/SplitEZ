@@ -139,10 +139,26 @@ export const createFriendthunk = (payload) => async (dispatch) => {
         body: JSON.stringify(payload)
     })
     if (response.ok) {
+        console.log("***response is ok 唷")
+        console.log("新增朋友的response", response)
+
         const data = await response.json();
+
+        // if (data.email[0] === 'Invalid email address.') {
+        //     console.log("****data.email", data.email[0])
+        //     return data.email[0]
+        // }
+
         dispatch(createAFriendA(data))
     }
-    return response
+    else {
+        console.log("如果response no ok新增朋友的response", response.status)
+        const data = await response.json();
+        console.log("***如果response no ok新增朋友的response data", data)
+
+        throw data
+
+    }
 }
 
 //add a friend on LeftPanel thunk
@@ -160,6 +176,21 @@ export const addFriendthunk = (payload) => async (dispatch) => {
         dispatch(addAFriendA(data))
     }
     return response
+}
+
+//delete friend thunk
+export const deleteFriendthunk = (id) => async (dispatch) => {
+    console.log("this is thunk--deleteFriendthunk")
+    const response = await fetch(`/api/users/${id}`, {
+        method: 'DELETE'
+    })
+    if (response.ok) {
+        const data = await response.json();
+        console.log("DELETE A Friend thunk check what i got from bk: ", data)
+
+    };
+    return response
+
 }
 
 const initialState = {

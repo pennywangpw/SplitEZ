@@ -164,6 +164,11 @@ function LeftPanel() {
                                                     modalComponent={<FriendModal name={user.username} id={user.id} email={user.email} type="edit friend" />}
                                                 />
                                             </div>
+                                            <OpenModalButton
+                                                buttonText={<i class="fas fa-trash-alt"></i>}
+                                                className="button-decision pad-4-12"
+                                                modalComponent={<DeleteConfirmationModal type="delete friend" groupid="2" />}
+                                            />
                                         </div>
                                     </NavLink>
                                 </div>
