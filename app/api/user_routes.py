@@ -121,13 +121,14 @@ def friendwithGroupinfo():
 def updateFriendName(id):
     form = UserForm()
     form['csrf_token'].data = request.cookies['csrf_token']
-
+    print(f"檢查update friend {form.data}")
     if form.validate_on_submit():
         '''query db to get the user which the user wants to update'''
         updatedfriend = User.query.get(id)
         print("updatedfriend: ",updatedfriend)
 
-        updatedfriend.username = form.data['name']
+        updatedfriend.username = updatedfriend.username + form.data['name']
+        print(f"是否有修改名字成功{updatedfriend}")
         updatedfriend.email = form.data['email']
         db.session.commit()
         updatedfriendDict = updatedfriend.to_dict()
@@ -153,48 +154,58 @@ def updateFriendName(id):
 #     return "Bad Data-update a friend's name"
 
 
-#create a friend
+#add a friend
 @user_routes.route('', methods=['POST'])
 @login_required
 def createFriend():
     form = UserForm()
     form['csrf_token'].data = request.cookies['csrf_token']
 
+
     if form.validate_on_submit():
-        '''create a new user(friend) and store in db'''
-        print("確認一下form: ", form.data)
+        '''check if the new friend exsits in db, if so, return friend info'''
+        allfriends = User.query.all()
+        allfriendsDict = [friend.to_dict() for friend in allfriends]
+        for friend in allfriendsDict:
+            if friend['email'] == form.data['email']:
+                return friend
+
+        '''if the new friend doesn't exsit in db, create a new user(friend) and store in db'''
         new_friend = User(
             username= form.data['name'],
-            email = form.data['email']
+            email = form.data['email'],
+            hashed_password = "null"
         )
-        print("新朋友: ", new_friend)
-        print("新朋友: ", new_friend.to_dict())
-
 
         db.session.add(new_friend)
         db.session.commit()
-        return "123"
-    return "Bad Data"
+        new_friendDict = new_friend.to_dict()
+        return new_friendDict
+    return form.errors
 
 
-#Add a friend
-@user_routes.route('/add-a-friend', methods=['POST'])
-@login_required
-def addFriend():
-    form = UserForm.from_json(request.json)
-    form['csrf_token'].data = request.cookies['csrf_token']
+# #Add a friend-test
+# @user_routes.route('/add-a-friend', methods=['POST'])
+# @login_required
+# def addFriend():
+#     form = UserForm.from_json(request.json)
+#     form['csrf_token'].data = request.cookies['csrf_token']
 
-    if form.validate_on_submit():
-        '''query all users from db'''
-        updatedfriend = User.query.all()
-        print(f"updatedfriend: {updatedfriend}")
-        updatedfriendDict = [friend.to_dict() for friend in updatedfriend]
-        print(f"updatedfriendDict: {updatedfriendDict}")
-        for friend in updatedfriendDict:
-            if friend['email'] == form.data['email']:
-                return friend
-        return "The friend doesn't exisit"
-    return "invalid email address"
+#     if form.validate_on_submit():
+#         '''query all users from db'''
+#         updatedfriend = User.query.all()
+#         print(f"updatedfriend: {updatedfriend}")
+#         updatedfriendDict = [friend.to_dict() for friend in updatedfriend]
+#         print(f"updatedfriendDict: {updatedfriendDict}")
+#         print(f"這裡是form.data {form.data}")
+#         '''check if added friend is in the db'''
+#         for friend in updatedfriendDict:
+#             print(f"這裡是friend['email'] {friend['email']}")
+#             print(f"這裡是form.data['email'] {form.data['email']}")
+#             if friend['email'] == form.data['email']:
+#                 return friend
+#         return "The friend doesn't exisit"
+#     return form.errors
 
 
 

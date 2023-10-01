@@ -1,8 +1,8 @@
-"""update group models
+"""update Group model
 
-Revision ID: 2c423c4fb4b5
+Revision ID: 692a30ab7835
 Revises: 
-Create Date: 2023-09-30 07:31:19.466013
+Create Date: 2023-09-30 15:50:52.562167
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '2c423c4fb4b5'
+revision = '692a30ab7835'
 down_revision = None
 branch_labels = None
 depends_on = None

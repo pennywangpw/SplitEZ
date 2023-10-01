@@ -20,8 +20,7 @@ class Group(db.Model):
 
     expenses = db.relationship(
         "Expense",
-        back_populates="group",
-        cascade="all, delete-orphan"
+        back_populates="group"
     )
 
 

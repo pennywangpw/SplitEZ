@@ -33,7 +33,7 @@ function GroupListByFriend() {
             }
         }
     }
-
+    console.log("selectedFriend: ", selectedFriend)
 
     return (
         <>

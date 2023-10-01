@@ -137,7 +137,7 @@ function LeftPanel() {
                         <OpenModalButton
                             buttonText="+Add"
                             className="float-r button-orange"
-                            modalComponent={<FriendModal type="add friend" />}
+                            modalComponent={<FriendModal type="create friend" name="" id="null" />}
                         />
                         {/* <button onClick={friendsHandler} className=" float-r button-orange">
                             +Add
@@ -157,13 +157,13 @@ function LeftPanel() {
                                             <div className="width-50" >
                                                 {user.username}
                                             </div>
-                                            {/* <div className="width-50 flx-right">
-                                            <OpenModalButton
-                                                buttonText={<i class="fas fa-edit"></i>}
-                                                className="button-decision pad-4-12"
-                                                modalComponent={<FriendModal name={user.username} id={user.id} type="edit friend" />}
-                                            />
-                                        </div> */}
+                                            <div className="width-50 flx-right">
+                                                <OpenModalButton
+                                                    buttonText={<i class="fas fa-edit"></i>}
+                                                    className="button-decision pad-4-12"
+                                                    modalComponent={<FriendModal name={user.username} id={user.id} email={user.email} type="edit friend" />}
+                                                />
+                                            </div>
                                         </div>
                                     </NavLink>
                                 </div>
