@@ -13,14 +13,14 @@ function Navigation({ isLoaded }) {
 
 			{isLoaded && !sessionUser && (
 				<ul className='flx-jc-fe mrg20p '>
-					<li className='flx gap15p fontS-125rem color-white'>
+					<li className='flx gap15p color-white'>
 
-						<div className='width-50 '>
+						<div className='width-50 fontS-220rem'>
 
 							<NavLink exact to="/" className={"color-fff "} style={{ textDecoration: 'none' }}>SplitEZ</NavLink>
 						</div>
 
-						<div className='width-50 flx gap15p '>
+						<div className='width-50 flx-right gap15p mrg-r-3rem align-items-center fontS-125rem'>
 							<div>
 								<NavLink to='/login' className={"color-fff"} style={{ textDecoration: 'none' }}>
 									Login
@@ -43,7 +43,7 @@ function Navigation({ isLoaded }) {
 			{isLoaded && sessionUser && (
 
 				<>
-					<div className='flx-jc-sb mrg-l-7rem mrg-r-3rem fontS-125rem'>
+					<div className='flx-jc-sb mrg-l-7rem mrg-r-3rem fontS-220rem'>
 						<Link to="/all" className={"color-fff"} style={{ textDecoration: 'none' }} >
 							SplitEZ
 						</Link>

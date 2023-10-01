@@ -75,6 +75,11 @@
            margin-left: auto;
        }
 
+       .margin-30px-left-right {
+           margin-right: 30px;
+           margin-left: 30px;
+       }
+
        .redwarning {
            color: red
        }
@@ -99,6 +104,10 @@
 
        .text-align-j {
            text-align: justify
+       }
+
+       .align-items-center {
+           align-items: center;
        }
 
        /*============ className -color =============*/
@@ -205,6 +214,10 @@
 
        .height-88vh {
            height: 88vh;
+       }
+
+       .height-100vh {
+           height: 100vh;
        }
 
        .height-2-5vh {
@@ -427,7 +440,9 @@
 
        .backgroud-img {
            background-image: url("../src/components/SplashPage/background.png");
+           height: 100vh;
        }
+
 
        /*============ splash page =============*/
        .welcome {

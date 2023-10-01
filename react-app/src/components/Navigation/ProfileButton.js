@@ -44,7 +44,7 @@ function ProfileButton({ user }) {
     history.push("/account/settings")
     setShowMenu(false)
   };
-  const ulClassName = "profile-dropdown profile-btn " + (showMenu ? "" : " hidden");
+  const ulClassName = "profile-dropdown profile-btn fontS-125rem" + (showMenu ? "" : " hidden");
   const closeMenu = () => setShowMenu(false);
 
   return (
@@ -59,10 +59,10 @@ function ProfileButton({ user }) {
             <ul>{user.username}</ul>
             <ul>{user.email}</ul>
             <ul>
-              <button onClick={handleYourAccount}>Your Account</button>
+              <button className="edit-btn" onClick={handleYourAccount}>Your Account</button>
             </ul>
             <ul>
-              <button onClick={handleLogout}>Log Out</button>
+              <button className="edit-btn" onClick={handleLogout}>Log Out</button>
             </ul>
           </>
         ) : (
