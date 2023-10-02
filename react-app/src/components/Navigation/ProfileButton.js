@@ -59,10 +59,10 @@ function ProfileButton({ user }) {
             <ul>{user.username}</ul>
             <ul>{user.email}</ul>
             <ul>
-              <button className="edit-btn" onClick={handleYourAccount}>Your Account</button>
+              <button className="edit-btn font-family-Kanit fontS-100rem" onClick={handleYourAccount}>Your Account</button>
             </ul>
             <ul>
-              <button className="edit-btn" onClick={handleLogout}>Log Out</button>
+              <button className="edit-btn font-family-Kanit fontS-100rem" onClick={handleLogout}>Log Out</button>
             </ul>
           </>
         ) : (

@@ -85,7 +85,7 @@ function LeftPanel() {
 
     return (
         <>
-            <div className=" pad-r-15px mrg-l-10px ">
+            <div className=" pad-r-15px pad-l-10p ">
                 <NavLink to="/all" style={{ textDecoration: 'none', lineHeight: '5vh' }}>
                     <div className="fontS-22px height-5vh">All expenses</div>
                 </NavLink>
@@ -157,18 +157,18 @@ function LeftPanel() {
                                             <div className="width-50" >
                                                 {user.username}
                                             </div>
-                                            <div className="width-50 flx-right">
+                                            <div className="width-50 flx-sa">
                                                 <OpenModalButton
                                                     buttonText={<i class="fas fa-edit"></i>}
                                                     className="button-decision pad-4-12"
                                                     modalComponent={<FriendModal name={user.username} id={user.id} email={user.email} type="edit friend" />}
                                                 />
+                                                <OpenModalButton
+                                                    buttonText={<i class="fas fa-trash-alt"></i>}
+                                                    className="button-decision pad-4-12"
+                                                    modalComponent={<DeleteConfirmationModal type="delete friend" id={user.id} />}
+                                                />
                                             </div>
-                                            <OpenModalButton
-                                                buttonText={<i class="fas fa-trash-alt"></i>}
-                                                className="button-decision pad-4-12"
-                                                modalComponent={<DeleteConfirmationModal type="delete friend" id={user.id} />}
-                                            />
                                         </div>
                                     </NavLink>
                                 </div>
