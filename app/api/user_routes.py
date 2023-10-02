@@ -166,9 +166,11 @@ def createFriend():
             hashed_password = "null"
         )
 
+        new_friendDict = new_friend.to_dict()
+        new_friendDict['involved_group'] = []
+
         db.session.add(new_friend)
         db.session.commit()
-        new_friendDict = new_friend.to_dict()
         return new_friendDict
     else:
         return jsonify(errors= form.errors), 400
