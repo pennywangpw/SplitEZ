@@ -135,7 +135,7 @@ function FriendModal({ name, id, email, type }) {
             // dispatch(usersthunk.createFriendthunk(payload)).then(dispatch(usersthunk.allUsersWithGroupInfo())).then(closeModal())
             try {
                 await dispatch(usersthunk.createFriendthunk(payload))
-
+                closeModal()
             } catch (error) {
                 let errorinfo = error.errors
                 let errormessage = errorinfo.email[0]
