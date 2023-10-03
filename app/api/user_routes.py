@@ -66,8 +66,8 @@ def userswithGroupinfo():
 @login_required
 def updateFriendName(id):
     form = UserForm()
-    print("form 長什麼樣子: ", form, id)
     form['csrf_token'].data = request.cookies['csrf_token']
+    print("form 長什麼樣子: ", form, id)
     updatedfriend = User.query.get(id)
     print("updatedfriend: ",updatedfriend)
 

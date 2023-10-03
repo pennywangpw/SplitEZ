@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logout } from "../../store/session";
+import { NavLink } from "react-router-dom";
 import OpenModalButton from "../OpenModalButton";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
@@ -38,6 +39,11 @@ function ProfileButton({ user }) {
     history.push("/")
   };
 
+  const handleYourAccount = (e) => {
+    e.preventDefault();
+    history.push("/account/settings")
+    setShowMenu(false)
+  };
   const ulClassName = "profile-dropdown profile-btn " + (showMenu ? "" : " hidden");
   const closeMenu = () => setShowMenu(false);
 
@@ -52,6 +58,9 @@ function ProfileButton({ user }) {
           <>
             <ul>{user.username}</ul>
             <ul>{user.email}</ul>
+            <ul>
+              <button onClick={handleYourAccount}>Your Account</button>
+            </ul>
             <ul>
               <button onClick={handleLogout}>Log Out</button>
             </ul>
