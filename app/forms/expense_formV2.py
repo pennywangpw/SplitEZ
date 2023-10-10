@@ -1,8 +1,8 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, DateField, DecimalField, FormField, FieldList
 from wtforms.validators import DataRequired, Length, NumberRange, ValidationError
-import wtforms_json
-wtforms_json.init()
+# import wtforms_json
+# wtforms_json.init()
 
 #checking length- for special case
 def length_check(FlaskForm, field):
