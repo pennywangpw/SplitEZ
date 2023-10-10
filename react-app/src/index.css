@@ -13,6 +13,9 @@
            padding: 5px;
        }
 
+       .font-family-Kanit {
+           font-family: 'Kanit', sans-serif;
+       }
 
        .flx {
            display: flex;
@@ -75,6 +78,15 @@
            margin-left: auto;
        }
 
+       .margin-30px-left-right {
+           margin-right: 30px;
+           margin-left: 30px;
+       }
+
+       .margin-right {
+           margin-right: 10px;
+       }
+
        .redwarning {
            color: red
        }
@@ -99,6 +111,10 @@
 
        .text-align-j {
            text-align: justify
+       }
+
+       .align-items-center {
+           align-items: center;
        }
 
        /*============ className -color =============*/
@@ -207,6 +223,10 @@
            height: 88vh;
        }
 
+       .height-100vh {
+           height: 100vh;
+       }
+
        .height-2-5vh {
            height: 2.5vh;
        }
@@ -231,6 +251,9 @@
            min-height: 100%;
        }
 
+       .fontS-100rem {
+           font-size: 1rem;
+       }
 
        .fontS-220rem {
            font-size: 2.2rem;
@@ -276,6 +299,10 @@
            padding: 4px 12px;
        }
 
+       .pad-l-10p {
+           padding-left: 10px;
+       }
+
        /*============ className -width =============*/
 
        .width-100 {
@@ -292,6 +319,10 @@
 
        .width-180 {
            width: 180px;
+       }
+
+       .min-width-540px {
+           min-width: 540px;
        }
 
        .gap15p {
@@ -369,7 +400,7 @@
 
        #error {
            min-height: 30px;
-           max-height: 30px;
+           /* max-height: 30px; */
        }
 
 
@@ -427,7 +458,9 @@
 
        .backgroud-img {
            background-image: url("../src/components/SplashPage/background.png");
+           height: 100vh;
        }
+
 
        /*============ splash page =============*/
        .welcome {
@@ -566,4 +599,17 @@
 
        .cursor {
            cursor: pointer;
+       }
+
+       /*============ AccountSetting btn =============*/
+
+       .edit-btn {
+           background: transparent;
+           border: none;
+       }
+
+       .edit-btn:hover {
+           background: #999;
+           color: white;
+           border-radius: 10px;
        }

@@ -18,7 +18,7 @@ function ExpensesList() {
     const allGroups = useSelector((state) => state.groups.allGroups);
     const currentuser = useSelector((state) => state.session.user);
     const allComments = useSelector((state) => state.comments.allComments)
-    const allUsers = useSelector((state) => state.users.allfriendsWithGroupInfo)
+    const allUsers = useSelector((state) => state.users.allUsersWithGroupInfo)
     let allUsersArr = Object.values(allUsers)
     let all_debtors_id = []
     let debtors_name = []

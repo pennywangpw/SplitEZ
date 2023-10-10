@@ -11,7 +11,7 @@ function MainPage({ type }) {
 
 
     return (
-        <div className="grid-3fr height-88vh fontS-13px height-18px height-min ">
+        <div className="grid-3fr height-100vh fontS-13px height-18px height-min ">
             <LeftPanel />
             {/* {type === "group" ? <ExpensesListByGroup /> : <ExpensesList />} */}
             {type === "group" ? <ExpensesListByGroup /> : type === "friend" ? <GroupListByFriend /> : <ExpensesList />}

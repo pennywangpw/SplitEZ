@@ -1,8 +1,12 @@
 // const GETALLFRIENDS = 'friends/ALL_FRIENDS';
 const GETAFRIEND = 'friends/SINGLE_FRIEND';
-const GETALLFRIENDWITHGROUPINFO = 'friends/ALL_FRIEND_WITH_GROUPINFO';
+const GETALLUSERSWITHGROUPINFO = 'friends/ALL_USERS_WITH_GROUPINFO';
+const GETALLFRIENDSWITHGROUPINFO = 'friends/ALL_FRIENDS_WITH_GROUPINFO';
 const UPDATEFRIEND = 'friends/UPDATE_FRIENDS';
 const POSTAFRIEND = 'friends/CREATE_FRIEND';
+const ADDAFRIEND = 'friends/ADD_FRIEND';
+const DELETETAFRIEND = 'friends/DELETE_FRIEND';
+
 
 
 
@@ -24,13 +28,19 @@ const singleFriend = (obj) => {
     };
 };
 
-const allfriendsWithGroupInfoA = (arr) => {
+const allUsersWithGroupInfoA = (arr) => {
     return {
-        type: GETALLFRIENDWITHGROUPINFO,
+        type: GETALLUSERSWITHGROUPINFO,
         arr
     };
 };
 
+const allFriendsWithGroupInfoA = (arr) => {
+    return {
+        type: GETALLFRIENDSWITHGROUPINFO,
+        arr
+    };
+}
 const updateFriendA = (obj) => {
     return {
         type: UPDATEFRIEND,
@@ -46,6 +56,22 @@ const createAFriendA = (obj) => {
     };
 }
 
+const addAFriendA = (obj) => {
+    return {
+        type: ADDAFRIEND,
+        obj
+    };
+}
+
+
+const deleteAFriendA = (obj) => {
+    console.log("this is action creator--deleteAFriendA")
+
+    return {
+        type: DELETETAFRIEND,
+        obj
+    }
+}
 // //allFriend thunk
 // export const allFriends = () => async (dispatch) => {
 //     console.log("this is thunk--allFriends")
@@ -61,17 +87,29 @@ const createAFriendA = (obj) => {
 // };
 
 
-export const allfriendsWithGroupInfo = () => async (dispatch) => {
+//get all users with group info thunk
+export const allUsersWithGroupInfo = () => async (dispatch) => {
     const response = await fetch("/api/users/all")
 
     if (response.ok) {
         const data = await response.json();
-        dispatch(allfriendsWithGroupInfoA(data))
+        dispatch(allUsersWithGroupInfoA(data))
+    };
+}
+
+//get all friends with group info thunk
+export const allFriendsWithGroupInfo = () => async (dispatch) => {
+    const response = await fetch("/api/users/myfriends")
+
+    if (response.ok) {
+        const data = await response.json();
+        dispatch(allFriendsWithGroupInfoA(data))
     };
 }
 
 
-//singleFriend thunk
+
+//get singleFriend thunk
 export const getAfFriend = (id) => async (dispatch) => {
     const response = await fetch(`/api/users/${id}`)
     if (response.ok) {
@@ -112,14 +150,63 @@ export const createFriendthunk = (payload) => async (dispatch) => {
         body: JSON.stringify(payload)
     })
     if (response.ok) {
+        console.log("***response is ok 唷")
+        console.log("新增朋友的response", response)
+
         const data = await response.json();
+
+        // if (data.email[0] === 'Invalid email address.') {
+        //     console.log("****data.email", data.email[0])
+        //     return data.email[0]
+        // }
+
         dispatch(createAFriendA(data))
+    }
+    else {
+        console.log("如果response no ok新增朋友的response", response.status)
+        const data = await response.json();
+        console.log("***如果response no ok新增朋友的response data", data)
+
+        throw data
+
+    }
+}
+
+//add a friend on LeftPanel thunk
+export const addFriendthunk = (payload) => async (dispatch) => {
+    console.log("addFriendthunk payload: ", payload)
+    const response = await fetch(`/api/users/add-a-friend`, {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload)
+    })
+    if (response.ok) {
+        const data = await response.json();
+        dispatch(addAFriendA(data))
     }
     return response
 }
 
+//delete friend thunk
+export const deleteFriendthunk = (id) => async (dispatch) => {
+    console.log("this is thunk--deleteFriendthunk:", id)
+    const response = await fetch(`/api/users/${id}`, {
+        method: 'DELETE'
+    })
+    if (response.ok) {
+        const data = await response.json();
+        console.log("DELETE A Friend thunk check what i got from bk: ", data)
+        dispatch(deleteAFriendA(data))
+    };
+    return response
+
+}
+
 const initialState = {
-    allfriendsWithGroupInfo: {},
+    allUsersWithGroupInfo: {},
+    allFriendsWithGroupInfo: {},
     singleFriend: {}
 };
 
@@ -134,26 +221,26 @@ const usersReducer = (state = initialState, action) => {
         //     action.arr.forEach(user => newState1.allGroupswithUserinfo[user.id] = user);
         //     return newState1;
 
-        case GETALLFRIENDWITHGROUPINFO:
-            let newState2 = { ...state, allfriendsWithGroupInfo: { ...state.allfriendsWithGroupInfo }, singleFriend: { ...state.singleFriend } };
+        case GETALLUSERSWITHGROUPINFO:
+            let newState2 = { ...state, allUsersWithGroupInfo: { ...state.allUsersWithGroupInfo }, allFriendsWithGroupInfo: { ...state.allFriendsWithGroupInfo }, singleFriend: { ...state.singleFriend } };
             let idx = 0
             action.arr.forEach(user => {
-                newState2.allfriendsWithGroupInfo[idx] = user
+                newState2.allUsersWithGroupInfo[idx] = user
                 idx += 1
             }
             )
-            // action.arr.forEach(user => newState2.allfriendsWithGroupInfo[user.id] = user);
+            // action.arr.forEach(user => newState2.allUsersWithGroupInfo[user.id] = user);
             return newState2;
 
         case UPDATEFRIEND:
-            let newState3 = { ...state, allfriendsWithGroupInfo: { ...state.allfriendsWithGroupInfo } }
+            let newState3 = { ...state, allUsersWithGroupInfo: { ...state.allUsersWithGroupInfo } }
             let updatedFriend = action.obj
-            newState3.allfriendsWithGroupInfo = updatedFriend
+            newState3.allUsersWithGroupInfo = updatedFriend
             return newState3
         case POSTAFRIEND:
-            let newState4 = { ...state, allfriendsWithGroupInfo: { ...state.allfriendsWithGroupInfo } }
+            let newState4 = { ...state, allUsersWithGroupInfo: { ...state.allUsersWithGroupInfo } }
             let newfriend = action.obj
-            newState4.allfriendsWithGroupInfo[newfriend.id] = newfriend
+            newState4.allUsersWithGroupInfo[newfriend.id] = newfriend
             return newState4
 
         case GETAFRIEND:
@@ -161,6 +248,31 @@ const usersReducer = (state = initialState, action) => {
             let selectedFriend = action.obj
             newState5.singleFriend = selectedFriend
             return newState5;
+
+        case ADDAFRIEND:
+            let newState6 = { ...state, allUsersWithGroupInfo: { ...state.allUsersWithGroupInfo } }
+            let added_friend = action.obj
+            newState6.allUsersWithGroupInfo[added_friend.id] = added_friend
+            return newState6
+
+        case GETALLFRIENDSWITHGROUPINFO:
+            let newState7 = { ...state, allUsersWithGroupInfo: { ...state.allUsersWithGroupInfo }, allFriendsWithGroupInfo: { ...state.allFriendsWithGroupInfo }, singleFriend: { ...state.singleFriend } };
+            let index = 0
+            action.arr.forEach(user => {
+                newState7.allFriendsWithGroupInfo[index] = user
+                index += 1
+            }
+            )
+            return newState7;
+
+        case DELETETAFRIEND:
+            let newState8 = { ...state, allUsersWithGroupInfo: { ...state.allUsersWithGroupInfo }, allFriendsWithGroupInfo: { ...state.allFriendsWithGroupInfo }, singleFriend: { ...state.singleFriend } };
+            let deleted_friend = action.obj.id
+            console.log("檢查是否有刪除", deleted_friend)
+            delete newState8.allUsersWithGroupInfo[deleted_friend - 1]
+            console.log("檢查是否有刪除成功", newState8)
+
+            return newState8
 
         default:
             return state;
