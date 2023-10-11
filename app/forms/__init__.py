@@ -5,3 +5,5 @@ from .group_formV2 import GroupForm,GroupMembersDetailForm
 # from .group_form import GroupForm
 from .comment_form import CommentForm
 from .user_form import UserForm
+import wtforms_json
+wtforms_json.init()
