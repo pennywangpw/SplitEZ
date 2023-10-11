@@ -68,6 +68,11 @@ def singleExpense(id):
 def createExpense():
     '''Create a form with user input'''
     form = ExpenseForm.from_json(request.json)
+    # form2 = ExpenseForm()
+
+    # print(f"測試用,想看看{form.data}是不是真的去爬customer 送來的")
+    # print(f"測試用,想看看{form2.data}是不是真的適用constructor建立的")
+
     form['csrf_token'].data = request.cookies['csrf_token']
     print(f"想看request.json {request.json}")
     print(f"this is form data when i create expense {form.data}")
