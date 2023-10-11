@@ -165,12 +165,13 @@ def createFriend():
             email = form.data['email'],
             hashed_password = "null"
         )
+        db.session.add(new_friend)
+        db.session.commit()
 
+        print(f"應該是已經將user先攢到資歷庫可以拿出id {new_friend.to_dict()}" )
         new_friendDict = new_friend.to_dict()
         new_friendDict['involved_group'] = []
 
-        db.session.add(new_friend)
-        db.session.commit()
         return new_friendDict
     else:
         return jsonify(errors= form.errors), 400
