@@ -152,8 +152,13 @@ export const createFriendthunk = (payload) => async (dispatch) => {
     if (response.ok) {
         console.log("***response is ok 唷")
         console.log("新增朋友的response", response)
+        console.log("新增朋友的response data", response.data)
+
 
         const data = await response.json();
+
+        console.log("新增朋友的 data", data)
+
 
         // if (data.email[0] === 'Invalid email address.') {
         //     console.log("****data.email", data.email[0])
@@ -170,6 +175,7 @@ export const createFriendthunk = (payload) => async (dispatch) => {
         throw data
 
     }
+    return response
 }
 
 //add a friend on LeftPanel thunk
@@ -238,7 +244,7 @@ const usersReducer = (state = initialState, action) => {
             newState3.allUsersWithGroupInfo = updatedFriend
             return newState3
         case POSTAFRIEND:
-            let newState4 = { ...state, allUsersWithGroupInfo: { ...state.allUsersWithGroupInfo } }
+            let newState4 = { ...state, allUsersWithGroupInfo: { ...state.allUsersWithGroupInfo }, allFriendsWithGroupInfo: { ...state.allFriendsWithGroupInfo }, singleFriend: { ...state.singleFriend } }
             let newfriend = action.obj
             newState4.allUsersWithGroupInfo[newfriend.id] = newfriend
             return newState4

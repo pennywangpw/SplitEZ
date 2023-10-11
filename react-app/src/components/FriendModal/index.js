@@ -143,7 +143,7 @@ function FriendModal({ name, id, email, type }) {
                 await setFriendemail(errormessage)
 
             }
-            await dispatch(usersthunk.allUsersWithGroupInfo())
+            // await dispatch(usersthunk.allUsersWithGroupInfo())
 
         }
         else if (type === "edit friend") {
