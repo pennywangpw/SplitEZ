@@ -68,6 +68,9 @@
            margin-left: 20px;
        }
 
+       .mrg-0-auto {
+           margin: 0 auto;
+       }
 
        .mrg-l-180px {
            margin-left: 180px;
@@ -251,6 +254,14 @@
            min-height: 100%;
        }
 
+       .height-80-per {
+           height: 80%;
+       }
+
+       .height-20-per {
+           height: 20%;
+       }
+
        .fontS-100rem {
            font-size: 1rem;
        }
@@ -321,8 +332,12 @@
            width: 180px;
        }
 
-       .min-width-540px {
-           min-width: 540px;
+       .min-width-600px {
+           min-width: 600px;
+       }
+
+       .max-width-100 {
+           max-width: 100%;
        }
 
        .gap15p {
