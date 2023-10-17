@@ -32,6 +32,8 @@ function ExpensesList() {
     }
 
     useEffect(() => {
+        console.log("要測試,是不是因為點選了group delete model 回到了middlePanel所以執行了這裡的dispatch")
+
         dispatch(expensesthunk.allExpenses())
         return () => dispatch(expensesthunk.clearExpensesA())
     }, [dispatch])

@@ -23,8 +23,8 @@ function DeleteConfirmationModal({ expenseId, type, id, commentid }) {
             // dispatch(expensesthunk.deleteExpense(expenseId)).then(() => dispatch(groupsthunk.singleGroupthunk(groupid))).then(closeModal)
         } else if (type === "delete group") {
             dispatch(groupsthunk.deleteGroupthunk(id))
-                .then(() => dispatch(usersthunk.allUsersWithGroupInfo()))
-                .then(() => dispatch(expensesthunk.allExpenses()))
+                // .then(() => dispatch(usersthunk.allUsersWithGroupInfo()))
+                // .then(() => dispatch(expensesthunk.allExpenses()))
                 .then(closeModal)
             history.push('/all')
             // dispatch(groupsthunk.deleteGroupthunk(groupid)).then(() => dispatch(groupsthunk.allGroupsthunk())).then(closeModal)

@@ -31,6 +31,7 @@ function ExpensesListByGroup() {
 
 
     useEffect(() => {
+        console.log("要測試,是不是因為點選了group delete model 所以執行了這裡的dispatch-middlepanelbygroup")
         dispatch(expensesthunk.allExpenses())
         dispatch(groupsthunk.singleGroupthunk(groupId))
         return () => dispatch(groupsthunk.clearGroupA())
