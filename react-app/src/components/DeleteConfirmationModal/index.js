@@ -27,7 +27,6 @@ function DeleteConfirmationModal({ expenseId, type, id, commentid }) {
                 // .then(() => dispatch(expensesthunk.allExpenses()))
                 .then(closeModal)
             history.push('/all')
-            // dispatch(groupsthunk.deleteGroupthunk(groupid)).then(() => dispatch(groupsthunk.allGroupsthunk())).then(closeModal)
 
         } else if (type === "delete comment") {
             dispatch(commentsthunk.deleteComments(commentid)).then(() => dispatch(commentsthunk.allComments(expenseId))).then(closeModal)

@@ -28,6 +28,7 @@ function ExpensesListByGroup() {
     let all_debtors_id = []
     let debtors_name = [];
     let billpayer_name;
+    console.log("=====這裡是ExpensesListByGroup")
 
 
     useEffect(() => {
@@ -77,14 +78,9 @@ function ExpensesListByGroup() {
 
     }
     //find the debtor name
-    console.log("---1.allUsersArr: ", allUsersArr)
-    console.log("---all_debtors_id: ", all_debtors_id)
-
     for (let friend of allUsersArr) {
-        console.log("---2.friend: ", friend)
         if (all_debtors_id.includes(friend.id)) {
             debtors_name.push(friend.username)
-            console.log("---3.debtors_name: ", debtors_name)
         }
     }
 
@@ -109,7 +105,7 @@ function ExpensesListByGroup() {
                     </div>
                 </div>
 
-                <div className="grid-3fr-5-3-2 height-5vh expense-summary" id="summary">
+                <div className="grid-3fr-5-3-2 margin-5-0-5-0 height-5vh expense-summary" id="summary">
                     <div>description</div>
                     <div>Expense Total</div>
                     <div>Bill Payer</div>

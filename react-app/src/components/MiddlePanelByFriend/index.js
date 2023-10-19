@@ -16,6 +16,7 @@ function GroupListByFriend() {
     const allGroups = useSelector((state) => state.groups.allGroups);
     const allGroupsArr = Object.values(allGroups)
 
+    console.log("=====這裡是GroupListByFriend")
 
     //get all group's names
     let groupsname = []

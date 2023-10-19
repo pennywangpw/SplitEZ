@@ -149,22 +149,9 @@ export const createFriendthunk = (payload) => async (dispatch) => {
         },
         body: JSON.stringify(payload)
     })
+    console.log("新增朋友的response", response)
     if (response.ok) {
-        console.log("***response is ok 唷")
-        console.log("新增朋友的response", response)
-        console.log("新增朋友的response data", response.data)
-
-
         const data = await response.json();
-
-        console.log("新增朋友的 data", data)
-
-
-        // if (data.email[0] === 'Invalid email address.') {
-        //     console.log("****data.email", data.email[0])
-        //     return data.email[0]
-        // }
-
         dispatch(createAFriendA(data))
     }
     else {
@@ -241,7 +228,7 @@ const usersReducer = (state = initialState, action) => {
         case UPDATEFRIEND:
             let newState3 = { ...state, allUsersWithGroupInfo: { ...state.allUsersWithGroupInfo } }
             let updatedFriend = action.obj
-            newState3.allUsersWithGroupInfo = updatedFriend
+            newState3.allUsersWithGroupInfo[updatedFriend.id] = updatedFriend
             return newState3
         case POSTAFRIEND:
             let newState4 = { ...state, allUsersWithGroupInfo: { ...state.allUsersWithGroupInfo }, allFriendsWithGroupInfo: { ...state.allFriendsWithGroupInfo }, singleFriend: { ...state.singleFriend } }

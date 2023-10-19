@@ -171,7 +171,7 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
                 <div className="flx-col width-350px height-350px">
                     <header className=" bg-5cc5a7 line-h50">{type === "create" ? "Create an expense" : "Edit expense"}</header>
                     <div>
-                        <div>
+                        <div id="error">
                             <ul>
                                 {errors.length > 0 && (errors.map((error, idx) => <li key={idx} className="height-max-15">{error}</li>))}
                             </ul>

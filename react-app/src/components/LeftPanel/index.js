@@ -18,6 +18,7 @@ function LeftPanel() {
     const allGroupsAndUsersArr = Object.values(allGroupsAndUsers)
     // const allGroupsAndFriends = useSelector((state) => state.users.allFriendsWithGroupInfo)
     // const allGroupsAndFriendsArr = Object.values(allGroupsAndFriends)
+    console.log("=====這裡是LeftPanel")
 
     console.log("here's allGroupsAndUsersArr: ", allGroupsAndUsersArr)
     // console.log("*****here's allGroupsAndFriendsArr: ", allGroupsAndFriendsArr)
@@ -90,7 +91,7 @@ function LeftPanel() {
                 <NavLink to="/all" style={{ textDecoration: 'none', lineHeight: '5vh' }}>
                     <div className="fontS-22px height-5vh">All expenses</div>
                 </NavLink>
-                <div className="flx bg-side-grey l-bar-c">
+                <div className="flx bg-side-grey l-bar-c margin-bottom-5px">
                     <div className="width-50 ">GROUPS</div>
                     <div className="width-50">
                         <OpenModalButton
@@ -132,7 +133,7 @@ function LeftPanel() {
                 </div>
 
 
-                <div className="flx bg-side-grey l-bar-c">
+                <div className="flx bg-side-grey l-bar-c margin-bottom-5px">
                     <div className="width-50 ">FRIENDS</div>
                     <div className="width-50">
                         <OpenModalButton
@@ -151,7 +152,6 @@ function LeftPanel() {
                     <div>
                         {allGroupsAndUsersArr.map(user =>
                             <>
-                                {console.log("user 在這裡", user)}
                                 <div className="friend" >
                                     <NavLink to={`/friends/${user.id}`} style={{ textDecoration: 'none' }}>
                                         <div className="flx" >

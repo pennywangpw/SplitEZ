@@ -74,8 +74,9 @@ def friendwithGroupinfo():
         for group in user.groups:
             user_groups.append(group.to_dict())
         usersWithGroups.append(user_groups)
+    print(f"get all friends-usersWithGroups {usersWithGroups}")
 
-    '''add groupinfo in userDict'''
+    '''add involved_group and user_id for each user in userDict'''
     idx=0
     for userinfo in usersDict:
             userinfo['involved_group'] = usersWithGroups[idx]
@@ -95,7 +96,8 @@ def friendwithGroupinfo():
         mygroupsid.append(group['id'])
 
 
-    '''iterate all users to check if user's involved_group id in mygroupsid'''
+    '''iterate all users(usersDict) to check if user's involved_group id in mygroupsid'''
+    '''if so, add it to friends []'''
     for user in usersDict:
         for involved_group in user['involved_group']:
             if involved_group['id'] in mygroupsid:
@@ -122,7 +124,14 @@ def updateFriendName(id):
         db.session.commit()
         updatedfriendDict = updatedfriend.to_dict()
 
+        print(f'這裡是後端的updatedfriend. group{updatedfriend.groups}')
+        updatedfriendDict['involved_group'] = updatedfriend.groups
+        updatedfriendDict['user_id'] = updatedfriend.id
+        print(f'加上去後-這裡是後端的updatedfriend. group{updatedfriendDict}')
+
+
         return updatedfriendDict
+    return "not passed validation"
 
 
 # #update friend's name, but only add a description

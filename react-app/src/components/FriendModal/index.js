@@ -101,29 +101,22 @@ function FriendModal({ name, id, email, type }) {
     const { closeModal } = useModal()
     const [friendname, setFriendName] = useState(name)
     const [friendemail, setFriendemail] = useState(email)
-    const [initialRender, setInitialRender] = useState(true)
+    // const [initialRender, setInitialRender] = useState(true)
     const [errors, setErrors] = useState([])
-
+    console.log("測試看看FriendModal是不是重新刷新,如果friendname加上去")
     // validation for group name
     useEffect(() => {
-        if (!initialRender) {
-            let e = []
-            if (friendname === undefined) e.push("Please provide friend's name")
-            if (friendname.length === 0) e.push("Please provide friend's name")
-            if (friendname !== undefined && friendname.length > 10) e.push("Please shorten the friend's name")
-            if (friendemail === undefined) e.push("Please provide friend's email")
-            if (friendemail === 'Invalid email address.') e.push("Invalid email address.")
 
-            if (errors.length === 0) {
-                // closeModal()
-            }
-            setErrors(e)
-        } else {
-            setInitialRender(false)
+        let e = []
+        if (friendname === undefined) e.push("Please provide friend's name")
+        if (friendname.length === 0) e.push("Please provide friend's name")
+        if (friendname !== undefined && friendname.length > 10) e.push("Please shorten the friend's name")
+        if (friendemail === undefined) e.push("Please provide friend's email")
+        if (friendemail === 'Invalid email address.') e.push("Invalid email address.")
 
-        }
+        setErrors(e)
 
-    }, [friendname, friendemail, initialRender])
+    }, [friendname, friendemail])
 
 
 
@@ -132,7 +125,6 @@ function FriendModal({ name, id, email, type }) {
         e.preventDefault()
         let payload = { 'name': friendname, 'email': friendemail }
         if (type === "create friend") {
-            // dispatch(usersthunk.createFriendthunk(payload)).then(dispatch(usersthunk.allUsersWithGroupInfo())).then(closeModal())
             try {
                 await dispatch(usersthunk.createFriendthunk(payload))
                 closeModal()
