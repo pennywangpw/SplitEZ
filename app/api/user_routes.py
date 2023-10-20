@@ -152,38 +152,7 @@ def updateFriendName(id):
 #     return "Bad Data-update a friend's name"
 
 
-#add a friend
-@user_routes.route('', methods=['POST'])
-@login_required
-def createFriend():
-    form = UserForm()
-    form['csrf_token'].data = request.cookies['csrf_token']
 
-
-    if form.validate_on_submit():
-        '''check if the new friend exsits in db, if so, return friend info'''
-        allfriends = User.query.all()
-        allfriendsDict = [friend.to_dict() for friend in allfriends]
-        for friend in allfriendsDict:
-            if friend['email'] == form.data['email']:
-                return friend
-
-        '''if the new friend doesn't exsit in db, create a new user(friend) and store in db'''
-        new_friend = User(
-            username= form.data['name'],
-            email = form.data['email'],
-            hashed_password = "null"
-        )
-        db.session.add(new_friend)
-        db.session.commit()
-
-        print(f"應該是已經將user先攢到資歷庫可以拿出id {new_friend.to_dict()}" )
-        new_friendDict = new_friend.to_dict()
-        new_friendDict['involved_group'] = []
-
-        return new_friendDict
-    else:
-        return jsonify(errors= form.errors), 400
 
 
 #delete a friend
