@@ -41,10 +41,15 @@ class User(db.Model, UserMixin):
 
     )
 
-    friends =  db.relationship(
+    friend_id = db.relationship(
         "Friend",
         back_populates="user"
     )
+
+    # friends =  db.relationship(
+    #     "Friend",
+    #     back_populates="user"
+    # )
 
     @property
     def password(self):
