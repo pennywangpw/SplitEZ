@@ -43,9 +43,15 @@ class User(db.Model, UserMixin):
 
     friend_id = db.relationship(
         "Friend",
+        foreign_keys="Friend.friend_id",
         back_populates="user"
     )
 
+    belongs_to_user_id = db.relationship(
+        "Friend",
+        foreign_keys="Friend.belongs_to_user_id",
+        back_populates="belongs_to_user"
+    )
     # friends =  db.relationship(
     #     "Friend",
     #     back_populates="user"

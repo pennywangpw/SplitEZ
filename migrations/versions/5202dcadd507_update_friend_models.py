@@ -1,8 +1,8 @@
-"""work on Friend function
+"""update Friend models
 
-Revision ID: 77e015f5ea37
+Revision ID: 5202dcadd507
 Revises: 
-Create Date: 2023-10-19 22:18:30.257922
+Create Date: 2023-10-20 17:48:31.702368
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '77e015f5ea37'
+revision = '5202dcadd507'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -48,6 +48,8 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=100), nullable=False),
     sa.Column('friend_id', sa.Integer(), nullable=False),
+    sa.Column('belongs_to_user_id', sa.Integer(), nullable=False),
+    sa.ForeignKeyConstraint(['belongs_to_user_id'], ['users.id'], ),
     sa.ForeignKeyConstraint(['friend_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )

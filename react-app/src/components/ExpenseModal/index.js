@@ -89,7 +89,7 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
     }
 
     //SplitWithUserHandler to collect all the debtors
-    //if debtorId exsits in splitWithUsers we remove it
+    //if debtorId exists in splitWithUsers we remove it
     //if debtorId dose not esxist in splitWithUsers we add on it
     const handleSplitWithUserChange = (e) => {
         const debtorId = Number(e.target.value)
