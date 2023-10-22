@@ -13,10 +13,7 @@ class Friend(db.Model):
     name = db.Column(db.String(100), nullable=False)
     friend_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
     belongs_to_user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
-    # user = db.relationship(
-    #     "User",
-    #     back_populates="friends"
-    # )
+    nickname = db.Column(db.String(50))
 
     '''friend_id'''
     user = db.relationship(

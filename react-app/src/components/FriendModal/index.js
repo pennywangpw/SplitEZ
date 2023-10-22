@@ -103,6 +103,7 @@ function FriendModal({ name, id, email, type }) {
     const [friendemail, setFriendemail] = useState(email)
     // const [initialRender, setInitialRender] = useState(true)
     const [errors, setErrors] = useState([])
+    const current_user = useSelector((state) => state.session.user)
     console.log("測試看看FriendModal是不是重新刷新,如果friendname加上去")
     // validation for group name
     useEffect(() => {
@@ -123,7 +124,7 @@ function FriendModal({ name, id, email, type }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        let payload = { 'name': friendname, 'email': friendemail }
+        let payload = { 'name': friendname, 'email': friendemail, 'belongs_to_user_id': current_user.id }
         if (type === "create friend") {
             try {
                 await dispatch(usersthunk.createFriendthunk(payload))

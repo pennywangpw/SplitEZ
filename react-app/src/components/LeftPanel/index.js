@@ -16,6 +16,7 @@ function LeftPanel() {
     const allGroupsArr = Object.values(allGroups)
     const allGroupsAndUsers = useSelector((state) => state.users.allUsersWithGroupInfo)
     const allGroupsAndUsersArr = Object.values(allGroupsAndUsers)
+    const current_user = useSelector((state) => state.session.user)
     // const allGroupsAndFriends = useSelector((state) => state.users.allFriendsWithGroupInfo)
     // const allGroupsAndFriendsArr = Object.values(allGroupsAndFriends)
     console.log("=====這裡是LeftPanel")
@@ -153,7 +154,7 @@ function LeftPanel() {
                         {allGroupsAndUsersArr.map(user =>
                             <>
                                 <div className="friend" >
-                                    <NavLink to={`/friends/${user.id}`} style={{ textDecoration: 'none' }}>
+                                    <NavLink to={`/${current_user.id}/friends/${user.id}`} style={{ textDecoration: 'none' }}>
                                         <div className="flx" >
                                             <div className="width-50" >
                                                 {user.username}

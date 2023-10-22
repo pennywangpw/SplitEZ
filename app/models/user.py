@@ -52,10 +52,6 @@ class User(db.Model, UserMixin):
         foreign_keys="Friend.belongs_to_user_id",
         back_populates="belongs_to_user"
     )
-    # friends =  db.relationship(
-    #     "Friend",
-    #     back_populates="user"
-    # )
 
     @property
     def password(self):
