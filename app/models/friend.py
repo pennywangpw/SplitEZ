@@ -34,5 +34,6 @@ class Friend(db.Model):
             'id': self.id,
             'name': self.name,
             'friend_id': self.friend_id,
-            'belongs_to_user_id': self.belongs_to_user_id
+            'belongs_to_user_id': self.belongs_to_user_id,
+            'nickname': self.nickname
         }

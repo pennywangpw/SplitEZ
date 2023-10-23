@@ -106,32 +106,7 @@ def friendwithGroupinfo():
     return friends
 
 
-#update friend's name, but only add a description
-@user_routes.route('/<int:id>', methods=['PUT'])
-@login_required
-def updateFriendName(id):
-    form = UserForm()
-    form['csrf_token'].data = request.cookies['csrf_token']
 
-    if form.validate_on_submit():
-        '''query db to get the user which the user wants to update'''
-        updatedfriend = User.query.get(id)
-
-        updatedfriend.username = updatedfriend.username + form.data['name']
-
-        updatedfriend.email = form.data['email']
-
-        db.session.commit()
-        updatedfriendDict = updatedfriend.to_dict()
-
-        print(f'這裡是後端的updatedfriend. group{updatedfriend.groups}')
-        updatedfriendDict['involved_group'] = updatedfriend.groups
-        updatedfriendDict['user_id'] = updatedfriend.id
-        print(f'加上去後-這裡是後端的updatedfriend. group{updatedfriendDict}')
-
-
-        return updatedfriendDict
-    return "not passed validation"
 
 
 # #update friend's name, but only add a description
@@ -155,29 +130,7 @@ def updateFriendName(id):
 
 
 
-#delete a friend
-@user_routes.route('/<int:id>', methods=['DELETE'])
-@login_required
-def deleteFriend(id):
-    '''query the friend which the user wants to delete from db'''
-    deleted_friend = User.query.get(id)
 
-    if deleted_friend is not None:
-        deleted_friendDict =  deleted_friend.to_dict()
-
-        '''add involved_group attribute and insert associated groups if any'''
-        deleted_friendDict['involved_group'] =[]
-        for group in deleted_friend.groups:
-            deleted_friendDict['involved_group'].append(group.to_dict())
-
-        '''add user_id attribute'''
-        deleted_friendDict['user_id'] = deleted_friendDict['id']
-
-        db.session.delete(deleted_friend)
-        db.session.commit()
-        return deleted_friendDict
-
-    return "The friend does not exisit"
 
 
 

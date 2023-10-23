@@ -1,8 +1,8 @@
-"""update Friend models
+"""some message
 
-Revision ID: 609ebf97967e
+Revision ID: 31f099c3af7d
 Revises: 
-Create Date: 2023-10-22 14:22:43.232324
+Create Date: 2023-10-23 15:58:12.319570
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '609ebf97967e'
+revision = '31f099c3af7d'
 down_revision = None
 branch_labels = None
 depends_on = None
