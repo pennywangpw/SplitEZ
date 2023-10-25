@@ -1,8 +1,8 @@
-"""some message
+"""update Friend model
 
-Revision ID: 31f099c3af7d
+Revision ID: 99e1ef41f0cf
 Revises: 
-Create Date: 2023-10-23 15:58:12.319570
+Create Date: 2023-10-24 23:56:26.120243
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '31f099c3af7d'
+revision = '99e1ef41f0cf'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -46,7 +46,6 @@ def upgrade():
     )
     op.create_table('friends',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('name', sa.String(length=100), nullable=False),
     sa.Column('friend_id', sa.Integer(), nullable=False),
     sa.Column('belongs_to_user_id', sa.Integer(), nullable=False),
     sa.Column('nickname', sa.String(length=50), nullable=True),

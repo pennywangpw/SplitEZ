@@ -10,7 +10,6 @@ class Friend(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
     friend_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
     belongs_to_user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
     nickname = db.Column(db.String(50))
@@ -32,7 +31,6 @@ class Friend(db.Model):
     def to_dict(self):
         return {
             'id': self.id,
-            'name': self.name,
             'friend_id': self.friend_id,
             'belongs_to_user_id': self.belongs_to_user_id,
             'nickname': self.nickname

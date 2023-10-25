@@ -3,12 +3,12 @@ from sqlalchemy.sql import text
 
 
 def seed_friends():
-    friend1 = Friend(name='Demo',friend_id= 1, belongs_to_user_id= 2, nickname ="Dmo")
-    friend2 = Friend(name='tracy', friend_id= 5, belongs_to_user_id= 2)
-    friend3 = Friend(name='jack',friend_id= 6, belongs_to_user_id= 2)
-    friend4 = Friend(name='bobbie',friend_id= 3, belongs_to_user_id= 2)
-    friend5 = Friend(name='Demo',friend_id= 1, belongs_to_user_id= 3, nickname ="DD")
-    friend6 = Friend(name='Demo',friend_id= 1, belongs_to_user_id= 4, nickname ="mo")
+    friend1 = Friend(friend_id= 1, belongs_to_user_id= 2, nickname ="Dmo")
+    friend2 = Friend(friend_id= 5, belongs_to_user_id= 2)
+    friend3 = Friend(friend_id= 6, belongs_to_user_id= 2)
+    friend4 = Friend(friend_id= 3, belongs_to_user_id= 2)
+    friend5 = Friend(friend_id= 1, belongs_to_user_id= 3, nickname ="DD")
+    friend6 = Friend(friend_id= 1, belongs_to_user_id= 4, nickname ="mo")
 
 
 

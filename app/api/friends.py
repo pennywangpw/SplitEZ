@@ -12,61 +12,58 @@ friends = Blueprint('friends', __name__)
 def createFriend():
     form = FriendForm()
     form['csrf_token'].data = request.cookies['csrf_token']
-    print(f"這邊是form.data {form.data}")
 
+    '''check if pass the validation'''
     if form.validate_on_submit():
-        allusers = User.query.all()
-        allusersDict = [user.to_dict() for user in allusers]
+        '''check if the new friend is existing user'''
+        existing_user = User.query.filter_by(email= form.data['email']).first()
 
-        allfriends = Friend.query.all()
-        allfriendsDict = [friend.to_dict() for friend in allfriends]
-        currentuser = current_user.to_dict()
+        if existing_user:
+            existing_friend = Friend.query.filter_by(friend_id = existing_user.id, belongs_to_user_id = current_user.id).first()
+            if existing_friend:
+                return "Your friend is already on the friend list :)"
+            else:
+                if existing_user.id == current_user.id:
+                    return "You can't add yourself"
+                else:
+                    new_friend = Friend(
+                    friend_id= existing_user.id,
+                    belongs_to_user_id = current_user.id
+                    )
 
-        for user in allusersDict:
-            '''check if the new friend exists in db, if so, return new_friend info'''
-            if user['email'] == form.data['email']:
-                new_friend = user
+                    db.session.add(new_friend)
+                    db.session.commit()
 
-                '''Check if the new friend has been added or not'''
-                for friend in allfriendsDict:
-                    '''check if new friend relationship has been set up or not'''
-                    if friend['friend_id'] == new_friend['id'] and currentuser['id'] == friend['belongs_to_user_id']:
-                        return "Your friend is already on the friend list :)"
+                    '''add username information to new friend on backend res'''
+                    new_friendDict = new_friend.to_dict()
+                    new_friendDict['friend_name'] = existing_user.username
+                    return new_friendDict
+        return "Your friend isn't registered. Please invite her/him to register with us."
 
-                newfriend = Friend(
-                    name= new_friend['username'],
-                    friend_id= new_friend['id'],
-                    belongs_to_user_id = currentuser['id']
-                )
-
-                db.session.add(newfriend)
-                db.session.commit()
-
-                return newfriend.to_dict()
-
-        '''if the new friend doesn't exist in db, you can't add the friend to the list'''
-        return "Your friend isn't registered. Please invite them to register with us."
     else:
         return jsonify(errors= form.errors), 400
+
 
 
 #get all friends
 @friends.route('/myfriends')
 @login_required
 def allfriends():
-    '''get all friend friends from db'''
-    friends = Friend.query.all()
-    friendsDict = [friend.to_dict() for friend in friends]
+    '''get all friends whose belongs_to_user_id is current user'''
+    friends_belong_to_me = Friend.query.filter_by(belongs_to_user_id = current_user.id).all()
 
-    friends_belong_to_me = []
-    currentuser = current_user.to_dict()
+    friends_info = [friend.user for friend in friends_belong_to_me]
 
-    '''find friends belong to the user'''
-    for friend in friendsDict:
-        if friend['belongs_to_user_id'] == currentuser['id']:
-            friends_belong_to_me.append(friend)
+    '''add username information to each friend on backend res'''
+    all_friends =[]
+    for i in range(len(friends_belong_to_me)):
 
-    return friends_belong_to_me
+        friendDict = friends_belong_to_me[i].to_dict()
+        friendDict['friend_name'] = friends_info[i].username
+        all_friends.append(friendDict)
+
+
+    return all_friends
 
 
 
@@ -75,23 +72,19 @@ def allfriends():
 @friends.route('/<int:id>', methods=['DELETE'])
 @login_required
 def deleteFriend(id):
-    '''get all friend friends belong to current user from db'''
-    currentuser = current_user.to_dict()
-    friends = Friend.query.filter_by(belongs_to_user_id = currentuser['id']).all()
+    '''find the friend whom the current user wants to delete'''
+    deleted_friend = Friend.query.filter_by(belongs_to_user_id = current_user.id , friend_id= id).first()
 
-
-    '''find the friend whom the user wants to delete from friends_belong_to_me'''
-    friendsDict = [friend.to_dict() for friend in friends]
-    for friend in friendsDict:
-        if friend['friend_id'] == id:
-
-            '''find the deleted_friend from db by friend id'''
-            deleted_friend = Friend.query.get(friend['id'])
+    if deleted_friend:
+            '''add username information to deleted friend on backend res'''
+            deleted_friend_info = deleted_friend.user
 
             deleted_friendDict = deleted_friend.to_dict()
+            deleted_friendDict['friend_name'] = deleted_friend_info.username
 
             db.session.delete(deleted_friend)
             db.session.commit()
+
             return deleted_friendDict
 
     return "No friends on the list"
@@ -103,47 +96,20 @@ def deleteFriend(id):
 def updateFriendNickname(id):
     form = FriendForm()
     form['csrf_token'].data = request.cookies['csrf_token']
-    print(f"這裡是update {form.data}")
 
-    '''get all friend friends belong to current user from db'''
-    currentuser = current_user.to_dict()
-    friends = Friend.query.filter_by(belongs_to_user_id = currentuser['id']).all()
+    '''find the friend whom the current user wants to update'''
+    updated_friend = Friend.query.filter_by(belongs_to_user_id = current_user.id , friend_id= id).first()
 
-    '''find the friend whom the user wants to update'''
-    friendsDict = [friend.to_dict() for friend in friends]
-    for friend in friendsDict:
-        if friend['friend_id'] == id:
-            '''find the updated_friend from db by friend id'''
-            updated_friend = Friend.query.get(friend['id'])
-            print(f"找到updated firend {updated_friend}")
+    '''if the updated_friend is on user's friend list, update it and save it to db'''
+    if updated_friend:
+        updated_friend.nickname = form.data['nickname']
+        db.session.commit()
 
-            updated_friend.nickname = form.data['nickname']
-            db.session.commit()
-            updatedfriendDict = updated_friend.to_dict()
+        '''add username information to updated friend on backend res'''
+        updated_friend_info = updated_friend.user
+        updated_friendDict = updated_friend.to_dict()
+        updated_friendDict['friend_name'] = updated_friend_info.username
 
-            return updatedfriendDict
+        return updated_friendDict
 
-    return "test"
-
-    # form = UserForm()
-    # form['csrf_token'].data = request.cookies['csrf_token']
-
-    # if form.validate_on_submit():
-    #     '''query db to get the user which the user wants to update'''
-    #     updatedfriend = User.query.get(id)
-
-    #     updatedfriend.username = updatedfriend.username + form.data['name']
-
-    #     updatedfriend.email = form.data['email']
-
-    #     db.session.commit()
-    #     updatedfriendDict = updatedfriend.to_dict()
-
-    #     print(f'這裡是後端的updatedfriend. group{updatedfriend.groups}')
-    #     updatedfriendDict['involved_group'] = updatedfriend.groups
-    #     updatedfriendDict['user_id'] = updatedfriend.id
-    #     print(f'加上去後-這裡是後端的updatedfriend. group{updatedfriendDict}')
-
-
-    #     return updatedfriendDict
-    # return "not passed validation"
+    return "can't find the friend"
