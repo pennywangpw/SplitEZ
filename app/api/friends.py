@@ -14,34 +14,36 @@ def createFriend():
     form['csrf_token'].data = request.cookies['csrf_token']
 
     '''check if pass the validation'''
-    if form.validate_on_submit():
-        '''check if the new friend is existing user'''
-        existing_user = User.query.filter_by(email= form.data['email']).first()
+    if not form.validate_on_submit():
+        return jsonify(errors= form.errors), 400
 
-        if existing_user:
-            existing_friend = Friend.query.filter_by(friend_id = existing_user.id, belongs_to_user_id = current_user.id).first()
-            if existing_friend:
-                return "Your friend is already on the friend list :)"
-            else:
-                if existing_user.id == current_user.id:
-                    return "You can't add yourself"
-                else:
-                    new_friend = Friend(
-                    friend_id= existing_user.id,
-                    belongs_to_user_id = current_user.id
-                    )
+    '''check if the new friend is existing user'''
+    existing_user = User.query.filter_by(email= form.data['email']).first()
+    if not existing_user:
 
-                    db.session.add(new_friend)
-                    db.session.commit()
-
-                    '''add username information to new friend on backend res'''
-                    new_friendDict = new_friend.to_dict()
-                    new_friendDict['friend_name'] = existing_user.username
-                    return new_friendDict
         return "Your friend isn't registered. Please invite her/him to register with us."
 
-    else:
-        return jsonify(errors= form.errors), 400
+
+    existing_friend = Friend.query.filter_by(friend_id = existing_user.id, belongs_to_user_id = current_user.id).first()
+    if existing_friend:
+        return "Your friend is already on the friend list :)"
+
+    if existing_user.id == current_user.id:
+        return "You can't add yourself"
+
+    new_friend = Friend(
+    friend_id= existing_user.id,
+    belongs_to_user_id = current_user.id
+    )
+
+    db.session.add(new_friend)
+    db.session.commit()
+
+    '''add username information to new friend on backend res'''
+    new_friendDict = new_friend.to_dict()
+    new_friendDict['friend_name'] = existing_user.username
+    return new_friendDict
+
 
 
 
@@ -87,7 +89,7 @@ def deleteFriend(id):
 
             return deleted_friendDict
 
-    return "No friends on the list"
+    return "Can't find the friend to delete"
 
 
 #update friend's name, but only add a nickname
