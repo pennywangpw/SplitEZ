@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as groupsthunk from "../../store/group";
 import * as usersthunk from "../../store/user";
+import * as friendsthunk from "../../store/friend";
 import { NavLink } from "react-router-dom";
 import GroupModal from "../GroupModal";
 import FriendModal from "../FriendModal";
@@ -14,76 +15,24 @@ function LeftPanel() {
     const [currentGroupId, SetcurrentGroupId] = useState(1)
     const allGroups = useSelector((state) => state.groups.allGroups);
     const allGroupsArr = Object.values(allGroups)
-    const allGroupsAndUsers = useSelector((state) => state.users.allUsersWithGroupInfo)
-    const allGroupsAndUsersArr = Object.values(allGroupsAndUsers)
     const current_user = useSelector((state) => state.session.user)
-    // const allGroupsAndFriends = useSelector((state) => state.users.allFriendsWithGroupInfo)
-    // const allGroupsAndFriendsArr = Object.values(allGroupsAndFriends)
+    const allFriends = useSelector((state) => state.friends.allFriends)
+    const allFriendsArr = Object.values(allFriends)
     console.log("=====這裡是LeftPanel")
 
-    console.log("here's allGroupsAndUsersArr: ", allGroupsAndUsersArr)
-    // console.log("*****here's allGroupsAndFriendsArr: ", allGroupsAndFriendsArr)
+    console.log("here's allFriendsArr: ", allFriendsArr)
 
-    //重新整理
-    // useEffect(() => {
-    //     dispatch(groupsthunk.allGroupsthunk())
-    //     return () => dispatch(groupsthunk.clearGroupA())
-    // }, [dispatch])
 
     //testing
     useEffect(() => {
         console.log("我是要測試,是不是因為我改了group delete model 所以執行了這裡的dispatch")
         dispatch(groupsthunk.allGroupsthunk())
-        dispatch(usersthunk.allUsersWithGroupInfo())
-        // dispatch(usersthunk.allFriendsWithGroupInfo())
+        // dispatch(usersthunk.allUsersWithGroupInfo())
+        dispatch(friendsthunk.allFriendsthunk())
 
         return () => dispatch(groupsthunk.clearGroupA())
     }, [])
 
-
-    // //get all friends' name
-    // let friends = []
-    // for (let group of allGroupsArr) {
-    //     console.log("group: ", group)
-    //     for (let user of group["group_members"]) {
-    //         if (!friends.includes(user)) {
-    //             friends.push(user)
-    //         }
-    //     }
-    // }
-    // console.log("check up friends :", friends)
-
-    // // find unique friend's name
-    // const uniquefriend = new Set()
-
-    // for (let friend of friends) {
-    //     console.log("each friend: ", friend)
-    //     // convert value to a JSON string
-    //     const friendString = JSON.stringify(friend)
-    //     if (!uniquefriend.has(friendString)) {
-    //         uniquefriend.add(friendString)
-    //     }
-    // }
-
-    // //convert uniquefriend to array
-    // const uniquefriendArr = [...uniquefriend]
-
-    // //convert the value in array into object
-    // const uniquefriendObj = uniquefriendArr.map(friendString => JSON.parse(friendString))
-
-
-    const friendsHandler = () => {
-        // alert("feature coming soon")
-        // let payload = { 'name': username }
-        // dispatch(usersthunk.addFriendthunk(payload))
-        console.log("5555")
-    }
-
-    // const clickFriendHandler = (user_id) => {
-
-    //     console.log("clickFriendHandler user id 查看", user_id)
-
-    // }
 
 
     return (
@@ -102,6 +51,8 @@ function LeftPanel() {
                         />
                     </div>
                 </div>
+                02
+
 
                 <div id="group">
                     <div>
@@ -151,24 +102,25 @@ function LeftPanel() {
 
                 <div className="height-3vh" id="frined">
                     <div>
-                        {allGroupsAndUsersArr.map(user =>
+
+                        {allFriendsArr.map(friend =>
                             <>
                                 <div className="friend" >
-                                    <NavLink to={`/${current_user.id}/friends/${user.id}`} style={{ textDecoration: 'none' }}>
+                                    <NavLink to={`/${current_user.id}/friends/${friend.id}`} style={{ textDecoration: 'none' }}>
                                         <div className="flx" >
                                             <div className="width-50" >
-                                                {user.username}
+                                                {friend.friend_name}
                                             </div>
                                             <div className="width-50 flx-sa">
                                                 <OpenModalButton
                                                     buttonText={<i class="fas fa-edit"></i>}
                                                     className="button-decision pad-4-12"
-                                                    modalComponent={<FriendModal name={user.username} id={user.id} email={user.email} type="edit friend" />}
+                                                    modalComponent={<FriendModal name={friend.username} id={friend.id} type="edit friend" />}
                                                 />
                                                 <OpenModalButton
                                                     buttonText={<i class="fas fa-trash-alt"></i>}
                                                     className="button-decision pad-4-12"
-                                                    modalComponent={<DeleteConfirmationModal type="delete friend" id={user.id} />}
+                                                    modalComponent={<DeleteConfirmationModal type="delete friend" id={friend.id} />}
                                                 />
                                             </div>
                                         </div>

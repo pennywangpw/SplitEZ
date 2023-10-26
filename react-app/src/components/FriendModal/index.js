@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useModal } from "../../context/Modal";
 import { useSelector, useDispatch } from 'react-redux';
 import * as usersthunk from "../../store/user";
+import * as friendsthunk from "../../store/friend";
 import * as groupsthunk from "../../store/group";
 import { useState } from "react";
 
@@ -127,7 +128,9 @@ function FriendModal({ name, id, email, type }) {
         let payload = { 'name': friendname, 'email': friendemail, 'belongs_to_user_id': current_user.id }
         if (type === "create friend") {
             try {
-                await dispatch(usersthunk.createFriendthunk(payload))
+                // await dispatch(usersthunk.createFriendthunk(payload))
+                await dispatch(friendsthunk.addFriendthunk(payload))
+
                 closeModal()
             } catch (error) {
                 let errorinfo = error.errors
