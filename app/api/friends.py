@@ -20,12 +20,14 @@ def createFriend():
     '''check if the new friend is existing user'''
     existing_user = User.query.filter_by(email= form.data['email']).first()
     if not existing_user:
-
+        return jsonify(errors="Your friend isn't registered. Please invite her/him to register with us." ), 400
         return "Your friend isn't registered. Please invite her/him to register with us."
 
 
     existing_friend = Friend.query.filter_by(friend_id = existing_user.id, belongs_to_user_id = current_user.id).first()
     if existing_friend:
+        return jsonify(errors="Your friend is already on the friend list :)" ), 400
+
         return "Your friend is already on the friend list :)"
 
     if existing_user.id == current_user.id:
@@ -42,6 +44,7 @@ def createFriend():
     '''add username information to new friend on backend res'''
     new_friendDict = new_friend.to_dict()
     new_friendDict['friend_name'] = existing_user.username
+    print(f"這裡是new_friendDict {new_friendDict}")
     return new_friendDict
 
 

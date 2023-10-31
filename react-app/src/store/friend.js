@@ -31,6 +31,8 @@ export const allFriendsthunk = () => async (dispatch) => {
 
 //add a friend
 export const addFriendthunk = (payload) => async (dispatch) => {
+    console.log("這裡是addFriendthunk thunk payload", payload)
+
     const response = await fetch("/api/friends/", {
         method: 'POST',
         headers: {
@@ -41,10 +43,20 @@ export const addFriendthunk = (payload) => async (dispatch) => {
 
     if (response.ok) {
         const data = await response.json();
+        console.log("這裡是addFriendthunk data", data)
         dispatch(addFriendA(data))
-    };
-    console.log("這裡是allFriends thunk", allFriendsthunk)
-    return response
+    }
+    else {
+        const errorData = await response.json();
+        console.log("這裡是addFriendthunk thunk errorData", errorData)
+        if (errorData && errorData.errors) {
+            console.log("這裡是addFriendthunk thunk errorData.errors", errorData.errors)
+            throw errorData.errors
+        }
+    }
+
+
+
 }
 
 

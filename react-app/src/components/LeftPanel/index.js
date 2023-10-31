@@ -91,7 +91,7 @@ function LeftPanel() {
                         <OpenModalButton
                             buttonText="+Add"
                             className="float-r button-orange"
-                            modalComponent={<FriendModal type="create friend" name="" id="null" />}
+                            modalComponent={<FriendModal type="add friend" name="" id="null" />}
                         />
                         {/* <button onClick={friendsHandler} className=" float-r button-orange">
                             +Add
