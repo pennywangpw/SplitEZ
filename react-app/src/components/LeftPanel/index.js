@@ -13,11 +13,15 @@ import OpenModalButton from "../OpenModalButton";
 function LeftPanel() {
     const dispatch = useDispatch()
     const [currentGroupId, SetcurrentGroupId] = useState(1)
+    // const [renderchecker, setRenderchecker] = useState(0);
     const allGroups = useSelector((state) => state.groups.allGroups);
     const allGroupsArr = Object.values(allGroups)
     const current_user = useSelector((state) => state.session.user)
     const allFriends = useSelector((state) => state.friends.allFriends)
     const allFriendsArr = Object.values(allFriends)
+
+
+
     console.log("=====這裡是LeftPanel")
 
     console.log("here's allFriendsArr: ", allFriendsArr)
@@ -31,12 +35,17 @@ function LeftPanel() {
         dispatch(friendsthunk.allFriendsthunk())
 
         return () => dispatch(groupsthunk.clearGroupA())
-    }, [])
+    }, [dispatch])
 
 
+
+    // const updateFriendModal = () => {
+    //     setRenderchecker((prevKey) => prevKey + 1);
+    // };
 
     return (
         <>
+            {console.log("是否有render???")}
             <div className=" pad-r-15px pad-l-10p ">
                 <NavLink to="/all" style={{ textDecoration: 'none', lineHeight: '5vh' }}>
                     <div className="fontS-22px height-5vh">All expenses</div>
@@ -91,7 +100,7 @@ function LeftPanel() {
                         <OpenModalButton
                             buttonText="+Add"
                             className="float-r button-orange"
-                            modalComponent={<FriendModal type="add friend" name="" id="null" />}
+                            modalComponent={<FriendModal type="add friend" name="null" id="null" />}
                         />
                         {/* <button onClick={friendsHandler} className=" float-r button-orange">
                             +Add
@@ -106,16 +115,26 @@ function LeftPanel() {
                         {allFriendsArr.map(friend =>
                             <>
                                 <div className="friend" >
-                                    <NavLink to={`/${current_user.id}/friends/${friend.id}`} style={{ textDecoration: 'none' }}>
+                                    <NavLink to={`/${current_user.id}/friends/${friend.friend_id}`} style={{ textDecoration: 'none' }}>
                                         <div className="flx" >
-                                            <div className="width-50" >
-                                                {friend.friend_name}
-                                            </div>
+                                            {friend.nickname !== null ? (
+                                                <div className="width-50" >
+                                                    {friend.friend_name}({friend.nickname})
+                                                </div>
+                                            )
+                                                :
+                                                (
+                                                    <div className="width-50" >
+                                                        {friend.friend_name}
+                                                    </div>)
+                                            }
+
                                             <div className="width-50 flx-sa">
                                                 <OpenModalButton
                                                     buttonText={<i class="fas fa-edit"></i>}
                                                     className="button-decision pad-4-12"
-                                                    modalComponent={<FriendModal name={friend.username} id={friend.id} type="edit friend" />}
+                                                    modalComponent={<FriendModal name={friend.friend_name} email="null" id={friend.friend_id} type="edit friend" />}
+                                                // updateFriendModal={updateFriendModal}
                                                 />
                                                 <OpenModalButton
                                                     buttonText={<i class="fas fa-trash-alt"></i>}

@@ -1,5 +1,6 @@
 const GETALLFRIENDS = 'friends/ALL_FRIENDS';
 const ADDFRIEND = 'friends/ADD_FRIEND';
+const UPDATEFRIEND = 'friends/UPDATE_FRIENDS';
 
 
 const allFriendsA = (arr) => {
@@ -17,7 +18,15 @@ const addFriendA = (obj) => {
     };
 }
 
-//get all friends
+
+const updateFriendA = (obj) => {
+    return {
+        type: UPDATEFRIEND,
+        obj
+    };
+}
+
+//get all friends thunk
 export const allFriendsthunk = () => async (dispatch) => {
     const response = await fetch("/api/friends/myfriends")
 
@@ -29,7 +38,7 @@ export const allFriendsthunk = () => async (dispatch) => {
     return response
 }
 
-//add a friend
+//add a friend thunk
 export const addFriendthunk = (payload) => async (dispatch) => {
     console.log("這裡是addFriendthunk thunk payload", payload)
 
@@ -43,21 +52,37 @@ export const addFriendthunk = (payload) => async (dispatch) => {
 
     if (response.ok) {
         const data = await response.json();
-        console.log("這裡是addFriendthunk data", data)
         dispatch(addFriendA(data))
     }
     else {
         const errorData = await response.json();
-        console.log("這裡是addFriendthunk thunk errorData", errorData)
         if (errorData && errorData.errors) {
-            console.log("這裡是addFriendthunk thunk errorData.errors", errorData.errors)
             throw errorData.errors
         }
     }
 
-
-
 }
+
+//update friend thunk
+export const updateFriendthunk = (payload, id) => async (dispatch) => {
+    console.log("this is thunk--updateFriendthunk", payload, typeof id, id)
+
+    const response = await fetch(`/api/friends/${id}`, {
+        method: 'PUT',
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload)
+
+    })
+    if (response.ok) {
+        const data = await response.json();
+        console.log("updateFriendthunk thunk check what i got from bk: ", data)
+        dispatch(updateFriendA(data))
+    };
+    return response
+}
+
 
 
 const initialState = {
@@ -79,6 +104,12 @@ const friendsReducer = (state = initialState, action) => {
             let newfriend = action.obj
             newState2.allFriends[newfriend.id] = newfriend
             return newState2
+
+        case UPDATEFRIEND:
+            let newState3 = { ...state, allFriends: { ...state.allFriends } }
+            let updatedfriend = action.obj
+            newState3.allFriends[updatedfriend.id] = updatedfriend
+            return newState3
 
         default:
             return state;

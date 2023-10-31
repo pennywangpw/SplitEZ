@@ -102,10 +102,10 @@ function FriendModal({ name, id, email, type }) {
     const { closeModal } = useModal()
     const [friendname, setFriendName] = useState(name)
     const [friendemail, setFriendemail] = useState(email)
-    // const [initialRender, setInitialRender] = useState(true)
+    const [nickname, setNickname] = useState(null)
     const [errors, setErrors] = useState([])
     const current_user = useSelector((state) => state.session.user)
-    console.log("測試看看FriendModal是不是重新刷新,如果friendname加上去")
+
     // validation for group name
     useEffect(() => {
 
@@ -114,6 +114,7 @@ function FriendModal({ name, id, email, type }) {
         if (friendname.length === 0) e.push("Please provide friend's name")
         if (friendname !== undefined && friendname.length > 10) e.push("Please shorten the friend's name")
         if (friendemail === undefined) e.push("Please provide friend's email")
+        if (friendemail === current_user.email) e.push("You can't add yourself")
         if (friendemail === 'Invalid email address.') e.push("Invalid email address")
         if (friendemail === "Your friend isn't registered. Please invite her/him to register with us.") e.push("Your friend isn't registered. Please invite her/him to register with us.")
         if (friendemail === "Your friend is already on the friend list :)") e.push("Your friend is already on the friend list :)")
@@ -141,11 +142,8 @@ function FriendModal({ name, id, email, type }) {
 
                 if (error.email) {
                     let errormessage = error.email[0]
-                    console.log("前端error", error)
                     await setFriendemail(errormessage)
                 } else {
-                    console.log("前端error", error)
-
                     await setFriendemail(error)
 
                 }
@@ -156,8 +154,9 @@ function FriendModal({ name, id, email, type }) {
 
         }
         else if (type === "edit friend") {
-            let payload = { 'name': friendname, 'email': email }
-            dispatch(usersthunk.updateFriendthunk(payload, id)).then(() => dispatch(usersthunk.allUsersWithGroupInfo())).then(closeModal())
+            let payload = { 'name': friendname, 'email': email, 'nickname': nickname }
+            console.log("修改名字的payload:", payload)
+            dispatch(friendsthunk.updateFriendthunk(payload, id)).then(() => dispatch(friendsthunk.allFriendsthunk())).then(closeModal())
             // dispatch(usersthunk.updateFriendthunk(payload, id)).then(dispatch(groupsthunk.allGroupsthunk())).then(closeModal())
         }
 
@@ -191,19 +190,6 @@ function FriendModal({ name, id, email, type }) {
                                     />
                                 </div>
                             )
-                                // type === "create friend" ? (
-                                //     <div>
-                                //         <label htmlFor="friendname">
-                                //             Friend's name...
-                                //         </label>
-                                //         <input
-                                //             id="friendname"
-                                //             type="text"
-                                //             value={friendname}
-                                //             onChange={(e) => setFriendName(e.target.value)}
-                                //         />
-                                //     </div>
-                                // )
                                 :
                                 (
                                     <div>
@@ -213,7 +199,7 @@ function FriendModal({ name, id, email, type }) {
                                         <input
                                             id="friendname"
                                             type="text"
-                                            onChange={(e) => setFriendName(e.target.value)}
+                                            onChange={(e) => setNickname(e.target.value)}
                                         />
                                     </div>
                                 )}

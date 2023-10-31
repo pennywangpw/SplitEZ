@@ -21,14 +21,14 @@ def createFriend():
     existing_user = User.query.filter_by(email= form.data['email']).first()
     if not existing_user:
         return jsonify(errors="Your friend isn't registered. Please invite her/him to register with us." ), 400
-        return "Your friend isn't registered. Please invite her/him to register with us."
+        # return "Your friend isn't registered. Please invite her/him to register with us."
 
 
     existing_friend = Friend.query.filter_by(friend_id = existing_user.id, belongs_to_user_id = current_user.id).first()
     if existing_friend:
         return jsonify(errors="Your friend is already on the friend list :)" ), 400
 
-        return "Your friend is already on the friend list :)"
+        # return "Your friend is already on the friend list :)"
 
     if existing_user.id == current_user.id:
         return "You can't add yourself"
