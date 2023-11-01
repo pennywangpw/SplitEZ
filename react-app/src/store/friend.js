@@ -64,7 +64,6 @@ export const allFriendsthunk = () => async (dispatch) => {
 
 //get single friend thunk
 export const singleFriendthunk = (id) => async (dispatch) => {
-    console.log("檢查是否有到singleFriendthunk", id)
     const response = await fetch(`/api/friends/${id}`)
 
     if (response.ok) {
@@ -100,7 +99,7 @@ export const addFriendthunk = (payload) => async (dispatch) => {
 
 //update friend thunk
 export const updateFriendthunk = (payload, id) => async (dispatch) => {
-    console.log("this is thunk--updateFriendthunk", payload, typeof id, id)
+
 
     const response = await fetch(`/api/friends/${id}`, {
         method: 'PUT',
@@ -112,7 +111,7 @@ export const updateFriendthunk = (payload, id) => async (dispatch) => {
     })
     if (response.ok) {
         const data = await response.json();
-        console.log("updateFriendthunk thunk check what i got from bk: ", data)
+
         dispatch(updateFriendA(data))
     };
     return response
@@ -120,13 +119,11 @@ export const updateFriendthunk = (payload, id) => async (dispatch) => {
 
 //delete friend thunk
 export const deleteFriendthunk = (id) => async (dispatch) => {
-    console.log("this is thunk--deleteFriendthunk:", id)
     const response = await fetch(`/api/friends/${id}`, {
         method: 'DELETE'
     })
     if (response.ok) {
         const data = await response.json();
-        console.log("DELETE A Friend thunk check what i got from bk: ", data)
         dispatch(deleteAFriendA(data))
     };
     return response

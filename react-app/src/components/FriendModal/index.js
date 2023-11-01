@@ -134,7 +134,6 @@ function FriendModal({ name, id, email, type }) {
         let payload = { 'name': friendname, 'email': friendemail, 'belongs_to_user_id': current_user.id, 'nickname': null }
         if (type === "add friend") {
             try {
-                // await dispatch(usersthunk.createFriendthunk(payload))
                 await dispatch(friendsthunk.addFriendthunk(payload))
 
                 closeModal()

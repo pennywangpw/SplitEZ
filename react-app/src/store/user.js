@@ -3,7 +3,6 @@ const GETAFRIEND = 'friends/SINGLE_FRIEND';
 const GETALLUSERSWITHGROUPINFO = 'friends/ALL_USERS_WITH_GROUPINFO';
 const GETALLFRIENDSWITHGROUPINFO = 'friends/ALL_FRIENDS_WITH_GROUPINFO';
 const UPDATEFRIEND = 'friends/UPDATE_FRIENDS';
-const POSTAFRIEND = 'friends/CREATE_FRIEND';
 const ADDAFRIEND = 'friends/ADD_FRIEND';
 
 
@@ -49,12 +48,6 @@ const updateFriendA = (obj) => {
 }
 
 
-const createAFriendA = (obj) => {
-    return {
-        type: POSTAFRIEND,
-        obj
-    };
-}
 
 const addAFriendA = (obj) => {
     return {
@@ -119,31 +112,6 @@ export const updateFriendthunk = (payload, id) => async (dispatch) => {
     return response
 }
 
-//create friend thunk
-export const createFriendthunk = (payload) => async (dispatch) => {
-    console.log("createFriendthunk payload: ", payload)
-    const response = await fetch(`/api/users`, {
-        method: 'POST',
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload)
-    })
-    console.log("新增朋友的response", response)
-    if (response.ok) {
-        const data = await response.json();
-        dispatch(createAFriendA(data))
-    }
-    else {
-        console.log("如果response no ok新增朋友的response", response.status)
-        const data = await response.json();
-        console.log("***如果response no ok新增朋友的response data", data)
-
-        throw data
-
-    }
-    return response
-}
 
 //add a friend on LeftPanel thunk
 export const addFriendthunk = (payload) => async (dispatch) => {
@@ -196,11 +164,7 @@ const usersReducer = (state = initialState, action) => {
             let updatedFriend = action.obj
             newState3.allUsersWithGroupInfo[updatedFriend.id] = updatedFriend
             return newState3
-        case POSTAFRIEND:
-            let newState4 = { ...state, allUsersWithGroupInfo: { ...state.allUsersWithGroupInfo }, allFriendsWithGroupInfo: { ...state.allFriendsWithGroupInfo }, singleFriend: { ...state.singleFriend } }
-            let newfriend = action.obj
-            newState4.allUsersWithGroupInfo[newfriend.id] = newfriend
-            return newState4
+
 
         case GETAFRIEND:
             let newState5 = { ...state, singleFriend: { ...state.singleFriend } };

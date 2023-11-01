@@ -44,7 +44,7 @@ def createFriend():
     '''add username information to new friend on backend res'''
     new_friendDict = new_friend.to_dict()
     new_friendDict['friend_name'] = existing_user.username
-    print(f"這裡是new_friendDict {new_friendDict}")
+
     return new_friendDict
 
 
@@ -75,12 +75,17 @@ def allfriends():
 @friends.route('/<int:id>')
 @login_required
 def singlefriend(id):
+    '''select the friend who the user click on from db'''
     selected_friend = Friend.query.filter_by(belongs_to_user_id = current_user.id , friend_id = id).first()
+
+    '''if the friend is found'''
     if selected_friend:
         selected_friendDict = selected_friend.to_dict()
         selected_friend_info = selected_friend.user
-        selected_friendDict['friend_name'] = selected_friend_info.username
+        groupsDict = [group.to_dict() for group in selected_friend_info.groups]
 
+        selected_friendDict['friend_name'] = selected_friend_info.username
+        selected_friendDict['groups'] = groupsDict
         return selected_friendDict
     return "Can't find the friend from friend list"
 

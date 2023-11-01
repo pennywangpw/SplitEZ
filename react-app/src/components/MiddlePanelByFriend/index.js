@@ -21,9 +21,6 @@ function GroupListByFriend() {
     const singleFriend = useSelector((state) => state.friends.singleFriend)
 
 
-    console.log("=====這裡是GroupListByFriend-friendId", friendId)
-
-    console.log("=====這裡是GroupListByFriend", singleFriend)
 
     useEffect(() => {
         dispatch(friendsthunk.singleFriendthunk(friendId))
@@ -40,14 +37,7 @@ function GroupListByFriend() {
 
     //choose the selected frined in allusers
     let selectedFriend = singleFriend
-    // if (allGroupsAndUsersArr.length > 0) {
-    //     for (let user of allGroupsAndUsersArr) {
-    //         if (user.id === Number(friendId)) {
-    //             selectedFriend = user
-    //         }
-    //     }
-    // }
-    console.log("selectedFriend: ", selectedFriend)
+
 
     return (
         <>
@@ -72,10 +62,10 @@ function GroupListByFriend() {
 
                 </div>
 
-                {/* <div className="line-5vh">
+                <div className="line-5vh">
                     {selectedFriend ?
-                        (selectedFriend.involved_group.length > 0 ?
-                            (selectedFriend.involved_group.map(group =>
+                        (selectedFriend.groups.length > 0 ?
+                            (selectedFriend.groups.map(group =>
                                 <div key={group.id} className="detail">
                                     <NavLink to={`/groups/${group.id}`} style={{ textDecoration: 'none', lineHeight: '5vh' }}>
                                         <div className="grid-3fr height-8vh expense-summary">{group.name}</div>
@@ -88,7 +78,7 @@ function GroupListByFriend() {
                         (<div></div>)
                     }
 
-                </div> */}
+                </div>
 
             </div>
         </>
