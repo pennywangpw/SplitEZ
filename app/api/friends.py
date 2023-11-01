@@ -71,6 +71,19 @@ def allfriends():
     return all_friends
 
 
+#get single friend
+@friends.route('/<int:id>')
+@login_required
+def singlefriend(id):
+    selected_friend = Friend.query.filter_by(belongs_to_user_id = current_user.id , friend_id = id).first()
+    if selected_friend:
+        selected_friendDict = selected_friend.to_dict()
+        selected_friend_info = selected_friend.user
+        selected_friendDict['friend_name'] = selected_friend_info.username
+
+        return selected_friendDict
+    return "Can't find the friend from friend list"
+
 
 
 #delete a friend

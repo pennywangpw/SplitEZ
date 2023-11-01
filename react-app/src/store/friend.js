@@ -1,7 +1,15 @@
 const GETALLFRIENDS = 'friends/ALL_FRIENDS';
+const GETSINGLEFRIEND = 'friends/SINGLE_FRIEND';
 const ADDFRIEND = 'friends/ADD_FRIEND';
 const UPDATEFRIEND = 'friends/UPDATE_FRIENDS';
+const DELETETAFRIEND = 'friends/DELETE_FRIENDS';
+const CLEARSINGLEFRIEND = 'friends/CLEAR_GROUP';
 
+export const clearSingleFriendA = () => {
+    return {
+        type: CLEARSINGLEFRIEND,
+    };
+};
 
 const allFriendsA = (arr) => {
     return {
@@ -10,6 +18,12 @@ const allFriendsA = (arr) => {
     };
 }
 
+const singleFriendA = (obj) => {
+    return {
+        type: GETSINGLEFRIEND,
+        obj
+    }
+}
 
 const addFriendA = (obj) => {
     return {
@@ -26,6 +40,16 @@ const updateFriendA = (obj) => {
     };
 }
 
+
+const deleteAFriendA = (obj) => {
+    return {
+        type: DELETETAFRIEND,
+        obj
+    }
+}
+
+
+
 //get all friends thunk
 export const allFriendsthunk = () => async (dispatch) => {
     const response = await fetch("/api/friends/myfriends")
@@ -34,13 +58,24 @@ export const allFriendsthunk = () => async (dispatch) => {
         const data = await response.json();
         dispatch(allFriendsA(data))
     };
-    console.log("這裡是allFriends thunk", allFriendsthunk)
+    return response
+}
+
+
+//get single friend thunk
+export const singleFriendthunk = (id) => async (dispatch) => {
+    console.log("檢查是否有到singleFriendthunk", id)
+    const response = await fetch(`/api/friends/${id}`)
+
+    if (response.ok) {
+        const data = await response.json();
+        dispatch(singleFriendA(data))
+    };
     return response
 }
 
 //add a friend thunk
 export const addFriendthunk = (payload) => async (dispatch) => {
-    console.log("這裡是addFriendthunk thunk payload", payload)
 
     const response = await fetch("/api/friends/", {
         method: 'POST',
@@ -83,10 +118,24 @@ export const updateFriendthunk = (payload, id) => async (dispatch) => {
     return response
 }
 
+//delete friend thunk
+export const deleteFriendthunk = (id) => async (dispatch) => {
+    console.log("this is thunk--deleteFriendthunk:", id)
+    const response = await fetch(`/api/friends/${id}`, {
+        method: 'DELETE'
+    })
+    if (response.ok) {
+        const data = await response.json();
+        console.log("DELETE A Friend thunk check what i got from bk: ", data)
+        dispatch(deleteAFriendA(data))
+    };
+    return response
 
+}
 
 const initialState = {
-    allFriends: {}
+    allFriends: {},
+    singleFriend: {}
 };
 
 const friendsReducer = (state = initialState, action) => {
@@ -95,21 +144,34 @@ const friendsReducer = (state = initialState, action) => {
     console.log("initial : ", state)
     switch (action.type) {
         case GETALLFRIENDS:
-            let newState1 = { ...state, allFriends: { ...state.allFriends } }
+            let newState1 = { ...state, allFriends: { ...state.allFriends }, singleFriend: { ...state.singleFriend } }
             action.arr.forEach(friend => newState1.allFriends[friend.id] = friend)
             return newState1
 
-        case ADDFRIEND:
-            let newState2 = { ...state, allFriends: { ...state.allFriends } }
-            let newfriend = action.obj
-            newState2.allFriends[newfriend.id] = newfriend
+        case GETSINGLEFRIEND:
+            let newState2 = { ...state, allFriends: { ...state.allFriends }, singleFriend: { ...state.singleFriend } }
+            let selected_friend = action.obj
+            newState2.singleFriend = selected_friend
             return newState2
 
-        case UPDATEFRIEND:
-            let newState3 = { ...state, allFriends: { ...state.allFriends } }
-            let updatedfriend = action.obj
-            newState3.allFriends[updatedfriend.id] = updatedfriend
+        case ADDFRIEND:
+            let newState3 = { ...state, allFriends: { ...state.allFriends }, singleFriend: { ...state.singleFriend } }
+            let newfriend = action.obj
+            newState3.allFriends[newfriend.id] = newfriend
             return newState3
+
+        case UPDATEFRIEND:
+            let newState4 = { ...state, allFriends: { ...state.allFriends }, singleFriend: { ...state.singleFriend } }
+            let updatedfriend = action.obj
+            newState4.allFriends[updatedfriend.id] = updatedfriend
+            return newState4
+        case DELETETAFRIEND:
+            let newState5 = { ...state, allFriends: { ...state.allFriends }, singleFriend: { ...state.singleFriend } }
+            let deletedfriend = action.obj
+            delete newState5.allFriends[deletedfriend.id]
+            return newState5
+        case CLEARSINGLEFRIEND:
+            let newState6 = { ...state, allFriends: { ...state.allFriends }, singleFriend: {} }
 
         default:
             return state;

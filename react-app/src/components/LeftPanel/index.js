@@ -60,7 +60,6 @@ function LeftPanel() {
                         />
                     </div>
                 </div>
-                02
 
 
                 <div id="group">
@@ -117,6 +116,7 @@ function LeftPanel() {
                                 <div className="friend" >
                                     <NavLink to={`/${current_user.id}/friends/${friend.friend_id}`} style={{ textDecoration: 'none' }}>
                                         <div className="flx" >
+
                                             {friend.nickname !== null ? (
                                                 <div className="width-50" >
                                                     {friend.friend_name}({friend.nickname})

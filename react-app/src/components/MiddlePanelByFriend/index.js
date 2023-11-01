@@ -5,18 +5,31 @@ import { useDispatch, useSelector } from 'react-redux';
 import OpenModalButton from "../OpenModalButton";
 import CreateExpense from "../CreateExpense";
 import * as usersthunk from "../../store/user";
+import * as friendsthunk from "../../store/friend";
 
 
 
 
 function GroupListByFriend() {
     let { friendId } = useParams()
+    const dispatch = useDispatch()
+
     const allGroupsAndUsers = useSelector((state) => state.users.allUsersWithGroupInfo)
     const allGroupsAndUsersArr = Object.values(allGroupsAndUsers)
     const allGroups = useSelector((state) => state.groups.allGroups);
     const allGroupsArr = Object.values(allGroups)
+    const singleFriend = useSelector((state) => state.friends.singleFriend)
 
-    console.log("=====這裡是GroupListByFriend")
+
+    console.log("=====這裡是GroupListByFriend-friendId", friendId)
+
+    console.log("=====這裡是GroupListByFriend", singleFriend)
+
+    useEffect(() => {
+        dispatch(friendsthunk.singleFriendthunk(friendId))
+        return () => dispatch(friendsthunk.clearSingleFriendA())
+    }, [friendId])
+
 
     //get all group's names
     let groupsname = []
@@ -26,14 +39,14 @@ function GroupListByFriend() {
 
 
     //choose the selected frined in allusers
-    let selectedFriend
-    if (allGroupsAndUsersArr.length > 0) {
-        for (let user of allGroupsAndUsersArr) {
-            if (user.id === Number(friendId)) {
-                selectedFriend = user
-            }
-        }
-    }
+    let selectedFriend = singleFriend
+    // if (allGroupsAndUsersArr.length > 0) {
+    //     for (let user of allGroupsAndUsersArr) {
+    //         if (user.id === Number(friendId)) {
+    //             selectedFriend = user
+    //         }
+    //     }
+    // }
     console.log("selectedFriend: ", selectedFriend)
 
     return (
@@ -41,11 +54,10 @@ function GroupListByFriend() {
             <div className="shadow">
 
                 <div className="flx line-h70 bg-maim-eee border-top-main border-bottom-main fontS-13px ">
-                    {selectedFriend ? (<div className="fontS-220rem width-50">{selectedFriend.username}</div>) : (<div></div>)
+                    {selectedFriend && selectedFriend.nickname !== null ? (<div className="fontS-220rem width-50">{selectedFriend.friend_name} ({selectedFriend.nickname})</div>) : (<div className="fontS-220rem width-50">{selectedFriend.friend_name} </div>)
 
                     }
 
-                    {/* <div className="fontS-220rem width-50">{selectedFriend.username}</div> */}
                     <div className="btn-create">
                         <OpenModalButton
                             className={"button-orange"}
@@ -60,7 +72,7 @@ function GroupListByFriend() {
 
                 </div>
 
-                <div className="line-5vh">
+                {/* <div className="line-5vh">
                     {selectedFriend ?
                         (selectedFriend.involved_group.length > 0 ?
                             (selectedFriend.involved_group.map(group =>
@@ -76,7 +88,7 @@ function GroupListByFriend() {
                         (<div></div>)
                     }
 
-                </div>
+                </div> */}
 
             </div>
         </>
