@@ -9,6 +9,9 @@ def seed_friends():
     friend4 = Friend(friend_id= 3, belongs_to_user_id= 2)
     friend5 = Friend(friend_id= 1, belongs_to_user_id= 3, nickname ="DD")
     friend6 = Friend(friend_id= 1, belongs_to_user_id= 4, nickname ="mo")
+    friend7 = Friend(friend_id= 3, belongs_to_user_id= 1, nickname ="bobo")
+    friend8 = Friend(friend_id= 4, belongs_to_user_id= 1)
+    friend9 = Friend(friend_id= 7, belongs_to_user_id= 1, nickname ="ni")
 
 
 
@@ -21,6 +24,10 @@ def seed_friends():
     db.session.add(friend4)
     db.session.add(friend5)
     db.session.add(friend6)
+    db.session.add(friend7)
+    db.session.add(friend8)
+    db.session.add(friend9)
+
 
 
 
