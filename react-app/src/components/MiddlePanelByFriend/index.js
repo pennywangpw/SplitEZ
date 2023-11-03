@@ -5,16 +5,27 @@ import { useDispatch, useSelector } from 'react-redux';
 import OpenModalButton from "../OpenModalButton";
 import CreateExpense from "../CreateExpense";
 import * as usersthunk from "../../store/user";
+import * as friendsthunk from "../../store/friend";
 
 
 
 
 function GroupListByFriend() {
     let { friendId } = useParams()
+    const dispatch = useDispatch()
+
     const allGroupsAndUsers = useSelector((state) => state.users.allUsersWithGroupInfo)
     const allGroupsAndUsersArr = Object.values(allGroupsAndUsers)
     const allGroups = useSelector((state) => state.groups.allGroups);
     const allGroupsArr = Object.values(allGroups)
+    const singleFriend = useSelector((state) => state.friends.singleFriend)
+
+
+
+    useEffect(() => {
+        dispatch(friendsthunk.singleFriendthunk(friendId))
+        return () => dispatch(friendsthunk.clearSingleFriendA())
+    }, [friendId])
 
 
     //get all group's names
@@ -25,26 +36,18 @@ function GroupListByFriend() {
 
 
     //choose the selected frined in allusers
-    let selectedFriend
-    if (allGroupsAndUsersArr.length > 0) {
-        for (let user of allGroupsAndUsersArr) {
-            if (user.id === Number(friendId)) {
-                selectedFriend = user
-            }
-        }
-    }
-    console.log("selectedFriend: ", selectedFriend)
+    let selectedFriend = singleFriend
+
 
     return (
         <>
             <div className="shadow">
 
                 <div className="flx line-h70 bg-maim-eee border-top-main border-bottom-main fontS-13px ">
-                    {selectedFriend ? (<div className="fontS-220rem width-50">{selectedFriend.username}</div>) : (<div></div>)
+                    {selectedFriend && selectedFriend.nickname !== null ? (<div className="fontS-220rem width-50">{selectedFriend.friend_name} ({selectedFriend.nickname})</div>) : (<div className="fontS-220rem width-50">{selectedFriend.friend_name} </div>)
 
                     }
 
-                    {/* <div className="fontS-220rem width-50">{selectedFriend.username}</div> */}
                     <div className="btn-create">
                         <OpenModalButton
                             className={"button-orange"}
@@ -61,8 +64,8 @@ function GroupListByFriend() {
 
                 <div className="line-5vh">
                     {selectedFriend ?
-                        (selectedFriend.involved_group.length > 0 ?
-                            (selectedFriend.involved_group.map(group =>
+                        (selectedFriend.groups.length > 0 ?
+                            (selectedFriend.groups.map(group =>
                                 <div key={group.id} className="detail">
                                     <NavLink to={`/groups/${group.id}`} style={{ textDecoration: 'none', lineHeight: '5vh' }}>
                                         <div className="grid-3fr height-8vh expense-summary">{group.name}</div>

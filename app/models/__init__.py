@@ -5,4 +5,5 @@ from .group import Group
 from .comment import Comment
 from .users_groups import users_groups
 from .users_expenses import users_expenses
+from .friend import Friend
 from .db import environment, SCHEMA

@@ -5,7 +5,7 @@ from .groups import seed_groups, undo_groups
 from .comments import seed_comments, undo_comments
 from .users_expenses import seed_tables,undo_tables
 from .users_groups import seed_users_group_tables, undo_users_group_tables
-
+from .friends import seed_friends, undo_friends
 from app.models.db import db, environment, SCHEMA
 
 # Creates a seed group to hold our commands
@@ -33,9 +33,11 @@ def seed():
         undo_tables()
         undo_comments()
         undo_expenses()
+        undo_friends()
         undo_users()
 
     seed_users()
+    seed_friends()
     seed_groups()
     seed_expenses()
     seed_comments()
@@ -48,6 +50,7 @@ def seed():
 @seed_commands.command('undo')
 def undo():
     undo_users()
+    undo_friends()
     undo_expenses()
     undo_groups()
     undo_comments()

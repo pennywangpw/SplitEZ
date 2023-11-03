@@ -5,6 +5,7 @@ import * as expensesthunk from "../../store/expense";
 import * as groupsthunk from "../../store/group";
 import * as commentsthunk from "../../store/comment";
 import * as usersthunk from "../../store/user";
+import * as friendsthunk from "../../store/friend";
 import { useHistory } from "react-router-dom";
 
 
@@ -23,17 +24,16 @@ function DeleteConfirmationModal({ expenseId, type, id, commentid }) {
             // dispatch(expensesthunk.deleteExpense(expenseId)).then(() => dispatch(groupsthunk.singleGroupthunk(groupid))).then(closeModal)
         } else if (type === "delete group") {
             dispatch(groupsthunk.deleteGroupthunk(id))
-                .then(() => dispatch(usersthunk.allUsersWithGroupInfo()))
-                .then(() => dispatch(expensesthunk.allExpenses()))
+                // .then(() => dispatch(usersthunk.allUsersWithGroupInfo()))
+                // .then(() => dispatch(expensesthunk.allExpenses()))
                 .then(closeModal)
             history.push('/all')
-            // dispatch(groupsthunk.deleteGroupthunk(groupid)).then(() => dispatch(groupsthunk.allGroupsthunk())).then(closeModal)
 
         } else if (type === "delete comment") {
             dispatch(commentsthunk.deleteComments(commentid)).then(() => dispatch(commentsthunk.allComments(expenseId))).then(closeModal)
 
         } else if (type === "delete friend") {
-            dispatch(usersthunk.deleteFriendthunk(id))
+            dispatch(friendsthunk.deleteFriendthunk(id))
                 .then(() => dispatch(usersthunk.allUsersWithGroupInfo()))
                 .then(closeModal)
             history.push("/all")

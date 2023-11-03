@@ -3,9 +3,8 @@ const GETAFRIEND = 'friends/SINGLE_FRIEND';
 const GETALLUSERSWITHGROUPINFO = 'friends/ALL_USERS_WITH_GROUPINFO';
 const GETALLFRIENDSWITHGROUPINFO = 'friends/ALL_FRIENDS_WITH_GROUPINFO';
 const UPDATEFRIEND = 'friends/UPDATE_FRIENDS';
-const POSTAFRIEND = 'friends/CREATE_FRIEND';
 const ADDAFRIEND = 'friends/ADD_FRIEND';
-const DELETETAFRIEND = 'friends/DELETE_FRIEND';
+
 
 
 
@@ -49,12 +48,6 @@ const updateFriendA = (obj) => {
 }
 
 
-const createAFriendA = (obj) => {
-    return {
-        type: POSTAFRIEND,
-        obj
-    };
-}
 
 const addAFriendA = (obj) => {
     return {
@@ -64,27 +57,7 @@ const addAFriendA = (obj) => {
 }
 
 
-const deleteAFriendA = (obj) => {
-    console.log("this is action creator--deleteAFriendA")
 
-    return {
-        type: DELETETAFRIEND,
-        obj
-    }
-}
-// //allFriend thunk
-// export const allFriends = () => async (dispatch) => {
-//     console.log("this is thunk--allFriends")
-//     const response = await fetch("/api/groups/");
-
-//     // const response = await fetch("/api/users/all");
-
-//     if (response.ok) {
-//         const data = await response.json();
-//         console.log("I FETCH BACKEND TO GET ALL USERS IN A DICTIONARY CHECK ", data)
-//         dispatch(allFriendsA(data));
-//     }
-// };
 
 
 //get all users with group info thunk
@@ -139,44 +112,6 @@ export const updateFriendthunk = (payload, id) => async (dispatch) => {
     return response
 }
 
-//create friend thunk
-export const createFriendthunk = (payload) => async (dispatch) => {
-    console.log("createFriendthunk payload: ", payload)
-    const response = await fetch(`/api/users`, {
-        method: 'POST',
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload)
-    })
-    if (response.ok) {
-        console.log("***response is ok 唷")
-        console.log("新增朋友的response", response)
-        console.log("新增朋友的response data", response.data)
-
-
-        const data = await response.json();
-
-        console.log("新增朋友的 data", data)
-
-
-        // if (data.email[0] === 'Invalid email address.') {
-        //     console.log("****data.email", data.email[0])
-        //     return data.email[0]
-        // }
-
-        dispatch(createAFriendA(data))
-    }
-    else {
-        console.log("如果response no ok新增朋友的response", response.status)
-        const data = await response.json();
-        console.log("***如果response no ok新增朋友的response data", data)
-
-        throw data
-
-    }
-    return response
-}
 
 //add a friend on LeftPanel thunk
 export const addFriendthunk = (payload) => async (dispatch) => {
@@ -195,20 +130,6 @@ export const addFriendthunk = (payload) => async (dispatch) => {
     return response
 }
 
-//delete friend thunk
-export const deleteFriendthunk = (id) => async (dispatch) => {
-    console.log("this is thunk--deleteFriendthunk:", id)
-    const response = await fetch(`/api/users/${id}`, {
-        method: 'DELETE'
-    })
-    if (response.ok) {
-        const data = await response.json();
-        console.log("DELETE A Friend thunk check what i got from bk: ", data)
-        dispatch(deleteAFriendA(data))
-    };
-    return response
-
-}
 
 const initialState = {
     allUsersWithGroupInfo: {},
@@ -241,13 +162,9 @@ const usersReducer = (state = initialState, action) => {
         case UPDATEFRIEND:
             let newState3 = { ...state, allUsersWithGroupInfo: { ...state.allUsersWithGroupInfo } }
             let updatedFriend = action.obj
-            newState3.allUsersWithGroupInfo = updatedFriend
+            newState3.allUsersWithGroupInfo[updatedFriend.id] = updatedFriend
             return newState3
-        case POSTAFRIEND:
-            let newState4 = { ...state, allUsersWithGroupInfo: { ...state.allUsersWithGroupInfo }, allFriendsWithGroupInfo: { ...state.allFriendsWithGroupInfo }, singleFriend: { ...state.singleFriend } }
-            let newfriend = action.obj
-            newState4.allUsersWithGroupInfo[newfriend.id] = newfriend
-            return newState4
+
 
         case GETAFRIEND:
             let newState5 = { ...state, singleFriend: { ...state.singleFriend } };
@@ -271,14 +188,6 @@ const usersReducer = (state = initialState, action) => {
             )
             return newState7;
 
-        case DELETETAFRIEND:
-            let newState8 = { ...state, allUsersWithGroupInfo: { ...state.allUsersWithGroupInfo }, allFriendsWithGroupInfo: { ...state.allFriendsWithGroupInfo }, singleFriend: { ...state.singleFriend } };
-            let deleted_friend = action.obj.id
-            console.log("檢查是否有刪除", deleted_friend)
-            delete newState8.allUsersWithGroupInfo[deleted_friend - 1]
-            console.log("檢查是否有刪除成功", newState8)
-
-            return newState8
 
         default:
             return state;

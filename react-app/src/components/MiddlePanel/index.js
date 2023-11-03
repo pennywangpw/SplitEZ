@@ -23,6 +23,8 @@ function ExpensesList() {
     let all_debtors_id = []
     let debtors_name = []
     let billpayer_name;
+    console.log("=====這裡是ExpensesList")
+
 
     //get group id from allGroups
     let allGroupsArr = Object.values(allGroups)
@@ -32,6 +34,8 @@ function ExpensesList() {
     }
 
     useEffect(() => {
+        console.log("要測試,是不是因為點選了group delete model 回到了middlePanel所以執行了這裡的dispatch")
+
         dispatch(expensesthunk.allExpenses())
         return () => dispatch(expensesthunk.clearExpensesA())
     }, [dispatch])
@@ -72,6 +76,7 @@ function ExpensesList() {
     }
 
 
+
     //find debtors information
     //find all debtors id
     if (Object.keys(singleExpense).length !== 0) {
@@ -89,8 +94,11 @@ function ExpensesList() {
         }
     }
 
+    //find billpayer information
+    //find billpayer
+
     // console.log("修改後的singleExpense.payer_user_id: ", singleExpense.payer_user_id)
-    // //find bill payer name
+    //find bill payer name
     // for (let friend of allUsersArr) {
     //     if (friend.id = singleExpense.payer_user_id) {
     //         billpayer_name = friend.username
@@ -113,7 +121,7 @@ function ExpensesList() {
                     </div>
                 </div>
 
-                <div className="grid-3fr-5-3-2 expense-summary" id="summary">
+                <div className="grid-3fr-5-3-2 margin-5-0-5-0 expense-summary" id="summary">
                     <div>Description</div>
                     <div>Expense Total</div>
                     <div>Bill Payer</div>
@@ -152,7 +160,15 @@ function ExpensesList() {
                                         </div>
                                         <div id="description">{`$` + Number(exp.expense_total).toFixed(2)}</div>
                                         <div id="billpayer" className="flx">
-                                            {!exp.billpayer ? <div>{currentuser.username}</div> : <div>{exp.billpayer.username}</div>}
+                                            {/* {!exp.billpayer ? <div>{currentuser.username}</div> : <div>{exp.billpayer.username}</div>} */}
+
+                                            {allUsersArr.map(user => {
+                                                if (user.id === exp.payer_user_id) {
+
+                                                    return <div>{user.username}</div>
+                                                }
+
+                                            })}
                                             {/* <div>{currentuser.username}</div>
 
                                             <div>{exp.username}</div> */}

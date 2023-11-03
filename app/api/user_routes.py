@@ -74,8 +74,9 @@ def friendwithGroupinfo():
         for group in user.groups:
             user_groups.append(group.to_dict())
         usersWithGroups.append(user_groups)
+    print(f"get all friends-usersWithGroups {usersWithGroups}")
 
-    '''add groupinfo in userDict'''
+    '''add involved_group and user_id for each user in userDict'''
     idx=0
     for userinfo in usersDict:
             userinfo['involved_group'] = usersWithGroups[idx]
@@ -95,7 +96,8 @@ def friendwithGroupinfo():
         mygroupsid.append(group['id'])
 
 
-    '''iterate all users to check if user's involved_group id in mygroupsid'''
+    '''iterate all users(usersDict) to check if user's involved_group id in mygroupsid'''
+    '''if so, add it to friends []'''
     for user in usersDict:
         for involved_group in user['involved_group']:
             if involved_group['id'] in mygroupsid:
@@ -104,25 +106,7 @@ def friendwithGroupinfo():
     return friends
 
 
-#update friend's name, but only add a description
-@user_routes.route('/<int:id>', methods=['PUT'])
-@login_required
-def updateFriendName(id):
-    form = UserForm()
-    form['csrf_token'].data = request.cookies['csrf_token']
 
-    if form.validate_on_submit():
-        '''query db to get the user which the user wants to update'''
-        updatedfriend = User.query.get(id)
-
-        updatedfriend.username = updatedfriend.username + form.data['name']
-
-        updatedfriend.email = form.data['email']
-
-        db.session.commit()
-        updatedfriendDict = updatedfriend.to_dict()
-
-        return updatedfriendDict
 
 
 # #update friend's name, but only add a description
@@ -143,63 +127,10 @@ def updateFriendName(id):
 #     return "Bad Data-update a friend's name"
 
 
-#add a friend
-@user_routes.route('', methods=['POST'])
-@login_required
-def createFriend():
-    form = UserForm()
-    form['csrf_token'].data = request.cookies['csrf_token']
 
 
-    if form.validate_on_submit():
-        '''check if the new friend exsits in db, if so, return friend info'''
-        allfriends = User.query.all()
-        allfriendsDict = [friend.to_dict() for friend in allfriends]
-        for friend in allfriendsDict:
-            if friend['email'] == form.data['email']:
-                return friend
-
-        '''if the new friend doesn't exsit in db, create a new user(friend) and store in db'''
-        new_friend = User(
-            username= form.data['name'],
-            email = form.data['email'],
-            hashed_password = "null"
-        )
-        db.session.add(new_friend)
-        db.session.commit()
-
-        print(f"應該是已經將user先攢到資歷庫可以拿出id {new_friend.to_dict()}" )
-        new_friendDict = new_friend.to_dict()
-        new_friendDict['involved_group'] = []
-
-        return new_friendDict
-    else:
-        return jsonify(errors= form.errors), 400
 
 
-#delete a friend
-@user_routes.route('/<int:id>', methods=['DELETE'])
-@login_required
-def deleteFriend(id):
-    '''query the friend which the user wants to delete from db'''
-    deleted_friend = User.query.get(id)
-
-    if deleted_friend is not None:
-        deleted_friendDict =  deleted_friend.to_dict()
-
-        '''add involved_group attribute and insert associated groups if any'''
-        deleted_friendDict['involved_group'] =[]
-        for group in deleted_friend.groups:
-            deleted_friendDict['involved_group'].append(group.to_dict())
-
-        '''add user_id attribute'''
-        deleted_friendDict['user_id'] = deleted_friendDict['id']
-
-        db.session.delete(deleted_friend)
-        db.session.commit()
-        return deleted_friendDict
-
-    return "The friend does not exisit"
 
 
 

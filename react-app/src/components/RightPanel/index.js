@@ -6,7 +6,7 @@ import "../../index.css"
 
 function RightPanel() {
 
-
+    console.log("=====這裡是RightPanel")
     return (
         <div className="mrg-l-10px">
             <div>GROUP BALANCES</div>

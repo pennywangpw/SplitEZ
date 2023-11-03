@@ -1,19 +1,16 @@
-"""update Group model
+"""update Friend model
 
-Revision ID: 692a30ab7835
-Revises:
-Create Date: 2023-09-30 15:50:52.562167
+Revision ID: 99e1ef41f0cf
+Revises: 
+Create Date: 2023-10-24 23:56:26.120243
 
 """
 from alembic import op
 import sqlalchemy as sa
 
-import os
-environment = os.getenv("FLASK_ENV")
-SCHEMA = os.environ.get("SCHEMA")
 
 # revision identifiers, used by Alembic.
-revision = '692a30ab7835'
+revision = '99e1ef41f0cf'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -47,6 +44,15 @@ def upgrade():
     sa.ForeignKeyConstraint(['payer_user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_table('friends',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('friend_id', sa.Integer(), nullable=False),
+    sa.Column('belongs_to_user_id', sa.Integer(), nullable=False),
+    sa.Column('nickname', sa.String(length=50), nullable=True),
+    sa.ForeignKeyConstraint(['belongs_to_user_id'], ['users.id'], ),
+    sa.ForeignKeyConstraint(['friend_id'], ['users.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
     op.create_table('users_groups',
     sa.Column('user_id', sa.Integer(), nullable=False),
     sa.Column('group_id', sa.Integer(), nullable=False),
@@ -71,10 +77,6 @@ def upgrade():
     sa.ForeignKeyConstraint(['owe_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('owe_id', 'expense_id')
     )
-
-
-    if environment == "production":
-       op.execute(f"ALTER TABLE users SET SCHEMA {SCHEMA};")
     # ### end Alembic commands ###
 
 
@@ -83,6 +85,7 @@ def downgrade():
     op.drop_table('users_expenses')
     op.drop_table('comments')
     op.drop_table('users_groups')
+    op.drop_table('friends')
     op.drop_table('expenses')
     op.drop_table('users')
     op.drop_table('groups')

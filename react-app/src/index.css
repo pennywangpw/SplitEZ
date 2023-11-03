@@ -90,6 +90,14 @@
            margin-right: 10px;
        }
 
+       .margin-bottom-5px {
+           margin-bottom: 5px;
+       }
+
+       .margin-5-0-5-0 {
+           margin: 5px 0 5px 0;
+       }
+
        .redwarning {
            color: red
        }
@@ -336,8 +344,12 @@
            min-width: 600px;
        }
 
-       .max-width-100 {
-           max-width: 100%;
+       .max-width-50 {
+           max-width: 50%;
+       }
+
+       .min-height-500px {
+           min-height: 500px;
        }
 
        .gap15p {
@@ -414,6 +426,7 @@
        }
 
        #error {
+           color: red;
            min-height: 30px;
            /* max-height: 30px; */
        }

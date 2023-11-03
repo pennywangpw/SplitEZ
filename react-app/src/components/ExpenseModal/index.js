@@ -89,7 +89,7 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
     }
 
     //SplitWithUserHandler to collect all the debtors
-    //if debtorId exsits in splitWithUsers we remove it
+    //if debtorId exists in splitWithUsers we remove it
     //if debtorId dose not esxist in splitWithUsers we add on it
     const handleSplitWithUserChange = (e) => {
         const debtorId = Number(e.target.value)
@@ -171,7 +171,7 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
                 <div className="flx-col width-350px height-350px">
                     <header className=" bg-5cc5a7 line-h50">{type === "create" ? "Create an expense" : "Edit expense"}</header>
                     <div>
-                        <div>
+                        <div id="error">
                             <ul>
                                 {errors.length > 0 && (errors.map((error, idx) => <li key={idx} className="height-max-15">{error}</li>))}
                             </ul>

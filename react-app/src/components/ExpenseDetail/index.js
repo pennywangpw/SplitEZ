@@ -8,7 +8,7 @@ import DeleteConfirmationModal from "../DeleteConfirmationModal"
 import OpenModalButton from "../OpenModalButton";
 
 function ExpenseDetail({ exp, setShowDetail, allCommentsArr, debtors_name }) {
-    console.log("exp detail here: ", setShowDetail, exp, allCommentsArr, debtors_name)
+    // console.log("exp detail here: ", setShowDetail, exp, allCommentsArr, debtors_name)
     const allUsers = useSelector((state) => state.users.allUsersWithGroupInfo)
     let allUsersArr = Object.values(allUsers)
     const singleExpense = useSelector((state) => state.expenses.singleExpense);
@@ -87,7 +87,6 @@ function ExpenseDetail({ exp, setShowDetail, allCommentsArr, debtors_name }) {
                     <div className="width-50">
                         <div>Who involes in this expense: </div>
                         {billpayer_name ? (<div>{`${billpayer_name} paid $${singleExpense.expense_total} and owes $${divided_amount.toFixed(2)}`}</div>) : (<div></div>)}
-                        {console.log("debtors_name name: ", debtors_name)}
                         {/* {debtors_name.length > 0 ? (debtors_name.map(user => <div>{`${user} owes $${divided_amount.toFixed(2)}`}</div>)) : (<div>no ppl involes</div>)} */}
                         {debtors_name.length > 0 ?
                             (debtors_name.map(username => {
