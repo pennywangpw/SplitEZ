@@ -1,13 +1,16 @@
 """update Friend model
 
 Revision ID: 99e1ef41f0cf
-Revises: 
+Revises:
 Create Date: 2023-10-24 23:56:26.120243
 
 """
 from alembic import op
 import sqlalchemy as sa
 
+import os
+environment = os.getenv("FLASK_ENV")
+SCHEMA = os.environ.get("SCHEMA")
 
 # revision identifiers, used by Alembic.
 revision = '99e1ef41f0cf'
@@ -78,6 +81,10 @@ def upgrade():
     sa.PrimaryKeyConstraint('owe_id', 'expense_id')
     )
     # ### end Alembic commands ###
+
+    if environment == "production":
+        op.execute(f"ALTER TABLE users SET SCHEMA {SCHEMA};")
+    # ### end Alembic commands ###qqqqqqqqq
 
 
 def downgrade():
