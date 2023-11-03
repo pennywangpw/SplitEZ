@@ -29,7 +29,6 @@ function LeftPanel() {
 
     //testing
     useEffect(() => {
-        console.log("我是要測試,是不是因為我改了group delete model 所以執行了這裡的dispatch")
         dispatch(groupsthunk.allGroupsthunk())
         // dispatch(usersthunk.allUsersWithGroupInfo())
         dispatch(friendsthunk.allFriendsthunk())
