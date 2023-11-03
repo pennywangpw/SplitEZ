@@ -13,7 +13,7 @@ groups = Blueprint('groups', __name__)
 @login_required
 def allGroupsWithUserInfo():
 
-    '''get all groups'''
+    '''get all groups belongs to the current user'''
     allgroups = Group.query.all()
 
     '''iterate through allgroups and add group members to each group'''

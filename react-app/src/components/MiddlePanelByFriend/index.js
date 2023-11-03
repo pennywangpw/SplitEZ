@@ -63,19 +63,18 @@ function GroupListByFriend() {
                 </div>
 
                 <div className="line-5vh">
-                    {selectedFriend ?
-                        (selectedFriend.groups.length > 0 ?
-                            (selectedFriend.groups.map(group =>
-                                <div key={group.id} className="detail">
-                                    <NavLink to={`/groups/${group.id}`} style={{ textDecoration: 'none', lineHeight: '5vh' }}>
-                                        <div className="grid-3fr height-8vh expense-summary">{group.name}</div>
-                                    </NavLink>
-                                </div>
-                            ))
-                            :
-                            (<div> Not involes in any groups...</div>)
-                        ) :
-                        (<div></div>)
+                    {selectedFriend.groups ?
+
+                        (selectedFriend.groups.map(group =>
+                            <div key={group.id} className="detail">
+                                <NavLink to={`/groups/${group.id}`} style={{ textDecoration: 'none', lineHeight: '5vh' }}>
+                                    <div className="grid-3fr height-8vh expense-summary">{group.name}</div>
+                                </NavLink>
+                            </div>
+                        ))
+                        :
+                        (<div> Not involes in any groups...</div>)
+
                     }
 
                 </div>
