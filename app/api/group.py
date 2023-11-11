@@ -16,14 +16,18 @@ def allGroupsWithUserInfo():
     '''get all groups belongs to the current user'''
     allgroups = Group.query.all()
 
-    '''iterate through allgroups and add group members to each group'''
+
+    '''iterate through allgroups and get associated users for each group '''
     groups = []
-    for group in allgroups:
-        group_data = group.to_dict()
-        group_members= group.users
-        group_membersDict= [member.to_dict() for member in group_members]
-        group_data['group_members'] = group_membersDict
-        groups.append(group_data)
+
+    allgroupsDict = [group.to_dict() for group in allgroups]
+    allusers_in_each_group = [group.users for group in allgroups]
+
+    '''iterate through allusers_in_each_group to add group members to each group '''
+    for i in range(len(allusers_in_each_group)):
+        if current_user in allusers_in_each_group[i]:
+            allgroupsDict[i]['group_members'] = [group_member.to_dict() for group_member in allusers_in_each_group[i]]
+            groups.append(allgroupsDict[i])
 
     return groups
 
