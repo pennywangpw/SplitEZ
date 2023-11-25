@@ -79,7 +79,10 @@ function AccountSetting() {
             <div className="height-50">
                 <div>Your account</div>
                 <div className="flx">
-                    <div className="width-50">picture</div>
+                    <div className="width-50 flx-col">picture
+                        <div>picture right here...</div>
+                        <button className="button-orange" onClick={updateUserinfohandler}>Post your picture</button>
+                    </div>
                     <div className="flx-col width-50">
                         <div>
                             <ul>Your name:</ul>
