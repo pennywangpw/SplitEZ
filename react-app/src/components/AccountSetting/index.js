@@ -95,10 +95,6 @@ function AccountSetting() {
         await dispatch(imagethunk.addImagethunk(formData))
     }
 
-    console.log("查閱username", username)
-
-    console.log("查閱editnamebar", editnamebar)
-    console.log("查閱editemailbar", editemailbar)
 
 
     return (
