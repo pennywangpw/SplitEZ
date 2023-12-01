@@ -1,7 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState, useRef } from "react";
 import * as userthunk from "../../store/user";
-import * as imagethunk from "../../store/image"
+import * as imagethunk from "../../store/image";
+import avatar from "../../img/avatar.png"
 
 function AccountSetting() {
     const dispatch = useDispatch()
@@ -106,10 +107,14 @@ function AccountSetting() {
                 <div>Your account</div>
                 <div className="flx">
                     <form onSubmit={handleSubmit} encType="multipart/form-data">
-                        <label>Change your avatar</label>
                         <div className="flx-col">
-                            <input type="file" accept ="image/*" onChange={(e)=> setImageurl(e.target.files[0])}/>
-                            <button className="button-orange">Submit</button>
+                            <img src={avatar} alt="default_pic" />
+                            <label>Change your avatar</label>
+                            <div className="flx-col">
+                                <input type="file" accept="image/*" onChange={(e) => setImageurl(e.target.files[0])} />
+                                <button className="button-orange">Submit</button>
+                            </div>
+
                         </div>
                         {/* <button className="button-orange" onClick={postPicturehandler}>Post your picture</button> */}
 

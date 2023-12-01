@@ -13,14 +13,14 @@ images = Blueprint('images', __name__)
 def postPicture():
     form = ImageForm()
     form['csrf_token'].data = request.cookies['csrf_token']
-    print(f"這裡是錯的form{form}")
     if form.validate_on_submit():
         image = form.data["image"]
         image.filename = get_unique_filename(image.filename)
         upload = upload_file_to_s3(image)
+        print(f"upload  {upload}")
 
         if "url" not in upload:
-            return "NOT IN UPLOAD"
+            return "something wrong in upload function"
 
         new_picture = Image(
             image_url = upload["url"],
@@ -33,37 +33,3 @@ def postPicture():
     if form.errors:
         print(form.errors)
         return form.erros
-
-# def postPicture():
-#     form = ImageForm()
-#     print(f"這裡是form {form}")
-#     form['csrf_token'].data = request.cookies['csrf_token']
-#     print(f"here's form.data {form.data}")
-#     if form.validate_on_submit():
-#         print("是否進到?")
-#         new_picture = Image(
-#             image_url = form.data["image"],
-#             user_id = current_user.id
-#         )
-
-#         db.session.add(new_picture)
-#         db.session.commit()
-#         return {"data": new_picture.to_dict()}
-#     return form.errors
-
-# def postPicture():
-#     data = request.get_json()
-#     image_url = data.get('image')
-
-#     if not image_url:
-#         return jsonify({"error": "Missing 'image' field"}), 400
-
-#     new_picture = Image(
-#         image_url=image_url,
-#         user_id=current_user.id
-#     )
-
-#     db.session.add(new_picture)
-#     db.session.commit()
-
-#     return new_picture.to_dict(), 201
