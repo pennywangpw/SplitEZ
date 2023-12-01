@@ -6,5 +6,6 @@ from .group_formV2 import GroupForm,GroupMembersDetailForm
 from .comment_form import CommentForm
 from .user_form import UserForm
 from .friend_form import FriendForm
+from .image_form import ImageForm
 import wtforms_json
 wtforms_json.init()

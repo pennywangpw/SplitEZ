@@ -1,15 +1,20 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState, useRef } from "react";
 import * as userthunk from "../../store/user";
-
+import * as imagethunk from "../../store/image"
 
 function AccountSetting() {
     const dispatch = useDispatch()
     const currentuser = useSelector((state) => state.session.user);
+
     const [editnamebar, setEditnamebar] = useState("off")
     const [editemailbar, setEditemailbar] = useState("off")
     const [username, setUsername] = useState(currentuser.username)
     const [useremail, setUseremail] = useState(currentuser.email)
+    const [imageurl, setImageurl] = useState(null)
+    const [imageLoading, setImageLoading] = useState(false);
+
+
     const divRef = useRef();
     const inputRef = useRef()
 
@@ -68,6 +73,27 @@ function AccountSetting() {
         let payload = { 'name': username, 'email': useremail }
         dispatch(userthunk.updateFriendthunk(payload, currentuser.id))
     }
+
+    // const postPicturehandler = () => {
+    //     // window.alert("這裡是post picture handler..")
+    //     let payload = { 'image_url': imageurl }
+    //     console.log("傳出去的payload: ", payload)
+    //     dispatch(imagethunk.addImagethunk(payload, currentuser.id))
+
+    // }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        console.log("這裡是submit")
+        const formData = new FormData()
+        formData.append("image", imageurl)
+        console.log("新建立的formData: ", formData)
+
+        setImageLoading(true)
+        await dispatch(imagethunk.addImagethunk(formData))
+    }
+
     console.log("查閱username", username)
 
     console.log("查閱editnamebar", editnamebar)
@@ -79,10 +105,22 @@ function AccountSetting() {
             <div className="height-50">
                 <div>Your account</div>
                 <div className="flx">
-                    <div className="width-50 flx-col">picture
-                        <div>picture right here...</div>
-                        <button className="button-orange" onClick={updateUserinfohandler}>Post your picture</button>
-                    </div>
+                    <form onSubmit={handleSubmit} encType="multipart/form-data">
+                        <label>Change your avatar</label>
+                        <div className="flx-col">
+                            <input type="file" accept ="image/*" onChange={(e)=> setImageurl(e.target.files[0])}/>
+                            <button className="button-orange">Submit</button>
+                        </div>
+                        {/* <button className="button-orange" onClick={postPicturehandler}>Post your picture</button> */}
+
+                    </form>
+                    {/* <div className="width-50 flx-col">
+                        <div>pic...</div>
+                        <div>
+                            <div>Change your avatar</div>
+                            <button className="button-orange" onClick={postPicturehandler}>Post your picture</button>
+                        </div>
+                    </div> */}
                     <div className="flx-col width-50">
                         <div>
                             <ul>Your name:</ul>
