@@ -6,6 +6,7 @@ import groupsReducer from './group'
 import commentsReducer from './comment'
 import usersReducer from "./user"
 import friendsReducer from "./friend"
+import imagesReducer from "./image"
 
 const rootReducer = combineReducers({
   session,
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
   groups: groupsReducer,
   comments: commentsReducer,
   users: usersReducer,
-  friends: friendsReducer
+  friends: friendsReducer,
+  images: imagesReducer
 });
 
 
