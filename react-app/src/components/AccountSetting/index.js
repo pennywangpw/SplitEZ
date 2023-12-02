@@ -86,10 +86,8 @@ function AccountSetting() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        console.log("這裡是submit")
         const formData = new FormData()
         formData.append("image", imageurl)
-        console.log("新建立的formData: ", formData)
 
         setImageLoading(true)
         await dispatch(imagethunk.addImagethunk(formData))
