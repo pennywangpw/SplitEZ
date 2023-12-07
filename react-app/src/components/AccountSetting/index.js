@@ -9,7 +9,6 @@ function AccountSetting() {
     const currentuser = useSelector((state) => state.session.user);
     const avatarimg = useSelector((state) => state.images.singleImage);
     let posted_avatar_url =""
-    console.log("avatarimg: ", avatarimg)
     if (Object.values(avatarimg).length > 0){
         console.log("avatarimg url: ", Object.values(avatarimg)[0]["image_url"])
         posted_avatar_url = Object.values(avatarimg)[0]["image_url"]
@@ -26,6 +25,10 @@ function AccountSetting() {
 
     const divRef = useRef();
     const inputRef = useRef()
+
+    useEffect(()=>{
+        dispatch(imagethunk.singleImagethunk(currentuser.id))
+    },[])
 
     useEffect(() => {
 

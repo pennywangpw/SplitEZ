@@ -44,3 +44,16 @@ def postPicture():
     if form.errors:
         print(form.errors)
         return form.erros
+
+
+#get a picture
+@images.route('/<int:id>')
+@login_required
+def getPicture(id):
+    selected_image = Image.query.filter_by(user_id = current_user.id).first()
+    if selected_image:
+        selected_imageDict = selected_image.to_dict()
+        print(f"應該要有 {selected_imageDict}")
+        return selected_imageDict
+
+    return "There's no image in db"
