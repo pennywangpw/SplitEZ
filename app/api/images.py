@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, request
 from app.models import db, Image, User, users_groups, Expense
 from flask_login import current_user, login_required
 from ..forms import ImageForm
-from ..routes.AWS_helpers import get_unique_filename,upload_file_to_s3
+from ..routes.AWS_helpers import get_unique_filename,upload_file_to_s3,remove_file_from_s3
 
 images = Blueprint('images', __name__)
 
@@ -16,7 +16,11 @@ def postPicture():
     if form.validate_on_submit():
         check_if_image_posted = Image.query.filter_by(user_id = current_user.id).first()
         print(f"已經check_if_image_posted {check_if_image_posted}")
-        if check_if_image_posted :
+        if check_if_image_posted is not None :
+            print("not none")
+            check_if_image_postedDict = check_if_image_posted.to_dict()
+            deleted_image_url = check_if_image_postedDict["image_url"]
+            remove_file_from_s3(deleted_image_url)
             db.session.delete(check_if_image_posted)
             db.session.commit()
 
