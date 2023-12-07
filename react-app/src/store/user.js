@@ -93,8 +93,8 @@ export const getAfFriend = (id) => async (dispatch) => {
 }
 
 //update friend thunk
-export const updateFriendthunk = (payload, id) => async (dispatch) => {
-    console.log("this is thunk--updateFriendthunk", payload, typeof id, id)
+export const updateUserthunk = (payload, id) => async (dispatch) => {
+    console.log("this is thunk--updateUserthunk", payload, typeof id, id)
 
     const response = await fetch(`/api/users/${id}`, {
         method: 'PUT',
@@ -106,7 +106,7 @@ export const updateFriendthunk = (payload, id) => async (dispatch) => {
     })
     if (response.ok) {
         const data = await response.json();
-        console.log("updateFriendthunk thunk check what i got from bk: ", data)
+        console.log("updateUserthunk thunk check what i got from bk: ", data)
         dispatch(updateFriendA(data))
     };
     return response

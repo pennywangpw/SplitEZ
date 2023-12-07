@@ -7,12 +7,20 @@ import avatar from "../../img/avatar.png"
 function AccountSetting() {
     const dispatch = useDispatch()
     const currentuser = useSelector((state) => state.session.user);
+    const avatarimg = useSelector((state) => state.images.singleImage);
+    let posted_avatar_url =""
+    console.log("avatarimg: ", avatarimg)
+    if (Object.values(avatarimg).length > 0){
+        console.log("avatarimg url: ", Object.values(avatarimg)[0]["image_url"])
+        posted_avatar_url = Object.values(avatarimg)[0]["image_url"]
+    }
 
     const [editnamebar, setEditnamebar] = useState("off")
     const [editemailbar, setEditemailbar] = useState("off")
     const [username, setUsername] = useState(currentuser.username)
     const [useremail, setUseremail] = useState(currentuser.email)
     const [imageurl, setImageurl] = useState(null)
+    // const [avatarimg, setAvatarimg] = useState(avatar)
     const [imageLoading, setImageLoading] = useState(false);
 
 
@@ -72,7 +80,7 @@ function AccountSetting() {
 
     const updateUserinfohandler = () => {
         let payload = { 'name': username, 'email': useremail }
-        dispatch(userthunk.updateFriendthunk(payload, currentuser.id))
+        dispatch(userthunk.updateUserthunk(payload, currentuser.id))
     }
 
     // const postPicturehandler = () => {
@@ -102,7 +110,8 @@ function AccountSetting() {
                 <div className="flx">
                     <form onSubmit={handleSubmit} encType="multipart/form-data">
                         <div className="flx-col">
-                            <img src={avatar} alt="default_pic" />
+                            {Object.keys(avatarimg).length === 0? <img src={avatar} alt="default_pic" />: <img src={posted_avatar_url} alt="avatar_pic" />}
+                            {/* <img src={avatar} alt="default_pic" /> */}
                             <label>Change your avatar</label>
                             <div className="flx-col">
                                 <input type="file" accept="image/*" onChange={(e) => setImageurl(e.target.files[0])} />

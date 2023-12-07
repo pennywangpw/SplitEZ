@@ -14,6 +14,13 @@ def postPicture():
     form = ImageForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
+        check_if_image_posted = Image.query.filter_by(user_id = current_user.id).first()
+        print(f"已經check_if_image_posted {check_if_image_posted}")
+        if check_if_image_posted :
+            db.session.delete(check_if_image_posted)
+            db.session.commit()
+
+
         image = form.data["image"]
         image.filename = get_unique_filename(image.filename)
         upload = upload_file_to_s3(image)
