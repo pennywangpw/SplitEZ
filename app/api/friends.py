@@ -117,6 +117,7 @@ def deleteFriend(id):
 @friends.route('/<int:id>', methods=['PUT'])
 @login_required
 def updateFriendNickname(id):
+    print(f"檢查是否有盡到update friend?")
     form = FriendForm()
     form['csrf_token'].data = request.cookies['csrf_token']
 
