@@ -8,6 +8,7 @@ function AccountSetting() {
     const dispatch = useDispatch()
     const currentuser = useSelector((state) => state.session.user);
     const avatarimg = useSelector((state) => state.images.singleImage);
+
     let posted_avatar_url =""
     if (Object.values(avatarimg).length > 0){
         console.log("avatarimg url: ", Object.values(avatarimg)[0]["image_url"])
@@ -27,7 +28,7 @@ function AccountSetting() {
     const inputRef = useRef()
 
     useEffect(()=>{
-        dispatch(imagethunk.singleImagethunk(currentuser.id))
+         dispatch(imagethunk.singleImagethunk(currentuser.id))
     },[])
 
     useEffect(() => {
