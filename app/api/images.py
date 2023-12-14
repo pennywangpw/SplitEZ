@@ -15,9 +15,8 @@ def postPicture():
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         check_if_image_posted = Image.query.filter_by(user_id = current_user.id).first()
-        print(f"已經check_if_image_posted {check_if_image_posted}")
+
         if check_if_image_posted is not None :
-            print("not none")
             check_if_image_postedDict = check_if_image_posted.to_dict()
             deleted_image_url = check_if_image_postedDict["image_url"]
             remove_file_from_s3(deleted_image_url)
@@ -26,9 +25,7 @@ def postPicture():
 
 
         image = form.data["image"]
-        print(f"這裡是image {image}")
         image.filename = get_unique_filename(image.filename)
-        print(f"---Content Type: {image.content_type}")
 
         upload = upload_file_to_s3(image)
         print(f"upload  {upload}")
