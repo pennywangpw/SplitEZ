@@ -28,6 +28,8 @@ def postPicture():
         image = form.data["image"]
         print(f"這裡是image {image}")
         image.filename = get_unique_filename(image.filename)
+        print(f"---Content Type: {image.content_type}")
+
         upload = upload_file_to_s3(image)
         print(f"upload  {upload}")
 
