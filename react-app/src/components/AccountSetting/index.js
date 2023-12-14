@@ -20,9 +20,7 @@ function AccountSetting() {
     const [username, setUsername] = useState(currentuser.username)
     const [useremail, setUseremail] = useState(currentuser.email)
     const [imageurl, setImageurl] = useState(null)
-    // const [avatarimg, setAvatarimg] = useState(avatar)
     const [imageLoading, setImageLoading] = useState(false);
-
 
     const divRef = useRef();
     const inputRef = useRef()
@@ -34,8 +32,6 @@ function AccountSetting() {
     useEffect(() => {
 
         const closeUserNameInput = (e) => {
-            console.log("Account-closeUserNameInput檢查e是什麼?", e)
-            console.log("useeffect中的username: ", username)
             if (divRef.current) {
                 if (!divRef.current.contains(e.target)) {
                     // let payload = { 'name': username, 'email': useremail }
@@ -56,8 +52,6 @@ function AccountSetting() {
     useEffect(() => {
 
         const closeUserEmailInput = (e) => {
-            console.log("Account-closeUserEmailInput檢查e是什麼?", e)
-            console.log("useeffect中的useremail: ", useremail)
             if (inputRef.current) {
                 if (!inputRef.current.contains(e.target)) {
                     // let payload = { 'name': username, 'email': useremail }
@@ -87,13 +81,6 @@ function AccountSetting() {
         dispatch(userthunk.updateUserthunk(payload, currentuser.id))
     }
 
-    // const postPicturehandler = () => {
-    //     // window.alert("這裡是post picture handler..")
-    //     let payload = { 'image_url': imageurl }
-    //     console.log("傳出去的payload: ", payload)
-    //     dispatch(imagethunk.addImagethunk(payload, currentuser.id))
-
-    // }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -123,16 +110,9 @@ function AccountSetting() {
                             </div>
 
                         </div>
-                        {/* <button className="button-orange" onClick={postPicturehandler}>Post your picture</button> */}
 
                     </form>
-                    {/* <div className="width-50 flx-col">
-                        <div>pic...</div>
-                        <div>
-                            <div>Change your avatar</div>
-                            <button className="button-orange" onClick={postPicturehandler}>Post your picture</button>
-                        </div>
-                    </div> */}
+
                     <div className="flx-col width-50">
                         <div>
                             <ul>Your name:</ul>
