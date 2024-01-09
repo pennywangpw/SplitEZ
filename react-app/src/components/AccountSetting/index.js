@@ -11,7 +11,6 @@ function AccountSetting() {
 
     let posted_avatar_url =""
     if (Object.values(avatarimg).length > 0){
-        console.log("avatarimg url: ", Object.values(avatarimg)[0]["image_url"])
         posted_avatar_url = Object.values(avatarimg)[0]["image_url"]
     }
 
@@ -34,16 +33,12 @@ function AccountSetting() {
         const closeUserNameInput = (e) => {
             if (divRef.current) {
                 if (!divRef.current.contains(e.target)) {
-                    // let payload = { 'name': username, 'email': useremail }
 
-                    // dispatch(userthunk.updateFriendthunk(payload, currentuser.id))
                     setEditnamebar("off");
                 }
             }
         };
         document.addEventListener("click", closeUserNameInput);
-        console.log("username: ", username)
-        // dispatch(userthunk.updateFriendthunk(username, currentuser.id))
         return () => document.removeEventListener("click", closeUserNameInput);
 
     }, [editnamebar, username])
@@ -54,9 +49,6 @@ function AccountSetting() {
         const closeUserEmailInput = (e) => {
             if (inputRef.current) {
                 if (!inputRef.current.contains(e.target)) {
-                    // let payload = { 'name': username, 'email': useremail }
-
-                    // dispatch(userthunk.updateFriendthunk(payload, currentuser.id))
                     setEditemailbar("off");
                 }
             }
@@ -102,7 +94,6 @@ function AccountSetting() {
                     <form onSubmit={handleSubmit} encType="multipart/form-data">
                         <div className="flx-col">
                             {Object.keys(avatarimg).length === 0? <img src={avatar} alt="default_pic" />: <img src={posted_avatar_url} alt="avatar_pic" />}
-                            {/* <img src={avatar} alt="default_pic" /> */}
                             <label>Change your avatar</label>
                             <div className="flx-col">
                                 <input type="file" accept="image/*" onChange={(e) => setImageurl(e.target.files[0])} />

@@ -48,6 +48,7 @@ function ExpensesList() {
 
     // change date format
     const date_format = (datestring) => {
+        console.log("這裡是datestring", datestring)
         let getyearmonthdate = datestring.split(",")[1]
         let getmonth = getyearmonthdate.split(" ")[2]
         let getdate = getyearmonthdate.split(" ")[1]

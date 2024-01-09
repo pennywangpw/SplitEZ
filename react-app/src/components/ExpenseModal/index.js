@@ -13,7 +13,7 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
     //get today and change the format
     const today = new Date()
     let year = today.getFullYear()
-    let month = today.getMonth()
+    let month = today.getMonth() + 1
     let day = today.getDate()
 
     if (month < 10) {
@@ -38,7 +38,6 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
     const [debtors, setdebtors] = useState([])
     let split_amount = expense_total
     let debtor_select = []
-
 
     const { closeModal } = useModal();
     //get all the groups and conver into arr
@@ -273,9 +272,7 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
 
                         <div>
                             <label>Expense date:</label>
-                            <input type="date" min="2023-01-01" max="2024-12-31" value={expense_date} onChange={handleDateFormat} />
-
-
+                            <input type="date" min="2023-01-01" max="2025-12-31" value={expense_date} onChange={handleDateFormat} />
                         </div>
 
                     </div>
