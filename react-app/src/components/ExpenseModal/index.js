@@ -13,7 +13,7 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
     //get today and change the format
     const today = new Date()
     let year = today.getFullYear()
-    let month = today.getMonth()
+    let month = today.getMonth() + 1
     let day = today.getDate()
 
     if (month < 10) {
@@ -38,7 +38,6 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
     const [debtors, setdebtors] = useState([])
     let split_amount = expense_total
     let debtor_select = []
-
 
     const { closeModal } = useModal();
     //get all the groups and conver into arr
@@ -133,13 +132,11 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
 
         if (type === "create") {
             const payload = { name, expense_total, group_id, expense_date, payer_user_id, splitWithUsers, debtors }
-            console.log("傳出去的payload: ", payload)
             await dispatch(expensesthunk.createExpense(payload))
             await dispatch(expensesthunk.allExpenses()).then(closeModal)
             // await dispatch(groupsthunk.singleGroupthunk(expenseinfo.group_id)).then(closeModal)
         } else if (type === "edit") {
             const payload = { name, expense_total, group_id, expense_date, payer_user_id, splitWithUsers, debtors }
-            console.log("edit-傳出去的payload: ", payload)
             await dispatch(expensesthunk.updateExpense(expenseinfo.id, payload))
             await dispatch(expensesthunk.allExpenses()).then(closeModal)
             // await dispatch(expensesthunk.allExpenses())
@@ -273,9 +270,7 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
 
                         <div>
                             <label>Expense date:</label>
-                            <input type="date" min="2023-01-01" max="2024-12-31" value={expense_date} onChange={handleDateFormat} />
-
-
+                            <input type="date" min="2023-01-01" max="2025-12-31" value={expense_date} onChange={handleDateFormat} />
                         </div>
 
                     </div>
