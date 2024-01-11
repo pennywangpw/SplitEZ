@@ -9,7 +9,7 @@ import OpenModalButton from "../OpenModalButton";
 
 function ExpenseDetail({ exp, setShowDetail, allCommentsArr, debtors_name }) {
     // console.log("exp detail here: ", setShowDetail, exp, allCommentsArr, debtors_name)
-    const allUsers = useSelector((state) => state.users.allUsersWithGroupInfo)
+    const allUsers = useSelector((state) => state.users.allusers)
     let allUsersArr = Object.values(allUsers)
     const singleExpense = useSelector((state) => state.expenses.singleExpense);
     const dispatch = useDispatch()
@@ -51,7 +51,7 @@ function ExpenseDetail({ exp, setShowDetail, allCommentsArr, debtors_name }) {
     }
 
 
-    //find bill payer name
+    //find bill payer name when open expense details
     for (let friend of allUsersArr) {
         if (friend.id === singleExpense.payer_user_id) {
             billpayer_name = friend.username
@@ -86,8 +86,7 @@ function ExpenseDetail({ exp, setShowDetail, allCommentsArr, debtors_name }) {
                 <div className=" height-50 border-bottom-main flx">
                     <div className="width-50">
                         <div>Who involes in this expense: </div>
-                        {billpayer_name ? (<div>{`${billpayer_name} paid $${singleExpense.expense_total} and owes $${divided_amount.toFixed(2)}`}</div>) : (<div></div>)}
-                        {/* {debtors_name.length > 0 ? (debtors_name.map(user => <div>{`${user} owes $${divided_amount.toFixed(2)}`}</div>)) : (<div>no ppl involes</div>)} */}
+                        {debtors_name.includes(billpayer_name) ? (<div>{`${billpayer_name} paid $${singleExpense.expense_total} and owes $${divided_amount.toFixed(2)}`}</div>) : (<div>{`${billpayer_name} paid $${singleExpense.expense_total}`}</div>)}
                         {debtors_name.length > 0 ?
                             (debtors_name.map(username => {
                                 if (username !== billpayer_name) {
@@ -97,8 +96,6 @@ function ExpenseDetail({ exp, setShowDetail, allCommentsArr, debtors_name }) {
                             : (<div>no ppl involes</div>)
                         }
 
-                        {/* {singleExpense.billpayer ? (<div>{`${singleExpense.billpayer.username} paid $${singleExpense.expense_total} and owes $${divided_amount.toFixed(2)}`}</div>) : (<div></div>)}
-                        {involved_user.map(user => <div>{`${user} owes $${divided_amount.toFixed(2)}`}</div>)} */}
                     </div>
                     {/* <div className="width-50 height-100">ppl involved</div> */}
                     {/* <div className="width-50 height-100">comments</div> */}
