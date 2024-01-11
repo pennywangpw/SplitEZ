@@ -139,12 +139,17 @@ function ExpensesListByGroup() {
                                                 {/* {allGroupsIdArr.includes(exp.group_id) ? (<div id="expense-group" className="group-tag">{allGroups[exp.group_id].name}</div>) : (<div></div>)} */}
                                             </div>
                                         </div>
-                                        {/* <div>{exp.expense_total}</div> */}
-                                        <div>{`$` + Number(exp.expense_total).toFixed(2)}</div>
 
-                                        <div className="flx">
-                                            {/* {!exp.billpayer ? <div>Please input billpayer</div> : <div>{exp.billpayer.username}</div>} */}
-                                            <div>{currentuser.username}</div>
+                                        {/* <div>{`$` + Number(exp.expense_total).toFixed(2)}</div> */}
+                                        <div id="description">{`$` + Number(exp.expense_total).toFixed(2)}</div>
+                                        <div id="billpayer" className="flx">
+                                            {allUsersArr.map(user => {
+                                                if (user.id === exp.payer_user_id) {
+
+                                                    return <div>{user.username}</div>
+                                                }
+
+                                            })}
 
                                             <div>{exp.username}</div>
                                             <OpenModalButton

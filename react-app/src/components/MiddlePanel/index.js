@@ -159,7 +159,6 @@ function ExpensesList() {
                                         </div>
                                         <div id="description">{`$` + Number(exp.expense_total).toFixed(2)}</div>
                                         <div id="billpayer" className="flx">
-                                            {/* {!exp.billpayer ? <div>{currentuser.username}</div> : <div>{exp.billpayer.username}</div>} */}
 
                                             {allUsersArr.map(user => {
                                                 if (user.id === exp.payer_user_id) {
@@ -168,9 +167,7 @@ function ExpensesList() {
                                                 }
 
                                             })}
-                                            {/* <div>{currentuser.username}</div>
 
-                                            <div>{exp.username}</div> */}
                                             <OpenModalButton
                                                 className={"height-max-40 mrg-t-10px mrg-l-20px button-decision "}
                                                 buttonText={<i className="fas fa-trash-alt" />}
