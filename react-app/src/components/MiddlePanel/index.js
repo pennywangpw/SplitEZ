@@ -18,12 +18,12 @@ function ExpensesList() {
     const allGroups = useSelector((state) => state.groups.allGroups);
     const currentuser = useSelector((state) => state.session.user);
     const allComments = useSelector((state) => state.comments.allComments)
-    const allUsers = useSelector((state) => state.users.allUsersWithGroupInfo)
+    const allUsers = useSelector((state) => state.users.allusers)
     let allUsersArr = Object.values(allUsers)
     let all_debtors_id = []
     let debtors_name = []
     let billpayer_name;
-    console.log("=====這裡是ExpensesList")
+    // console.log("=====這裡是ExpensesList")
 
 
     //get group id from allGroups
@@ -34,9 +34,8 @@ function ExpensesList() {
     }
 
     useEffect(() => {
-        console.log("要測試,是不是因為點選了group delete model 回到了middlePanel所以執行了這裡的dispatch")
-
         dispatch(expensesthunk.allExpenses())
+        dispatch(usersthunk.allUsers())
         return () => dispatch(expensesthunk.clearExpensesA())
     }, [dispatch])
 
@@ -48,7 +47,6 @@ function ExpensesList() {
 
     // change date format
     const date_format = (datestring) => {
-        console.log("這裡是datestring", datestring)
         let getyearmonthdate = datestring.split(",")[1]
         let getmonth = getyearmonthdate.split(" ")[2]
         let getdate = getyearmonthdate.split(" ")[1]
@@ -89,11 +87,12 @@ function ExpensesList() {
     }
 
     //find the debtor name
-    for (let friend of allUsersArr) {
-        if (all_debtors_id.includes(friend.user_id)) {
-            debtors_name.push(friend.username)
+    for (let user of allUsersArr) {
+        if (all_debtors_id.includes(user.id)) {
+            debtors_name.push(user.username)
         }
     }
+
 
     //find billpayer information
     //find billpayer
@@ -106,7 +105,6 @@ function ExpensesList() {
     //         break
     //     }
     // }
-
 
     return (
         <>

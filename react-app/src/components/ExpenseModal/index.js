@@ -132,13 +132,11 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
 
         if (type === "create") {
             const payload = { name, expense_total, group_id, expense_date, payer_user_id, splitWithUsers, debtors }
-            console.log("傳出去的payload: ", payload)
             await dispatch(expensesthunk.createExpense(payload))
             await dispatch(expensesthunk.allExpenses()).then(closeModal)
             // await dispatch(groupsthunk.singleGroupthunk(expenseinfo.group_id)).then(closeModal)
         } else if (type === "edit") {
             const payload = { name, expense_total, group_id, expense_date, payer_user_id, splitWithUsers, debtors }
-            console.log("edit-傳出去的payload: ", payload)
             await dispatch(expensesthunk.updateExpense(expenseinfo.id, payload))
             await dispatch(expensesthunk.allExpenses()).then(closeModal)
             // await dispatch(expensesthunk.allExpenses())
