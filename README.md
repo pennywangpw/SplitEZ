@@ -34,21 +34,27 @@ Here is the link to <a href="https://splitez.onrender.com/">SplitEZ</a>
     * `git@github.com:pennywangpw/SplitEZ.git`
 
    
-2. Install denpendencies into the Backed and the Frontend by making a terminal for each one and then run the following:
+2. Install dependencies:
 
-   * `npm install`
+   * `pipenv install -r requirements.txt`
 
 3. Create a **.env** file using the **.envexample** provided 
 
-4. Set up your database with information from your .env and then run the following to create your database, migrate, and seed: 
- 
-   * `npx dotenv sequelize db:create`
-   * `npx dotenv sequelize db:migrate` 
-   * `npx dotenv sequelize db:seed:all`
+4. Make sure the SQLite3 database connection URL is in the .env file
 
-5. Start the app for both backend and frontend using:
+5. This starter organizes all tables inside the flask_schema schema, defined by the SCHEMA environment variable. Replace the value for SCHEMA with a unique name, making sure you use the snake_case convention
 
+6. Start the app frontend using:
+   *  Get into react-app directory
    * `npm start`
 
-6. Now you can use the Demo User or Create an account
+7. Start the app backend using:
+   
+    Get into your pipenv, migrate your database, seed your database, and run your Flask app
+    *  `pipenv shell`
+    *  `flask db upgrade`
+    *  `flask seed all`
+    *  `flask run`
+   
+9. Now you can use the Demo User or Create an account
 
