@@ -53,6 +53,7 @@ Here is the link to <a href="https://splitez.onrender.com/">SplitEZ</a>
     Get into your pipenv, migrate your database, seed your database, and run your Flask app
     *  `pipenv shell`
     *  `flask db upgrade`
+        you may need to run this command if there's any issue: pipenv run flask seed undo 
     *  `flask seed all`
     *  `flask run`
    
