@@ -2,7 +2,7 @@
 This website is inspired by Splitwise. We understand your pain point - no body wants to do the math when hangs out with your friends, splitting bills can be a cumbersome process, and no one wants to spend time doing calculations.
 This application would be your best partner to make it easier for you to manage your spending.
 
-Here is the link to <a href="https://splitez.onrender.com/">SplitEZ</a>
+Here is the link to <a href="http://104.50.142.226:3002/">SplitEZ</a>
 
 
 # Technology
