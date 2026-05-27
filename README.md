@@ -5,6 +5,7 @@ This application would be your best partner to make it easier for you to manage 
 
 Here is the link to <a href="http://104.50.142.226:3002/">SplitEZ</a>
 
+
 # Technology
 
 <img src="https://github.com/devicons/devicon/blob/master/icons/javascript/javascript-original.svg" title="JavaScript" alt="JavaScript" width="50" height="50"/>&nbsp;
