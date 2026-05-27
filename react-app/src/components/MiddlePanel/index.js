@@ -73,6 +73,7 @@ function ExpensesList() {
         allExpensesinArr = Object.values(allExpenses)
         allExpensesinArr.sort((a, b) => b.id - a.id)
     }
+    console.log("allExpensesinArr---： ",allExpensesinArr)
 
 
 
@@ -106,6 +107,12 @@ function ExpensesList() {
     //     }
     // }
 
+    // 產生一個符合你 date_format 格式的今天日期字串
+    const get_today_string = () => {
+        const today = new Date();
+        // toUTCString() 會產生類似 "Wed, 27 May 2026 21:18:13 GMT" 的字串
+        return today.toUTCString(); 
+    };
     return (
         <>
             <div className="shadow">
@@ -145,7 +152,7 @@ function ExpensesList() {
                                     >
                                         <div id="main-block" className="flx">
                                             <div id="date">
-                                                {exp.expense_date ? (<div>{date_format(exp.expense_date)}</div>) : (<div></div>)}
+                                                {exp.expense_date ? (<div>{date_format(exp.expense_date)}</div>) : (<div>{date_format(get_today_string())}</div>)}
                                             </div>
                                             <img className="img-size" src={"https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/uncategorized/general@2x.png"} alt="img" />
                                             <div className="description-with-group">

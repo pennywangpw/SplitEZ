@@ -91,6 +91,13 @@ function ExpensesListByGroup() {
         }
     }
 
+    // 產生一個符合你 date_format 格式的今天日期字串
+    const get_today_string = () => {
+        const today = new Date();
+        // toUTCString() 會產生類似 "Wed, 27 May 2026 21:18:13 GMT" 的字串
+        return today.toUTCString(); 
+    };
+
     return (
         <>
             <div className="shadow">
@@ -111,7 +118,6 @@ function ExpensesListByGroup() {
                     <div>Bill Payer</div>
                 </div>
 
-
                 <div className="line-5vh">
                     {allExpensesbyGroup.length === 0 ?
                         (<div>No Expenses....</div>) :
@@ -128,7 +134,8 @@ function ExpensesListByGroup() {
                                     >
                                         <div id="main-block" className="flx">
                                             <div id="date">
-                                                {exp.expense_date ? (<div>{date_format(exp.expense_date)}</div>) : (<div></div>)}
+                                                {exp.expense_date ? (<div>{date_format(exp.expense_date)}</div>) : (<div>{date_format(get_today_string())}</div>)}
+
                                             </div>
                                             <img className="img-size" src={"https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/uncategorized/general@2x.png"} alt="img" />
                                             <div className="flx-col line-4vh">

@@ -270,7 +270,7 @@ function ExpenseModal({ type, expenseinfo, setShowDetail }) {
 
                         <div>
                             <label>Expense date:</label>
-                            <input type="date" min="2023-01-01" max="2025-12-31" value={expense_date} onChange={handleDateFormat} />
+                            <input type="date" min="2023-01-01" max="2027-12-31" value={expense_date} onChange={handleDateFormat} />
                         </div>
 
                     </div>
