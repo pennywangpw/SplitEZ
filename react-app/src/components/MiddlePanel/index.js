@@ -170,7 +170,8 @@ function ExpensesList() {
                                             {allUsersArr.map(user => {
                                                 if (user.id === exp.payer_user_id) {
 
-                                                    return <div>{user.username}</div>
+                                                    // return <div>{user.username}</div>
+                                                    return <div key={user.id} className="payer-name" title={user.username}>{user.username}</div>
                                                 }
 
                                             })}

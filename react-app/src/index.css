@@ -641,3 +641,23 @@
            color: white;
            border-radius: 10px;
        }
+
+
+
+
+        .payer-name {
+            width: 80px;         
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex-shrink: 0; 
+            text-align: center;     
+        }
+
+
+        #billpayer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between; 
+            width: 100%; 
+        }
